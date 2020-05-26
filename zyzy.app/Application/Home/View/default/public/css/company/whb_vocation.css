@@ -1,0 +1,119 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+ul li{
+	list-style: none;
+}
+
+a{
+	text-decoration: none;
+}
+img{
+	border: 0;
+}
+/* 以上为通用样式 */
+
+/* 微海报选职位开始 */
+.whb_vocation{
+	width: 938px;
+	margin: 20px auto 0;
+}
+.whb_vocation_top{
+	width: 938px;
+	height: 39px;
+	background: #efefef;
+	margin: 0 auto;
+}
+.whb_vocation_top_left{
+	height: 39px;
+	line-height: 39px;
+	text-align: center;
+	font-size: 14px;
+	color: #666666;
+	margin-left: 18px;
+	float: left;
+}
+.whb_vocation_top_right{
+	float: right;
+	font-size: 14px;
+	color: #999999;
+	height: 39px;
+	line-height: 39px;
+	margin-right: 18px;
+}
+.whb_vocation_bottom{
+	width: 938px;
+	height: auto;
+	margin: 0 auto;
+	border-bottom: 1px solid #ededed;
+	box-sizing: border-box;
+}
+.whb_vocation_bottom ul li{
+	width: 100%;
+	height: 60px;
+	line-height: 60px;
+	font-size: 14px;
+	border-top: 1px solid #ededed;
+}
+.whb_vocation_bottom ul li:first-child{
+	border-top:none;
+}
+.whb_vocation_checkbox{
+	float: left;
+	margin-left: 15px;
+	margin-top:23px;
+}
+.whb_vocation_checkbox input{
+	vertical-align: -2px;
+}
+.whb_vocation_name{
+	float: left;
+	width: 250px;
+	margin-left: 8px;
+}
+.whb_vocation_name a{
+	color: #5f8dc9;
+}
+.whb_vocation_name a:hover{
+	text-decoration: underline;
+}
+.whb_vocation_experience{
+	float: left;
+	width: 280px;
+	color: #666666;
+}
+.whb_vocation_wages{
+	float: left;
+	width: 209px;
+	color: #ff6600;
+	margin-right: 27px;
+}
+.whb_vocation_time{
+	float: left;
+	color: #666666;
+}
+
+.whb_button{
+	height: 32px;
+	margin-top: 15px;
+	line-height: 32px;
+}
+.whb_button input{
+	vertical-align: -2px;
+	margin-left: 15px;
+	margin-right: 10px;
+}
+.whb_button a{
+	display: inline-block;
+	width: 89px;
+	height: 32px;
+	text-align: center;
+	background: #5f8dc9;
+	border-radius: 4px;
+	-o-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	-ms-border-radius: 4px;
+	color: #fff;
+}

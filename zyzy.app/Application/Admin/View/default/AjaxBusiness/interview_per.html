@@ -1,0 +1,23 @@
+<div class="mantit" style="margin-top:15px; margin-bottom: 8px;"><strong>面试邀请</strong></div>
+<div style="max-height:200px;overflow-y:auto">
+    <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#DFDFDF" class="link_lan">
+        <tr>
+            <td width="120" bgcolor="#FFFFFF" align="center">邀请时间</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">简历姓名</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">职位名称</td>
+        </tr>
+        <if condition="$list">
+            <volist name="list" id="vo">
+                <tr>
+                    <td bgcolor="#FFFFFF" align="center">{:admin_date($vo['interview_addtime'])}</td>
+                    <td bgcolor="#FFFFFF" align="center">{$vo['resume_name']}</td>
+                    <td bgcolor="#FFFFFF" align="center">{$vo['jobs_name']}</td>
+                </tr>
+            </volist>
+        <else/>
+            <tr>
+                <td colspan="3" bgcolor="#FFFFFF">没有任何信息！</td>
+            </tr>
+        </if>
+    </table>
+</div>

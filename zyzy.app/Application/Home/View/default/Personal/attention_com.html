@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta"/>
+    <link href="../public/css/personal/common.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_favorites.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="us-top">
+    <div class="us-main">
+        <div class="us-top-box">
+            <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                <div class="se-btn"><input type="submit" value="搜 索"></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="user_main">
+    <include file="index_left_nav"/>
+    <div class="mainbox">
+        <!--职位切换卡 -->
+        <div class="tab">
+            <a class="li J_hoverbut" href="{:U('personal/jobs_favorites')}">职位收藏夹</a>
+            <a class="li select">关注的企业</a>
+            <div class="clear"></div>
+        </div>
+        <!--切换卡结束 -->
+        <div class="concern">
+            <notempty name="company['list']">
+                <volist name="company['list']" id="company" key="k">
+                    <div class="list J_hoverbut">
+                        <div class="comlogo">
+                            <a href="{:url_rewrite('QS_companyshow',array('id'=>$company['id']))}">
+                                <img src="<if condition=" $company['logo']">{:attach($company['logo'],'company_logo')}
+                            <else/>
+                            {:attach('no_logo.png','resource')}</if>" width="100" height="100" />
+                            </a>
+                        </div>
+                        <div class="com">
+                            <div class="comname link_gray6 substring"><a target="_blank" href="{:url_rewrite('QS_companyshow',array('id'=>$company['id']))}">{$company.companyname}</a>
+                            </div>
+                            <if condition="$company['jobs_count'] eq 0">
+                                <div class="jobs_count">该公司目前暂无招聘职位！</div>
+                                <else/>
+                                <volist name="company['jobs_list']" id="jobs">
+                                <div class="jobs link_blue substring">
+                                        <a target="_blank" href="{$jobs.jobs_url}">{$jobs['jobs_name']}</a>
+                                </div>
+                                    <div class="salary substring">{$jobs['wage_cn']}</div>
+                                    <div class="clear"></div>
+                                </volist>
+                                <div class="more link_gray9"><a target="_blank" href="{:url_rewrite('QS_companyjobs',array('id'=>$company['id']))}">查看该公司全部职位({$company['jobs_count']})>></a>
+                                </div>
+                            </if>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="J_delCompany del" iid="{$company.id}"></div>
+                    </div>
+                </volist>
+                <else/>
+                <if condition="$hasget">
+                    <div class="res_empty">
+                        抱歉，没有找到符合您条件的记录，建议您修改筛选条件后重试
+                    </div>
+                    <else/>
+                    <div class="res_empty link_blue">
+                        目前您未关注任何企业，想要了解企业近况<br/>立即搜索我感兴趣的企业关注吧！立即 <a href="{:url_rewrite('QS_jobs')}" target="_blank">搜索企业</a>
+                    </div>
+                </if>
+            </notempty>
+            <div class="clear"></div>
+        </div>
+        <div class="qspage">{$company.page}</div>
+    </div>
+    <div class="clear"></div>
+</div>
+<include file="index_footer"/>
+<script type="text/javascript">
+    var is_exe = !1;
+    $('.J_delCompany').click(function () {
+        var url = "{:U('Personal/del_focus_company')}";
+        var id = $(this).attr('iid');
+        var qsDialog = $(this).dialog({
+            title: '删除关注的企业',
+            loading: true,
+            border: false,
+            yes: function () {
+                if (is_exe) return !0;
+                is_exe = !0;
+                $.post(url, {id: id}, function (result) {
+                    if (result.status == 1) {
+                        window.location.reload();
+                    } else {
+                        disapperTooltip('remind', result.msg);
+                    }
+                    is_exe = !1;
+                }, 'json');
+            }
+        });
+        $.getJSON(url, {id: id}, function (result) {
+            if (result.status == 1) {
+                qsDialog.setContent(result.data.html);
+            } else {
+                disapperTooltip('remind', result.msg);
+            }
+        });
+    });
+</script>
+</body>
+</html>

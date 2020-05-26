@@ -1,0 +1,201 @@
+
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>507禁止页面模板</title>
+
+
+    <style>
+        /* cyrillic-ext */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Montserrat Bold'), local('Montserrat-Bold'), url(font/JTURjIg1_i6t8kCHKm45_dJE3gTD_u50.woff2) format('woff2');
+            unicode-range: U+0460-052F, U+1C80-1C88, U+20B4, U+2DE0-2DFF, U+A640-A69F, U+FE2E-FE2F;
+        }
+        /* cyrillic */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Montserrat Bold'), local('Montserrat-Bold'), url(font/JTURjIg1_i6t8kCHKm45_dJE3g3D_u50.woff2) format('woff2');
+            unicode-range: U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+        }
+        /* vietnamese */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Montserrat Bold'), local('Montserrat-Bold'), url(font/JTURjIg1_i6t8kCHKm45_dJE3gbD_u50.woff2) format('woff2');
+            unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+        }
+        /* latin-ext */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Montserrat Bold'), local('Montserrat-Bold'), url(font/JTURjIg1_i6t8kCHKm45_dJE3gfD_u50.woff2) format('woff2');
+            unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+        }
+        /* latin */
+        @font-face {
+            font-family: 'Montserrat';
+            font-style: normal;
+            font-weight: 700;
+            src: local('Montserrat Bold'), local('Montserrat-Bold'), url(font/JTURjIg1_i6t8kCHKm45_dJE3gnD_g.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        /* latin */
+        @font-face {
+            font-family: 'Share Tech Mono';
+            font-style: normal;
+            font-weight: 400;
+            src: local('Share Tech Mono'), local('ShareTechMono-Regular'), url(https://fonts.gstatic.com/s/sharetechmono/v8/J7aHnp1uDWRBEqV98dVQztYldFcLowEF.woff2) format('woff2');
+            unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            font: inherit;
+            vertical-align: baseline;
+            box-sizing: border-box;
+            color: inherit;
+        }
+
+        body {
+            background-image: linear-gradient(120deg, #008856 0%, #000000 100%);
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 45vw;
+            text-align: center;
+            position: fixed;
+            width: 100vw;
+            z-index: 1;
+            color: #ffffff26;
+            text-shadow: 0 0 50px rgba(0, 0, 0, 0.07);
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            font-family: "Montserrat", monospace;
+        }
+
+        div {
+            background: rgba(0, 0, 0, 0);
+            width: 70vw;
+            position: relative;
+            top: 50%;
+            -webkit-transform: translateY(-50%);
+            transform: translateY(-50%);
+            margin: 0 auto;
+            padding: 30px 30px 10px;
+            box-shadow: 0 0 150px -20px rgba(0, 0, 0, 0.5);
+            z-index: 3;
+        }
+
+        P {
+            font-family: "Share Tech Mono", monospace;
+            color: #f5f5f5;
+            margin: 0 0 20px;
+            font-size: 17px;
+            line-height: 1.2;
+        }
+
+        span {
+            color: #f0c674;
+        }
+
+        i {
+            color: #8abeb7;
+        }
+
+        div a {
+            text-decoration: none;
+        }
+
+        b {
+            color: #81a2be;
+        }
+
+        a.avatar {
+            position: fixed;
+            bottom: 15px;
+            right: -100px;
+            -webkit-animation: slide 0.5s 4.5s forwards;
+            animation: slide 0.5s 4.5s forwards;
+            display: block;
+            z-index: 4
+        }
+
+        a.avatar img {
+            border-radius: 100%;
+            width: 44px;
+            border: 2px solid white;
+        }
+
+        @-webkit-keyframes slide {
+            from {
+                right: -100px;
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+                opacity: 0;
+            }
+            to {
+                right: 15px;
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slide {
+            from {
+                right: -100px;
+                -webkit-transform: rotate(360deg);
+                transform: rotate(360deg);
+                opacity: 0;
+            }
+            to {
+                right: 15px;
+                -webkit-transform: rotate(0deg);
+                transform: rotate(0deg);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+<h1>507</h1>
+<div><p>> <span>错误代码</span>: "<i>507 Insufficient Storage</i>"</p>
+    <p>> <span>错误原因</span>: [<b>服务器无法存储完成请求所必须的内容</b>]</span> "<i>这个状况被认为是临时的。WebDAV (RFC 4918)</i>"</p>
+
+
+    <p>> <span>温馨提醒</span>: [<b>如果以上解决办法</b>]</span> "<i>尝试后依然无法解决问题，请到http://www.phpsutyd.net论坛中发帖寻求帮助。</i>"</p>
+
+</div>
+
+
+<script>
+    var str = document.getElementsByTagName('div')[0].innerHTML.toString();
+    var i = 0;
+    document.getElementsByTagName('div')[0].innerHTML = "";
+
+    setTimeout(function() {
+        var se = setInterval(function() {
+            i++;
+            document.getElementsByTagName('div')[0].innerHTML = str.slice(0, i) + "|";
+            if (i == str.length) {
+                clearInterval(se);
+                document.getElementsByTagName('div')[0].innerHTML = str;
+            }
+        }, 10);
+    },0);
+</script>
+
+</body>
+</html>

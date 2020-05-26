@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta"/>
+    <link href="../public/css/company/common.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/company/company_user.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="index_header"/>
+<div class="user_main">
+    <div class="mleft">
+        <include file="left_user"/>
+    </div>
+    <div class="mright">
+        <div class="user_pagetitle">
+            <div class="pat_l">企业风采</div>
+            <div class="clear"></div>
+        </div>
+        <div class="user_tip">
+            <div class="tiptit">小提示</div>
+            <div class="tiptxt">
+                最多可上传 <span class="s_link_blue">8</span> 张，已上传 <span class="s_link_blue" id="upload_count">{$count}</span>
+                张，每张最大800KB，支持jpg/gif/bmp/png格式。
+            </div>
+        </div>
+        <div class="com_img_title">
+            <div class="title_txt">选择上传方式</div>
+            <div class="title_dashed_line"></div>
+            <div class="clear"></div>
+        </div>
+        <div class="upload_box">
+            <div class="upload_type">
+                <div class="new-up-cell width328">
+                    <div class="img-box">
+                        <img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(build_mobile_url(array('c'=>'ScanUpload','a'=>'company_img','params'=>'uname='.$visitor['username'].'&pwd='.$visitor['password'].'&cid='.$company_profile['id'])))}" />
+                    </div>
+                    <div class="sp-line-16"></div>
+                    <div class="l-txt co-333 ft-16">方式一：手机扫码上传</div>
+                    <div class="sp-line-13"></div>
+                    <div class="l-txt co-b9 ft-14">推荐使用手机扫码上传图片，更方便</div>
+                </div>
+                <div class="new-up-cell width328 last">
+                    <div class="img-box local-up J_hoverbut" id="company_img" name="company_img">
+                        <div class="i-ic"></div>
+                        <div class="sp-line-19"></div>
+                        <div class="l-txt ft-16">点击上传</div>
+                    </div>
+                    <div class="sp-line-16"></div>
+                    <div class="l-txt co-333 ft-16">方式二：本地上传</div>
+                    <div class="sp-line-13"></div>
+                    <div class="l-txt co-b9 ft-14">jpg/gif/png格式（大小800KB以内）</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+
+        <div class="com_img_title">
+            <div class="title_txt">已上传企业照片</div>
+            <div class="title_dashed_line"></div>
+            <div class="clear"></div>
+        </div>
+            <div class="img_wrap">
+                <notempty name="company_img">
+                    <volist name="company_img" id="vo">
+                        <div class="img_item">
+                            <div class="img_main">
+                                <img src="{:attach($vo['img'],'company_img')}" width="198" height="148" alt="img"
+                                     title="{$vo['title']}">
+                            </div>
+                            <div class="img_foot">
+                                <div class="date fl">
+                                    {$vo['addtime']|date="Y-m-d",###}（<switch name="vo['audit']"><case value="0">未审核</case><case value="1"><span style="color:#339900">审核通过</span></case><case value="2"><span style="color: #FF9900">等待审核</span></case><case value="3"><span style="color: #FF0000">未通过</span></case></switch>）
+                                </div>
+                                <div class="op link_blue fl">
+                                    <a href="javascript:;" class="remark" pid="{$vo['id']}" url="{:U('set_company_img_title',array('id'=>$vo['id']))}">备注</a>
+                                    <span class="split">|</span>
+                                    <a class="del" href="javascript:;" url="{:U('del_company_img',array('id'=>$vo['id']))}">删除</a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                    </volist>
+                </notempty>
+            </div>
+    </div>
+    <div class="clear"></div>
+</div>
+</body>
+<include file="index_footer"/>
+<script src="../public/js/ajaxfileupload.js" type="text/javascript" language="javascript"></script>
+<script src="../public/js/qscms.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript">
+    var comid = "{$company_profile['id']}",uid = "{$company_profile['uid']}";
+    //本地上传
+    $.upload("#company_img", {company_id: comid, type: 'company_img'}, function (result) {
+        if(result.status == 1){
+            var html = '<div class="img_item"><div class="img_main">';
+            html += '<img src="' + result.data.path + '" width="198" height="148" alt="img">';
+            html += '</div><div class="img_foot">';
+            html += '<div class="date fl">' + result.data.date + '（等待审核）</div>';
+            html += '<div class="op link_blue fl">';
+            html += '<a href="javascript:;" class="remark" pid="' + result.data.id + '" url="' + result.data.remarkUrl + '">备注</a><span class="split"> | </span>';
+            html += '<a class="del" href="javascript:;" url="' + result.data.deleteUrl + '">删除</a>';
+            html += '</div><div class="clear"></div></div></div>';
+            $(html).prependTo($(".img_wrap"));
+            $("#upload_count").html(parseInt($("#upload_count").html()) + 1);
+            if (result.data.points) {
+                disapperTooltip("goldremind", '上传企业风采增加' + result.data.points + '{:C('qscms_points_byname')}<span class="point">+' + result.data.points + '</span>');
+            } else {
+                disapperTooltip("success", "添加成功");
+            }
+            window.location.reload();
+        }else{
+            disapperTooltip("remind", result.msg);
+        }
+    });
+    // 扫码上传
+    var waiting_img_scan = function(){
+        $.getJSON("{:U('Company/ajax_company_img_waiting')}", {uid:uid}, function(result){
+            if(result.status == 1){
+                var htmlImg = '';
+                var scanimgArr = result.data.img;
+                var imgTotal = result.data.total;
+                for (var i = 0; i < scanimgArr.length; i++) {
+                    htmlImg += [
+                        '<div class="img_item"><div class="img_main">',
+                        '<img src="' + scanimgArr[i]['img'] + '" width="198" height="148" alt="img">',
+                        '</div><div class="img_foot">',
+                        '<div class="date fl">' + scanimgArr[i]['addtime_cn'] + '（等待审核）</div>',
+                        '<div class="op link_blue fl">',
+                        '<a href="javascript:;" class="remark" pid="' + scanimgArr[i]['id'] + '" url="' + scanimgArr[i]['remark_url'] + '">备注</a><span class="split"> | </span>',
+                        '<a class="del" href="javascript:;" url="' + scanimgArr[i]['delete_url'] + '">删除</a>',
+                        '</div><div class="clear"></div></div></div>'
+                    ].join('');
+                    $('.img_wrap').html(htmlImg);
+                }
+            }
+        })
+    };
+    var scanimg_time = setInterval(waiting_img_scan,5000);
+    //删除
+    $(".del").live('click', function () {
+        var obj = $(this);
+        var url = obj.attr('url');
+        var qsDialog = $(this).dialog({
+            title: '删除企业风采',
+            loading: true,
+            border: false,
+            yes: function () {
+                $.getJSON(url, {del: 1}, function (result) {
+                    if (result.status == 1) {
+                        obj.closest('.img_item').remove();
+                        var num = parseInt($("#upload_count").html());
+                        if (num > 0) {
+                            $("#upload_count").html(num - 1);
+                            disapperTooltip("success", "删除成功");
+                            window.location.reload();
+                        }
+                    }
+                });
+            }
+        });
+        $.getJSON(url, function (result) {
+            if (result.status == 1) {
+                qsDialog.setContent(result.data.html);
+            } else {
+                disapperTooltip('remind', result.msg);
+            }
+        });
+    });
+    $(".remark").live('click', function () {
+        var obj = $(this);
+        var url = obj.attr('url');
+        var id = obj.attr('pid');
+        var qsDialog = $(this).dialog({
+            title: '备注',
+            loading: true,
+            border: false,
+            yes: function () {
+                var title = $("#remark").val();
+                $.post(url, {id: id, title: title}, function (result) {
+                    if (result.status == 1) {
+                        disapperTooltip("success", result.msg);
+                        window.location.reload();
+                    } else {
+                        disapperTooltip("remind", result.msg);
+                    }
+                }, 'json');
+            }
+        });
+        $.getJSON(url, function (result) {
+            if (result.status == 1) {
+                qsDialog.setContent(result.data);
+            } else {
+                disapperTooltip("remind", result.msg);
+            }
+        });
+    });
+
+</script>
+</html>

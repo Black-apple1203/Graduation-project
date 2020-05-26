@@ -1,0 +1,52 @@
+<div class="dialog_box">
+    <form action="{:U('Ajax/comment_resume')}" method="post" name="form" id="form">
+        <input type="hidden" name="id" value="{$resume.id}">
+        <table width="100%" border="0" cellspacing="10" cellpadding="1" style=" margin-bottom:3px;">
+            <tr>
+                <td width="60" align="right">点评内容:</td>
+                <td width="420">
+                    <textarea name="comment_content" class="input_text_default middle" style="height:80px;">{$resume.comment_content}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td width="60" align="right">人才等级:</td>
+                <td>
+                    <div class="imgradio">
+                        <input name="talent" type="hidden" value="{$resume.talent}">
+                        <div class="radio <if condition="$resume['talent'] eq 0">select</if>" data="0" title="普通">普通</div>
+                        <div class="radio <if condition="$resume['talent'] eq 1">select</if>" data="1" title="高级">高级</div>
+                        <div class="clear"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">&nbsp;</td>
+                <td>
+                    <input name="check" type="button" class="admin_submit" value="保存" id="J_submit"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('Ajax/comment_resume')}",$('#form').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("Personal/index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>

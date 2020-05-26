@@ -1,0 +1,679 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/resume.css" rel="stylesheet" type="text/css" />
+	<script src="{:C('TPL_PUBLIC_DIR')}/js/jquery.common.js" type="text/javascript" language="javascript"></script>
+	<qscms:load type="category" search="1"/>
+	<qscms:classify 列表名="city" 类型="QS_citycategory" 地区分类="$_GET['citycategory']" 显示数目="100"/>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="new-search-box" style="background-image: url({:C('TPL_PUBLIC_DIR')}/images/sebanner{:rand(1,5)}.jpg);">
+    <div class="ns-main">
+        <div class="main-sty">
+            <if condition="C('qscms_resumesearch_key_first_choice') eq 1">
+                <div class="sty-cell J_sli <if condition="$Think.get.search_type eq 'precise' or $Think.get.search_type eq ''">select</if>" data-type="precise">精准<div class="sty-aow"></div></div>
+                <div class="sty-cell J_sli <if condition="$Think.get.search_type eq 'full'">select</if>" data-type="full">全文<div class="sty-aow"></div></div>
+            <else />
+             	<div class="sty-cell J_sli <if condition="$Think.get.search_type eq 'full' or $Think.get.search_type eq ''">select</if>" data-type="full">全文<div class="sty-aow"></div></div>
+                <div class="sty-cell J_sli <if condition="$Think.get.search_type eq 'precise'">select</if>" data-type="precise">精准<div class="sty-aow"></div></div>
+            </if>
+            <div class="clear"></div>
+        </div>
+        <div class="main-sip">
+            <div class="ip-group">
+                <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_resumelist'))}" method="get">
+                    <div class="ip-box"><input name="key" id="autoKeyInput" type="text" data-original="{$Think.get.key|urldecode|urldecode}" value="{$Think.get.key|urldecode|urldecode}" placeholder="请输入关键字" /></div>
+                    <div class="for-border"></div>
+                    <div class="ip-city" data-toggle="funCityModal" data-title="请选择地区" data-multiple="false" data-maximum="0" data-width="630"><if condition="$Think.get.citycategory neq ''">{$city['parent']['categoryname']}<else/>选择地区</if></div>
+                    <input type="hidden" name="search_type" value="{$Think.get.search_type}" />
+                    <input id="searchCityModalCode" type="hidden" name="citycategory" value="<if condition="$Think.get.citycategory neq ''">{$city['select']['citycategory']}</if>" />
+					<input id="recoverSearchCityModalCode" type="hidden" name="citycategory" value="<if condition="$Think.get.citycategory neq ''">{$city['select']['citycategory']}</if>" />
+                    <input class="J_forclear" type="hidden" name="jobcategory" value="<if condition="C('qscms_resumesearch_key_open_jobcategory') eq 1">{$Think.get.jobcategory}</if>" />
+                    <input class="J_forclear" type="hidden" name="resumetag" value="{$Think.get.resumetag}" />
+                    <input class="J_forclear" type="hidden" name="experience" value="{$Think.get.experience}" />
+                    <input class="J_forclear" type="hidden" name="sex" value="{$Think.get.sex}" />
+                    <input class="J_forclear" type="hidden" name="age" value="{$Think.get.age}" />
+                    <input class="J_forclear" type="hidden" name="trade" value="{$Think.get.trade}" />
+                    <input class="J_forclear" type="hidden" name="major" value="{$Think.get.major}" />
+                    <input class="J_forclear" type="hidden" name="education" value="{$Think.get.education}" />
+                    <input class="J_forclear" type="hidden" name="nature" value="{$Think.get.nature}" />
+                    <input class="J_forclear" type="hidden" name="wage" value="{$Think.get.wage}" />
+                    <input class="J_forclear" type="hidden" name="settr" value="{$Think.get.settr}" />
+                    <div class="ip-btn"><input type="submit" class="sobut J_hoverbut" value="招人才" /></div>
+                </form>
+            </div>
+            <div class="ip-txt link_white J_sub_s"><a href="{:url_rewrite('QS_resume')}">分类搜索</a></div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<!--搜索 -->
+<div class="so_condition J_so_condition">
+    <qscms:classify 列表名="jobsCate" 类型="QS_jobs"/>
+    <qscms:classify 列表名="jobs_cate_info" 类型="QS_jobs_info"/>
+	<notempty name="city['list']">
+		<div class="lefttit">地标地段</div>
+		<div class="rs">
+			<div onclick="javascript:location.href='{:P(array(\'citycategory\'=>$city[\'parent\'][\'citycategory\']))}'" class="li <if condition="$Think.get.citycategory neq '' and $city['parent']['id'] eq $city['select']['id']">select</if>">全{$city['parent']['categoryname']}</div>
+			<volist name="city['list']" id="district">
+				<div onclick="javascript:location.href='{:P(array(\'citycategory\'=>$district[\'citycategory\']))}'" class="li <if condition="$city['select']['id'] eq $key">select</if>">{$district['categoryname']}</div>
+			</volist>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</notempty>
+	<div class="lefttit">工作经验</div>
+	<div class="rs">
+		<qscms:classify 列表名="experience_list" 类型="QS_experience" 显示数目="100"/>
+		<div onclick="javascript:location.href='{:P(array(\'experience\'=>\'\'))}'" class="li <if condition="$Think.get.experience eq ''">select</if>">不限</div>
+		<volist name="experience_list" id="experience">
+			<div onclick="javascript:location.href='{:P(array(\'experience\'=>$key))}'" class="li <if condition="$Think.get.experience eq $key">select</if>">{$experience}</div>
+		</volist>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+	 
+	<div class="lefttit">简历标签</div>
+	<div class="rs">
+		<qscms:classify 列表名="tag_list" 类型="QS_resumetag" 显示数目="100"/>
+		<div onclick="javascript:location.href='{:P(array(\'resumetag\'=>\'\'))}'" class="li <if condition="$Think.get.resumetag eq ''">select</if>">不限</div>
+		<volist name="tag_list" id="tag">
+			<div onclick="javascript:location.href='{:P(array(\'resumetag\'=>$key))}'" class="li <if condition="$Think.get.resumetag eq $key">select</if>">{$tag}</div>
+		</volist>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+
+	<div class="lefttit">更多筛选</div>
+	<div class="rs">
+		<div class="bli J_dropdown">
+			<span class="txt">性别</span>
+			<div class="dropdowbox_noa J_dropdown_menu">
+	            <div class="dropdow_inner_noa">
+	                <ul class="nav_box">
+	                	<li onclick="javascript:location.href='{:P(array(\'sex\'=>1))}'" class="<if condition="$Think.get.sex eq 1">select</if>" data-code="1">男</li>
+	                	<li onclick="javascript:location.href='{:P(array(\'sex\'=>2))}'" class="<if condition="$Think.get.sex eq 2">select</if>" data-code="2">女</li>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		
+		<div class="bli J_dropdown">
+			<span>年龄</span>
+			<div class="dropdowbox_noa J_dropdown_menu">
+	            <div class="dropdow_inner_noa">
+	                <ul class="nav_box">
+	                	<li onclick="javascript:location.href='{:P(array(\'age\'=>\'\'))}'" class="<if condition="$Think.get.age eq 24">select</if>">全部</li>
+	                	<qscms:classify 列表名="age_list" 类型="QS_age"/>
+	                	<volist name="age_list" id="age">
+							<li onclick="javascript:location.href='{:P(array(\'age\'=>$key))}'" class="<if condition="$Think.get.age eq $key">select</if>">{$age}</li>
+	                	</volist>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="bli J_dropdown">
+			<qscms:classify 列表名="trade_list" 类型="QS_trade" 显示数目="100"/>
+			<span class="txt" title="{$trade_list[$_GET['trade']]|default='行业类别'}">{$trade_list[$_GET['trade']]|default='行业类别'}</span>
+			<div class="dropdowbox_searchtrade J_dropdown_menu">
+	            <div class="dropdow_inner_searchtrade">
+	                <ul class="nav_box">
+	                	<volist name="trade_list" id="trade">
+				            <li onclick="javascript:location.href='{:P(array(\'trade\'=>$key))}'" class="<if condition="$Think.get.trade eq $key">select</if>" data-code="{$key}" title="{$trade}">{$trade}</li>
+						</volist>
+						<div class="clear"></div>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="bli J_dropdown">
+			<qscms:classify 列表名="major_list" 类型="QS_major" 显示数目="100"/>
+			<qscms:classify 列表名="major_info" 类型="QS_major_info" id="$_GET['major']"/>
+			<span class="txt" title="{$major_list[$_GET['major']]|default='所学专业'}">{$major_list[$_GET['major']]|default='所学专业'}</span>
+			<div class="dropdowbox_searchmajor J_dropdown_menu">
+	            <div class="dropdow_inner_searchmajor">
+	                <ul class="nav_box">
+						<div class="tabnav">
+							<volist name="major_list[0]" id="major">
+								<div class="tab_list <if condition="$major_info['parentid'] eq $key">select</if>">{$major}</div>
+							</volist>
+                            <div class="clear"></div>
+                        </div>
+                        <volist name="major_list[0]" id="smajor">
+							<div class="tab_content" data-code="{$key}">
+	                            <volist name="major_list[$key]" id="major">
+	                                <div class="content_list">
+	                                <li onclick="javascript:location.href='{:P(array(\'major\'=>$key))}'" class="<if condition="$Think.get.major eq $key">select</if>" data-code="{$key}">{$major}</li>
+	                                </div>
+	                            </volist>
+	                            <div class="clear"></div>
+	                        </div>
+						</volist>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="bli J_dropdown">
+			<span>学历要求</span>
+			<qscms:classify 列表名="education_list" 类型="QS_education" 显示数目="100"/>
+			<div class="dropdowbox_noa J_dropdown_menu">
+	            <div class="dropdow_inner_noa">
+	                <ul class="nav_box">
+	                	<volist name="education_list" id="education">
+				            <li onclick="javascript:location.href='{:P(array(\'education\'=>$key))}'" class="<if condition="$Think.get.education eq $key">select</if>" data-code="{$key}">{$education}</li>
+						</volist>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="bli J_dropdown">
+			<span>工作性质</span>
+			<qscms:classify 列表名="nature_list" 类型="QS_jobs_nature" 显示数目="100"/>
+			<div class="dropdowbox_noa J_dropdown_menu">
+	            <div class="dropdow_inner_noa">
+	                <ul class="nav_box">
+	                	<volist name="nature_list" id="nature">
+				            <li onclick="javascript:location.href='{:P(array(\'nature\'=>$key))}'" class="<if condition="$Think.get.nature eq $key">select</if>" data-code="{$key}">{$nature}</li>
+						</volist>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="bli J_dropdown">
+			<span class="txt">期望薪资</span>
+			<qscms:classify 列表名="wage_list" 类型="QS_wage" 显示数目="100"/>
+			<div class="dropdowbox_searchwage J_dropdown_menu">
+	            <div class="dropdow_inner_searchwage">
+	                <ul class="nav_box">
+	                	<volist name="wage_list" id="wage">
+				            <li onclick="javascript:location.href='{:P(array(\'wage\'=>$key))}'" class="<if condition="$Think.get.wage eq $key">select</if>" data-code="{$key}">{$wage}</li>
+						</volist>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="bli J_dropdown">
+			<span>更新时间</span>
+			<div class="dropdowbox_noa J_dropdown_menu">
+	            <div class="dropdow_inner_noa">
+	                <ul class="nav_box">
+	                	<li onclick="javascript:location.href='{:P(array(\'settr\'=>3))}'" class="<if condition="$Think.get.settr eq 3">select</if>" data-code="3">3天内</li>
+	                	<li onclick="javascript:location.href='{:P(array(\'settr\'=>7))}'" class="<if condition="$Think.get.settr eq 7">select</if>" data-code="7">7天内</li>
+	                	<li onclick="javascript:location.href='{:P(array(\'settr\'=>15))}'" class="<if condition="$Think.get.settr eq 15">select</if>" data-code="15">15天内</li>
+	                	<li onclick="javascript:location.href='{:P(array(\'settr\'=>30))}'" class="<if condition="$Think.get.settr eq 30">select</if>" data-code="30">30天内</li>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+
+	<!--已选条件，当没有条件的时候不显示下面的DIV -->
+	<if condition="$_GET">
+		<div class="selected J_selected">
+			<div class="stit">已选条件</div>
+		    <div class="sc">
+		    	<if condition="$Think.get.key neq ''">
+		    		<div class="slist" onclick="window.location='{:P(array('key'=>''))}';"><span>关键字：</span>{$Think.get.key|urldecode|urldecode}</div>
+				</if>
+				<if condition="$Think.get.jobcategory neq ''">
+					<div class="slist" onclick="window.location='{:P(array('jobcategory'=>''))}';">
+						<span>职位分类：</span>
+						{$jobs_cate_info['spell'][$_GET['jobcategory']]['categoryname']}
+					</div>
+				</if>
+				<if condition="$Think.get.citycategory neq ''">
+					<div class="slist" onclick="window.location='{:P(array('citycategory'=>''))}';">
+						<span>地区类别：</span>
+						{$city['select']['categoryname']}
+					</div>
+				</if>
+				<if condition="$Think.get.resumetag neq ''">
+					<div class="slist" onclick="window.location='{:P(array('resumetag'=>''))}';"><span>简历标签：</span>{$tag_list[$_GET['resumetag']]}</div>
+				</if>
+				<if condition="$Think.get.experience neq ''">
+					<div class="slist" onclick="window.location='{:P(array('experience'=>''))}';"><span>工作经验：</span>{$experience_list[$_GET['experience']]}</div>
+				</if>
+				<notempty name="Think.get.sex">
+					<div class="slist" onclick="window.location='{:P(array('sex'=>''))}';">
+						<span>性别：</span>
+						<if condition="$Think.get.sex eq 1">男<else/>女</if>
+					</div>
+				</notempty>
+				<if condition="$Think.get.age neq ''">
+					<div class="slist" onclick="window.location='{:P(array('age'=>''))}';"><span>年龄：</span>{$age_list[$_GET['age']]}</div>
+				</if>
+				<if condition="$Think.get.trade neq ''">
+					<div class="slist" onclick="window.location='{:P(array('trade'=>''))}';">
+						<span>行业类别：</span>
+						{$trade_list[$_GET['trade']]}
+					</div>
+				</if>
+				<if condition="$Think.get.major neq ''">
+					<div class="slist" onclick="window.location='{:P(array('major'=>''))}';"><span>所学专业：</span>{$major_info['categoryname']}</div>
+				</if>
+				<if condition="$Think.get.education neq ''">
+					<div class="slist" onclick="window.location='{:P(array('education'=>''))}';"><span>学历要求：</span>{$education_list[$_GET['education']]}</div>
+				</if>
+				<if condition="$Think.get.nature neq ''">
+					<div class="slist" onclick="window.location='{:P(array('nature'=>''))}';"><span>工作性质：</span>{$nature_list[$_GET['nature']]}</div>
+				</if>
+				<if condition="$Think.get.wage neq ''">
+					<div class="slist" onclick="window.location='{:P(array('wage'=>''))}';"><span>期望薪资：</span>{$wage_list[$_GET['wage']]}</div>
+				</if>
+				<if condition="$Think.get.settr neq ''">
+					<div class="slist" onclick="window.location='{:P(array('settr'=>''))}';">
+						<span>更新时间：</span>
+						<switch name="_GET['settr']">
+							<case value="3">3天内</case>
+							<case value="7">7天内</case>
+							<case value="15">15天内</case>
+							<case value="30">30天内</case>
+						</switch>
+					</div>
+				</if>
+				<div class="clear"></div>
+			</div>
+			<div class="sr">
+				<div class="empty" onclick="window.location='{:url_rewrite('QS_resumelist')}';">清空</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</if>
+</div>
+<qscms:resume_list 列表名="resumelist" 搜索类型="$_GET['search_type']" 显示数目="15" 分页显示="1" 关键字="$_GET['key']" 职位分类="$_GET['jobcategory']" 地区分类="$_GET['citycategory']" 日期范围="$_GET['settr']" 学历="$_GET['education']" 工作经验="$_GET['experience']" 工资="$_GET['wage']" 工作性质="$_GET['nature']" 标签="$_GET['resumetag']" 照片="$_GET['photo']" 所学专业="$_GET['major']" 行业="$_GET['trade']" 年龄="$_GET['age']" 性别="$_GET['sex']" 特长描述长度="100" 排序="$_GET['sort']" 检测登录="1"/>
+<div class="plist">
+	<div class="pl">
+			<div class="toptitle">
+			<div class="ltype">
+				<div class="typeli <if condition="$Think.get.sort eq ''">select</if>" onclick="window.location='{:P(array('sort'=>''))}';">综合排序</div>
+				<div class="typeli <if condition="$Think.get.sort eq 'rtime'">select</if>" onclick="window.location='{:P(array('sort'=>'rtime'))}';">更新时间</div>
+				<div class="typeli <if condition="$Think.get.sort eq 'percent'">select</if>" onclick="window.location='{:P(array('sort'=>'percent'))}';">简历完整度</div>
+				<if condition="$Think.get.key neq '' && $search_type eq 'full'">
+					<div class="typeli <if condition="$Think.get.sort eq 'score'">select</if>" onclick="window.location='{:P(array('sort'=>'score'))}';">相关度</div>
+				</if>
+				<div class="clear"></div>
+			</div>
+			<div class="ts">
+				<div class="l1 <if condition="$resumelist['show_login_notice'] eq 1">width830</if>"></div>
+				<div class="l2 <if condition="$Think.get.photo eq 1">select</if>" <if condition="$Think.get.photo eq 1">onclick="window.location='{:P(array('photo'=>''))}';"<else/>onclick="window.location='{:P(array('photo'=>1))}';"</if>>
+					<div class="radiobox"></div>
+					<div class="radiotxt">有照片</div>
+					<div class="clear"></div>
+				</div>
+				<div class="J_detailList l3 <if condition="$Think.cookie.resume_show_type eq 0 or ($Think.cookie.resume_show_type eq null and C('qscms_resume_list_show_type') eq 1)">select</if>" title="切换到详细列表"></div>
+				<div class="J_detailList l4 <if condition="$Think.cookie.resume_show_type eq 1 or ($Think.cookie.resume_show_type eq null and C('qscms_resume_list_show_type') eq 2)">select</if>" title="切换到简易列表" show_type="1"></div>
+				<eq name="resumelist['show_login_notice']" value="0">
+				<div class="l5">
+					<if condition="$resumelist['page_params']['nowPage'] gt 1">
+				  		<div class="prev" title="上一页" onclick="window.location='{:P(array('page'=>$resumelist['page_params']['nowPage']-1))}';"><</div>
+				  	</if>
+				  	<if condition="$resumelist['page_params']['nowPage'] lt $resumelist['page_params']['totalPages']">
+						<div class="next"  title="下一页" onclick="window.location='{:P(array('page'=>$resumelist['page_params']['nowPage']+1))}';">></div>
+					</if>
+					<if condition="$resumelist['page_params']['totalRows'] gt 0">
+						<span>{$resumelist.page_params.nowPage}</span>/{$resumelist.page_params.totalPages}页
+					</if>
+					<div class="clear"></div>
+				</div>
+				</eq>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="listb J_allListBox">
+			<notempty name="resumelist['list']">
+				<volist name="resumelist['list']" id="resume">
+					<div class="J_resumeList yli" data-rid="{$resume.id}">
+						<div class="td1"><div class="J_allList radiobox"></div></div>
+	                    <div class="td4 link_blue substring link_visited"><a href="{$resume.resume_url}" target="_blank">{$resume.intention_jobs|default="未填写求职意向"}</a></div>
+						<div class="td2 link_blue substring link_visited">
+							<a href="{$resume.resume_url}" target="_blank">{$resume.fullname}</a>
+							<if condition="$resume['talent'] eq 1"><a class="adv"></a></if>
+							<if condition="$resume['strong_tag']"><span>{$resume['strong_tag']}</span></if>
+						</div>
+						<div class="td3 substring">{$resume.sex_cn}<span>|</span>{$resume.age}岁<span>|</span>{$resume.education_cn}<span>|</span>{$resume.experience_cn}</div>
+						<div class="td5 substring">{$resume.district_cn|default='未填写'}</div>
+						<div class="td6"><if condition="$resume['stick'] eq 1 && !$_GET['sort']"><img src="{:C('TPL_PUBLIC_DIR')}/images/stick.png"><else />{$resume['refreshtime_cn']}</if></div>
+						<div class="td7"><div class="J_resumeStatus hide <if condition="$Think.cookie.resume_show_type eq 1 or ($Think.cookie.resume_show_type eq null and C('qscms_resume_list_show_type') eq 2)">show</if>"></div></div>
+						<div class="clear"></div>
+						<div class="detail" <if condition="$Think.cookie.resume_show_type eq 1 or ($Think.cookie.resume_show_type eq null and C('qscms_resume_list_show_type') eq 2)">style="display:none"</if>>
+							<div class="ltx">
+				   				<div class="photo"><img src="{$resume.photosrc}" border="0"/></div>
+							    <div class="tcent">
+									<div class="txt font_gray6">{$resume.nature_cn}<if condition="$resume['major_cn']"><span>|</span>专业：{$resume.major_cn}</if><span>|</span>{$resume.wage_cn}<span>|</span>{$resume.current_cn}</div>
+									<div class="dlabs">
+									<if condition="$resume['tag_cn'] || $resume['specialty']">
+										<empty name="resume['tag_cn']">
+											{$resume.specialty}
+										<else/>
+											<volist name="resume['tag_cn']" id="tag">
+												<div class="dl">{$tag}</div>
+											</volist>
+										</empty>
+									<else />
+										该简历没有填写自我描述
+									</if>
+										<div class="clear"></div>
+									</div>
+				       			</div>
+								<div class="clear"></div> 
+							</div>
+							<div class="rbtn">
+								<div class="deliver J_downResume" data-batch="false" data-url="{:U('CompanyService/resume_download',array('to_detail'=>1))}">下载简历</div>
+								<div class="favorites J_collectForResume" data-batch="false" data-url="{:U('AjaxCompany/resume_favor')}">收藏</div>
+							</div>
+							<div class="clear"></div>
+						</div>	
+					</div>
+				</volist>
+				<if condition="$resumelist.show_login_notice eq 1">
+					<div class="resumelist-login-layer">
+						<div class="tip-block">
+							<div class="tip-block-title">
+								<p class="middle"><span class="font_red">免费注册</span>成为企业会员，海量简历任你选！</p>
+								<p class="small">登录或注册会员后可以查看更多数据，各种免费权限爽不停！</p>
+							</div> 
+							<a href="javascript:;" class="btn_red J_hoverbut btn_inline" id="J_login">已有账号登录</a>
+							<a href="javascript:;" id="J_site_reg" class="btn_lightblue J_hoverbut btn_inline">免费注册会员</a>
+						</div>
+					</div>
+				<else />
+					<div class="listbtn">
+						<div class="td1"><div class="radiobox J_allSelected"></div></div>
+						<div class="td2">
+							<div class="lbts J_collectForResume" data-batch="true" data-url="{:U('AjaxCompany/resume_favor')}">收藏简历</div>
+                            <div class="lbts J_batch_resume">批量浏览</div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="qspage">{$resumelist.page}</div>
+				</if>
+			<else />
+				<if condition="$resumelist.hidden_all_result eq 1 or $resumelist.show_login_notice eq 1">
+					<div class="resumelist-login-layer">
+						<div class="tip-block">
+							<div class="tip-block-title">
+								<p class="middle"><span class="font_red">免费注册</span>成为企业会员，海量简历任你选！</p>
+								<p class="small">登录或注册会员后可以查看更多数据，各种免费权限爽不停！</p>
+							</div> 
+							<a href="javascript:;" class="btn_red J_hoverbut btn_inline" id="J_login">已有账号登录</a>
+							<a href="javascript:;" id="J_site_reg" class="btn_lightblue J_hoverbut btn_inline">免费注册会员</a>
+						</div>
+					</div>
+				<else />
+					<div class="list_empty_group">
+						<div class="list_empty">
+							<div class="list_empty_left"></div>
+							<div class="list_empty_right">
+								<div class="sorry_box">对不起，没有找到符合您条件的简历！</div>
+								<div class="stips_box">放宽您的查找条件也许有更多合适您的简历哦~</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</if>
+			</notempty>
+		</div>
+		<if condition="$Think.get.citycategory neq ''">
+			<div class="bot_info link_gray6">
+				<div class="topnavbg">
+					<div class="topnav">
+						<if condition="$_GET['key'] neq '' or $_GET['jobcategory'] neq ''">
+							<div class="tl J_resume_hotnear select">周边人才</div>
+						</if>
+						<div class="tl J_resume_hotnear">热门人才</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<if condition="$_GET['key'] neq ''">
+					<div class="showbotinfo J_resume_hotnear_show show">
+			        	<volist name="city['list']" id="district" offset="0" length="21">
+			        		<div class="ili"><a href="{:P(array('citycategory'=>$district['citycategory'],'key'=>$_GET['key']))}">{$district.categoryname}{$Think.get.key|urldecode|urldecode}</a></div>
+						</volist>
+						<div class="clear"></div>
+					</div>
+				<elseif condition="$_GET['jobcategory'] neq ''"/>
+					<div class="showbotinfo J_resume_hotnear_show show">
+			        	<volist name="city['list']" id="district" offset="0" length="21">
+			        		<div class="ili"><a href="{:P(array('citycategory'=>$district['citycategory'],'jobcategory'=>$_GET['jobcategory']))}">{$district.categoryname}{$jobs_cate_info[$_GET['jobcategory']]['categoryname']}</a></div>
+						</volist>
+						<div class="clear"></div>
+					</div>
+				</if>
+				<div class="showbotinfo J_resume_hotnear_show">
+					<qscms:hotword 列表名="hotword_list" 显示数目="22"/>
+					<volist name="hotword_list" id="hotword">
+						<if condition="C('qscms_key_urlencode') eq 1">
+						<div class="ili"><a href="{:P(array('citycategory'=>$city['select']['citycategory'],'key'=>urlencode($hotword['w_word_code'])))}">{$city['select']['categoryname']}{$hotword.w_word}</a></div>
+						<else />
+						<div class="ili"><a href="{:P(array('citycategory'=>$city['select']['citycategory'],'key'=>$hotword['w_word_code']))}">{$city['select']['categoryname']}{$hotword.w_word}</a></div>
+						</if>
+					</volist>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</if>
+	</div>
+	<div class="clear"></div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.resumelist.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.search.city.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.modal.dialog.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.dropdown.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.highlight-3.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.autocomplete.js"></script>
+<script type="text/javascript">
+	if ($('.J_selected .slist').length) {
+		$('.J_selected').show();
+	}
+
+	$('.J_jobConditions .wli').each(function(index, el) {
+		if (index > 6) {
+			$(this).addClass('for_up');
+		};
+	});
+
+	// 关键字高亮
+	var keyWords = $('input[name="key"]').val();
+	if (keyWords.length) {
+		$('.J_resumeList').highlight(keyWords);
+	}
+	// 关键字联想
+    var hotKey = $('#autoKeyInput').autocomplete({
+        serviceUrl:"{:U('ajaxCommon/hotword')}",
+        minChars:1,
+        maxHeight:400,
+        width:276,
+        zIndex: 1,
+        deferRequestBy: 0
+    });
+    $('#J_login').click(function(){
+    	if(qscms.smsTatus==1){
+	    	var qsDialog = $(this).dialog({
+	    		loading: true,
+				footer: false,
+				header: false,
+				border: false,
+				backdrop: false
+			});
+	    	var loginUrl = qscms.root+"?m=Home&c=AjaxCommon&a=ajax_login";
+	        $.getJSON(loginUrl, function(result){
+	            if(result.status==1){
+	                qsDialog.hide();
+	                var qsDialogSon = $(this).dialog({
+	                    header: false,
+	                    content: result.data.html,
+	                    footer: false,
+	                    border: false
+	                });
+	                qsDialogSon.setInnerPadding(false);
+	            } else {
+	                qsDialog.hide();
+	                disapperTooltip('remind',result.msg);
+	            }
+	        });
+	    }else{
+	    	location.href="{:U('Members/register',array('utype'=>1))}";
+	    }
+    });
+	// ajax加载简历列表操作状态
+	function refresh_list(){
+		var rids = $('.J_resumeList').map(function(){
+			return $(this).data('rid');
+		}).get();
+		//alert(rids);
+		$.post("{:U('AjaxCompany/refresh_resume_list')}",{rids:rids},function(result){
+			if(result.status == 1 && result.data){
+				$('.J_resumeList').each(function(){
+					var rid = result.data[$(this).data('rid')];
+					if(rid && rid['had_down']){
+						var html_down = "<div class=\"had-deliver\" onclick=\"javascript:location.href='" + rid['url'] + "'\">简历已下载</div>";
+						$(this).find('.rbtn').find('.deliver').replaceWith(html_down);
+					}
+					if(rid && rid['had_fav']){
+						var html_fav = "<div class=\"had-fav\">已收藏</div>";
+						$(this).find('.rbtn').find('.favorites').replaceWith(html_fav);
+					}
+				});
+			}
+		},'json');
+	}
+	var utype = "{:C('visitor.utype')}";
+	var has_resume = $('.listb').has('.J_resumeList');
+	if(utype == 1 && has_resume){
+		refresh_list();
+	}
+	// 批量查看简历
+    $('.J_batch_resume').click(function () {
+        if (!$('.J_allListBox .J_allList.select').length) {
+            disapperTooltip('remind','您还没有选择简历！');
+            return false;
+        }
+        var resumeCheckedArr = $('.J_allListBox .J_allList.select');
+        var resumeIdArr = new Array();
+        var id = resumeCheckedArr.first().closest('.J_resumeList').data('rid'),
+        	ids = resumeCheckedArr.map(function(){
+        	return $(this).closest('.J_resumeList').data('rid');
+        }).get().join(',');
+        if(ids){
+        	var url = "{:url_rewrite('QS_resumeshow',array('id'=>'_id'))}&ids=_ids";
+        	url = url.replace('_id',id);
+        	url = url.replace('_ids',ids);
+        	location.href=url;
+        }
+    });
+    // 下载、收藏简历
+	resumeSomething('.J_downResume', '下载成功！', true);
+	resumeSomething('.J_collectForResume', '收藏成功！', false);
+
+	function resumeSomething (trigger, successMsg, isdown) {
+		$(trigger).click(function() {
+			var tag = $(this);
+			var batch = eval($(this).data('batch'));
+			var url = $(this).data('url');
+			var ridValue = '';
+			var isType = '';
+			if (batch) {
+				if (listCheckEmpty()) {
+					disapperTooltip('remind','您还没有选择简历！');
+					return false;
+				} else {
+					var listCheckedObjs = $('.J_allListBox .J_allList.select');
+					var ridArray = new Array();
+					$.each(listCheckedObjs, function(index, val) {
+						ridArray[index] = $(this).closest('.J_resumeList').data('rid');
+					});
+					ridValue = ridArray.join(',');
+				}
+			} else {
+				ridValue = $(this).closest('.J_resumeList').data('rid');
+			}
+			isdown ? isType = 'GET' : isType = 'POST';
+			$.ajax({
+				url: url,
+				type: isType,
+				dataType: 'json',
+				data: {rid: ridValue}
+			})
+			.done(function(data) {
+				if (parseInt(data.status)) {
+					if (isdown) {
+						$(this).dialog({
+							title: '下载简历',
+							border: false,
+							footer: false,
+							content:data.msg
+						});
+					} else {
+						disapperTooltip('success', successMsg);
+						tag.text('已收藏');
+					}
+				} else {
+					if (eval(data.dialog)) {
+						var qsDialog = $(this).dialog({
+			        		loading: true,
+							footer: false,
+							header: false,
+							border: false,
+							backdrop: false
+						});
+						var loginUrl = qscms.root + '?m=Home&c=AjaxCommon&a=ajax_login';
+						$.getJSON(loginUrl, function(result){
+				            if(result.status==1){
+								qsDialog.hide();
+								var qsDialogSon = $(this).dialog({
+									header: false,
+									content: result.data.html,
+									footer: false,
+									border: false
+								});
+				    			qsDialogSon.setInnerPadding(false);
+				            } else {
+				            	qsDialog.hide();
+				                disapperTooltip("remind", result.msg);
+				            }
+				        });
+					} else {
+						if(data.msg=='请登录企业帐号！'){
+							var qsDialogSec = $(this).dialog({
+		            			title: '账号切换',
+								content: '<div style="width:300px;text-align:center;">您当前账号为个人，是否切换为企业？</div>',
+								yes: function () {
+									var url = "{:U('Members/switch_utype',array('utype'=>1))}";
+									location.href = url;
+								},
+								footer: true,
+								header: true,
+								border: false
+							});
+							return false;
+						}else{
+							disapperTooltip("remind", data.msg);
+							qsDialog.hide();
+						}
+						
+					
+					}
+				}
+			})
+		});
+	}
+</script>
+</body>
+</html>

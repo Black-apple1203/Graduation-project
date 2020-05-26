@@ -1,0 +1,316 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="Company:left_service" />
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">订单详情</div>
+					<div class="clear"></div>
+				</div>
+				<div class="point_title_group1">
+					<div><div class="left_border"></div></div>
+					<div class="title_left">订单概要</div>
+					<div class="title_right link_blue">
+						订单状态：
+						<eq name="order['is_paid']" value="3">
+						<span class="grey">已取消</span>  
+						<else />
+						<span class="grean">已支付</span>
+						</eq>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="order_info_group">
+					<div class="info_float_line">
+						<div class="left_line">订单编号：{$order['oid']}</div>
+						<div class="right_line">订单类型：{$order['service_name']}</div>
+						<div class="clear"></div>
+					</div>
+					<div class="info_float_line">
+						<div class="left_line">创建时间：{:date('Y-m-d H:i:s',$order['addtime'])}</div>
+						<div class="right_line">支付时间：{:date('Y-m-d H:i:s',$order['payment_time'])}</div>
+						<div class="clear"></div>
+					</div>
+					<div class="info_all_line">
+						支付状态：
+						<eq name="order['is_paid']" value="3">
+						<span class="grey">已取消</span>  
+						<else />
+						<span class="grean">已支付</span>  
+						<span class="orange">￥{$order['amount']}</span>
+						 = 
+						<span class="small">
+						<switch name="order['pay_type']"> 
+							<case value="2">
+								（{$order['payment_cn']}：￥{$order['pay_amount']}）
+							</case> 
+							<case value="1">
+								（{:C('qscms_points_byname')}支付：{$order['pay_points']}{:C('qscms_points_byname')}）
+							</case> 
+							<case value="4">
+								（{$order['gift_pay_name']}：￥{$order['pay_gift']}）
+							</case>
+							<case value="5">
+								（{$order['payment_cn']}：￥{$order['pay_amount']}） + 
+								（{$order['gift_pay_name']}：￥{$order['pay_gift']}）
+							</case> 
+							<case value="6">
+								（{$order['gift_pay_name']}：￥{$order['pay_gift']}）+
+								（{:C('qscms_points_byname')}支付：{$order['pay_points']}{:C('qscms_points_byname')}）
+							</case> 
+							<case value="7">
+								（{$order['payment_cn']}：￥{$order['pay_amount']}） + 
+								（{:C('qscms_points_byname')}支付：{$order['pay_points']}{:C('qscms_points_byname')}）+
+								（{$order['gift_pay_name']}：￥{$order['pay_gift']}）
+							</case> 
+							<default/>
+								（{$order['payment_cn']}：￥{$order['pay_amount']}） + 
+								（{:C('qscms_points_byname')}支付：{$order['pay_points']}{:C('qscms_points_byname')}）
+						</switch>
+						</span>
+						</eq>
+					</div>
+				</div>
+				<div class="point_title_group1">
+					<div><div class="left_border"></div></div>
+					<div class="title_left">订单内容</div>
+					<div class="clear"></div>
+				</div>
+				<div class="order_info_group">
+					<div class="info_float_line line_head">
+						<div class="line line1">服务类型</div>
+						<div class="line line2">服务项目内容</div>
+						<div class="line line3">套餐优惠</div>
+						<div class="line line4">资源到期时间</div>
+						<div class="clear"></div>
+					</div>
+					<div class="info_float_line">
+						<div class="line line1">{$order_type_cn}</div>
+						<div class="line line2">{$order['service_name']}</div>
+						<div class="line line3"><if condition="$order['discount'] eq ''">无<else />{$order['discount']}</if></div>
+						<div class="line line4">
+						<if condition="$order['order_type'] eq 1">
+							<eq name="setmeal['endtime']" value="0">无期限<else />{:date('Y-m-d',$setmeal['endtime'])}</eq>
+						<elseif condition="$order['order_type'] eq 2"/>
+							无期限
+						<else />
+							<if condition="$order['is_paid'] eq 1 || $order['is_paid'] eq 3">
+							--
+							<elseif condition="$order['params']['days']"/>
+							{:date('Y-m-d',$order['payment_time']+$order['params']['days']*3600*24)}
+							<else />
+							--
+							</if>
+						</if>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<eq name="open_invoice" value="1">
+				<eq name="order['is_paid']" value="2">
+				<!-- 已支付头部 -->
+				<div class="point_title_group1">
+					<div><div class="left_border"></div></div>
+					<div class="title_left">索取发票 <span class="small">(发票类型为增值税普通发票，统一时间寄出)</span></div>
+					<div class="title_right link_blue"><span class="orange small">* {:C('qscms_points_byname')}和优惠券支付部分不可索取发票</span></div>
+					<div class="clear"></div>
+				</div>
+				<if condition="$order['pay_type'] neq 1 && !$invoice && $order['pay_amount'] egt C('qscms_invoice_cash_min')">
+					<form id="invoice_form">
+					<div id="invoice_ajax_wrap">
+						<div class="order_info_group">
+							<div class="info_float_line1">
+								<div class="left_line">发票抬头：</div>
+								<div class="right_line">
+									<div class="radio_list fl J_radioitme_parent">
+										<div class="rli checked J_radioitme J_title" data-code="1">单位</div>
+										<div class="rli J_radioitme J_title" data-code="2">个人</div>
+										<div class="clear"></div>
+										<input type="hidden" class="J_radioitme_code" name="title" id="invoice_title" value="1"/>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="order_info_group">
+							<div class="info_float_line1">
+								<div class="left_line">发票内容：</div>
+								<div class="right_line">
+									<div class="radio_list fl J_radioitme_parent">
+										<input type="hidden" class="J_radioitme_code" name="cid" id="invoice_cid" value="{:key($category)}"/>
+										<volist name="category" id="category">
+											<div class="rli J_radioitme <if condition="$i eq 1">checked</if>" data-code="{$key}">{$category}</div>
+										</volist>
+										<div class="clear"></div>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="J_order_info_group order_info_group">
+							<div class="info_float_line1">
+								<div class="left_line">单位名称：</div>
+								<div class="right_line"><input type="text" value="{$contact.companyname}" class="input_245_34" id="invoice_organization" name="organization"></div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="J_order_info_group order_info_group">
+							<div class="info_float_line1">
+								<div class="left_line">税号：</div>
+								<div class="right_line"><input type="text" value="" class="input_245_34" id="invoice_tax_number" name="tax_number"></div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="order_info_group">
+							<div class="info_float_line1">
+								<div class="left_line">收件人：</div>
+								<div class="right_line"><input type="text" value="{$contact.contact}" class="input_245_34" id="invoice_addressee" name="addressee"></div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="order_info_group">
+							<div class="info_float_line1">
+								<div class="left_line">手机号：</div>
+								<div class="right_line"><input type="text" value="{$contact.telephone|default=$contact['landline_tel']}" class="input_245_34" id="invoice_mobile" name="mobile"></div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="order_info_group">
+							<div class="info_float_line1">
+								<div class="left_line">邮寄地址：</div>
+								<div class="right_line"><input type="text" value="{$contact.address}" class="input_245_34" id="invoice_address" name="address"></div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="order_info_group">
+							<div class="info_float_line1">
+								<div class="left_line">邮编：</div>
+								<div class="right_line"><input type="text" value="{$contact.postcode}" class="input_245_34" id="invoice_postcode" name="postcode"></div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="order_info_group">
+							<div class="info_float_line1">
+								<input type="hidden" name="order_id" value="{$order['id']}">
+								<div class="btn_yellow J_hoverbut btn_115_32" id="invoice_submit">索取发票</div>
+							</div>
+						</div>
+					</div>
+					</form>
+				<elseif condition="$invoice" />
+					<div>
+						<div class="order_info_group">
+							<div class="info_float_line">
+								<div class="left_line">发票抬头： {$invoice['title']}</div>
+								<div class="right_line">发票内容： {$invoice['cate']}</div>
+								<div class="clear"></div>
+							</div>
+							<div class="info_all_line">单位名称： {$invoice['organization']}</div>
+							<div class="info_all_line">税号： {$invoice['tax_number']}</div>
+						</div>
+						<div class="order_info_group">
+							<p class="rem_title">发票邮寄</p>
+							<div class="info_float_line">
+								<div class="left_line">收件人：  {$invoice['addressee']}</div>
+								<div class="right_line">手机号：  {$invoice['mobile']}</div>
+								<div class="clear"></div>
+							</div>
+							<div class="info_all_line">邮政编码：  {$invoice['postcode']}</div>
+							<div class="info_all_line">邮寄地址：  {$invoice['address']}</div>
+						</div>
+					</div>
+				</if>
+				</eq>
+				</eq>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('.J_title').click(function(){
+					if($(this).attr('data-code') == 1){
+						$('.J_order_info_group').show();
+					}else{
+						$('.J_order_info_group').hide();
+					}
+				});
+				$("#invoice_submit").click(function(){
+					if(!$("#invoice_title").val()){
+						disapperTooltip("remind","请选择发票抬头！");
+						return false;
+					}
+					if(!$("#invoice_cid").val()){
+						disapperTooltip("remind","请选择发票内容！");
+						return false;
+					}
+					if(!$("#invoice_organization").val() && $("#invoice_title").val()==1){
+						disapperTooltip("remind","请填写单位名称！");
+						return false;
+					}
+					if(!$("#invoice_tax_number").val() && $("#invoice_title").val()==1){
+						disapperTooltip("remind","请填写税号！");
+						return false;
+					}
+					if(!$("#invoice_addressee").val()){
+						disapperTooltip("remind","请填写收件人！");
+						return false;
+					}
+					if(!$("#invoice_mobile").val()){
+						disapperTooltip("remind","请填写手机号！");
+						return false;
+					}
+					if(!$("#invoice_address").val()){
+						disapperTooltip("remind","请填写邮寄地址！");
+						return false;
+					}
+					if(!$("#invoice_postcode").val()){
+						disapperTooltip("remind","请填写邮编！");
+						return false;
+					}
+					$.ajax({
+		                cache: true,
+		                type: "POST",
+		                url:"{:U('invoice_save')}",
+		                data:$('#invoice_form').serialize(),
+		                async: false,
+		                dataType:"json",
+		                success: function(result) {
+		                    if(result.status==1){
+		                    	disapperTooltip("success","索取发票成功！");
+		                    	var html = '<div class="order_info_group"><div class="info_float_line">';
+		                    	html += '<div class="left_line">发票抬头： '+result.data.title+'</div>';
+		                    	html += '<div class="right_line">发票内容： '+result.data.cate+'</div>';
+		                    	html += '<div class="clear"></div></div>';
+		                    	html += '<div class="info_all_line">单位名称： '+result.data.organization+'</div>';
+		                    	html += '<div class="info_all_line">税号： '+result.data.tax_number+'</div>';
+		                    	html += '</div>';
+		                    	html += '<div class="order_info_group"><p class="rem_title">发票邮寄</p>';
+		                    	html += '<div class="info_float_line">';
+		                    	html += '<div class="left_line"> &nbsp;&nbsp;&nbsp;收件人：  '+result.data.addressee+'</div>';
+		                    	html += '<div class="right_line">手机号：  '+result.data.mobile+'</div>';
+		                    	html += '<div class="clear"></div></div>';
+		                    	html += '<div class="info_all_line">邮政编码：  '+result.data.postcode+'</div>';
+		                    	html += '<div class="info_all_line">邮寄地址：  '+result.data.address+'</div></div>';
+								$("#invoice_ajax_wrap").html(html);
+		                    }else{
+		                    	disapperTooltip("remind",result.msg);
+								return false;
+		                    }
+		                }
+		            });
+				});
+			});
+		</script>
+	</body>
+</html>

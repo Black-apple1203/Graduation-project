@@ -1,0 +1,87 @@
+<include file="public:header"/>
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>通过管理员设置，您可以进行编辑管理员资料、角色、密码以及删除管理员等操作；</p>
+    </div>
+<form id="form1">
+    <div class="toptit">新增管理员</div>
+    <div class="form_main width150">
+        <div class="fl">用户名：</div>
+        <div class="fr">
+            <input name="username" type="text" maxlength="25" class="input_text_default" value=""/>
+        </div>
+        <div class="fl">电子邮件：</div>
+        <div class="fr">
+            <input name="email" type="text" maxlength="25" class="input_text_default" value=""/>
+        </div>
+        <div class="fl">密码：</div>
+        <div class="fr">
+            <input name="password" type="password" maxlength="25" class="input_text_default" value=""/>
+        </div>
+        <div class="fl">再次输入密码：</div>
+        <div class="fr">
+            <input name="repassword" type="password" maxlength="25" class="input_text_default" value=""/>
+        </div>
+        <div class="fl">所属角色：</div>
+        <div class="fr">
+            <div class="select_input_new J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">选择角色</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <volist name="roles" id="role">
+                                <li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$role}</a></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="role_id" id="role_id" type="hidden" value="" />
+            </div>
+            <!-- <select name="role_id">
+                <volist name="roles" id="role">
+                    <option value="{$key}">{$role}</option>
+                </volist>
+            </select> -->
+            <a onclick="link(this);" href="javascript:;" url="{:U('AdminRole/auth',array('id'=>'qscms','url'=>"__SELF__"))}" style="color:#003399">查看权限</a>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" id="J_submit" name="submit3" class="admin_submit" value="添加"/>
+            <input name="submit22" type="button" class="admin_submit" value="返回" onclick="window.location='{:U('admin/index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script type="text/javascript">
+  function link(a){
+    var id = $('#role_id').val(),
+      a = $(a).attr('url');
+    a = a.replace('qscms',id);
+    window.location=a;
+  }
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('admin/add')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    location.href='{:U("admin/index")}';
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('添加').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

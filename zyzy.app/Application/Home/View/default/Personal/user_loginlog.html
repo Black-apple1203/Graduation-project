@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/personal/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_user.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="us-top">
+    <div class="us-main">
+        <div class="us-top-box">
+            <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                <div class="se-btn"><input type="submit" value="搜 索"></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+	<div class="user_main">
+		<include file="index_left_nav" />
+  	  <div class="mainbox">
+			<!--职位切换卡 -->
+			<div class="tab">
+				<a class="li J_hoverbut" href="{:U('personal/user_safety')}">账号安全</a>
+				<a class="li J_hoverbut" href="{:U('personal/user_avatar')}" >我的头像</a>
+				<a class="li J_hoverbut" href="{:U('personal/resume_privacy')}">屏蔽企业</a>
+				<a class="li select">登录日志</a>
+			  	<div class="clear"></div>
+			</div>
+			<!--切换卡结束 -->
+			<div class="log_th">
+		    	<div class="th1">登录时间</div>
+				<div class="th2">登录IP</div>
+				<div class="th3">登录地点（仅供参考）</div>
+				<div class="th4">登录方式</div>
+				<div class="clear"></div>
+			</div>
+			<volist name="loginlog['list']" id="log">
+				<div class="log J_hoverbut">
+					<div class="td1">{:date('Y-m-d H:i:s',$log['log_addtime'])}</div>
+					<div class="td2">{$log.log_ip}</div>
+					<div class="td3">{$log.log_address}</div>
+					<div class="td4">{$log.log_source}</div>
+					<div class="clear"></div>
+				</div>
+			</volist>
+		  <div class="qspage">{$loginlog.page}</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<include file="index_footer" />
+</body>
+</html>

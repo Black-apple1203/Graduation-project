@@ -1,0 +1,169 @@
+<include file="public:header"/>
+<div class="seltpye_y">
+    <div class="tit">处理状态</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.audit' value=''>select</neq>">{$Think.get.audit_cn|default='不限'}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('audit'=>'','audit_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('audit'=>'1','audit_cn'=>'已处理'))}">已处理</li>
+        <li url="{:P(array('audit'=>'0','audit_cn'=>'待处理'))}">待处理<if condition="$count"><span style="color:#FF0000">({$count})</span></if></li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">发票抬头</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.title' value=''>select</neq>">{$Think.get.title_cn|default='不限'}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('title'=>'','title_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('title'=>'1','title_cn'=>'单位'))}">单位</li>
+        <li url="{:P(array('title'=>'2','title_cn'=>'个人'))}">个人</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">发票内容</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.cid' value=''>select</neq>">{$Think.get.cid_cn|default='不限'}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('cid'=>'','cid_cn'=>'不限'))}">不限</li>
+        <volist name="category" id="category">
+            <li url="{:P(array('cid'=>$key,'cid_cn'=>$category))}">{$category}</li>
+        </volist>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">添加时间</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.settr' value=''>select</neq>">{$Think.get.settr_cn|default='不限'}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('settr'=>'','settr_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('settr'=>'3','settr_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('settr'=>'7','settr_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('settr'=>'30','settr_cn'=>'一月内'))}">一月内</li>
+        <li url="{:P(array('settr'=>'180','settr_cn'=>'半年内'))}">半年内</li>
+        <li url="{:P(array('settr'=>'360','settr_cn'=>'一年内'))}">一年内</li>
+    </div>
+</div>
+<div class="clear"></div>
+
+<form id="form1" name="form1" method="post" action="{:U('delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:10%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>发票内容
+            </label>
+        </div>
+        <div class="td" style=" width:8%;">处理状态</div>
+        <div class="td" style=" width:8%;">发票抬头</div>
+        <div class="td" style=" width:15%;">单位名称</div>
+        <div class="td" style=" width:8%;">收件人</div>
+        <div class="td center" style=" width:10%;">手机号</div>
+        <div class="td center" style=" width:23%;">邮寄地址</div>
+        <div class="td center" style=" width:8%;">邮编</div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:10%;">
+                <div class="left_padding striking">
+                    <input name="order_id[]" type="checkbox" id="id" value="{$vo['order_id']}"/>
+                    {$vo['cate_cn']}&nbsp;
+                </div>
+            </div>
+            <div class="td" style=" width:8%;">
+                <switch name="vo['audit']">
+                    <case value="0"><span style="color:#FF0000;">未处理</span></case>
+                    <case value="1"><span style="color:#009900;">已处理</span></case>
+                </switch>
+            </div>
+            <div class="td" style=" width:8%;">
+                <if condition="$vo['title'] eq 1">单位<else/>个人</if>
+            </div>
+            <div class="td" style=" width: 15%;">{$vo.organization|default='-'}</div>
+            <div class="td" style=" width:8%;">{$vo.addressee}</div>
+            <div class="td center" style=" width:10%;">{$vo.mobile}</div>
+            <div class="td center" style=" width:23%;">{$vo.address}</div>
+            <div class="td center" style=" width:8%;">{$vo.postcode}</div>
+            <div class="td edit" style=" width:10%;">
+                <a href="{:U('OrderInvoice/invoice_show',array('order_id'=>$vo['order_id']))}">详情</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButSet" value="处理状态"/>
+        <input type="button" class="admin_submit" id="ButDelOrder" value="删除"/>
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='会员ID'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='会员ID'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="会员ID">会员ID</li>
+                        <li id="2" title="收件人">收件人</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //处理
+        $("#ButSet").click(function () {
+            var data = $("form[name=form1]").serialize();
+            if(data.length == 0){
+                disapperTooltip('remind','请选择发票记录！');
+            } else {
+                var qsDialog = $(this).dialog({
+                    title: '发票处理',
+                    loading: true,
+                    footer : false
+                });
+                var url = "{:U('Ajax/set_invoice')}";
+                $.post(url, data, function (result) {
+                    if(result.status == 1){
+                        qsDialog.setContent(result.data);
+                    } else {
+                        qsDialog.hide();
+                        disapperTooltip('remind',result.msg);
+                    }
+                });
+            }
+        });
+        //点击批量删除
+        $("#ButDelOrder").click(function () {
+            if (confirm('你确定要删除吗？')) {
+                $("form[name=form1]").submit();
+            }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="public:meta"/>
+<link href="../public/css/company/common.css" rel="stylesheet" type="text/css"/>
+<link href="../public/css/company/company_user.css" rel="stylesheet" type="text/css"/>
+<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="Company/index_header"/>
+<div class="user_main">
+    <div class="mleft">
+        <include file="Company/left_user"/>
+    </div>
+    <div class="mright">
+        <div class="user_pagetitle safety_user_pagetitle">
+            <div class="pat_l">企业账号注销</div>
+            <div class="clear"></div>
+        </div>
+        <div class="user_tab">
+            <a href="{:U('company/user_security')}" class="tabli " >账号安全</a>
+            <a href="{:U('company/user_loginlog')}" class="tabli ">登录日志</a>
+            <a href="{:U('accountMigration/index')}" class="tabli select">账号迁移</a>
+            <div class="clear"></div>
+        </div>
+        <div class="user_tip">
+            <div class="tiptit">小提示</div>
+            <div class="tiptxt link_blue">
+                企业账号注销主要用于误操作致产生企业账号。本操作不可还原，请谨慎操作！ 如果您的企业账号有数据，建议使用 <a href="{:U('accountMigration/index')}">账号迁移</a>
+            </div>
+        </div>
+        <div class="migration cancellation wait">
+            <div class="planIco">您的企业账号注销申请已提交，等待审核中</div>
+            <div class="planTip">
+                我们会在3-5个工作日内审核您的资料，请耐心等待！
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+</body>
+<include file="Company/index_footer"/>
+<script type="text/javascript">
+    $(document).ready(function(){
+        
+    });
+</script>
+</html>

@@ -1,0 +1,102 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p class="link_green_line">74IM是国内首家专业的即时通讯云服务提供商，专注为互联网、移动互联网开发者提供即时通讯基础能力和云端服务<a href="http://imcenter.74cms.com" target="_blank">马上申请</a></p>
+</div>
+<div class="toptit">基本配置</div>
+<form action="{:U('config/edit')}" method="post" enctype="multipart/form-data" name="form2" id="form2">
+	<div class="form_main width150">
+		<div class="fl">开启触屏在线聊天：</div>
+		<div class="fr">
+          <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_im_open') eq 1">select</if>"><input name="im_open" type="hidden" value="1"></div>
+          <div class="clear"></div>
+        </div>
+        <div class="fl">开启APP在线聊天：</div>
+        <div class="fr">
+          <div data-code="1" class="imgchecked_small select"><input type="hidden" value="1"></div>
+          <label class="note-radio" style="padding-top:17px;">(APP不允许关闭此项功能)</label>
+          <div class="clear"></div>
+        </div>
+        <div class="fl">开启小程序在线聊天：</div>
+        <div class="fr">
+          <div data-code="1" class="imgchecked_small select"><input type="hidden" value="1"></div>
+          <label class="note-radio" style="padding-top:17px;">(小程序不允许关闭此项功能)</label>
+          <div class="clear"></div>
+        </div>
+		<div class="fl">app_key：</div>
+		<div class="fr">
+			<input name="im_appkey" type="text" maxlength="40" class="input_text_default middle" value="{:C('qscms_im_appkey')}"/>
+		</div>
+		<div class="fl">app_secret</div>
+		<div class="fr">
+			<input name="im_appsecret" type="text" maxlength="40" class="input_text_default middle" value="{:C('qscms_im_appsecret')}"/>
+		</div>
+		<div class="fl"></div>
+		<div class="fr">
+			<input name="submit" type="submit" class="admin_submit"    value="保存修改"/>
+		</div>
+		<div class="clear"></div>
+	</div>
+</form>
+<!--添加快捷语句列表h start-->
+<div class="toptit link_green_line">（74IM快捷语句配置。）</div>
+<form id="form1" name="form1" method="post" action="{:U('ImText/delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:70%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>内容
+            </label>
+        </div>
+        <div class="td center" style=" width:20%;">添加时间</div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:70%;">
+                <div class="left_padding striking">
+				  <input name="id[]" type="checkbox" id="id" value="{$vo['id']}"/>
+                      {$vo.content}
+                </div>
+            </div>
+            <div class="td center" style=" width:20%;">{:admin_date($vo['addtime'])}</div>
+            <div class="td edit" style=" width:10%;">
+                <a href="{:U('ImText/edit',array('id'=>$vo['id']))}">编辑</a>
+                <a href="{:U('ImText/delete',array('id'=>$vo['id']))}" onClick="return confirm('你确定要删除该快捷语句吗？')" class="gray">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="list_foot">
+    <div class="btnbox">
+		<input type="button" class="admin_submit" id="ButAdd" value="添加语句" onclick="window.location='{:U('ImText/add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除"/>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+</div>
+<!--  end-->
+</div>
+<include file="public:footer" />
+</body>
+<!--添加js快捷语句-->
+<script type="text/javascript">
+    $(document).ready(function () {
+        //点击批量删除
+        $("#ButDel").click(function () {
+            var ids = $("input[name='id[]']:checked");
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择快捷语句！');
+            } else {
+                if(confirm('确定删除吗？')){
+                    $("form[name=form1]").submit();
+                }
+            }
+        });
+    });
+</script>
+</html>

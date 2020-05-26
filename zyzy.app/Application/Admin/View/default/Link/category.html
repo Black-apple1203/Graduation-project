@@ -1,0 +1,75 @@
+<include file="public:header"/>
+    <div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>通过友情链接分类可以在多个页面调用不同的友情链接！</p>
+  </div>
+
+<form id="form1" name="form1" method="post" action="{:U('category_del')}">
+    <div class="list_th">
+        <div class="td" style=" width:60%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>分类名称
+            </label>
+        </div>
+        <div class="td center" style=" width:15%;">调用名</div>
+        <div class="td" style=" width:15%;">类型</div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:60%;">
+                <div class="left_padding striking link_blue">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['id']}" <if condition="$vo['c_sys']">disabled="disabled"</if>/>
+                    {$vo.categoryname}
+                    <span style="color:#999999">[id:{$vo.id}]</span>
+                </div>
+            </div>
+            <div class="td center" style=" width:15%;">{$vo.c_alias|default='-'}</div>
+            <div class="td" style=" width:15%;">
+                <if condition="$vo['c_sys']">系统分类<else/>自定义分类</if>
+            </div>
+            <div class="td edit" style=" width:10%;">
+                <a href="{:U('category_edit',array('id'=>$vo['id']))}">修改</a>
+                <if condition="$vo['c_sys'] neq 1">
+                    <a href="{:U('category_del',array('id'=>$vo['id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+                </if>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAdd" value="添加分类" onclick="window.location='{:U('category_add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除"/>
+    </div>
+    <div class="footso"></div>
+</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //批量删除
+        $("#ButDel").click(function () {
+            var ids = $("input[name='id[]']:checked");
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择分类！');
+            } else {
+                if(confirm('确定删除吗？')){
+                    $("#form1").submit();
+                }
+            }
+        });
+    });
+</script>
+</html>

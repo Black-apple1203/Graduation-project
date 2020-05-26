@@ -1,0 +1,170 @@
+<include file="public:header" />
+ <div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>计划任务是一项使系统在规定时间自动执行某些特定任务的功能，在需要的情况下，您也可以方便的将其用于功能的扩展。</p>
+    <p>计划任务是与系统核心紧密关联的功能特性，不当的设置可能造成功能的隐患，严重时可能导致网站无法正常运行。</p>
+</div>
+<div class="toptit">添加计划任务</div>
+<form action="{:U('crons/add')}" method="post"  name="FormData" id="FormData" >
+    <div class="form_main width120">
+        <div class="fl">名称：</div>
+        <div class="fr">
+            <input name="name" type="text" maxlength="20" class="input_text_default middle" value=""/>
+            <label class="no-fl-note">设置本任务的任务类名称</label>
+        </div>
+        <div class="fl">任务脚本类名称：</div>
+        <div class="fr">
+            <input name="filename" type="text" maxlength="30" class="input_text_default small" style="width:150px;" value=""/>
+            <label class="no-fl-note">设置本任务的执行程序类名称，请勿包含路径，程序脚本统一存放于 ./app/Lib/Cron/ 目录中</label>
+        </div>
+        <div class="fl">每周：</div>
+        <div class="fr">
+            <div class="select_input_new w400 flo J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">请选择</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme" href="javascript:;" data-code="-1">*</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="0">日</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="1">一</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="2">二</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="3">三</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="4">四</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="5">五</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="6">六</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="weekday" id="weekday" type="hidden" value="" />
+            </div>
+            <!-- <select name="weekday"  class="input_text_200_select">
+                <option value="-1" selected="selected">*</option>
+                <option value="0">日</option>
+                <option value="1">一</option>
+                <option value="2">二</option>
+                <option value="3">三</option>
+                <option value="4">四</option>
+                <option value="5">五</option>
+                <option value="6">六</option>
+            </select> -->
+            <label class="no-fl-note">设置星期几执行本任务，“*”为不限制，本设置会覆盖下面的“日”设定</label>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">每月：</div>
+        <div class="fr">
+            <div class="select_input_new w400 flo J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">请选择</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme" href="javascript:;" data-code="-1">*</a></li>
+                            <for start="1" end="31">
+                                <li><a class="J_listitme" href="javascript:;" data-code="{$i}">{$i} 日</a></li>
+                            </for>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="day" id="day" type="hidden" value="" />
+            </div>
+            <!-- <select name="day" class="input_text_200_select">
+                <option value="-1" selected="selected">*</option>
+                <for start="1" end="31">
+                <option value="{$i}"  >{$i} 日</option>
+                </for>
+            </select> -->
+            <label class="no-fl-note sin_text">设置哪一日执行本任务，“*”为不限制</label>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">小时：</div>
+        <div class="fr">
+            <div class="select_input_new w400 flo J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">请选择</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme" href="javascript:;" data-code="-1">*</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="0">0 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="1">1 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="2">2 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="3">3 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="4">4 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="5">5 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="6">6 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="7">7 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="8">8 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="9">9 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="10">10 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="11">11 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="12">12 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="13">13 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="14">14 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="15">15 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="16">16 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="17">17 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="18">18 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="19">19 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="20">20 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="21">21 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="22">22 时</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="23">23 时</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="hour" id="hour" type="hidden" value="" />
+            </div>
+            <!-- <select name="hour" class="input_text_200_select">
+                <option value="-1">*</option>
+                <option value="0" selected="selected">0 时</option>
+                <option value="1">1 时</option>
+                <option value="2">2   时</option>
+                <option value="3">3 时</option>
+                <option value="4">4 时</option>
+                <option value="5">5 时</option>
+                <option value="6">6 时</option>
+                <option value="7">7   时</option>
+                <option value="8">8 时</option>
+                <option value="9">9 时</option>
+                <option value="10">10 时</option>
+                <option value="11">11 时</option>
+                <option value="12">12   时</option>
+                <option value="13">13 时</option>
+                <option value="14">14 时</option>
+                <option value="15">15 时</option>
+                <option value="16">16 时</option>
+                <option value="17">17   时</option>
+                <option value="18">18 时</option>
+                <option value="19">19 时</option>
+                <option value="20">20 时</option>
+                <option value="21">21 时</option>
+                <option value="22">22   时</option>
+                <option value="23">23 时</option>
+            </select> -->
+            <label class="no-fl-note sin_text">设置哪一小时执行本任务，“*”为不限制</label>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">分钟：</div>
+        <div class="fr">
+            <input name="minute" type="text" maxlength="20" class="input_text_default middle" value=""/>
+            <label class="no-fl-note">设置哪一分钟执行本任务，留空为不限制</label>
+        </div>
+        <div class="fl">可用：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small select"><input name="available" type="hidden" value="1" /></div>
+            <div class="note">设置不可用则任务不会执行</div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="submit" name="Submit" value="确定提交" class="admin_submit"   />
+            
+            <input name="submit22" type="button" class="admin_submit"    value="返 回" onclick="window.location='{:U('crons/index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+</body>
+</html>

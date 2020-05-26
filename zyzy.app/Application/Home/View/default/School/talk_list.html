@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_jobfair.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+			<include file="left_talk" />
+				 
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">我的申请</div>
+					<div class="clear"></div>
+				</div>
+				<div class="jobfairWrap">
+					<notempty name="talk_list['list']">
+						<volist name="talk_list['list']" id="talk">
+							<div class="jobfairList">
+								<div class="timeWrap">
+									<div class="week">周{$week[date('w',$talk['starttime'])]}</div>
+									<div class="time">{:date('m.d',$talk['starttime'])}</div>
+									<div class="arrow"></div>
+								</div>
+								<div class="info">
+									<div class="title substring">
+										<a target="_blank" href="{$talk.url}" title="{$talk.subject}">{$talk.subject}</a>
+									</div>
+									<div class="addressWrap">
+										<span>举办时间：{:date('Y-m-d H:i',$talk['starttime'])}</span><br>
+									</div>
+									<div class="addressWrap">
+										<span class="address">举办地点：{:cut_str($talk['address'],30,0)}</span>
+									</div>
+								</div>
+								<div class="btns">
+									<if condition="$talk['audit'] eq 2">
+										<span class="font_yellow">等待审核</span>
+										<elseif condition="$talk['audit'] eq 1" />
+										<span class="font_green">审核通过</span>
+										<else />
+										<div class="font_red">审核未通过</div>
+									</if>
+								</div>
+								<div class="clear"></div>
+								<a class="jfl_ed" href="{:U('home/school/talk_edit',array('id'=>$talk['id']))}">编辑</a>
+								<a href="javascript:;" class="delete_all" data-id="{$talk.id}">删除</a>
+							</div>
+						</volist>
+						<div class="qspage">{$talk_list['page']}</div>
+					<else/>
+						<div class="res_empty link_blue">
+							暂无申请的宣讲会！<br />
+							立即 <a href="{:U('Home/School/talk_add')}" target="_self">申请宣讲会</a>
+						</div>
+					</notempty>
+				</div>
+
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+		<script>
+			$(".delete_all").click(function(){
+				var url = "{:U('home/school/talk_delete')}";
+				var data = $(this).data();
+				console.log(data);
+				var qsDialog = $(this).dialog({
+					title: '删除宣讲会',
+					loading: true,
+					border: false,
+					yes: function () {
+						$.post(url,data,function (result) {
+							if (result.status == 1) {
+								window.location.reload();
+							} else {
+								disapperTooltip('remind', result.msg);
+							}
+						});
+					}
+				});
+				$.getJSON(url,data,function (result) {
+					if (result.status == 1) {
+						qsDialog.setContent(result.data.html);
+					} else {
+						disapperTooltip('remind', result.msg);
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

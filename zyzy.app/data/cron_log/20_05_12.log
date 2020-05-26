@@ -1,0 +1,8 @@
+[ 2020-05-12T09:50:57+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+INFO: Cron:ClearPromotion Runat 2020-05-12 09:50:57 Use 0.188600 s 
+Cron:AutoRefreshResume Runat 2020-05-12 09:50:57 Use -0.002660 s 
+Cron:AutoRefreshJobs Runat 2020-05-12 09:50:57 Use -0.021183 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-12 09:50:57 Use -0.066616 s 
+Cron:ClearOrder Runat 2020-05-12 09:50:57 Use -0.072470 s 
+Cron:ClearShareAllowance Runat 2020-05-12 09:50:57 Use -0.106280 s 
+

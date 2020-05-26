@@ -1,0 +1,18 @@
+[ 2020-05-09T21:17:22+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+INFO: Cron:ClearCache Runat 2020-05-09 21:17:21 Use 0.200882 s 
+Cron:ClearPromotion Runat 2020-05-09 21:17:22 Use -0.030482 s 
+Cron:AutoRefreshResume Runat 2020-05-09 21:17:22 Use -0.473312 s 
+Cron:AutoRefreshJobs Runat 2020-05-09 21:17:22 Use -0.517079 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-09 21:17:22 Use -0.519426 s 
+Cron:ClearOrder Runat 2020-05-09 21:17:22 Use -0.541229 s 
+Cron:ClearShareAllowance Runat 2020-05-09 21:17:22 Use -0.592515 s 
+
+[ 2020-05-09T22:05:17+08:00 ] 127.0.0.1 /index.php?m=home&c=company&a=index&uid=2
+INFO: Cron:ClearPromotion Runat 2020-05-09 22:05:17 Use 0.095495 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-09 22:05:17 Use -0.013718 s 
+Cron:ClearShareAllowance Runat 2020-05-09 22:05:17 Use -0.019767 s 
+
+[ 2020-05-09T22:12:12+08:00 ] 127.0.0.1 /index.php?m=&c=members&a=logout
+INFO: Cron:AutoRefreshResume Runat 2020-05-09 22:12:12 Use 0.141386 s 
+Cron:AutoRefreshJobs Runat 2020-05-09 22:12:12 Use -0.000208 s 
+

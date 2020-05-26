@@ -1,0 +1,41 @@
+<include file="public:header"/>
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p class="link_blue">系统内置官方短信，可通过填写下面配置信息，获取官方短信数据统计。没有账号？<a href="http://www.74cms.com/sms.php" target="_blank">立即注册</a></p>
+    </div>
+<form id="form1">
+    <div class="toptit">平台配置</div>
+    <div class="form_main width200">
+        <div class="fl">用户名：</div>
+        <div class="fr">
+            <input name="sms_platform_username" type="text" class="input_text_default" maxlength="30" value="{:C('qscms_sms_platform_username')}"/>
+        </div>
+        <div class="fl">登录密码：</div>
+        <div class="fr">
+            <input name="sms_platform_password" type="password" class="input_text_default" maxlength="100" value="{:C('qscms_sms_platform_password')}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" id="J_submit" value="保存修改"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+<script>
+    $('#J_submit').click(function(){
+        $.post("{:U('index')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", '保存成功',function(){
+                    location.reload();
+                });
+            }else{
+                disapperTooltip("remind", "保存失败："+result.msg);
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv=Content-Type  content="text/html; charset=utf-8" >
+	<title></title>
+	<style>
+	.table_tit{border-bottom: 2px solid #000;font-size: 14px;font-weight: bold;padding:10px 0;}
+	.fl{float: left;}
+	.fr{float: right;}
+	</style>
+</head>
+<body>
+<volist name="list" id="val">
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0" style="background-color: #FAF7C1;padding:10px 0">
+		<tr>
+			<td align="center">简历标题</td>
+			<td align="center">{$val['title']}</td>
+			<td align="center">最近登录</td>
+			<td align="center">{$val['last_login_time']}</td>
+			<td align="center"><img width="130" height="40" src="{:attach(C('qscms_logo_home'),'resource')}" alt="{:C('qscms_site_name')}" border="0" align="absmiddle"></td>
+		</tr>
+	</table>
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0">
+		<tr>
+			<td class="table_tit">个人信息</td>
+		</tr>
+	</table>
+	<table width="700" border="0" align="center" cellpadding="6" cellspacing="0" style="font-size: 12px;">
+		<tr>
+			<td align="right" width="100">姓名：</td>
+			<td align="left" width="200">{$val['fullname']}</td>
+			<td align="right" width="100">性别：</td>
+			<td align="left" width="200">{$val['sex_cn']}</td>
+			<td rowspan=5 align="center">
+				<img width="100" height="100" src="{$val['photosrc']}">
+			</td>
+		</tr>
+		<tr>
+			<td align="right" width="100" >手机号码：</td>
+			<td align="left" width="200">{$val['telephone']}</td>
+			<td align="right" width="100">年龄：</td>
+			<td align="left" width="200">{$val['age']}岁</td>
+		</tr>
+		<tr>
+			<td align="right" width="100">电子邮件：</td>
+			<td align="left" width="200">{$val['email']}</td>
+			<td align="right" width="100">教育程度：</td>
+			<td align="left" width="200">{$val['education_cn']}</td>
+		</tr>
+		<tr>
+			<td align="right" width="100">工作年限：</td>
+			<td align="left" width="200">{$val['experience_cn']}</td>
+			<td align="right" width="100">婚姻状况：</td>
+			<td align="left" width="200">{$val['marriage_cn']}</td>
+		</tr>
+		<tr>
+			<td align="right" width="100">籍贯：</td>
+			<td align="left" width="200">{$val['householdaddress']}</td>
+			<td align="right" width="100">目前所在地：</td>
+			<td align="left" width="200">{$val['residence']}</td>
+		</tr>
+	</table>
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0">
+		<tr>
+			<td class="table_tit">求职意向</td>
+		</tr>
+	</table>
+	<table width="700" border="0" align="center" cellpadding="6" cellspacing="0" style="font-size: 12px;">
+		<tr>
+			<td align="right" width="100">期望行业：</td>
+			<td  align="left">{$val['trade_cn']}</td>
+		</tr>
+		<tr>
+			<td align="right" width="100">期望职位：</td>
+			<td align="left">{$val['intention_jobs']}</td>
+		</tr>
+		<tr>
+			<td align="right" width="100">期望地点：</td>
+			<td align="left">{$val['district_cn']}</td>
+		</tr>
+		<tr>
+			<td align="right" width="100">期望薪资：</td>
+			<td align="left">{$val['wage_cn']}</td>
+		</tr>
+	</table>
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0">
+		<tr>
+			<td class="table_tit">工作经历</td>
+		</tr>
+	</table>
+	<if condition="$val['work_list']">
+	<volist name="val['work_list']" id="wli">
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0" style="font-size: 12px;padding-top: 20px;">
+		<tr>
+			<td align="right" width="100">{$wli['startyear']}年{$wli['startmonth']}月<eq name="wli['todate']" value="1">至今<else />-{$wli['endyear']}年{$wli['endmonth']}月</eq></td>
+			<td align="left">{$wli['companyname']}</td>
+		</tr>
+		<tr>
+			<td width="100">&nbsp;</td>
+			<td >
+				<span class="fl w100">职位名称：</span>
+				<span class="fl">{$wli['jobs']}</span>
+			</td>
+		</tr>
+		<tr>
+			<td width="100">&nbsp;</td>
+			<td >
+				<span class="fl w100">工作职责：</span>
+				<span class="fl">{$wli['achievements']}</span>
+			</td>
+		</tr>
+	</table>
+	</volist>
+	<else />
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0" style="font-size: 12px;padding-top: 20px;"><tr>没有填写工作经历</tr></table>
+	</if>
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0">
+		<tr>
+			<td class="table_tit">培训经历</td>
+		</tr>
+	</table>
+	<if condition="$val['training_list']">
+	<volist name="val['training_list']" id="tli">
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0" style="font-size: 12px;padding-top: 20px;">
+		<tr>
+			<td class="w100 td_left td_bgc">{$tli['startyear']}年{$tli['startmonth']}月<eq name="tli['todate']" value="1">至今<else />-{$tli['endyear']}年{$tli['endmonth']}月</eq></td>
+			<td class="td_left td_bgc">{$tli['agency']}</td>
+		</tr>
+		<tr>
+			<td width="100">&nbsp;</td>
+			<td >
+				培训课程：{$tli['course']}
+			</td>
+		</tr>
+		<tr>
+			<td width="100">&nbsp;</td>
+			<td >
+				<span class="fl w100">培训介绍：</span>
+				<span class="fl">{$tli['description']}</span>
+			</td>
+		</tr>
+	</table>
+	</volist>
+	<else />
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0" style="font-size: 12px;padding-top: 20px;"><tr>没有填写培训经历</tr></table>
+	</if>
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0">
+		<tr>
+			<td class="table_tit">教育经历</td>
+		</tr>
+	</table>
+	<if condition="$val['education_list']">
+	<volist name="val['education_list']" id="eli">
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0" style="font-size: 12px;padding-top: 20px;">
+		<tr>
+			<td style="font-weight: bold;">{$eli['school']}</td>
+			<td>{$eli['startyear']}年{$eli['startmonth']}月<eq name="eli['todate']" value="1">至今<else />-{$eli['endyear']}年{$eli['endmonth']}月</eq></td>
+			<td>{$eli['speciality']}</td>
+			<td>{$eli['education_cn']}</td>
+		</tr>
+	</table>
+	</volist>
+	<else />
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0" style="font-size: 12px;padding-top: 20px;"><tr>没有填写教育经历</tr></table>
+	</if>
+
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0">
+		<tr>
+			<td class="table_tit">项目经历</td>
+		</tr>
+	</table>
+	<if condition="$val['project_list']">
+	<volist name="val['project_list']" id="tli">
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0" style="font-size: 12px;padding-top: 20px;">
+		<tr>
+			<td class="w100 td_left td_bgc">{$tli['startyear']}年{$tli['startmonth']}月<eq name="tli['todate']" value="1">至今<else />-{$tli['endyear']}年{$tli['endmonth']}月</eq></td>
+			<td class="td_left td_bgc">{$tli['projectname']}</td>
+		</tr>
+		<tr>
+			<td width="100">&nbsp;</td>
+			<td >
+				担任角色：{$tli['role']}
+			</td>
+		</tr>
+		<tr>
+			<td width="100">&nbsp;</td>
+			<td >
+				<span class="fl w100">项目描述：</span>
+				<span class="fl">{$tli['description']}</span>
+			</td>
+		</tr>
+	</table>
+	</volist>
+	<else />
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0" style="font-size: 12px;padding-top: 20px;"><tr>没有填写项目经历</tr></table>
+	</if>
+
+
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0">
+		<tr>
+			<td class="table_tit">自我描述</td>
+		</tr>
+	</table>
+	<table width="700" border="0" align="center" cellpadding="10" cellspacing="0" style="font-size: 12px;padding-top: 20px;">
+		<tr>
+			<td>{$val['specialty']|nl2br}</td>
+		</tr>
+	</table><br />
+</volist>
+<div align="center"><br />
+		<a title="{:C('qscms_site_name')}" href="{:C('qscms_site_domain')}{:C('qscms_site_dir')}">{:C("qscms_site_name")}</a>
+</div>
+</body>
+</html>

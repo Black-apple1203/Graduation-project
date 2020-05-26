@@ -1,0 +1,46 @@
+<!-- public:footer 以下内容 -->
+<div class="footer link_blue">
+    Powered by <a href="https://www.74cms.com" target="_blank"><span style="color:#009900">74</span><span
+        style="color: #FF3300">cms</span></a> v{:C('QSCMS_VERSION')}
+</div>
+<div class="layui-floatmenu">
+    <div class="J_suggest item" data-url="{:U('Suggest/add')}"></div>
+    <div class="J_suggestList list item" data-url="{:U('Suggest/index')}">
+      <if condition="$suggest"><span></span></if>
+    </div>
+  </div>
+<script src="__ADMINPUBLIC__/js/layui.js"></script>
+<!-- public:footer 以上内容 -->
+<script>
+  layui.use(['form', 'element'], function(){
+  var element = layui.element;
+  var form = layui.form;
+  var layer = layui.layer;
+  var $ = layui.jquery;
+  var loading = layer.load(0, {shade: [0.3,'#fff'],time:500});
+  $('.J_suggest').click(function(){
+    var url = $(this).data('url');
+    $.getJSON(url,function(result){
+      layer.open({
+          title:'反馈',
+          type: 1,
+          area: ['800px', 'auto'], //宽高
+          content: result.data
+      });
+    });
+  });
+  $('.J_suggestList').click(function(){
+    var url = $(this).data('url');
+    var f = $(this).find('span');
+    $.getJSON(url,function(result){
+      layer.open({
+          title:'历史反馈记录',
+          type: 1,
+          area: ['800px', '690px'], //宽高
+          content: result.data
+      });
+      f.remove();
+    });
+  });
+});
+</script>

@@ -1,0 +1,63 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p class="link_green_line">骑士人才系统已集成分站，开启后前台就会有分站展示关闭则不显示。</p>
+</div>
+<form action="{:U('Subsite/config')}" method="post" enctype="multipart/form-data" name="form1" id="form1">
+ <div class="toptit">分站设置</div>
+ <div class="form_main width150">
+ <div class="fl">是否开启：</div>
+        <div class="fr">
+		
+            <div data-code="0,1" class="J_gt imgchecked_small <if condition="C('qscms_subsite_open') eq 1">select</if>"><input name="subsite_open" type="hidden" value="{:C('qscms_subsite_open')}" /></div>
+            <div class="clear"></div>
+        </div>
+		<div class="fl"></div>
+			<div class="fr">
+				<input name="submit1" id="J_submit1" type="submit" class="admin_submit" value="保存"/>
+			</div>
+			<div class="clear"></div>
+		</div>
+</form>
+<div class="list_th">
+    <div class="td" style="width:15%;"><label class="left_padding">分站名称</label></div>
+    <div class="td" style="width:20%;">分站pc域名</div>
+    <div class="td" style="width:20%;">分站触屏端域名</div>
+    <div class="td center" style="width:8%;">是否启用</div>
+    <div class="td center" style="width:15%;">排序</div>
+    <div class="td" style="width:17%;">操作</div>
+    <div class="clear"></div>
+</div>
+<volist name="list" id="list">
+	<div class="list_tr link_black">
+		<div class="td" style="width:15%;"><label class="left_padding">{$list.s_sitename}</label></div>
+	    <div class="td" style="width:20%;">{$list.s_domain}&nbsp;</div>
+	    <div class="td" style="width:20%;">{$list.s_m_domain}&nbsp;</div>
+	    <div class="td center" style="width:8%;">
+	    <if condition="$list['s_display'] eq 1">
+	    	启用
+	    <else />
+	    	停用
+	    </if>	
+		</div>
+	    <div class="td center" style="width:15%;">{$list.s_order}&nbsp;</div>
+	    <div class="td edit" style="width:17%;">
+	    	<a href="{:U('subsite/edit',array('s_id'=>$list['s_id']))}" >编辑</a>
+			 <a href="{:U('subsite/delete',array('s_id'=>$list['s_id']))}" class="gray" onclick="return confirm('确定要删除吗？')">删除</a>
+	    </div>
+	    <div class="clear"></div>
+	</div>
+</volist>
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="list_foot">
+    <div class="btnbox">
+      <input name="ButADD" id="ButADD" type="button" class="admin_submit" value="添加分站" onclick="window.location='{:U('subsite/add')}'"/>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

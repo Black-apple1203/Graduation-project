@@ -1,0 +1,69 @@
+<form id="authFormDig" name="form1" method="post" action="{:U('AdminRole/ajax_group_auth')}">
+    <div style="width:100%;height:300px;overflow:auto">
+        <table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" id="J_auth_tree">
+            {$list}
+        </table>
+    </div>
+    <table width="100%" border="0" cellspacing="10"  class="admin_list_btm">
+        <tr>
+            <td>
+                <input type="hidden" name="id" value="{$Think.get.id}"></input>
+                <input type="button" class="admin_submit" id="ajaxAuthBtn" value="确定"/>
+                <input type="button" class="DialogClose admin_submit" value="取消" />
+            </td>
+            <td width="305" align="right"></td>
+        </tr>
+    </table>
+</form>
+<script src="__ADMINPUBLIC__/js/jquery.treetable.js"></script>
+<script>
+    $(function() {
+        $("#J_auth_tree").treeTable({indent:20});
+
+        $('.J_checkall').live('click', function(){
+            $('.J_checkitem').attr('checked', this.checked);
+            $('.J_checkall').attr('checked', this.checked);
+        });
+
+        $('.J_checkitem').live('click', function(){
+            var chk = $("input[type='checkbox']"),
+                count = chk.length,
+                num = chk.index($(this)),
+                level_top = level_bottom =  chk.eq(num).attr('level');
+            for(var i=num; i>=0; i--){
+                var le = chk.eq(i).attr('level');
+                if(eval(le) < eval(level_top)){
+                    chk.eq(i).attr("checked", true);
+                    var level_top = level_top-1;
+                }
+            }
+            for(var j=num+1; j<count; j++){
+                var le = chk.eq(j).attr('level');
+                if(chk.eq(num).attr("checked")) {
+                    if(eval(le) > eval(level_bottom)) chk.eq(j).attr("checked", true);
+                    else if(eval(le) == eval(level_bottom)) break;
+                }else{
+                    if(eval(le) > eval(level_bottom)) chk.eq(j).attr("checked", false);
+                    else if(eval(le) == eval(level_bottom)) break;
+                }
+            }
+        });
+        $('#ajaxAuthBtn').die().live('click',function(){
+            var f = $('#authFormDig'),
+                id = f.find('input[name="id"]').val(),
+                mids = f.find('input[name="menu_id[]"]:checked').map(function(){
+                  return $(this).val();
+                }).get().join(',');
+            if(id != ''){
+                $.post(f.attr('action'),{id:id,mids:mids},function(result){
+                    alert(result.msg);
+                },'json');
+            }else{
+                set_auth_input(mids);
+            }
+            $(".FloatBg").remove();
+            $(".FloatBox").remove();
+            return !1;
+        });
+    });
+</script>

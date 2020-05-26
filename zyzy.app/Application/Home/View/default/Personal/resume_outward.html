@@ -1,0 +1,190 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/personal/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_resume.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+	<div class="user_main">
+		<include file="index_left_nav" />
+	  <div class="mainbox">
+			<!--职位切换卡 -->
+			<div class="tab">
+				<a class="li J_hoverbut"  href="{:U('resume_list')}">我的简历</a>
+				<a class="li select">简历外发</a>
+				<a class="li J_hoverbut" href="{:U('resume_privacy')}">隐私设置</a>
+			  	<div class="clear"></div>
+			</div>
+		  <!--切换卡结束 -->
+		 <div class="resume_tip">
+		
+		  <div class="tiptit">小提示</div>
+				  <div class="tiptxt link_blue">
+				  1、外发简历是以本站简历风格，对您在网站、报刊、杂志等媒体上筛选的招聘信息，统一进行求职申请！
+							您的外发简历历史记录可以到“我的简历 > <a href="{:U('personal/outward')}">简历外发记录</a>”查看。<br />
+				2、外发简历必须是审核通过的简历。
+		  </div>
+		 </div>
+ 		<!--简历外发 -->
+		<div class="resume_outward J_focus">
+			<form id="resumeOutwardForm" action="{:U('personal/outward_save')}" method="post">
+				<div class="J_validate_group">
+					<div class="td1">将要发送的简历：</div>
+					<div class="td2">
+						<div class="input_245_34_div r_fl J_hoverinput J_dropdown J_listitme_parent">
+							<notempty name="resume_list">
+							<span class="J_listitme_text">请选择要发送的简历</span>
+							<div class="dropdowbox4 J_dropdown_menu">
+								<div class="dropdow_inner4">
+									<ul class="nav_box">
+										<volist name="resume_list" id="vo">
+											<if condition="$vo['_audit'] eq 1">
+												<li><a class="J_listitme" href="javascript:;" data-code="{$vo.id}">{$vo.title}</a></li>
+											</if>
+										</volist>
+									</ul>
+								</div>
+							</div>
+							<else/>
+							<span class="J_listitme_text">您暂无审核通过的简历</span>
+							</notempty>
+							<input class="J_listitme_code" name="resume_id" id="resume_id" type="hidden" value="" />
+						</div>
+						<div class="r_fl tip_box J_showtip_box"></div>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="J_validate_group">
+					<div class="td1">企业的邮箱地址：</div>
+					<div class="td2">
+						<input name="email" id="email" type="text" value="" class="input_245_34 r_fl"  placeholder="请输入企业邮箱地址" />
+						<div class="r_fl tip_box J_showtip_box"></div>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="J_validate_group">
+					<div class="td1">应聘的企业名称：</div>
+					<div class="td2">
+						<input name="companyname" id="companyname" type="text" value="" class="input_245_34 r_fl" placeholder="请输入企业名称，限20字"/>
+						<div class="r_fl tip_box J_showtip_box"></div>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="J_validate_group">
+					<div class="td1">应聘的职位名称：</div>
+					<div class="td2">
+						<input name="jobs_name"  id="jobs_name"type="text" value="" class="input_245_34 r_fl" placeholder="请输入职位名称，限20字"/>
+						<div class="r_fl tip_box J_showtip_box"></div>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="J_validate_group">
+					<div class="td1"></div>
+					<div class="td2"><input type="button"  class="but_blue_115 J_hoverbut" id="btnOutwarder" value="发送" />	</div>
+					<div class="clear"></div>
+				</div>
+			</form>
+		</div>
+		<!-- -->
+		</div>
+		<div class="clear"></div>
+	</div>
+	<include file="index_footer" />
+<script type="text/javascript" src="../public/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="../public/js/jquery.dropdown.js"></script>
+<script type="text/javascript" src="../public/js/jquery.form.js"></script>
+<script type="text/javascript" src="../public/js/jquery.validate.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var frmOutwardValid = $("#resumeOutwardForm").validate({
+	        rules: {
+	            resume_id: {
+	                required: true
+	            },
+	            email: {
+	                required: true,
+	                email: true
+	            },
+	            companyname: {
+	                required: true
+	            },
+	            jobs_name: {
+	                required: true
+	            }
+	        },
+	        messages: {
+	            resume_id: {
+	                required: '<div class="ftxt">请选择要发送的简历</div><div class="fimg"></div>'
+	            },
+	            email: {
+	                required: '<div class="ftxt">请输入企业邮箱地址</div><div class="fimg"></div>',
+	                email: '<div class="ftxt">邮箱地址格式错误</div><div class="fimg"></div>'
+	            },
+	            companyname: {
+	                required: '<div class="ftxt">请输入企业名称，限20字</div><div class="fimg"></div>'
+	            },
+	            jobs_name: {
+	                required: '<div class="ftxt">请输入职位名称，限20字</div><div class="fimg"></div>'
+	            }
+	        },
+	        errorClasses: {
+	            resume_id: {
+	                required: 'tip err'
+	            },
+	            email: {
+	                required: 'tip err',
+	                email: 'tip err'
+	            },
+	            companyname: {
+	                required: 'tip err'
+	            },
+	            jobs_name: {
+	                required: 'tip err'
+	            }
+	        },
+	        errorElement: 'div',
+	        errorPlacement: function(error, element) {
+	            if (element.attr('name') == 'mobile_vcode') {
+	                element.closest('.J_validate_group').find('.J_showtip_box').append(error);
+	            }  else {
+	                element.closest('.J_validate_group').find('.J_showtip_box').append(error);
+	            }
+	            $('#btnOutwarder').val('发送');
+	        },
+	        success: function(label) {
+	            label.append('<div class="ok"></div>');
+	        }
+	    });
+	
+		$('#btnOutwarder').click(function() {
+            $(this).submitForm({
+                beforeSubmit: $.proxy(frmOutwardValid.form, frmOutwardValid),
+                success: function(data) {
+                    if (data.status) {
+                        disapperTooltip("success", data.msg);
+                    } else {
+                        disapperTooltip("remind", data.msg);
+                    }
+                    setTimeout(function () {
+						window.location.href="{:U('personal/outward')}";
+					}, 2000);
+                },
+                clearForm: false
+            });
+            if (frmOutwardValid.valid()) {
+                $('#btnOutwarder').val('发送中...').addClass('btn_disabled').prop('disabled', !0);
+            }
+            return false;
+        });
+	});
+</script>
+</body>
+</html>

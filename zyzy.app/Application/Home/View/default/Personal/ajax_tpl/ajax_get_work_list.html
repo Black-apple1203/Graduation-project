@@ -1,0 +1,19 @@
+<empty name="list">
+	<div class="empty font_gray9">工作经历最能体现您丰富的阅历和出众的工作能力，是你薪酬翻倍的筹码哦！</div>
+<else/>
+	<volist name="list" id="list">
+		<div class="course J_listhover_edit" data-id="{$list.id}">
+			<div class="td1">
+				{$list.startyear}-{$list.startmonth} 至<if condition="$list['todate'] eq 1">今<br/>[{:ddate($list['startyear'].'-'.$list['startmonth'],date('Y-m',time()))}]<else/> {$list.endyear}-{$list.endmonth}<br/>[{:ddate($list['startyear'].'-'.$list['startmonth'],$list['endyear'].'-'.$list['endmonth'])}]</if>
+			</div>
+			<div class="td2"></div>
+			<div class="td3">
+				<div class="ltxt font_blue">{$list.jobs}<span>|</span>{$list.companyname}</div>
+				<div class="editbox link_yellow"><a class="J_editexp" href="javascript:;">修改</a>&nbsp;&nbsp;&nbsp;<a class="J_delexp" href="javascript:;">删除</a></div>
+				<div class="clear"></div>
+				<div class="txt">{$list.achievements}</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</volist>
+</empty>

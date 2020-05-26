@@ -1,0 +1,197 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>系统将自动取消到期的简历推广。</p>
+</div>
+<div class="toptit">新增简历推广</div>
+<form action="{:U('promotion_add')}" method="post" name="FormData">
+    <input name="_k_v" type="hidden" value="{$Think.get._k_v}">
+    <div style="padding: 0 20px;">
+        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+            <tr>
+                <td width="380" valign="top">
+                    <table width="100%" border="0" cellpadding="10" cellspacing="0" bgcolor="#F5F7F8" class="link_lan"
+                           style="border-bottom:1px #DFDFDF solid;border-top:1px #DFDFDF solid;border-left:1px #DFDFDF solid;">
+                        <tr>
+                            <td height="32" align="right" >请输入简历ID：</td>
+                            <td width="215">
+                                <input type="text" class="input_text_default small" id="get_resumeid" maxlength="25"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="32" align="right">或真实姓名：</td>
+                            <td>
+                                <input type="text" class="input_text_default small" id="get_fullname" maxlength="25"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="32" align="right">或会员ID：</td>
+                            <td>
+                                <input type="text" class="input_text_default small" id="get_uid" maxlength="25"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <table width="100%" border="0" cellspacing="0" cellpadding="10">
+                        <tr>
+                            <td height="35" align="right">推广期限(天)：</td>
+                            <td>
+                                <input name="days" id="days" type="text" class="input_text_default small" maxlength="3"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="35" align="right">推广方案：</td>
+                            <td width="215">
+                                <div class="select_input_new w200 J_hoverinput J_dropdown J_listitme_parent">
+                                    <span class="J_listitme_text">请选择推广方案</span>
+                                    <div class="dropdowbox_sn J_dropdown_menu">
+                                        <div class="dropdow_inner_sn">
+                                            <ul class="nav_box">
+                                                <li><a class="J_listitme J_type" href="javascript:;" data-code="stick">简历置顶</a></li>
+                                                <li><a class="J_listitme J_type" href="javascript:;" data-code="tag">醒目标签</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <input class="J_listitme_code" name="type" id="type" type="hidden" value="" />
+                                </div>
+                                <!-- <select name="type" id="J_type">
+                                    <option value="-1">请选择推广方案</option>
+                                    <option value="stick">简历置顶</option>
+                                    <option value="tag">醒目标签</option>
+                                </select> -->
+                            </td>
+                        </tr>
+                        <tr id="J_tag" style="display:none">
+                            <td height="35" align="right">标签名称：</td>
+                            <td width="215">
+                                <div class="select_input_new w200 J_hoverinput J_dropdown J_listitme_parent">
+                                    <span class="J_listitme_text">请选择标签</span>
+                                    <div class="dropdowbox_sn J_dropdown_menu">
+                                        <div class="dropdow_inner_sn">
+                                            <ul class="nav_box">
+                                                <volist name="tag_list" id="tag">
+                                                    <li><a class="J_listitme <eq name='i' value='1'>list_sel</eq>" href="javascript:;" data-code="{$key}">{$tag}</a></li>
+                                                </volist>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <input class="J_listitme_code" name="tag_id" id="tag_id" type="hidden" value="" />
+                                </div>
+                                <!-- <select name="tag_id">
+                                    <option value="0" selected="selected">请选择标签</option>
+                                    <volist name="tag_list" id="tag">
+                                        <option value="{$key}" <eq name='i' value='1'>selected="selected"</eq>>{$tag}</option>
+                                    </volist>
+                                </select> -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="35" align="right">&nbsp;</td>
+                            <td height="60">
+                                <input type="button" class="admin_submit" id="BtnAdd" value="确定"/>
+                                <input type="button" class="admin_submit" value="返回" onclick="Javascript:window.history.go(-1)"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td height="35" align="right">&nbsp;</td>
+                            <td height="60">&nbsp;</td>
+                        </tr>
+                    </table>
+
+                </td>
+                <td valign="top">
+                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td style="border:1px #DFDFDF solid; height:192px;" id="showtd" bgcolor="#FFFFFF" valign="top">
+                                <div style="padding:20px; color: #0066CC">请在左侧表单中输入你要查找的值。</div>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($('.J_listitme.list_sel').length) {
+            var listSelCn = $('.J_listitme.list_sel').text();
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_text').text(listSelCn);
+        }
+        $("#get_resumeid,#get_fullname,#get_uid").keyup(function () {
+            if ($(this).val()) {
+                var tsTimeStamp = new Date().getTime();
+                $.get("{:U('ajax_get_resume')}", {
+                            "tstime": tsTimeStamp,
+                            "key": $(this).val(),
+                            "type": $(this).attr("id"),
+                            "_k_v": "{$_GET['_k_v']}"
+                        },
+                        function (data) {
+                            if (data) {
+                                html = "<table width=\"100%\" border=\"0\" cellpadding=\"10\" cellspacing=\"0\" style=\"margin-bottom:10px;\" class=\"link_blue\">";
+                                html += "<tr style=\"color: #333333;\" bgcolor=\"#F5F7F8\">";
+                                html += "<td height=\"30\">&nbsp;&nbsp;<strong>真实名称<\/strong><\/td>";
+                                html += "<td width=\"15%\" align=\"center\"><strong>发布时间<\/strong><\/td>";
+                                html += "<td width=\"15%\" align=\"center\"><strong>刷新时间<\/strong><\/td>";
+                                html += "<\/tr>";
+                                var str = data.split("@@@");
+                                var i = 1;
+                                for (x in str) {
+                                    var val = str[x].split("%%%");
+                                    html += "<tr>";
+                                    html += "<td height=\"30\" style=\"border-bottom:1px #DFDFDF dashed\" >&nbsp;";
+                                    html += "<label>";
+                                    html += "<input type=\"radio\" name=\"resume_id\" value=\"" + val[0] + "\" \/>";
+                                    html += "<\/label>";
+                                    html += "<input type=\"hidden\" name=\"resume_uid\" value=\"" + val[5] + "\" \/>";
+                                    html += "<a href=\"" + val[2] + "\" target=\"_blank\">" + val[1] + "<\/a><\/td>";
+                                    html += "<td align=\"center\"  style=\"border-bottom:1px #DFDFDF dashed\">" + val[3] + "<\/td>";
+                                    html += "<td align=\"center\"  style=\"border-bottom:1px #DFDFDF dashed\">" + val[4] + "<\/td>";
+                                    html += "<\/tr>";
+                                    i++;
+                                }
+                                html += "<\/table>";
+                                $("#showtd").html(html);
+                            }
+                            else {
+                                html = "<div style=\"padding:20px; color:#0066CC\">没有找到对应的简历。</div>";
+                                $("#showtd").html(html);
+                            }
+                        })
+            }
+        });
+        //选择醒目标签
+        $('.J_type').click(function () {
+            if ($(this).data('code') == 'tag') {
+                $('#J_tag').show();
+            } else {
+                $('#J_tag').hide();
+            }
+        })
+        //点击提交
+        $("#BtnAdd").live('click', function () {
+            var resume_id = $("input[name='resume_id']:checked");
+            if (resume_id.length == 0) {
+                disapperTooltip('remind',"请选择要推广的简历！");
+                return false;
+            }
+            if ($("#days").val() == '') {
+                disapperTooltip('remind',"请填写推广天数！");
+                $("#days").focus();
+                return false;
+            }
+            if ($("#type").val() == '') {
+                disapperTooltip('remind',"请选择推广方案！");
+                return false;
+            }
+            $("form[name='FormData']").submit();
+        });
+    });
+</script>
+</html>

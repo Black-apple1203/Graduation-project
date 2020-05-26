@@ -1,0 +1,16 @@
+<div class="left_jobs">
+	<if condition="$upper_limit eq 1">
+		<div class="J_addJobsDig li link_gray6 J_hoverbut t1 <if condition="ACTION_NAME eq 'jobs_add'">select</if>" href="javascript:;"><a href="javascript:;">发布职位</a></div>
+	<else/>
+		<div class="li link_gray6 J_hoverbut t1 <if condition="ACTION_NAME eq 'jobs_add'">select</if>" onclick="window.location='{:U('company/jobs_add')}'"><a href="{:U('company/jobs_add')}">发布职位</a></div>
+	</if>
+  <div class="li link_gray6 J_hoverbut t2 <if condition="ACTION_NAME eq 'jobs_list' || ACTION_NAME eq 'jobs_edit'">select</if>" onclick="window.location='{:U('company/jobs_list',array('type'=>1))}'"><a href="{:U('company/jobs_list',array('type'=>1))}">管理职位</a></div>
+  <div class="li link_gray6 J_hoverbut t3 <if condition="ACTION_NAME eq 'mobile_recruit' || ACTION_NAME eq 'mobile_recruit_statistics'">select</if>" onclick="window.location='{:U('mobile_recruit')}'"><a href="{:U('mobile_recruit')}">手机招聘</a></div>
+  <div class="li link_gray6 J_hoverbut t4 <if condition="$statistics_nav eq 'statistics_visitor'">select</if>" onclick="window.location='{:U('company/statistics_visitor')}'"><a href="{:U('company/statistics_visitor')}">招聘效果统计</a></div>
+  <notempty name="apply['Allowance']">
+  <div class="li link_gray6 J_hoverbut t24 <if condition="ACTION_NAME eq 'allowance'">select</if>" onclick="window.location='{:U('company/allowance')}'"><a href="{:U('company/allowance')}">我的打赏</a></div>
+  </notempty>
+  <!-- -->
+  <include file="left_complaint" />
+ <!-- -->
+</div>

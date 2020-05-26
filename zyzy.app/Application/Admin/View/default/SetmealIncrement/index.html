@@ -1,0 +1,129 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>短信包只有在网站设置短信费用承担方为企业时才能生效，费用承担方为运营者则短信包不会被显示</p>
+    <p>修改短信费用承担方请在“企业 > 企业设置 > 基本 > 其他设置”中修改。</p>
+    <p>不同的运营阶段您可以选择不同的设置。</p>
+</div>
+<form action="{:U('save_rule')}" method="post"   name="form1" id="form1">
+    <div class="toptit">积分消费开关（关闭后企业购买增值服务时将无法使用积分抵扣）</div>
+    <div class="form_main width200">
+        <volist name="cate_arr" id="vo">
+        <div class="fl">{$vo}：</div>
+        <div class="fr">
+          <div data-code="0,1" class="imgchecked_small <if condition="$rule[$key] eq 1">select</if>"><input name="{$key}" type="hidden" value="{$rule[$key]}" /></div>
+          <div class="clear"></div>
+        </div>
+        </volist>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<div class="seltpye_x">
+    <div class="left">类型</div>
+    <div class="right">
+        <a href="{:P(array('cat'=>''))}" <if condition="$Think.get.cat eq ''">class="select"</if>>不限</a>
+        <volist name="cate_arr" id="vo">
+        <a href="{:P(array('cat'=>$key))}" <if condition="$Think.get.cat eq $key">class="select"</if>>{$vo}</a>
+        </volist>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="clear"></div>
+<form id="form2" action="{:U('save_sort')}" method="post" name="FormData">
+    <div class="list_th">
+        <div class="td" style=" width:30%;">
+            <div class="left_padding">名称</div>
+        </div>
+        <div class="td" style=" width:20%;">类型</div>
+        <div class="td" style=" width:20%;">服务价</div>
+        <div class="td" style=" width:20%;">排序<span style="color: #999999;">(数字越大越靠前)</span></div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_blue">
+            <div class="td" style=" width:30%;">
+                <div class="left_padding striking">
+                    <a href="{:U('edit',array('id'=>$vo['id']))}">{$vo['name']}</a>
+                </div>
+            </div>
+            <div class="td" style=" width:20%;">{$service_type[$vo['cat']]}</div>
+            <div class="td" style=" width:20%;"><strong style="color:#FF6600">{$vo['price']}</strong>元</div>
+            <div class="td" style=" width: 20%;">
+                <input type="hidden" name="id[]" value="{$vo['id']}">
+                <input type="text" class="input_text_default small" name="sort[]" value="{$vo['sort']}" maxlength="3" style="width: 50px;">
+            </div>
+            <div class="td edit" style=" width:10%;">
+                <a href="{:U('edit',array('id'=>$vo['id']))}">修改</a>
+                <a href="{:U('delete',array('id'=>$vo['id']))}" onclick="return confirm('你确定要删除吗？')" class="gray">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButSort" value="保存排序"/>
+        <input type="button" class="admin_submit" id="ButAdd" value="新增" onclick="window.location.href='{:U('add')}'"/>
+    </div>
+    <div class="footso"></div>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //保存排序
+        $('#ButSort').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('save_sort')}",$('#form2').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('save_rule')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

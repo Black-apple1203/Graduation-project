@@ -1,0 +1,31 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>安装在线支付插件需申请对应在线支付服务公司的服务账户。</p>
+</div>
+<div class="list_th">
+    <div class="td" style=" width:20%;"><div class="left_padding">名称</div></div>
+    <div class="td" style=" width:50%;">支付方式简短描述</div>
+    <div class="td center" style="width:15%;">排序</div>
+    <div class="td" style=" width:15%;">操作</div>
+    <div class="clear"></div>
+</div>
+<volist name="list" id="vo">
+<div class="list_tr link_black">
+    <div class="td" style=" width:20%;"><div class="left_padding" style="color:#3366CC">{$vo.byname}</div></div>
+    <div class="td" style=" width:50%;">{$vo.p_introduction}</div>
+    <div class="td center" style="width:15%;">{$vo.listorder}</div>
+    <div class="td edit" style=" width:15%;">
+        <if condition="$vo['p_install'] eq '2'">
+        <a href="{:U('edit',array('id'=>$vo['id'],'typename'=>$vo['typename']))}" >编辑</a>
+        <else />
+        <a href="{:U('edit',array('id'=>$vo['id'],'typename'=>$vo['typename']))}">安装</a>
+        </if>
+    </div>
+    <div class="clear"></div>
+</div>
+</volist>
+</div>
+<include file="public:footer" />
+</body>
+</html>

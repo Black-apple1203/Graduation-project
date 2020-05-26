@@ -1,0 +1,81 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>正式使用后删除分类会导致与此分类关联的信息类别丢失，修改不会受影响。</p>
+    <p>删除顶级级分类将会自动删除此分类下的子分类。</p>
+</div>
+
+<form action="{:U('categoryAllSave')}" id="form1" name="form1" method="post">
+    <div class="list_th">
+        <div class="td" style=" width:60%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>
+                {$group.g_name}<span style="color: #999999; font-size:11px;">({$group.g_alias})</span>
+            </label>
+        </div>
+        <div class="td" style=" width:30%;">排序</div>
+        <div class="td" style=" width:10%;">
+            <div class="list_right">操作</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="category" id="vo">
+        <div class="list_tr link_bk">
+            <div class="td" style=" width:60%;">
+                <div class="left_padding striking">
+                    <input name="c_id[]" type="checkbox" value="{$vo.c_id}" id="{$vo.c_id}"/>
+                    <input name="save_id[]" type="hidden" value="{$vo.c_id}"/>
+                    <input name="c_name[]" type="text" class="input_text_default small" maxlength="20"
+                           value="{$vo.c_name}"/>
+                    <span style="color:#999999; margin-left: 5px; font-size: 13px;">(id:{$vo.c_id})</span>
+                </div>
+            </div>
+            <div class="td" style=" width:30%;">
+                <input name="c_order[]" type="text" class="input_text_default small" maxlength="3"
+                       value="{$vo.c_order|default=0}" style="width:50px;"/>
+            </div>
+            <div class="td edit" style=" width:10%;">
+                <div class="list_right btn">
+                    <a href="{:U('edit',array('c_id'=>$vo['c_id']))}">修改</a>
+                    <a href="{:U('delete',array('c_id'=>$vo['c_id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+
+    <empty name="category">
+        <div class="list_empty">没有任何信息！</div>
+    </empty>
+
+    <div class="list_foot">
+        <div class="btnbox">
+            <input type="submit" class="admin_submit" id="ButSave" value="保存分类"/>
+            <input type="button" class="admin_submit" id="ButAdd" value="添加分类" onclick="window.location='{:U('add',array('alias'=>$group['g_alias']))}'"/>
+            <input type="button" class="admin_submit" id="ButDel" value="删除所选"/>
+        </div>
+        <div class="footso"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+$(document).ready(function(){
+    // 批量删除
+    $("#ButDel").click(function () {
+        var ids = $("input[name='c_id[]']:checked");
+        if(ids.length == 0){
+            disapperTooltip('remind','请选择分类！');
+        } else {
+            if(confirm('确定删除吗？')){
+                $("#form1").attr("action","{:U('delete')}");
+                $("#form1").submit();
+            }
+        }
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,742 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/jobs.css" rel="stylesheet" type="text/css" />
+	<script src="{:C('TPL_PUBLIC_DIR')}/js/jquery.common.js" type="text/javascript" language="javascript"></script>
+	<qscms:load type="category" search="1"/>
+	<qscms:classify 列表名="city" 类型="QS_citycategory" 地区分类="$_GET['citycategory']" 显示数目="100"/>
+</head>
+<body>
+<include file="public:header_other" />
+<if condition="C('apply.Allowance')">
+<!--投递红包领取成功弹出框-->
+<div class="get-money-fail-suc" style="display: none">
+    <div class="gm-fs-group">
+        <div class="gm-fs-clo"></div>
+        <div class="cash-line">
+            <div class="cl-cell cl-big">000</div>
+            <div class="cl-cell">元</div>
+            <div class="clear"></div>
+        </div>
+        <div class="h119"></div>
+        <div class="qr-group"><img src="{:attach(C('qscms_weixin_img'),'resource')}" alt=""></div>
+        <div class="h16"></div>
+        <a href="{:U('Home/Personal/allowance')}" class="gms-chk-btn">查看我的红包 ></a>
+        <div class="h15"></div>
+        <div class="t-co-f">现金红包到账时间可能有延迟，请微信扫码查询</div>
+        <div class="h15"></div>
+        <div class="t-co-dr">本活动最终解释权归{:C('qscms_site_name')}所有</div>
+    </div>
+</div>
+</if>
+<!--搜索 -->
+<div class="new-search-box" style="background-image: url({:C('TPL_PUBLIC_DIR')}/images/sebanner{:rand(1,5)}.jpg);">
+    <div class="ns-main">
+        <div class="main-sty">
+            <if condition="C('qscms_jobsearch_key_first_choice') eq 1">
+                <div class="sty-cell J_sli_jc <if condition="$Think.get.search_type eq 'jobs' or $Think.get.search_type eq ''">select</if>" data-type="jobs">搜职位<div class="sty-aow"></div></div>
+            <elseif condition="C('qscms_jobsearch_type') neq 0"/>
+                <div class="sty-cell J_sli_jc <if condition="$Think.get.search_type eq 'full' or $Think.get.search_type eq ''">select</if>" data-type="full">全文<div class="sty-aow"></div></div>
+            </if>
+            <if condition="C('qscms_jobsearch_key_first_choice') eq 0 && C('qscms_jobsearch_type') eq 0">
+                <div class="sty-cell J_sli_jc <if condition="$Think.get.search_type eq 'jobs' or $Think.get.search_type eq ''">select</if>" data-type="jobs">搜职位<div class="sty-aow"></div></div>
+            </if>
+            <div class="sty-cell J_sli_jc <if condition="$Think.get.search_type eq 'company'">select</if>" data-type="company">搜企业<div class="sty-aow"></div></div>
+            <if condition="C('qscms_jobsearch_type') neq 0 && C('qscms_jobsearch_key_first_choice') eq 1">
+                <div class="sty-cell J_sli_jc <if condition="$Think.get.search_type eq 'full'">select</if>" data-type="full">全文<div class="sty-aow"></div></div>
+            </if>
+            <div class="clear"></div>
+        </div>
+        <div class="main-sip">
+            <div class="ip-group">
+                <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                    <div class="ip-box"><input type="text" name="key" id="autoKeyInput" data-original="{$Think.get.key|urldecode|urldecode}" value="{$Think.get.key|urldecode|urldecode}" placeholder="请输入关键字" /></div>
+                    <div class="for-border"></div>
+                    <div class="ip-city" data-toggle="funCityModal" data-title="请选择地区" data-multiple="false" data-maximum="0" data-width="630"><if condition="$Think.get.citycategory neq ''">{$city['parent']['categoryname']}<else/>选择地区</if></div>
+                    <input type="hidden" name="search_type" value="{$Think.get.search_type}" />
+                    <input id="searchCityModalCode" type="hidden" name="citycategory" value="<if condition="$Think.get.citycategory neq ''">{$city['select']['citycategory']}</if>" />
+					<input id="recoverSearchCityModalCode" type="hidden" name="" value="<if condition="$Think.get.citycategory neq ''">{$city['select']['citycategory']}</if>" />
+                    <input type="hidden" name="jobcategory" value="{$Think.get.jobcategory}" />
+                    <input class="J_forclear" type="hidden" name="jobtag" value="{$Think.get.jobtag}" />
+                    <input class="J_forclear" type="hidden" name="wage" value="{$Think.get.wage}" />
+                    <input class="J_forclear" type="hidden" name="trade" value="{$Think.get.trade}" />
+                    <input class="J_forclear" type="hidden" name="scale" value="{$Think.get.scale}" />
+                    <input class="J_forclear" type="hidden" name="nature" value="{$Think.get.nature}" />
+                    <input class="J_forclear" type="hidden" name="education" value="{$Think.get.education}" />
+                    <input class="J_forclear" type="hidden" name="experience" value="{$Think.get.experience}" />
+                    <input class="J_forclear" type="hidden" name="settr" value="{$Think.get.settr}" />
+                    <input type="hidden" name="lng" id="lng"  value="{$Think.get.lng}"/>
+                    <input type="hidden" name="lat" id="lat"  value="{$Think.get.lat}"/>
+                    <input type="hidden" name="ldLng" id="ldLng"  value="{$Think.get.ldLng}"/>
+                    <input type="hidden" name="ldLat" id="ldLat"  value="{$Think.get.ldLat}"/>
+                    <input type="hidden" name="ruLng" id="ruLng"  value="{$Think.get.ruLng}"/>
+                    <input type="hidden" name="ruLat" id="ruLat"  value="{$Think.get.ruLat}"/>
+                    <div class="ip-btn"><input type="submit" class="sobut J_hoverbut" value="找工作" /></div>
+                </form>
+            </div>
+            <div class="ip-txt link_white J_sub_s"><a href="{:url_rewrite('QS_jobs')}">分类搜索</a></div>
+            <div class="ip-txt J_map_some link_white">
+                <div class="cur-map-pos" title=""></div>
+                <a class="for-div" href="javascript:;" id="popupBox">地图找工作</a>
+                <a class="map-clear" href="{:url_rewrite('QS_jobslist')}">清除</a>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div class="so_condition J_so_condition">
+    <qscms:classify 列表名="jobsCate" 类型="QS_jobs"/>
+    <qscms:classify 列表名="jobs_cate_info" 类型="QS_jobs_info"/>
+	<notempty name="city['list']">
+		<div class="lefttit">地标地段</div>
+		<div class="rs">
+			<div onclick="javascript:location.href='{:P(array(\'citycategory\'=>$city[\'parent\'][\'citycategory\']))}'" class="li <if condition="$Think.get.citycategory neq '' and $city['parent']['id'] eq $city['select']['id']">select</if>">全{$city['parent']['categoryname']}</div>
+			<volist name="city['list']" id="district">
+				<div onclick="javascript:location.href='{:P(array(\'citycategory\'=>$district[\'citycategory\']))}'" class="li <if condition="$city['select']['id'] eq $key">select</if>">{$district['categoryname']}</div>
+			</volist>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</notempty>
+	<div class="lefttit">职位薪资</div>
+	<div class="rs">
+		<qscms:classify 列表名="wage_list" 类型="QS_wage" 显示数目="100"/>
+		<div onclick="javascript:location.href='{:P(array(\'wage\'=>\'\'))}'" class="li <if condition="$Think.get.wage eq ''">select</if>">不限</div>
+		<volist name="wage_list" id="wage">
+			<div onclick="javascript:location.href='{:P(array(\'wage\'=>$key))}'" class="li <if condition="$Think.get.wage eq $key">select</if>">{$wage}</div>
+		</volist>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+	<div class="lefttit">职位亮点</div>
+	<div class="rs">
+		<qscms:classify 列表名="tag_list" 类型="QS_jobtag" 显示数目="100"/>
+		<div onclick="javascript:location.href='{:P(array(\'jobtag\'=>\'\'))}'" class="li <if condition="$Think.get.jobtag eq ''">select</if>">不限</div>
+		<volist name="tag_list" id="tag">
+			<div onclick="javascript:location.href='{:P(array(\'jobtag\'=>$key))}'" class="li <if condition="$Think.get.jobtag eq $key">select</if>">{$tag}</div>
+		</volist>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+  
+	<div class="lefttit">更多筛选</div>
+	<div class="rs">
+		<div class="bli J_dropdown">
+			<qscms:classify 列表名="trade_list" 类型="QS_trade" 显示数目="100"/>
+			<span class="txt" title="{$trade_list[$_GET['trade']]|default='所属行业'}">{$trade_list[$_GET['trade']]|default='所属行业'}</span>
+			<div class="dropdowbox_searchtrade J_dropdown_menu">
+	            <div class="dropdow_inner_searchtrade">
+	                <ul class="nav_box">
+	                	<volist name="trade_list" id="trade">
+				            <li onclick="javascript:location.href='{:P(array(\'trade\'=>$key))}'" class="<if condition="$Think.get.trade eq $key">select</if>" data-code="{$key}" title="{$trade}">{$trade}</li>
+						</volist>
+						<div class="clear"></div>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="bli J_dropdown">
+			<span>企业规模</span>
+			<qscms:classify 列表名="scale_list" 类型="QS_scale" 显示数目="100"/>
+			<div class="dropdowbox_noa J_dropdown_menu">
+	            <div class="dropdow_inner_noa">
+	                <ul class="nav_box">
+	                	<volist name="scale_list" id="scale">
+				            <li onclick="javascript:location.href='{:P(array(\'scale\'=>$key))}'" class="<if condition="$Think.get.scale eq $key">select</if>" data-code="{$key}">{$scale}</li>
+						</volist>
+	                </ul>
+	            </div>
+	        </div>
+	        <div class="clear"></div>
+		</div>
+		<div class="bli J_dropdown">
+			<span>工作性质</span>
+			<qscms:classify 列表名="nature_list" 类型="QS_jobs_nature" 显示数目="100"/>
+			<div class="dropdowbox_noa J_dropdown_menu">
+	            <div class="dropdow_inner_noa">
+	                <ul class="nav_box">
+	                	<volist name="nature_list" id="nature">
+				            <li onclick="javascript:location.href='{:P(array(\'nature\'=>$key))}'" class="<if condition="$Think.get.nature eq $key">select</if>" data-code="{$key}">{$nature}</li>
+						</volist>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="bli J_dropdown">
+			<span>学历要求</span>
+			<qscms:classify 列表名="education_list" 类型="QS_education" 显示数目="100"/>
+			<div class="dropdowbox_noa J_dropdown_menu">
+	            <div class="dropdow_inner_noa">
+	                <ul class="nav_box">
+	                	<volist name="education_list" id="education">
+				            <li onclick="javascript:location.href='{:P(array(\'education\'=>$key))}'" class="<if condition="$Think.get.education eq $key">select</if>" data-code="{$key}">{$education}</li>
+						</volist>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="bli J_dropdown">
+			<span>工作经验</span>
+			<qscms:classify 列表名="experience_list" 类型="QS_experience" 显示数目="100"/>
+			<div class="dropdowbox_noa J_dropdown_menu">
+	            <div class="dropdow_inner_noa">
+	                <ul class="nav_box">
+	                	<volist name="experience_list" id="experience">
+				            <li onclick="javascript:location.href='{:P(array(\'experience\'=>$key))}'" class="<if condition="$Think.get.experience eq $key">select</if>" data-code="{$key}">{$experience}</li>
+						</volist>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="bli J_dropdown">
+			<span>更新时间</span>
+			<div class="dropdowbox_noa J_dropdown_menu">
+	            <div class="dropdow_inner_noa">
+	                <ul class="nav_box">
+	                	<li onclick="javascript:location.href='{:P(array(\'settr\'=>3))}'" class="<if condition="$Think.get.settr eq 3">select</if>" data-code="3">3天内</li>
+	                	<li onclick="javascript:location.href='{:P(array(\'settr\'=>7))}'" class="<if condition="$Think.get.settr eq 7">select</if>" data-code="7">7天内</li>
+	                	<li onclick="javascript:location.href='{:P(array(\'settr\'=>15))}'" class="<if condition="$Think.get.settr eq 15">select</if>" data-code="15">15天内</li>
+	                	<li onclick="javascript:location.href='{:P(array(\'settr\'=>30))}'" class="<if condition="$Think.get.settr eq 30">select</if>" data-code="30">30天内</li>
+	                </ul>
+	            </div>
+	        </div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="clear"></div>
+
+	<!--已选条件，当没有条件的时候不显示下面的DIV -->
+	<if condition="$_GET">
+		<div class="selected J_selected">
+			<div class="stit">已选条件</div>
+		    <div class="sc">
+		    	<notempty name="Think.get.key">
+					<div class="slist" <if condition="$Think.get.sort eq 'score'">onclick="window.location='{:P(array('key'=>'','sort'=>''))}';"<else/>onclick="window.location='{:P(array('key'=>''))}';"</if>><span>关键字：</span>{$Think.get.key|urldecode|urldecode}</div>
+		    	</notempty>
+				<if condition="$Think.get.jobcategory neq ''">
+					<div class="slist" onclick="window.location='{:P(array('jobcategory'=>''))}';">
+						<span>职位分类：</span>
+						{$jobs_cate_info['spell'][$_GET['jobcategory']]['categoryname']}
+					</div>
+				</if>
+				<if condition="$Think.get.citycategory neq ''">
+					<div class="slist" onclick="window.location='{:P(array('citycategory'=>''))}';">
+						<span>地区类别：</span>
+						{$city['select']['categoryname']}
+					</div>
+				</if>
+				<if condition="$Think.get.trade neq ''">
+					<div class="slist" onclick="window.location='{:P(array('trade'=>''))}';">
+						<span>所属行业：</span>
+						{$trade_list[$_GET['trade']]}
+					</div>
+				</if>
+				<if condition="$Think.get.jobtag neq ''">
+					<div class="slist" onclick="window.location='{:P(array('jobtag'=>''))}';"><span>职位亮点：</span>{$tag_list[$_GET['jobtag']]}</div>
+				</if>
+				<if condition="$Think.get.wage neq ''">
+					<div class="slist" onclick="window.location='{:P(array('wage'=>''))}';"><span>职位薪资：</span>{$wage_list[$_GET['wage']]}</div>
+				</if>
+				<if condition="$Think.get.education neq ''">
+					<div class="slist" onclick="window.location='{:P(array('education'=>''))}';"><span>学历要求：</span>{$education_list[$_GET['education']]}</div>
+				</if>
+				<if condition="$Think.get.experience neq ''">
+					<div class="slist" onclick="window.location='{:P(array('experience'=>''))}';"><span>工作经验：</span>{$experience_list[$_GET['experience']]}</div>
+				</if>
+				<if condition="$Think.get.settr neq ''">
+					<div class="slist" onclick="window.location='{:P(array('settr'=>''))}';">
+						<span>更新时间：</span>
+						<switch name="_GET['settr']">
+							<case value="3">3天内</case>
+							<case value="7">7天内</case>
+							<case value="15">15天内</case>
+							<case value="30">30天内</case>
+						</switch>
+					</div>
+				</if>
+				<if condition="$Think.get.nature neq ''">
+					<div class="slist" onclick="window.location='{:P(array('nature'=>''))}';"><span>工作性质：</span>{$nature_list[$_GET['nature']]}</div>
+				</if>
+				<if condition="$Think.get.scale neq ''">
+					<div class="slist" onclick="window.location='{:P(array('scale'=>''))}';"><span>企业规模：</span>{$scale_list[$_GET['scale']]}</div>
+				</if>
+				<div class="clear"></div>
+			</div>
+			<div class="sr">
+				<div class="empty" onclick="window.location='{:url_rewrite('QS_jobslist')}';">清空</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</if>
+</div>
+<qscms:jobs_list 列表名="jobslist" 搜索类型="$_GET['search_type']" 搜索内容="$_GET['search_cont']" 显示数目="20" 分页显示="1" 关键字="$_GET['key']" 职位分类="$_GET['jobcategory']" 地区分类="$_GET['citycategory']" 行业="$_GET['trade']" 日期范围="$_GET['settr']" 学历="$_GET['education']" 工作经验="$_GET['experience']" 工资="$_GET['wage']" 职位性质="$_GET['nature']" 标签="$_GET['jobtag']" 公司规模="$_GET['scale']" 营业执照="$_GET['license']" 过滤已投递="$_GET['deliver']" 排序="$_GET['sort']" 合并="$_COOKIE['com_list']" 描述长度="100" 紧急招聘="$_GET['emergency']" 经度="$_GET['lng']" 纬度="$_GET['lat']" 半径="$_GET['wa']" 左下经度="$_GET['ldLng']" 左下纬度="$_GET['ldLat']" 右上经度="$_GET['ruLng']" 右上纬度="$_GET['ruLat']" 检测登录="1" 保证金="$_GET['famous']"/>
+<div class="plist">
+	<div class="pl">	
+		<div class="toptitle">
+			<div class="ltype">
+				<div class="typeli <if condition="$Think.get.search_cont eq ''">select</if>" onclick="window.location='{:P(array('search_cont'=>''))}';">所有职位</div>
+				<div class="typeli <if condition="$Think.get.search_cont eq 'setmeal'">select</if>" onclick="window.location='{:P(array('search_cont'=>'setmeal'))}';">名企招聘</div>
+				<div class="typeli <if condition="$Think.get.search_cont eq 'emergency'">select</if>" onclick="window.location='{:P(array('search_cont'=>'emergency'))}';">紧急招聘</div>
+				<if condition="C('apply.Allowance')">
+				<div class="typeli money <if condition="$Think.get.search_cont eq 'allowance'">select</if>" onclick="window.location='{:P(array('search_cont'=>'allowance'))}';">红包职位</div>
+				<div class="t-money">
+                    <div class="m-re-box">
+                        当前共有 <span class="red-txt" id="money_count_jobs">0</span> 个红包职位，红包总额 <span class="red-txt" id="money_count_amount">0</span> 元
+                        <div class="m-re-arr"></div>
+                        <div class="m-re-clo"></div>
+                    </div>
+                </div>
+				</if>
+				<div class="clear"></div>
+			</div>
+			<div class="ts">
+		  		<div class="l1 <if condition="$jobslist['show_login_notice'] eq 1">width575</if>"></div>
+					<div class="l2 ws <if condition="$Think.get.deliver eq 1">select</if>">
+					<if condition="$visitor['utype'] eq 2">
+						<div class="radio_group" <if condition="$Think.get.deliver eq 1">onclick="window.location='{:P(array('deliver'=>''))}'"<else/>onclick="window.location='{:P(array('deliver'=>1))}'"</if>>
+							<div class="radiobox"></div>
+							<div class="radiotxt">过滤已投递</div>
+							<div class="clear"></div>
+						</div>
+					</if>
+			  </div>			
+				<div class="l2 wb <if condition="$Think.get.license eq 1">select</if>">
+					<div class="radio_group" <if condition="$Think.get.license eq 1">onclick="window.location='{:P(array('license'=>''))}';"<else/>onclick="window.location='{:P(array('license'=>1))}';"</if>>
+						<div class="radiobox"></div>
+						<div class="radiotxt">营业执照已认证</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<if condition="C('apply.Sincerity')">
+				<div class="l2 wn <if condition="$Think.get.famous eq '1'">select</if>">
+					<div class="radio_group" <if condition="$Think.get.famous eq '1'">onclick="window.location='{:P(array('famous'=>null))}';"<else/>onclick="window.location='{:P(array('famous'=>1))}';"</if>>
+						<div class="radiobox"></div>
+						<div class="radiotxt">诚聘通</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				</if>
+				<eq name="jobslist['show_login_notice']" value="0">
+				<div class="l5">
+					<if condition="$jobslist['page_params']['nowPage'] gt 1">
+				  		<div class="prev" title="上一页" onclick="window.location='{:P(array('page'=>$jobslist['page_params']['nowPage']-1))}';"><</div>
+				  	</if>
+				  	<if condition="$jobslist['page_params']['nowPage'] lt $jobslist['page_params']['totalPages']">
+						<div class="next"  title="下一页" onclick="window.location='{:P(array('page'=>$jobslist['page_params']['nowPage']+1))}';">></div>
+					</if>
+					<if condition="$jobslist['page_params']['totalRows'] gt 0">
+						<span>{$jobslist.page_params.nowPage}</span>/{$jobslist.page_params.totalPages}页
+					</if>
+					<div class="clear"></div>
+				</div>
+				</eq>
+				<div class="clear"></div>
+			</div>
+			<div class="sort">
+				<div class="sl1">排序方式：</div>
+				<if condition="C('qscms_jobsearch_type') neq 0 and $Think.get.search_type eq 'full' and $Think.get.key neq ''">
+					<a class="sl2 <if condition="$Think.get.sort eq 'score' or ($Think.get.sort eq '' and C('qscms_fulltext_orderby') eq 1)">select</if>" href="{:P(array('sort'=>'score'))}">相关度</a>
+				<else/>
+					<a class="sl2 <if condition="$Think.get.sort eq ''">select</if>" href="{:P(array('sort'=>''))}">综合排序</a>
+				</if>
+				<a class="sl2 <if condition="$Think.get.sort eq 'rtime' or ($Think.get.sort eq '' and C('qscms_jobsearch_type') neq 0 and $Think.get.search_type eq 'full' and C('qscms_fulltext_orderby') eq 0)">select</if>" href="{:P(array('sort'=>'rtime'))}">更新时间</a>
+				<div class="sl2_for"></div>
+				<div class="sl1_r">展示方式：</div>
+				<a href="javascript:;" class="J_detailList sl2_r de <if condition="$Think.cookie.jobs_show_type eq '0' or ($Think.cookie.jobs_show_type eq null and C('qscms_jobs_list_show_type') eq 1)">select</if>" title="切换到详细列表">详细</a>
+				<a href="javascript:;" class="J_detailList sl2_r ls <if condition="$Think.cookie.jobs_show_type eq '1' or ($Think.cookie.jobs_show_type eq null and C('qscms_jobs_list_show_type') eq 2)">select</if>" title="切换到简易列表" show_type="1">列表</a>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<!--列表 -->
+		<div class="listb J_allListBox">
+			<notempty name="jobslist['list']">
+				<volist name="jobslist['list']" id="jobs">
+					<div class="J_jobsList yli" data-jid="{$jobs.id}">
+						<div class="td1"><div class="J_allList radiobox"></div></div>
+						<div class="td2 link_blue link_visited <if condition="C('apply.Allowance') && $jobs['allowance_id'] gt 0">has-alw</if>">
+							<div class="td-j-name"><a href="{$jobs.jobs_url}" target="_blank" title="{$jobs.city}&nbsp;|&nbsp;{$jobs.jobs_name}">{$jobs.city}&nbsp;|&nbsp;{$jobs.jobs_name}</a></div>
+							<if condition="C('apply.Allowance') && $jobs['allowance_id'] gt 0">
+							<div class="j-n-money">
+								<div class="j-m-l">￥{$jobs['allowance_info']['per_amount']}</div>
+								<div class="j-m-r">{$jobs['allowance_info']['type_cn']}</div>
+								<div class="clear"></div>
+							</div>
+							</if>
+							<div class="td-j-img">
+								<if condition="$jobs['emergency'] eq 1">&nbsp;<img src="{:C('TPL_PUBLIC_DIR')}/images/emergency.png"></if>
+							</div>
+							<div class="clear"></div>
+                        </div>
+						<div class="td3 link_gray6">
+							<a class="line_substring" href="{$jobs.company_url}" target="_blank">{$jobs.companyname}</a>
+							<if condition="$jobs['company_audit'] eq 1"><img src="{:attach('auth.png','resource')}" title="认证企业"></if>
+							<if condition="$jobs['setmeal_id'] gt 1"><img src="{:attach($jobs['setmeal_id'].'.png','setmeal_img')}" title="{$jobs.setmeal_name}"></if>
+							<if condition="$jobs['famous'] eq 1">
+								<img src="<if condition="C('qscms_famous_company_img') eq ''">{:attach('famous.png','resource')}<else/>{:attach(C('qscms_famous_company_img'),'images')}</if>" title="诚聘通企业"/>
+							</if>
+							<eq name='jobs.com_report' value='1'>
+								<a href="{:url_rewrite('QS_company_report',array('id'=>$jobs['company_id']))}" target="_blank"><img src="{:attach('report.png','resource')}"  <if condition="$jobs['company_audit'] eq 1 && $jobs['setmeal_id'] gt 1 && $jobs['famous'] eq 1">style="display:none"</if>  title="实地认证企业"/></a>
+							</eq>
+							<div class="clear"></div>
+						</div>
+
+						<div class="td4">{$jobs.wage_cn}</div>
+						<div class="td5"><if condition="$jobs['stick'] eq 1 && (($_GET['search_type'] eq 'jobs' or $_GET['search_type'] eq 'company' or $_GET['key'] eq '') && !$_GET['sort'])"><img src="{:C('TPL_PUBLIC_DIR')}/images/stick.png"><else />{$jobs['refreshtime_cn']}</if></div>
+						<div class="td6"><div class="J_jobsStatus hide <if condition="$Think.cookie.jobs_show_type eq 1 or ($Think.cookie.jobs_show_type eq null and C('qscms_jobs_list_show_type') eq 2)">show</if>"></div> </div>
+						<div class="clear"></div>
+						<div class="detail" <if condition="$Think.cookie.jobs_show_type eq 1 or ($Think.cookie.jobs_show_type eq null and C('qscms_jobs_list_show_type') eq 2)">style="display:none"</if>>
+						  	<div class="ltx">
+								<div class="txt font_gray6">学历：{$jobs.education_cn}<span>|</span>经验：{$jobs.experience_cn}<span>|</span>职位性质：{$jobs.nature_cn}<span>|</span>人数：{$jobs.amount}人<span>|</span>地点：{$jobs.district_cn}</div>
+								<div class="dlabs">
+									<empty name="jobs['tag_cn']">
+										{$jobs.briefly}
+									<else/>
+										<volist name="jobs['tag_cn']" id="tag">
+											<div class="dl">{$tag}</div>
+										</volist>
+									</empty>
+									<div class="clear"></div>
+								</div>
+						  	</div>
+							<div class="rbtn <if condition="$Think.get.lng neq ''">map-btn</if>">
+								<eq name="jobs['allowance_id']" value="0">
+							  	<div class="deliver J_applyForJob" data-batch="false" <if condition="C('qscms_rapid_registration_resume') eq 1"> data-url="{:U('AjaxPersonal/resume_apply')}"<else /><if condition="C('visitor')">data-url="{:U('AjaxPersonal/resume_apply')}"<else />data-url="{:U('AjaxCommon/get_login_dig')}"</if></if> ><if condition="in_array($jobs['id'],$jobslist['has_apply'])">已投递<else />投递简历</if></div>
+							  	<else />
+								<div class="deliver J_applyForJobAllowance" data-jid="{$jobs['id']}" data-batch="false"><if condition="in_array($jobs['id'],$jobslist['has_apply'])">已投递<else />投递简历</if></div>
+							  	</eq>
+                                <if condition="$Think.get.lng neq ''">
+                                    <div class="favorites <if condition="in_array($jobs['id'],$jobslist['has_favor'])">has-favor</if> J_collectForJob" data-batch="false" data-url="{:U('AjaxPersonal/jobs_favorites')}"></div>
+                                <else/>
+                                    <div class="favorites <if condition="in_array($jobs['id'],$jobslist['has_favor'])">has-favor</if> J_collectForJob" data-batch="false" data-url="{:U('AjaxPersonal/jobs_favorites')}"><if condition="in_array($jobs['id'],$jobslist['has_favor'])">已收藏<else />收藏</if></div>
+                                </if>
+                                <div class="map-area">{$jobs.map_range}</div>
+                            </div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</volist>
+				<if condition="$jobslist.show_login_notice eq 1">
+				<div class="jobslist-login-layer">
+					<div class="tip-block">
+						<div class="tip-block-title">
+							<if condition="C('qscms_perfected_resume_allowance_open') eq 1">
+								<p class="middle"><span class="font_red">30秒</span>快速注册简历，完整简历可领取最多 <span class="font_red large">{:C('qscms_perfected_resume_allowance_value_max')}元</span> 微信现金红包。</p>
+							<else />
+								<p class="middle"><span class="font_red">30秒</span>快速注册简历，海量职位任意投！</p>
+							</if>
+							<p class="small">登录或注册简历后可以查看更多数据，各种红包送不停！</p>
+						</div> 
+						<a href="javascript:;" class="btn_red J_hoverbut btn_inline" id="J_login">已有账号登录</a>
+						<a href="javascript:;" class="btn_lightblue J_hoverbut btn_inline" id="J_reg">30秒注册简历</a>
+					</div>
+				</div>
+				<else />
+				<!--投递按钮 -->
+				<div class="listbtn">
+					<div class="td1"><div class="radiobox J_allSelected"></div></div>
+					<div class="td2">
+						<div class="lbts J_applyForJob" data-batch="true" <if condition="C('qscms_rapid_registration_resume') eq 1"> data-url="{:U('AjaxPersonal/resume_apply')}"<elseif condition="C('visitor')"/>data-url="{:U('AjaxPersonal/resume_apply')}"<else />data-url="{:U('AjaxCommon/get_login_dig')}"</if> >申请职位</div>
+						<div class="lbts J_collectForJobBatch" data-batch="true" data-url="{:U('AjaxPersonal/jobs_favorites')}">收藏职位</div>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="qspage">{$jobslist.page}</div>
+				</if>
+			<else />
+				<if condition="$jobslist.hidden_all_result eq 1 or $jobslist.show_login_notice eq 1">
+				<div class="jobslist-login-layer">
+					<div class="tip-block">
+						<div class="tip-block-title">
+							<if condition="C('qscms_perfected_resume_allowance_open') eq 1">
+								<p class="middle"><span class="font_red">30秒</span>快速注册简历，完整简历可领取最多 <span class="font_red large">{:C('qscms_perfected_resume_allowance_value_max')}元</span> 微信现金红包。</p>
+							<else />
+								<p class="middle"><span class="font_red">30秒</span>快速注册简历，海量职位任意投！</p>
+							</if>
+							<p class="small">登录或注册简历后可以查看更多数据，各种红包送不停！</p>
+						</div> 
+						<a href="javascript:;" class="btn_red J_hoverbut btn_inline" id="J_login">已有账号登录</a>
+						<a href="javascript:;" class="btn_lightblue J_hoverbut btn_inline" id="J_reg">30秒注册简历</a>
+					</div>
+				</div>
+				<else />
+				<div class="list_empty_group">
+					<div class="list_empty">
+						<div class="list_empty_left"></div>
+						<div class="list_empty_right">
+							<div class="sorry_box">对不起，没有找到符合您条件的职位！</div>
+							<div class="stips_box">放宽您的查找条件也许有更多合适您的职位哦~</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				</if>
+			</notempty>
+		</div>
+		<if condition="$Think.get.citycategory neq ''">
+			<div class="bot_info link_gray6">
+				<div class="topnavbg">
+					<div class="topnav">
+						<if condition="$_GET['key'] neq '' or $_GET['jobcategory'] neq ''">
+							<div class="tl J_job_hotnear select">周边职位</div>
+						</if>
+						<div class="tl J_job_hotnear">热门职位</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<if condition="$_GET['key'] neq ''">
+					<div class="showbotinfo J_job_hotnear_show show">
+			        	<volist name="city['list']" id="district" offset="0" length="21">
+			        		<div class="ili"><a href="{:P(array('citycategory'=>$district['citycategory'],'key'=>$_GET['key']))}" target="_blank">{$district.categoryname}{$Think.get.key|urldecode|urldecode}</a></div>
+						</volist>
+						<div class="clear"></div>
+					</div>
+				<elseif condition="$_GET['jobcategory'] neq ''"/>
+					<div class="showbotinfo J_job_hotnear_show show">
+			        	<volist name="city['list']" id="district" offset="0" length="21">
+			        		<div class="ili"><a href="{:P(array('citycategory'=>$district['citycategory'],'jobcategory'=>$_GET['jobcategory']))}" target="_blank">{$district.categoryname}{$jobs_cate_info[$_GET['jobcategory']]['categoryname']}</a></div>
+						</volist>
+						<div class="clear"></div>
+					</div>
+				</if>
+				<div class="showbotinfo J_job_hotnear_show <if condition="$_GET['key'] eq '' and $_GET['jobcategory'] eq ''">show</if>">
+					<qscms:hotword 列表名="hotword_list" 显示数目="22"/>
+					<volist name="hotword_list" id="hotword">
+						<if condition="C('qscms_key_urlencode') eq 1">
+						<div class="ili"><a href="{:P(array('citycategory'=>$city['select']['citycategory'],'key'=>urlencode($hotword['w_word_code'])))}" target="_blank">{$city['select']['categoryname']}{$hotword.w_word}</a></div>
+						<else />
+						<div class="ili"><a href="{:P(array('citycategory'=>$city['select']['citycategory'],'key'=>$hotword['w_word_code']))}" target="_blank">{$city['select']['categoryname']}{$hotword.w_word}</a></div>
+						</if>
+					</volist>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</if>
+	</div>
+	<div class="pr">
+		<qscms:ad 列表名="ad" 广告位名称="QS_jobs_list_right" 广告数量="1"/>
+		<notempty name="ad['list']">
+			<div class="ad230_175">
+				<volist name="ad['list']" id="ad_info">
+					{$ad_info.html}
+				</volist>
+			</div>
+		</notempty>
+		<!--紧急招聘 -->
+		<div class="lisbox link_gray6">
+			<div class="t">最新职位</div>
+			<qscms:jobs_list 列表名="recommend_jobs" 显示数目="10" 排序="addtime.desc"/>
+				<empty name="recommend_jobs['list']">
+					<div class="empty">暂无相关职位</div>
+				<else/>
+					<volist name="recommend_jobs['list']" id="jobs">
+						<div class="eyl">
+							<div class="jname substring"><a href="{$jobs.jobs_url}">{$jobs.jobs_name}</a></div>
+							<div class="city substring">{$jobs.wage_cn}</div>
+							<div class="clear"></div>
+							<div class="etxt substring"><a href="{$jobs.company_url}">{$jobs.companyname}</a></div>
+							<div class="etxt substring">{$jobs.district_cn}</div>
+						</div>
+					</volist>
+				</empty>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<input type="hidden" class="map-lng" value="<if condition="$Think.get.lng eq ''">{:C('qscms_map_center_x')}<else/>{$Think.get.lng}</if>">
+<input type="hidden" class="map-lat" value="<if condition="$Think.get.lat eq ''">{:C('qscms_map_center_y')}<else/>{$Think.get.lat}</if>">
+<include file="public:footer" />
+<div id="mapShowC" style="display: none"></div>
+<script type="text/javascript">
+	var ajaxLoginDiaUrl = "{:U('AjaxCommon/ajax_login')}";
+</script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.jobslist.js?v={:strtotime('today')}"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.search.city.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.modal.dialog.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.dropdown.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.highlight-3.js"></script>
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak={:C('qscms_map_ak')}"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.mapjob.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.autocomplete.js"></script>
+<script type="text/javascript">
+	var isVisitor = "{$visitor['uid']}";
+	$('.get-money-fail-suc').css({
+        left: ($(window).width() - $('.get-money-fail-suc').outerWidth())/2,
+        top: ($(window).height() - $('.get-money-fail-suc').outerHeight())/2 + $(document).scrollTop()
+    });
+    $('.gm-fs-group .gm-fs-clo').die().live('click', function () {
+        $(this).closest('.get-money-fail-suc').remove();
+        $('.modal_backdrop').remove();
+    });
+    // 搜索类型切换
+	$('.J_sli_jc').click(function() {
+		$(this).addClass('select').siblings().removeClass('select');
+		var indexValue = $('.J_sli_jc').index(this);
+		var typeValue = $.trim($(this).data('type'));
+		if (typeValue == 'company') {
+	        $('#ajax_search_location').attr('action', "{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_companylist'))}");
+	    } else {
+	        $('#ajax_search_location').attr('action', "{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}");
+	    }
+		$('input[name="search_type"]').val(typeValue);
+	});
+	
+	
+	if ($('.J_selected .slist').length) {
+		$('.J_selected').show();
+	}
+
+	$('.J_jobConditions .wli').each(function(index, el) {
+		if (index > 6) {
+			$(this).addClass('for_up');
+		};
+	});
+
+	// 关键字高亮
+	var keyWords = $('input[name="key"]').val();
+	if (keyWords.length) {
+		$('.J_jobsList').highlight(keyWords);
+	}
+    var qsMapUrl = "{:url_rewrite('QS_jobslist',array('lng'=>'lngVal','lat'=>'latVal','ldLng'=>'ldLngVal','ldLat'=>'ldLatVal','ruLng'=>'ruLngVal','ruLat'=>'ruLatVal','range'=>20))}";
+	var isMapSearch = "{$Think.get.lng}";
+	if (isMapSearch.length) {
+        var map = new BMap.Map("mapShowC");
+        map.enableScrollWheelZoom();
+        map.addControl(new BMap.NavigationControl());
+        var point = new BMap.Point($('#lng').val(),$('#lat').val());
+        map.centerAndZoom(point, 15);
+        var myGeo = new BMap.Geocoder();
+        var position;
+        function geocodeSearch(pt){
+            myGeo.getLocation(pt, function(rs){
+                var addComp = rs.addressComponents;
+                // 街道、区、市逐层向上找
+                if (addComp.street.length) {
+                    position = addComp.street;
+                } else if (addComp.district.length) {
+                    position = addComp.district;
+                } else {
+                    position = addComp.city;
+                }
+                var thisMapText =  '';
+                if (position.length > 4) {
+                    thisMapText = position.substring(0,4) + "...";
+                } else {
+                    thisMapText = position;
+                }
+                $('.J_sub_s').hide();
+                //$('.J_map_some').addClass('link_yellow');
+                $('.cur-map-pos').text('位置：' + thisMapText).attr('title', position).show();
+                $('#popupBox').text('修改');
+                $('.J_map_some .map-clear').show();
+                $('#mapShowC').remove();
+            });
+        }
+        geocodeSearch(point);
+    }
+    // 关键字联想
+    var hotKey = $('#autoKeyInput').autocomplete({
+        serviceUrl:"{:U('ajaxCommon/hotword')}",
+        minChars:1,
+        maxHeight:400,
+        width:276,
+        zIndex: 1,
+        deferRequestBy: 0
+    });
+    <if condition="C('apply.Allowance')">
+	// 关闭红包提醒
+    $('.t-money .m-re-clo').click(function() {
+        $(this).closest('.m-re-box').hide();
+    });
+    $.getJSON(qscms.root+'?m=Allowance&c=Ajax&a=counter',function(result){
+    	if(result.status==1){
+    		$('#money_count_jobs').html(result.data.money_count_jobs);
+    		$('#money_count_amount').html(result.data.money_count_amount);
+    	}
+    });
+    </if>
+    $('#J_login').click(function(){
+    	var qsDialog = $(this).dialog({
+    		loading: true,
+			footer: false,
+			header: false,
+			border: false,
+			backdrop: false
+		});
+    	var loginUrl = qscms.root+"?m=Home&c=AjaxCommon&a=ajax_login";
+            $.getJSON(loginUrl, function(result){
+                if(result.status==1){
+                    qsDialog.hide();
+                    var qsDialogSon = $(this).dialog({
+                        header: false,
+                        content: result.data.html,
+                        footer: false,
+                        border: false
+                    });
+                    qsDialogSon.setInnerPadding(false);
+                } else {
+                    qsDialog.hide();
+                    disapperTooltip('remind',result.msg);
+                }
+            });
+    });
+    $('#J_reg').click(function(){
+    	var qsDialog = $(this).dialog({
+    		loading: true,
+			footer: false,
+			header: false,
+			border: false,
+			backdrop: false
+		});
+		var regResume = "{:C('qscms_rapid_registration_resume')}";
+		if(regResume == 1){
+		    	var creatsUrl = qscms.root + '?m=Home&c=AjaxPersonal&a=resume_add_dig';
+		        $.getJSON(creatsUrl, {no_apply:1},function(result){
+		            if(result.status==1){
+		                qsDialog.hide();
+		                var qsDialogSon = $(this).dialog({
+		                    content: result.data.html,
+		                    footer: false,
+		                    header: false,
+		                    border: false
+		                });
+		                qsDialogSon.setInnerPadding(false);
+		            } else {
+		                qsDialog.hide();
+		                disapperTooltip("remind", result.msg);
+		            }
+		        });
+		}else{
+            var loginUrl = qscms.root+"?m=Home&c=AjaxCommon&a=ajax_login";
+            $.getJSON(loginUrl, function(result){
+                if(result.status==1){
+                    qsDialog.hide();
+                    var qsDialogSon = $(this).dialog({
+                        header: false,
+                        content: result.data.html,
+                        footer: false,
+                        border: false
+                    });
+                    qsDialogSon.setInnerPadding(false);
+                } else {
+                    qsDialog.hide();
+                    disapperTooltip('remind',result.msg);
+                }
+            });
+
+		}        
+	});
+</script>
+</body>
+</html>

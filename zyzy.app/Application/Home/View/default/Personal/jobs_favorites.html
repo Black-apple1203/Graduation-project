@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta"/>
+    <link href="../public/css/personal/common.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_favorites.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="us-top">
+    <div class="us-main">
+        <div class="us-top-box">
+            <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                <div class="se-btn"><input type="submit" value="搜 索"></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="user_main">
+    <include file="index_left_nav"/>
+    <div class="mainbox">
+        <!--职位切换卡 -->
+        <div class="tab">
+            <a class="li select">职位收藏夹</a>
+            <a class="li J_hoverbut" href="{:U('personal/attention_com')}">关注的企业</a>
+            <div class="clear"></div>
+        </div>
+        <!--切换卡结束 -->
+        <div class="resume_tip">
+            <div class="tiptit">小提示</div>
+            <div class="tiptxt link_blue">
+                职位名称：默认“蓝色”表示正在招聘；“灰色”表示该职位已关闭或停止招聘。
+            </div>
+        </div>
+        <div class="favorites_th">
+            <div class="th1">职位名称</div>
+            <div class="th2">公司名称</div>
+            <div class="th3">工作地区</div>
+            <div class="th4">薪资待遇</div>
+            <div class="th5">
+                <div class="input_100_30_div J_hoverinput J_dropdown J_listitme_parent">
+                    <span class="J_listitme_text"><if condition="$Think.get.settr eq 0">收藏时间<else/>{$Think.get.settr}天内</if></span>
+                    <div class="dropdowbox7 J_dropdown_menu">
+                        <div class="dropdow_inner7">
+                            <ul class="nav_box">
+                                <li><a class="J_listitme" href="{:P(array('settr'=>0))}">全部</a></li>
+                                <li><a class="J_listitme" href="{:P(array('settr'=>3))}">3天内</a></li>
+                                <li><a class="J_listitme" href="{:P(array('settr'=>7))}">7天内</a></li>
+                                <li><a class="J_listitme" href="{:P(array('settr'=>15))}">15天内</a></li>
+                                <li><a class="J_listitme" href="{:P(array('settr'=>30))}">30天内</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <notempty name="favorites['list']">
+            <form id="J_favoritesForm" class="J_allListBox" action="{:U('personal/del_favorites')}" method="post">
+                <volist name="favorites['list']" id="vo">
+                <if condition="$vo['companyname']">
+                    <div class="favorites J_hoverbut">
+                        <div class="overnowrap td1 substring <if condition="$vo['tmp'] eq 0 and ($vo['deadline'] eq 0 or $vo['deadline'] gt time())">link_blue<else/>link_gray6</if>">
+                            <input class="J_allList" name="did[]" type="checkbox" jid="{$vo.jobs_id}" value="{$vo.did}"/> &nbsp;
+                                <a target="_blank" href="{$vo.jobs_url}" title="{$vo.jobs_name}">{$vo.jobs_name}</a>
+                        </div>
+                        <div class="td2 link_gray6 substring">
+                            <a target="_blank" href="{$vo.company_url}" title="{$vo.companyname}">{$vo.companyname}</a>
+                        </div>
+                        <div class="td3">{$vo.district_cn}</div>
+                        <div class="td4">{$vo.wage_cn}</div>
+                        <div class="td5">{:fdate($vo['addtime'])}</div>
+                        <div class="clear"></div>
+                    </div>
+                <else />
+                    <div class="favorites J_hoverbut">
+                        <div class="overnowrap td1">
+                            <input class="J_allList" name="did[]" type="checkbox" value="{$vo.did}"/> &nbsp;
+                                该职位不存在或已被删除
+                        </div>
+                        <div class="td2">&nbsp;</div>
+                        <div class="td3">&nbsp;</div>
+                        <div class="td4">&nbsp;</div>
+                        <div class="td5">&nbsp;</div>
+                        <div class="clear"></div>
+                    </div>
+                </if>
+                </volist>
+            </form>
+            <div class="favorites_list_but">
+                <div class="td1"><input class="J_allSelected" type="checkbox" value=""/></div>
+                <div class="td2">
+                    <div id="subForm" class="but_blue_80_32 J_hoverbut">批量投递</div>
+                </div>
+                <div class="td3">
+                    <div id="favoritesDel" class="but_gray_80_32 J_hoverbut">删除</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="qspage">{$favorites.page}</div>
+            <else/>
+            <if condition="$hasget">
+                <div class="res_empty">
+                    抱歉，没有找到符合您条件的记录，建议您修改筛选条件后重试
+                </div>
+                <else/>
+                <div class="res_empty link_blue">
+                    您还没有收藏过职位，想要获得更多工作机会<br/>立即搜索您感兴趣的职位并收藏吧！立即 <a href="{:url_rewrite('QS_jobs')}" target="_blank">搜索职位</a>
+                </div>
+            </if>
+        </notempty>
+    </div>
+    <div class="clear"></div>
+    <include file="index_footer"/>
+    <script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+    <script type="text/javascript">
+        // 批量投递
+        $('#subForm').click(function () {
+            var listCheckedArray = $('.J_allListBox .J_allList:checked');
+            if (listCheckedArray.length) {
+                var checkedValue = new Array();
+                listCheckedArray.each(function (index, el) {
+                    checkedValue[index] = $(this).attr('jid');
+                });
+                var qsDialog = $(this).dialog({
+                    title: '批量投递',
+                    loading: true,
+                    showFooter: false
+                });
+                $.ajax({
+                    url: "{:U('AjaxPersonal/resume_apply')}",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {jid: checkedValue}
+                })
+                        .done(function (data) {
+                            if (parseInt(data.status)) {
+                                qsDialog.setContent(data.data.html);
+                                qsDialog.showFooter(true);
+                            } else {
+                                qsDialog.setContent(data.msg);
+                            }
+                        });
+            } else {
+                disapperTooltip("remind", "请选择要投递的职位");
+            }
+        });
+        // 批量删除
+        $('#favoritesDel').click(function () {
+            var listCheckedArray = $('.J_allListBox .J_allList:checked');
+            if (listCheckedArray.length) {
+                var url = $("#J_favoritesForm").attr('action');
+                var qsDialog = $(this).dialog({
+                    title: '删除收藏职位',
+                    loading: true,
+                    border: false,
+                    yes: function () {
+                        $("#J_favoritesForm").submit();
+                    }
+                });
+                $.getJSON(url, function (result) {
+                    if (result.status == 1) {
+                        qsDialog.setContent(result.data.html);
+                    } else {
+                        disapperTooltip('remind', result.msg);
+                    }
+                });
+            } else {
+                disapperTooltip("remind", "请选择要删除的职位");
+            }
+        });
+    </script>
+</body>
+</html>

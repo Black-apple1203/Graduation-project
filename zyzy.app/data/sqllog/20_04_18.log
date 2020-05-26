@@ -1,0 +1,4 @@
+[ 2020-04-18T21:45:58+08:00 ] 127.0.0.1 /
+SQL: SHOW COLUMNS FROM `qs_promotion` [RunTime:0.2522s] [IP:127.0.0.1:13060] [AddTime:1587217558] [qscms]
+[ 2020-04-18T21:46:33+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SHOW COLUMNS FROM `qs_resume_img` [RunTime:0.3018s] [IP:127.0.0.1:13164] [AddTime:1587217593] [qscms]

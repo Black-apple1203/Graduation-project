@@ -1,0 +1,174 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>若设置了伪静态，同时请在服务器伪静态规则文件中增加对应规则。</p>
+</div>
+<form action="{:U('add')}" method="post"   name="form1" id="form1">
+    <div class="toptit">基础设置</div>
+    <div class="form_main width150">
+        <div class="fl">页面类型：</div>
+        <div class="fr txt">自定义页面</div>
+        <div class="fl">调用ID：</div>
+        <div class="fr <if condition="$info['systemclass'] eq 1">txt</if>">
+            <input name="alias" type="text" maxlength="30" class="input_text_default middle" value=""/>
+            <label class="no-fl-note">自定义页面调用名称不可以用 &quot;QS_&quot; 开头</label>
+        </div>
+        <div class="fl">页面名称：</div>
+        <div class="fr">
+            <input name="pname" type="text" maxlength="60" class="input_text_default" value=""/>
+        </div>
+        <div class="fl">导航关联标记：</div>
+        <div class="fr">
+            <input name="tag" type="text" maxlength="60" class="input_text_default" value=""/>
+        </div>
+        <div class="fl">链接优化：</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="url" type="hidden" value="0">
+                <div class="radio select" data="0" title="原始链接">原始链接</div>
+                <div class="radio" data="1" title="伪静态">伪静态</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">页面类型：</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="pagetpye" type="hidden" value="1">
+                <div class="radio select" data="1" title="首页或频道首页">首页或频道首页</div>
+                <div class="radio" data="2" title="信息列表页">信息列表页</div>
+                <div class="radio" data="3" title="信息内容页">信息内容页</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="toptit">页面设置</div>
+    <div class="form_main width150">
+        <div class="fl">模块：</div>
+        <div class="fr">
+            <input name="module" type="text" class="input_text_default middle" value=""/>
+            <label class="no-fl-note">(模块开头字母要大写)</label>
+        </div>
+        <div class="fl">控制器：</div>
+        <div class="fr">
+            <input name="controller" type="text" class="input_text_default middle" value=""/>
+            <label class="no-fl-note">(控制器开头字母要大写)</label>
+        </div>
+        <div class="fl">方法：</div>
+        <div class="fr">
+            <input name="action" type="text" class="input_text_default middle" value=""/>
+        </div>
+        <div class="fl link_blue"><a href="javascript:isdisplay('caching_help')" >(?)</a> 缓存时间：</div>
+        <div class="fr">
+            <input name="caching" type="text" class="input_text_default middle" value="" maxlength="30"/>
+            <label class="no-fl-note">(0为不缓存)</label>
+        </div>
+        <div id="caching_help" style="display:none">
+            <div class="fl"></div>
+            <div class="fr">
+                <span style="color:#666666">
+                    <strong style="color:#003399">缓存说明</strong><br />缓存是当查询数据时，会把结果序列化后保存到文件中，以后同样的查询就不用查询数据库，而是从缓存中获得。这一改进使得程序速度得以太幅度提升。<br />
+                    缓存时间是缓存重新加载周期，周期越长，数据库的负荷越小，缓存周期假设为50秒，则每50秒刷新缓存一次。
+                </span>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="toptit">搜索引擎优化(SEO)</div>
+    <div class="form_main width150">
+        <div class="fl">可用标签：</div>
+        <div class="fr txt">
+            <div id="{site_name}" class="sellabel">网站名称</div>
+            <div id="{site_domain}" class="sellabel">网站域名</div>
+            <volist name="info['variate']" id="vo">
+                <div id="{{$key}}" class="sellabel">{$vo}</div>
+            </volist>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">title：</div>
+        <div class="fr">
+            <input name="title" type="text" class="input_text_default" id="labtitle" value=""/>
+        </div>
+        <div class="fl">keywords：</div>
+        <div class="fr">
+            <textarea name="keywords" class="input_text_default" id="labkeywords" style="height:60px;"></textarea>
+        </div>
+        <div class="fl">description：</div>
+        <div class="fr">
+            <textarea name="description" class="input_text_default" id="labdescription" style="height:60px;"></textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="submit" name="Submi1t2" class="admin_submit" value="添加"/>
+            <input name="submit222" type="button" class="admin_submit" value="返回" onclick="window.location='{:U('page/index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.caretInsert.js"></script>
+<script language="JavaScript" type="text/javascript">
+  //获取单选的值
+  function radios_val(val)
+  {
+    var radios=document.getElementsByName(val);
+    for(var i=0;i<radios.length;i++)
+    {
+      if(radios[i].checked==true)
+      {
+        return radios[i].value;
+        break;
+      }
+    }
+  }
+  //show_seo("seo");
+  function show_seo(showid)
+  {
+    var caching_val=radios_val("pagetpye");
+    if (caching_val=="1")
+    {
+      document.getElementById(showid).style.display="";
+    }
+    else
+    {
+      document.getElementById(showid).style.display="none";
+    }
+  }
+  function isdisplay(i)
+  {
+    if(document.getElementById(i).style.display=="")
+    {
+      document.getElementById(i).style.display="none";
+    }
+    else
+    {
+      document.getElementById(i).style.display="";
+
+    }
+  }
+  (function($)
+  {
+    $(".sellabel").hover(function(){$(this).css("background-color","#ffffff");},function()  {$(this).css("background-color","#F4FAFF");});
+    $("#labtitle").unbind().focus(function() {
+      $('#labtitle').setCaret();
+      $('.sellabel').unbind("click").click(function(){
+        $('#labtitle').insertAtCaret($(this).attr("id"));
+      });
+    });
+    $("#labkeywords").unbind().focus(function() {
+      $('#labkeywords').setCaret();
+      $('.sellabel').unbind("click").click(function(){
+        $('#labkeywords').insertAtCaret($(this).attr("id"));
+      });
+    });
+    $("#labdescription").unbind().focus(function() {
+      $('#labdescription').setCaret();
+      $('.sellabel').unbind("click").click(function(){
+        $('#labdescription').insertAtCaret($(this).attr("id"));
+      });
+    });
+  })($);
+</script>
+</body>
+</html>

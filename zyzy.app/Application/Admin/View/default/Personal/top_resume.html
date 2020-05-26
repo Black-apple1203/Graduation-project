@@ -1,0 +1,256 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>可见简历是指：审核通过、审核中等能正常显示的简历。</p>
+    <p>不可见简历指：审核未通过等网站前台不显示的简历。</p>
+</div>
+<div class="seltpye_y">
+    <div class="tit">工作经验</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.experience' value=''>select</neq>">{$Think.get.experience_cn|default='不限'}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('experience'=>'','experience_cn'=>'不限'))}">不限</li>
+        <volist name="cate_experience" id="vo">
+            <li url="{:P(array('experience'=>$key,'experience_cn'=>$vo))}">{$vo}</li>
+        </volist>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">学历</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.education' value=''>select</neq>">{$Think.get.education_cn|default='不限'}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('education'=>'','education_cn'=>'不限'))}">不限</li>
+        <volist name="cate_education" id="vo">
+            <li url="{:P(array('education'=>$key,'education_cn'=>$vo))}">{$vo}</li>
+        </volist>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">创建时间</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.addtimesettr'>select</notempty>">{$Think.get.addtimesettr_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('addtimesettr'=>'','addtimesettr_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('addtimesettr'=>'3','addtimesettr_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('addtimesettr'=>'7','addtimesettr_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('addtimesettr'=>'30','addtimesettr_cn'=>'一月内'))}">一月内</li>
+    </div>
+</div>
+<div class="clear"></div>
+
+<form id="form1" name="form1" method="post" action="{:U('set_audit')}">
+    <div class="list_th">
+        <div class="td" style=" width:20%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>姓名
+            </label>
+        </div>
+        <div class="td" style=" width:20%;">基本信息</div>
+        <div class="td center" style=" width:15%;">简历来源</div>
+        <div class="td center" style=" width:15%;">创建时间</div>
+        <div class="td center" style=" width:30%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:20%;">
+                <div class="left_padding striking">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['id']}"/>
+                   {$vo['fullname']}
+                </div>
+            </div>
+            <div class="td" style=" width:20%;">
+                <notempty name="vo.birthdate">{:date('Y')-$vo['birthdate']}岁 <else/>未填写 </notempty>
+                <notempty name="vo.sex_cn">/ {$vo['sex_cn']} </notempty>
+                <notempty name="vo.education_cn">/ {$vo['education_cn']} </notempty>
+                <notempty name="vo.experience_cn">/ {$vo['experience_cn']} </notempty>
+            </div>
+            <div class="td center" style=" width:15%;">
+             <if condition="$vo['uid']">
+             会员中心
+             <else/>
+             后台添加
+             </if>
+            </div>
+            <div class="td center" style=" width:15%;">{:admin_date($vo['addtime'])}</div>
+            <div class="td center edit" style=" width:30%;">
+                <a href="{:U('adv_resume_add',array('id'=>$vo['id']))}"class="business">编辑</a>
+                <a href="javascript:void(0);" class="blue resume_log" parameter="resumeid={$vo['id']}">日志</a>
+               <!--  <a href="javascript:void(0);" class="comment <if condition="$vo['comment_content']">vtip</if>" <if condition="$vo['comment_content']">title="{$vo['comment_content']}"</if> parameter="id={$vo['id']}">备注</a> -->
+                <a href="javascript:;" class="J_message" parameter="uid={$vo['uid']}">发消息</a>
+                
+                <a href="{:U('advresume_delete',array('id'=>$vo['id']))}" onClick="return confirm('你确定要删除该简历吗？')" class="gray">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox"> 
+        <input type="button" class="admin_submit" id="ButAdd" value="新增" onclick="window.location.href='{:U('adv_resume_add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除"/>
+        <!-- <if condition="$apply['Export']">
+            <input type="button" class="admin_submit" id="ExPort" value="导出"/>
+            <input type="button" class="admin_submit" id="ExPort_s" value="导出全部"/>
+        </if> -->
+      <!--   <notempty name="apply['Resumeimport']">
+          <input type="button" class="admin_submit xianshi" id="ButImportresume" value="导入简历"/>
+          <input type="button" class="admin_submit xianshi" id="excelmodel" value="下载简历模板" onclick="javascript:location.href='{:attach('excelmodel.xls','resumeimport')}'"/>
+      </notempty> -->
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='姓名'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='姓名'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="姓名">姓名</li>
+                        <li id="2" title="简历ID">简历ID</li>
+                        <li id="3" title="会员ID">会员ID</li>
+                        <li id="4" title="电话">电话</li>
+                        <!--<li id="5" title="QQ">QQ</li>-->
+                        <li id="6" title="地址">地址</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.entrustinfotip-min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".J_message").click(function () {
+            $('.modal_backdrop').remove();
+            $('.modal').remove();
+            var qsDialog = $(this).dialog({
+                title: '发消息',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/ajax_message')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        $(".resume_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '简历日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/adv_resume_log')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //业务
+        $(".business").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '业务',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/business')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        <notempty name="apply['Resumeimport']">
+		//导入简历
+		$("#ButImportresume").click(function () {
+			var qsDialog = $(this).dialog({
+				title: '导入简历',
+				loading: true,
+				footer : false
+			});
+			var url = "{:U('Ajax/resume_import')}";
+			$.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+		});
+		</notempty>
+        //简历审核日志
+        $(".resume_audit_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '审核日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/resume_audit_log')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //点评
+        $(".comment").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '人才点评',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/comment_resume')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        
+        //点击批量删除
+        $("#ButDel").click(function () {
+            if (confirm('你确定要删除吗？')) {
+                $("form[name=form1]").attr("action", "{:U('advresume_delete')}");
+                $("form[name=form1]").submit();
+            }
+        });
+        //点击批量刷新
+        $("#ButRefresh").click(function () {
+            $("form[name=form1]").attr("action", "{:U('refresh')}");
+            $("form[name=form1]").submit();
+        });
+        <if condition="$apply['Export']">
+            //点击批量导出
+            $("#ExPort").click(function () {
+                var data = $("form[name=form1]").serialize();
+                if(data.length == 0){
+                    disapperTooltip('remind','请选择简历！');
+                    qsDialog.hide();
+                }
+                $("form[name=form1]").attr("action", "{:U('Export/Export/export_personal')}");
+                $("form[name=form1]").submit();
+            });
+            $("#ExPort_s").click(function () {
+                $("form[name=form1]").attr("action", "{:U('Export/Export/export_personal_s')}");
+                $("form[name=form1]").submit();
+            });
+        </if>
+    });
+</script>
+</html>

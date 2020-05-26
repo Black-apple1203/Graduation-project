@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta" />
+    <link href="../public/css/members/common.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <include file="header" />
+    <div class="reg_select">
+        <div class="tit">请选择登录类型</div>
+        <div class="sbox">
+            <div class="slisit1 J_hoverbut" onclick="javascript:location.href='{:U('Home/members/switch_utype',array('utype'=>1))}'">
+                <div class="stitle">企业登录</div>
+                <div class="stxt">
+                    √&nbsp;发布招聘信息<br />
+                    √&nbsp;收取简历投递<br />
+                    √&nbsp;多种职位分享
+                </div>
+            </div>
+            <div class="slisitc">&nbsp;</div>
+            <div class="slisit2 J_hoverbut" onclick="javascript:location.href='{:U('Home/members/switch_utype',array('utype'=>2))}'">
+                <div class="stitle">个人登录</div>
+                <div class="stxt">
+                    √&nbsp;免费创简历<br />
+                    √&nbsp;职位海量淘<br />
+                    √&nbsp;简历轻松投<br />
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    
+    <div class="reg_select_bg">
+        <div class="bl"></div>
+        <div class="br"></div>
+        <div class="clear"></div>
+    </div>
+<include file="public:footer_min" />
+<script src="../public/js/members/jquery.common.js" type="text/javascript" language="javascript"></script>
+</body>
+</html>

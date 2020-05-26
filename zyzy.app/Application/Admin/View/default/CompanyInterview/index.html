@@ -1,0 +1,90 @@
+<include file="public:header"/>
+<div class="clear"></div>
+    <div class="list_th">
+        <div class="td" style=" width:10%;">
+            <label id="chkAll" class="left_padding">
+                姓名
+            </label>
+        </div>
+        <div class="td center" style=" width:20%;">基本信息</div>
+        <div class="td center" style=" width:20%;">职位名称</div>
+        <div class="td center" style=" width:20%;">企业名称</div>
+        <div class="td center" style=" width:10%;">面试时间</div>
+        <div class="td center" style=" width:20%;">面试详情</div>
+        <div class="clear"></div>
+    </div>
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:10%;">
+                <div class="left_padding">
+                    <a href="{$vo['resume_url']}" target="_blank">{$vo['fullname']}</a>
+                    <if condition="$vo['photo_img'] neq ''">
+                        &nbsp;<span class="vtip" title="<img src='{:attach($vo['photo_img'],'avatar')}' border=0 align=absmiddle width=120 height=120>">
+                            <img class="avatar small" src="{:attach($vo['photo_img'],'avatar')}" align="absmiddle">
+                        </span>
+                    </if>
+                </div>
+            </div>
+            <div class="td center" style=" width:20%;">
+                <notempty name="vo.birthdate">{:date('Y')-$vo['birthdate']}岁 <else/>未填写 </notempty>
+                <notempty name="vo.sex_cn">/ {$vo['sex_cn']} </notempty>
+                <notempty name="vo.education_cn">/ {$vo['education_cn']} </notempty>
+                <notempty name="vo.experience_cn">/ {$vo['experience_cn']} </notempty>
+            </div>
+            <div class="td center" style=" width:20%;">
+                <a href="{$vo['jobs_url']}" target="_blank">{$vo['jobs_name']}</a>
+            </div>
+            <div class="td center" style=" width:20%;">
+                <a href="{$vo['company_url']}" target="_blank">{$vo['company_name']}</a>
+            </div>
+            <div class="td center" style=" width:10%;">
+                {:date('Y-m-d H:i', $vo['interview_time'])}
+            </div>
+            <div class="td center" style=" width:20%;">
+                <span style="color: #009900" class="vtip" title="{$vo['interview_tip']}">
+                    [详情]
+                </span>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='公司名'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='公司名'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="公司名">公司名</li>
+                        <li id="2" title="公司ID">公司ID</li>
+                        <li id="3" title="职位名">职位名</li>
+                        <li id="4" title="职位ID">职位ID</li>
+                        <li id="5" title="姓名">姓名</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+</html>

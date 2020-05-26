@@ -1,0 +1,113 @@
+<if condition="$visitor['utype'] eq 1">
+	<!--企业会员已登录 -->
+	<div class="log_in_com">
+		<div class="yuname">
+			<div class="username substring"><span>{$am_pm}，</span>HR</div>
+			<a class="ylogout" href="{:U('members/logout')}">退出</a>
+			<div class="clear"></div>
+		</div>
+	  	<div class="cominfo">
+		  	<div class="comlogo"><img src="<if condition="$info['logo']">{:attach($info['logo'],'company_logo')}<else/>{:attach('no_logo.png','resource')}</if>" border="0"/></div>
+		    <div class="comright">
+			  	<div class="cname substring">{$info.companyname}</div>
+			    <if condition="$issign">
+			  	<div id="J_sign_in" data-byname="{:C('qscms_points_byname')}" class="sign">已签</div>
+			  	<else />
+				<div id="J_sign_in" data-byname="{:C('qscms_points_byname')}" class="sign">签到</div>
+			  	</if>
+		    </div>
+			<div class="clear"></div>
+	    </div>
+	    <div class="combtns">
+	    	<if condition="$upper_limit neq 1">
+				<a class="lbtn add" href="{:U('company/jobs_add')}">发布职位</a>
+			<else/>
+				<a href="javascript:;" class="J_addJobsDig lbtn add">发布职位</a>
+			</if>
+			<a class="lbtn manage" href="{:U('company/jobs_list')}">管理职位</a>
+			<a id="J_refresh_jobs" class="lbtn last refurbish" href="javascript:;">刷新职位</a>
+			<a class="lbtn ntxt" href="{:U('company/jobs_apply')}"><span>{$info.apply|default=0}</span>待处理简历</a>
+			<a class="lbtn ntxt" href="{:U('company/jobs_viewlog')}"><span>{$info.views|default=0}</span>谁看过我</a>
+			<a class="lbtn last ntxt" href="{:U('company/pms_sys')}"><span>{$msgtip.unread|default=0}</span>我的消息</a>
+			<div class="clear"></div>
+		</div>
+		<a href="{:U('company/index')}" class="com_login_in">进入会员中心</a>
+	</div>
+	<script type="text/javascript">
+		$('#J_refresh_jobs').click(function(){
+			$.getJSON("{:U('CompanyService/jobs_refresh_all')}",function(result){
+        		if(result.status==1){
+        			disapperTooltip('success',result.msg);
+        		}
+        		else if(result.status==2)
+        		{
+        			var qsDialog = $(this).dialog({
+		                title: '批量刷新职位',
+		                loading: true,
+		                border: false,
+		                yes: function () {
+		                	window.location.href=result.data;
+		                }
+		            });
+		            qsDialog.setBtns(['单条刷新', '取消']);
+		            qsDialog.setContent('<div class="refresh_jobs_all_confirm">' + result.msg + '</div>');
+        		}
+        		else
+        		{
+        			disapperTooltip('remind',result.msg);
+        		}
+        	});
+		});
+	</script>
+<else/>
+	<!--个人会员已登录 -->
+	<div class="log_in_per">
+		<div class="yuname">
+			<div class="username substring"><span>{$am_pm}，</span>{$info.realname|default=$visitor['username']}</div>
+			<a class="ylogout" href="{:U('members/logout')}">退出</a>
+			<div class="clear"></div>
+		</div>
+	  	<div class="info">
+		  		<div class="photo"><img src="{$visitor['avatars']}" border="0"/></div>
+			  	<div class="pname substring">{$info.realname|default=$visitor['username']}</div>
+			  	<if condition="$issign">
+			  	<div id="J_sign_in" data-byname="{:C('qscms_points_byname')}" class="sign">已签</div>
+			  	<else />
+				<div id="J_sign_in" data-byname="{:C('qscms_points_byname')}" class="sign">签到</div>
+			  	</if>
+			<div class="clear"></div>
+	    </div>
+	    <div class="perbtns">
+		  	<a class="lbtn add" href="{:U('personal/resume_add')}">创建简历</a>
+			<a class="lbtn manage" href="{:U('personal/resume_list')}">管理简历</a>
+			<a id="J_refresh_resume" class="lbtn last refurbish" href="<if condition="$info['pid']">javascript:;<else/>{:U('personal/resume_add')}</if>" pid="{$info.pid}">刷新简历</a>
+			<a class="lbtn ntxt" href="{:U('personal/jobs_interview')}"><span>{$info.countinterview|default=0}</span>面试邀请</a>
+			<a class="lbtn ntxt" href="{:U('personal/attention_me')}"><span>{$info.views|default=0}</span>谁看过我</a>
+			<a class="lbtn last ntxt" href="{:U('personal/msg_pms')}"><span>{$msgtip.unread|default=0}</span>我的消息</a>
+			<div class="clear"></div>
+		</div>
+		<a href="{:U('personal/index')}" class="com_login_in">进入会员中心</a>
+	</div>
+	<script type="text/javascript">
+		// 首页左侧登录口，刷新简历
+		$('#J_refresh_resume').click(function(){
+			var pid = $(this).attr('pid');
+			$.post("{:U('Personal/refresh_resume')}",{pid:pid},function(result){
+				if(result.status == 1){
+					if(result.data){
+						disapperTooltip("goldremind", '刷新简历增加'+result.data+'{:C('qscms_points_byname')}<span class="point">+'+result.data+'</span>');
+					}else{
+						disapperTooltip('success',result.msg);
+					}
+					$.getJSON("{:U('AjaxCommon/get_header_min')}",function(result){
+						if(result.status == 1){
+							$('#J_header').html(result.data.html);
+						}
+					});
+				}else{
+					disapperTooltip('remind',result.msg);
+				}
+			},'json');
+        });
+	</script>
+</if>

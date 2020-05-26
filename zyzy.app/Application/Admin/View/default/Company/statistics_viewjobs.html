@@ -1,0 +1,231 @@
+<include file="public:header"/>
+<script type="text/javascript" src="../public/js/fusioncharts/fusioncharts.js"></script>
+<script type="text/javascript" src="../public/js/fusioncharts/fusioncharts.theme.fint.js"></script>
+<div class="toptit link_blue">
+    招聘效果统计 - <span style="color:#0066CC">{$info.companyname}</span>
+</div>
+<div class="form_main">
+    <div class="user_tab mt15">
+        <a href="{:U('Company/statistics_visitor',array('id'=>$info['id'],'uid'=>$info['uid'],'_k_v'=>$_GET['_k_v']))}" class="tabli">访客统计</a>
+        <a href="{:U('Company/statistics_viewjobs',array('id'=>$info['id'],'uid'=>$info['uid'],'_k_v'=>$_GET['_k_v']))}" class="tabli select">职位浏览统计</a>
+        <a href="{:U('Company/statistics_apply',array('id'=>$info['id'],'uid'=>$info['uid'],'_k_v'=>$_GET['_k_v']))}" class="tabli">应聘统计</a>
+        <div class="clear"></div>
+    </div>
+    <div class="line_wrap">
+        <div class="line_top">
+            <div class="select_input input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">
+                    最近{$settr}天
+                </span>
+                <div class="dropdowbox10 J_dropdown_menu">
+                    <div class="dropdow_inner10">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme" href="{:P(array('settr'=>'7'))}" >最近7天</a></li>
+                            <li><a class="J_listitme" href="{:P(array('settr'=>'15'))}" >最近15天</a></li>
+                            <li><a class="J_listitme" href="{:P(array('settr'=>'30'))}" >最近30天</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="select_input input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">
+                    <if condition="!$Think.get.source || $Think.get.source eq ''">
+                        全部来源
+                    <else />
+                        {$source_arr[$source]}
+                    </if>
+                </span>
+                <div class="dropdowbox10 J_dropdown_menu">
+                    <div class="dropdow_inner10">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme" href="{:P(array('source'=>''))}" >全部来源</a></li>
+                            <volist name="source_arr" id="vo">
+                                <li><a class="J_listitme" href="{:P(array('source'=>$key))}" >{$vo}</a></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="select_input input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+					<span class="J_listitme_text">
+						<if condition="$jobid eq 0">
+							全部职位
+						<else />
+							{$jobs_namearr[$jobid]}
+						</if>
+					</span>
+                <div class="dropdowbox10 J_dropdown_menu">
+                    <div class="dropdow_inner10">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme" href="{:P(array('jobid'=>''))}" >全部职位</a></li>
+                            <volist name="jobs" id="vo">
+                                <li><a class="J_listitme" href="{:P(array('jobid'=>$vo['id']))}" >{$vo['jobs_name']}</a></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="line_main">
+            <div id="line_box" style="margin:20px 0 0 10px;"></div>
+            <script type="text/javascript">
+                FusionCharts.ready(function(){
+                    var revenueChart = new FusionCharts({
+                        "type": "msline",
+                        "height":"280px",
+                        "renderAt": "line_box",
+                        "width":"99%",
+                        "dataFormat": "xml",
+                        "showLegend":"1",
+                        "dataSource": '{$line_xml}',
+                    });
+                    revenueChart.render();
+                });
+            </script>
+        </div>
+    </div>
+    <div class="detail_wrap">
+        <div class="detail_title">
+            <div class="pat_l">
+                用户详细数据
+                <span class="num_tip">登录 <span class="num">{$count_num['login']}</span> 人，未登录 <span class="num">{$count_num['total']-$count_num['login']}</span> 人（列表内只显示登录用户）</span>
+            </div>
+            <div class="pat_r">
+                <div class="radio_list">
+                    <div class="rli checked tab_select" data="chart">分布统计图</div>
+                    <div class="rli tab_select" data="list">详细列表</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="chart_wrap data_wrap">
+            <div class="chart_item">
+                <div id="sex_box" style="margin:20px 0 0;"></div>
+                <script type="text/javascript">
+                    FusionCharts.ready(function(){
+                        var revenueChart = new FusionCharts({
+                            "type": "doughnut2d",
+                            "renderAt": "sex_box",
+                            "width":"350px",
+                            "dataFormat": "xml",
+                            "showLegend":"1",
+                            "dataSource": '{$sex_xml}',
+                        });
+                        revenueChart.render();
+                    });
+                </script>
+            </div>
+            <div class="chart_item">
+                <div id="experience_box" style="margin:20px 0 0;"></div>
+                <script type="text/javascript">
+                    FusionCharts.ready(function(){
+                        var revenueChart = new FusionCharts({
+                            "type": "doughnut2d",
+                            "renderAt": "experience_box",
+                            "width":"350px",
+                            "dataFormat": "xml",
+                            "showLegend":"1",
+                            "dataSource": '{$experience_xml}',
+                        });
+                        revenueChart.render();
+                    });
+                </script>
+            </div>
+            <div class="chart_item">
+                <div id="education_box" style="margin:20px 0 0;"></div>
+                <script type="text/javascript">
+                    FusionCharts.ready(function(){
+                        var revenueChart = new FusionCharts({
+                            "type": "doughnut2d",
+                            "renderAt": "education_box",
+                            "width":"350px",
+                            "dataFormat": "xml",
+                            "showLegend":"1",
+                            "dataSource": '{$education_xml}',
+                        });
+                        revenueChart.render();
+                    });
+                </script>
+            </div>
+            <div class="chart_item">
+                <div id="age_box" style="margin:20px 0 0;"></div>
+                <script type="text/javascript">
+                    FusionCharts.ready(function(){
+                        var revenueChart = new FusionCharts({
+                            "type": "doughnut2d",
+                            "renderAt": "age_box",
+                            "width":"350px",
+                            "dataFormat": "xml",
+                            "showLegend":"1",
+                            "dataSource": '{$age_xml}',
+                        });
+                        revenueChart.render();
+                    });
+                </script>
+            </div>
+        </div>
+        <div class="list_wrap data_wrap" style="display:none;">
+            <div class="list-th">
+                <div class="th1">姓名</div>
+                <div class="th2">基本信息</div>
+                <div class="th3">意向职位</div>
+                <div class="th4">来源</div>
+                <div class="th5">浏览时间</div>
+                <div class="clear"></div>
+            </div>
+            <div id="ajax_list">
+                <notempty name="table_data">
+                    <volist name="table_data" id="vo">
+                        <div class="list-td">
+                            <div class="td1 link_blue"><a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$vo['id']))}">{$vo['fullname']}</a></div>
+                            <div class="td2">{$vo['sex_cn']} | {$vo['age']}岁 | {$vo['education_cn']} | {$vo['experience_cn']}</div>
+                            <div class="td3">{$vo['intention_jobs']}</div>
+                            <div class="td4">
+                                <switch name="$view_time['time']['source']">
+                                    <case value="1" break="1">PC端</case>
+                                    <case value="2" break="1">触屏端</case>
+                                    <case value="3" break="1">移动端</case>
+                                    <default />PC端
+                                </switch>
+                            </div>
+                            <div class="td5">{:fdate($view_time['time'][$vo['uid']])}</div>
+                            <div class="clear"></div>
+                        </div>
+                    </volist>
+                    <div class="pages">{$page}</div>
+                    <else />
+                    <div class="list_empty" style="margin:0">没有任何信息！</div>
+                </notempty>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript" src="../public/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="../public/js/jquery.dropdown.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".tab_select").click(function(){
+            var tag = $(this).attr('data');
+            $(this).siblings().removeClass('checked');
+            $(this).addClass('checked');
+            $(".data_wrap").hide();
+            $("."+tag+"_wrap").show();
+        });
+        //分页ajax
+        $(".page").live('click',function(){
+            url = $(this).attr('href');
+            $.getJSON(url,function(result){
+                $("#ajax_list").html(result.data);
+            });
+            return false;
+        });
+    });
+</script>
+</html>

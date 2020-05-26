@@ -1,0 +1,103 @@
+<include file="public:header"/>
+
+<div class="toptit">新增帮助</div>
+<form id="form1" action="{:U('add')}" method="post" name="FormData">
+    <div class="form_main width150">
+        <div class="fl">标题:</div>
+        <div class="fr">
+            <input name="title" type="text" class="input_text_default middle" maxlength="45" value=""/>
+        </div>
+        <div class="fl">文章排序:</div>
+        <div class="fr">
+            <input name="ordid" type="text" class="input_text_default middle" id="ordid" maxlength="3" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" placeholder="数字越大越靠前，默认是0"/>
+            <label class="no-fl-note">(数字越大越靠前)</label>
+        </div>
+        <div class="fl">帮助分类:</div>
+        <div class="fr">
+            <div class="select_input_new w400 J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">选择分类</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <volist name="category[0]" id="parent">
+                                <li><a class="J_listitme <eq name='i' value='1'>list_sel</eq>" href="javascript:;" data-code="{$key}">{$parent.categoryname}</a></li>
+                                <foreach name="category[$key]" item="sub" key="k">
+                                    <li><a class="J_listitme" href="javascript:;" data-code="{$k}">├─{$sub.categoryname}</a></li>
+                                </foreach>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="type_id" id="type_id" type="hidden" value="" />
+            </div>
+            <!-- <select name="type_id" id="type_id">
+                <volist name="category[0]" id="parent">
+                    <option value="{$key}" <eq name='i' value='1'>selected="selected"</eq>>{$parent.categoryname}</option>
+                    <foreach name="category[$key]" item="sub" key="k">
+                        <option value="{$k}">├─{$sub.categoryname}</option>
+                    </foreach>
+                </volist>
+            </select> -->
+        </div>
+        <div class="fl">内容:</div>
+        <div class="fr">
+            <textarea name="content" class="input_text_default" style=" width:682px;height:400px; line-height:180%"></textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<link rel="stylesheet" href="__ADMINPUBLIC__/js/kindeditor/themes/default/default.css"/>
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var editor;
+        KindEditor.ready(function(K) {
+            editor = K.create('textarea[name="content"]', {
+                uploadJson : "?m={:C('admin_alias')}&c=upload&a=index",
+				extraFileUploadParams: {
+					   session_id : '{:session_id()}',   
+				},
+                afterBlur: function () { this.sync(); },
+                allowFileManager : true});
+        });
+        $('#J_submit').click(function(){
+            editor.sync();
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('add')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        if ($('.J_listitme.list_sel').length) {
+            var listSelCn = $.trim($('.J_listitme.list_sel').text());
+            var listSelCode = $('.J_listitme.list_sel').data('code');
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_text').text(listSelCn);
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_code').val(listSelCode);
+        }
+    });
+</script>
+</html>

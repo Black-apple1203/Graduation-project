@@ -1,0 +1,61 @@
+<include file="public:header"/>
+<div class="toptit">应用详情</div>
+<table width="800" border="0" cellpadding="2" cellspacing="2" class="apply_show"
+       style="margin-bottom:15px;padding-left: 10px;">
+    <tr>
+        <td width="80" align="center">
+            <img src="{$module.ico}" border="0" width="58" height="58">
+        </td>
+        <td width="400" style="line-height:230%;color:#999999" class="J_mod" m="{$module.module}"
+            v="{$module.version.version}">
+            <strong style="color: #0066CC; font-size:14px; padding-right:10px;">{$module.version.module_name}</strong>（{$module.module}）
+            <br/>
+            <span class="J_v">版本：{$module.version.version}</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span class="J_t">更新时间：{$module.version.update_time}</span>
+        </td>
+        <td>
+            <if condition="$module['module'] neq 'Home'">
+                <if condition="$module['is_setup']">
+                    <input type="button" class="apply_btn uninstall" value="卸载"
+                           onclick="window.location='{:U('apply/unload',array('mod'=>$module['module']))}'"/>
+                    <else/>
+                    <input type="button" class="apply_btn" value="安装"
+                           onclick="window.location='{:U('apply/setup',array('mod'=>$module['module']))}'"/>
+                </if>
+            </if>
+        </td>
+    </tr>
+</table>
+<div class="toptit">详细介绍</div>
+<table width="850" border="0" cellpadding="10" cellspacing="2" style="margin-bottom:15px;padding-left: 30px;">
+    <tr>
+        <td>{$module.version.explain}</td>
+    </tr>
+</table>
+<div class="toptit">更新日志</div>
+<table width="850" border="0" cellpadding="10" cellspacing="2" style="margin-bottom:15px;padding-left: 30px;">
+    <tr>
+        <td>{$module.versioning}</td>
+    </tr>
+</table>
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" value="返回" onclick="window.location='{:U('apply/index')}'"/>
+    </div>
+</div>
+</div>
+<include file="public:footer"/>
+<script type="text/javascript">
+    function callback(a) {
+        $.each(a.data, function (k, v) {
+            var version = $('.J_mod[m="' + k + '"]').attr('v');
+            if (v.version && version != v.version) {
+                v.update_time = v.update_time ? v.update_time : '未发布';
+                $('.J_mod[m="' + k + '"] .J_v').after('<a href="https://www.74cms.com/app/lists.html" class="newsv">有新版</a>');
+                $('.J_mod[m="' + k + '"] .J_t').html('更新时间：' + v.update_time);
+            }
+        });
+    }
+</script>
+<script src="https://www.74cms.com/plus/check_module.php?module_name={$module.module}" language="javascript"></script>
+</body>
+</html>

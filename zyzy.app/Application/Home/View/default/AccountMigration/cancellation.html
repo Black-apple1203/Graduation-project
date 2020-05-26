@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="public:meta"/>
+<link href="../public/css/company/common.css" rel="stylesheet" type="text/css"/>
+<link href="../public/css/company/company_user.css" rel="stylesheet" type="text/css"/>
+<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="Company/index_header"/>
+<div class="user_main">
+    <div class="mleft">
+        <include file="Company/left_user"/>
+    </div>
+    <div class="mright">
+        <div class="user_pagetitle safety_user_pagetitle">
+            <div class="pat_l">企业账号注销</div>
+            <div class="clear"></div>
+        </div>
+        <div class="user_tab">
+            <a href="{:U('company/user_security')}" class="tabli " >账号安全</a>
+            <a href="{:U('company/user_loginlog')}" class="tabli ">登录日志</a>
+            <a href="{:U('accountMigration/index')}" class="tabli select">账号迁移</a>
+            <div class="clear"></div>
+        </div>
+        <div class="user_tip">
+            <div class="tiptit">小提示</div>
+            <div class="tiptxt link_blue">
+                企业账号注销主要用于误操作致产生企业账号。本操作不可还原，请谨慎操作！ 如果您的企业账号有数据，建议使用 <a href="{:U('accountMigration/index')}">账号迁移</a>
+            </div>
+        </div>
+        <div class="migration">
+            <div class="migration_form">
+                <div class="item link_blue"><span class="label"><span class="font_red">*</span> 当前绑定手机号：</span><span class="font_bold">{$members_info.mobile}</span> <a href="javascript:;" class="getcode" id="J_mobileVerifyCode">获取验证码</a></div>
+                <div class="item"><span class="label"><span class="font_red">*</span> 验证码：</span><input autocomplete="off" type="text" value="" class="input_205_34" id="code"></div>
+                <div class="item"><span class="label"></span><div class="btn_blue J_hoverbut btn_115_38 migration_btn" id="J_apply">提交注销申请</div></div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+</body>
+<include file="Company/index_footer"/>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var timer,ountdownVal = 60,
+        ountdown = function(){
+            ountdownVal--;
+            if(ountdownVal<=0){
+                clearInterval(timer);
+                $('#J_mobileVerifyCode').html('获取验证码').removeClass('disabled').prop('disabled', 0);
+            }else{
+                $('#J_mobileVerifyCode').html('重发'+ ountdownVal +'秒').addClass('disabled').prop('disabled', !0);
+            }
+        };
+        var mobile = "{$members_info.mobile}";
+        $('#J_mobileVerifyCode').click(function(){
+            $.post("{:U('send_mobile_code_cancellation')}",{mobile:mobile},function(result){
+                if(result.status == 1){
+                    disapperTooltip('success',result.msg);
+                    timer=setInterval(ountdown,1000);
+                }else{
+                    disapperTooltip('remind',result.msg);
+                    return false;
+                }
+            },'json');
+        });
+        var stop = 0;
+        $('#J_apply').click(function(){
+            if(stop==1){
+                return false;
+            }
+            stop = 1;
+            var verifycode = $.trim($('#code').val());
+            $.post("{:U('apply_cancellation')}",{verifycode:verifycode},function(result){
+                if(result.status == 1){
+                    location.href=result.data;
+                } else {
+                    stop = 0;
+                    disapperTooltip('remind',result.msg);
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

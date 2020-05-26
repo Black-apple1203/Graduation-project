@@ -1,0 +1,178 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/company/company_resumes.css" rel="stylesheet" type="text/css" />
+    <link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+	<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+	<include file="index_header" />
+	<div class="user_main">
+		<div class="mleft">
+			<include file="left_resumes" /> 
+		</div>
+		<div class="mright">
+			<div class="user_pagetitle">
+				<div class="pat_l">已下载的简历</div>
+				<!--<div class="pat_r">系统保留三个月的记录，共<strong> {$down_list['count']} </strong>条</div>-->
+				<div class="clear"></div>
+			</div>
+				
+			<div class="resume_down_th">
+    			<div class="th1">
+    				<div class="input_90_30_div J_hoverinput J_dropdown J_listitme_parent">
+						<span class="J_listitme_text">
+							<if condition="$state eq ''">
+								状态标签
+							<elseif condition="$state eq 0"/>
+								未标注
+							<else />
+								{$state_arr[$state]}
+							</if>
+						</span>
+						<div class="dropdowbox11 J_dropdown_menu">
+				            <div class="dropdow_inner11">
+				                <ul class="nav_box">
+									<li><a class="J_listitme" href="{:P(array('state'=>''))}" >全部</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('state'=>0))}" >未标注</a></li>
+				                	<volist name="state_arr" id="vo">
+				                	<li><a class="J_listitme" href="{:P(array('state'=>$key))}" >{$vo}</a></li>
+				                	</volist>
+				                </ul>
+				            </div>
+				        </div>
+					</div>
+    			</div>
+    			<div class="th2">姓名</div>
+    			<div class="th3">基本信息</div>
+    			<div class="th4">
+    				<div class="input_90_30_div J_hoverinput J_dropdown J_listitme_parent">
+						<span class="J_listitme_text">
+							<if condition="$Think.get.settr eq 0">
+								下载时间
+							<else />
+								{$Think.get.settr}天内
+							</if>
+						</span>
+						<div class="dropdowbox11 J_dropdown_menu">
+				            <div class="dropdow_inner11">
+				                <ul class="nav_box">
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>0))}" >不限时间</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>3))}" >3天内</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>7))}" >7天内</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>15))}" >15天内</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>30))}" >30天内</a></li>
+				                </ul>
+				            </div>
+				        </div>
+					</div>
+    			</div>
+    			<div class="clear"></div>
+    		</div>
+			<form id="form1" class="J_allListBox" action="{:U('del_resume_down')}" method="post">
+			<notempty name="down_list['list']">
+			<volist name="down_list['list']" id="vo">		
+			<div class="resume_down">
+			<if condition="$vo['fullname']">
+				<div class="td1">
+					<div class="input">
+						<input name="y_id[]" class="J_allList" type="checkbox" value="{$vo['did']}" resume_id="{$vo['resume_id']}"> &nbsp;
+					</div>
+					<div title="<if condition="$vo['is_reply'] gt 0">{$state_arr[$vo['is_reply']]}</if>" class="replay_icon J_dropdown <if condition="$vo['is_reply'] gt 0">s{$vo['is_reply']}</if>">
+					<if condition="$vo['is_reply'] gt 0">{$state_arr[$vo['is_reply']]}
+					<else/>未标注
+					</if>
+					<div class="dropdowboxdown J_dropdown_menu">
+			            <div class="dropdow_innerdown">
+			                <ul class="nav_box">
+			                	<volist name="state_arr" id="st">
+			                	<li><a class="J_listitme label_resume s{$key}" href="{:U('company_label_resume_down',array('y_id'=>$vo['did'],'state'=>$key))}" >{$st}</a></li>
+			                	</volist>
+			                </ul>
+			            </div>
+			        </div>
+					</div>
+    				<div class="clear"></div>
+    			</div>
+    			<div class="td2 link_blue substring"><a href="{:url_rewrite('QS_resumeshow',array('id'=>$vo['resume_id'],'from_down'=>1))}" target="_blank" title="{$vo['resume_name']}">{$vo['resume_name']}</a></div>
+    			<div class="td3">{$vo['age']}岁/{$vo['sex_cn']}/{$vo['education_cn']}/{$vo['experience_cn']}</div>
+    			<div class="td4">{:fdate($vo['down_addtime'])}</div>
+    		<else />
+				<div class="td5">
+					<input name="y_id[]" class="J_allList" type="checkbox" value="{$vo['did']}">&nbsp;&nbsp;&nbsp;&nbsp;
+					该简历不存在或已被删除
+    			</div>
+    			<div class="td3">&nbsp;</div>
+    			<div class="td4">{:fdate($vo['down_addtime'])}</div>
+    		</if>
+    			<div class="clear"></div>					
+			</div>
+			</volist>
+			<div class="resume_but">
+		 		<div class="td1"><input class="J_allSelected" type="checkbox" value="" /></div>
+		 		<div class="td2">
+		 			<div class="btn_blue J_hoverbut btn_inline" id="save_as_doc_word">保存到电脑</div>
+		 		</div>
+		 		<div class="clear"></div>
+	    	</div>
+			<div class="qspage">{$down_list['page']}</div>
+			<else />
+				<if condition="$hasget">
+				<div class="res_empty">
+					抱歉，没有找到符合您条件的简历，建议您修改筛选条件后重试
+				</div>
+				<else />
+				<div class="res_empty link_blue">
+					您还没有下载过简历，建议您主动出击找人才！<br />
+					海量优质简历任您选，快速招人不再难。立即 <a href="{:url_rewrite('QS_resume')}" target="_blank">搜人才</a>
+				</div>
+				</if>
+			</notempty>
+			</form>
+		</div>	
+	</div>
+	<include file="index_footer" />
+	
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".label_resume").click(function(){
+				var url = $(this).attr('href');
+				$.getJSON(url,function(result){
+					if(result.status==1){
+						disapperTooltip('success', result.msg);
+						setTimeout(function () {
+	                        window.location.reload();
+	                    }, 2000);
+					}else{
+						disapperTooltip('remind', result.msg);
+					}
+				});
+				return false;
+			});
+
+			$("#save_as_doc_word").click(function(){
+				var $checkArr = $('.J_allList:checked');
+				if($checkArr.length <= 0){
+					disapperTooltip('remind', '请选择简历');
+					return false;
+				}
+				var valArr = new Array();
+				$.each($checkArr, function(){
+					if($(this).attr('resume_id')){
+						valArr.push($(this).attr('resume_id'));
+					}
+				});
+				if(valArr.length == 0){
+					disapperTooltip('remind','选择的简历不存在或已被删除！');
+					return false;
+				}
+				$("#form1").attr('action',"{:U('resume_doc_for_download')}");
+				$("#form1").attr('target',"_blank");
+				$("#form1").submit();
+			});
+		});
+	</script>
+</body>
+</html>

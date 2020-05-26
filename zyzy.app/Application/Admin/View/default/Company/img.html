@@ -1,0 +1,105 @@
+<include file="public:header"/>
+
+<div class="seltpye_x">
+    <div class="left">审核状态</div>
+    <div class="right">
+        <a href="{:P(array('audit'=>''))}" <eq name='Think.get.audit' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('audit'=>'1'))}" <eq name='Think.get.audit' value='1'>class="select"</eq>>审核通过</a>
+        <a href="{:P(array('audit'=>'2'))}" <eq name='Think.get.audit' value='2'>class="select"</eq>>等待审核<if condition="$count"><span>({$count})</span></if></a>
+        <a href="{:P(array('audit'=>'3'))}" <eq name='Think.get.audit' value='3'>class="select"</eq>>审核未通过</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<form id="form1" name="form1" method="post" action="{:U('CompanyImg/delete')}">
+    <input name="_k_v" type="hidden" value="{$Think.get._k_v}">
+    <input name="utype" type="hidden" value="1">
+    <div class="toptit nomargin">
+        <label id="chkAll" class="left_padding">
+            <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>企业风采
+        </label>
+    </div>
+    <div class="imglist">
+        <volist name="list" id="vo">
+            <div class="li">
+                <div class="checkbox">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['i_id']}"/>
+                </div>
+                <a href="javascript:void(0);" class="audit" id="setAudit" data-param="id[]={$vo['i_id']}&utype=1">
+                    <!--<if condition="$vo['audit'] eq '0'">未审核</if>-->
+                    <if condition="$vo['audit'] eq '1'"><span style="color: #99FF00">审核通过</span></if>
+                    <if condition="$vo['audit'] eq '2'"><span style="color:#FF0000">等待审核</span></if>
+                    <if condition="$vo['audit'] eq '3'">审核未通过</if>
+                </a>
+                <a href="{:attach($vo['img'],'company_img')}" target="_blank">
+                    <img src="{:attach($vo['img'],'company_img')}" border="0" align="absmiddle" />
+                </a>
+                <div class="imgfoot link_w">
+                    <div class="date">{$vo.addtime|date="Y-m-d H:i",###}</div>
+                    <div class="manager"><a href="javascript:void(0);" class="userinfo" parameter="uid={$vo['uid']}" hideFocus="true">管理</a></div>
+                    <div class="del"><a href="{:U('delete',array('id'=>$vo['i_id']))}" onclick="return confirm('你确定要删除吗？')">删除</a></div>
+                </div>
+            </div>
+        </volist>
+        <div class="clear" <notempty name="list">style="height:20px;"</notempty>></div>
+    </div>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAudit" value="审核图片"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除"/>
+    </div>
+    <div class="footso"></div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //批量审核
+        $("#ButAudit").click(function () {
+            var ids = $("input[name='id[]']:checked");
+            //alert(ids.length);return;
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择图片！');
+            } else {
+                var qsDialog = $(this).dialog({
+                    title: '审核图片',
+                    loading: true,
+                    footer : false
+                });
+                var data = $("form[name=form1]").serialize();
+                var url = "{:U('Ajax/img_audit')}";
+                $.post(url, data, function (result) {
+                    if(result.status == 1){
+                        qsDialog.setContent(result.data);
+                    } else {
+                        qsDialog.hide();
+                        disapperTooltip('remind',result.msg);
+                    }
+                });
+            }
+        });
+        //批量删除
+        $("#ButDel").click(function () {
+            var ids = $("input[name='id[]']:checked");
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择图片！');
+            } else {
+                if(confirm('确定删除吗？')){
+                    $("#form1").submit();
+                }
+            }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,13 @@
+<volist name="resume_list" id="resume">
+    <div class="sjj-cell a{$i}">
+        <div class="sjj-cell-left">
+            <div class="sj-cn"><a target="_blank" href="{$resume.resume_url}">{$resume.fullname}</a></div>
+            <div class="c-sp-9"></div>
+            <div class="sj-line substring">学历：{$resume.education_cn}&nbsp;&nbsp;|&nbsp;&nbsp;经验：{$resume.experience_cn}&nbsp;&nbsp;|&nbsp;&nbsp;<span class="font_yellow">{:date("Y-m-d",$resume['refreshtime'])}</span></div>
+            <div class="c-sp-14"></div>
+            <div class="sj-line font_gray9 substring">{$resume.intention_jobs}</div>
+        </div>
+        <div class="sjj-cell-right"><a target="_blank" href="{$resume.resume_url}"><img src="{$resume.photosrc}"></a></div>
+        <div class="clear"></div>
+    </div>
+</volist>

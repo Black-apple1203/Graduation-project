@@ -1,0 +1,182 @@
+<include file="public:header"/>
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>页面标题设置以及关键字设置等请在页面管理中设置。</p>
+        <p>网站域名和网站安装目录填写错误可导致网站部分功能不能使用。</p>
+    </div>
+<form id="form1">
+    <div class="toptit">网站配置</div>
+    <div class="form_main width200">
+        <div class="fl">网站名称：</div>
+        <div class="fr">
+            <input name="site_name" type="text" class="input_text_default" maxlength="30" value="{:C('qscms_site_name')}"/>
+        </div>
+        <div class="fl">网站域名：</div>
+        <div class="fr">
+            <input name="site_domain" type="text" class="input_text_default" maxlength="100" value="{:C('qscms_site_domain')}" placeholder="结尾不要加 &quot; / &quot;" />
+        </div>
+        <div class="fl">安装目录：</div>
+        <div class="fr">
+            <input name="site_dir" type="text" class="input_text_default" maxlength="40" value="{:C('qscms_site_dir')}" placeholder='以 " / " 开头和结尾, 如果安装在根目录，则为" / "' />
+        </div>
+        <div class="fl">联系电话(顶部)：</div>
+        <div class="fr">
+            <input name="top_tel" type="text" class="input_text_default" maxlength="80" value="{:C('qscms_top_tel')}"/>
+        </div>
+        <div class="fl">联系电话(底部)：</div>
+        <div class="fr">
+            <input name="bootom_tel" type="text" class="input_text_default" maxlength="80" value="{:C('qscms_bootom_tel')}"/>
+        </div>
+        <div class="fl">联系邮箱：</div>
+        <div class="fr">
+            <input name="contact_email" type="text" class="input_text_default" maxlength="80" value="{:C('qscms_contact_email')}"/>
+        </div>
+        <div class="fl">网站底部联系地址：</div>
+        <div class="fr">
+            <input name="address" type="text" class="input_text_default" maxlength="120" value="{:C('qscms_address')}"/>
+        </div>
+        <div class="fl">网站底部其他说明：</div>
+        <div class="fr">
+            <input name="bottom_other" type="text" class="input_text_default" maxlength="200" value="{:C('qscms_bottom_other')}"/>
+        </div>
+        <div class="fl">网站备案号(ICP)：</div>
+        <div class="fr">
+            <input name="icp" type="text" class="input_text_default" maxlength="30" value="{:C('qscms_icp')}"/>
+        </div>
+        <div class="fl">暂时关闭网站：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_isclose') eq 1">select</if>"><input name="isclose" type="hidden" value="{:C('qscms_isclose')}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">暂时关闭原因：</div>
+        <div class="fr">
+            <input name="close_reason" type="text" class="input_text_default" value="{:C('qscms_close_reason')}"/>
+        </div>
+        <div class="fl">第三方流量统计代码：</div>
+        <div class="fr">
+            <textarea name="statistics" class="input_text_default" style="height: 100px; line-height: 180%;">{:C('qscms_statistics')}</textarea>
+        </div>
+        <div class="fl">网站首页Logo：</div>
+        <div class="fr J-file-input-box">
+            <if condition="C('qscms_logo_home')">
+                <div class="file-input-src">
+                    <div class="img"><img src="{:attach(C('qscms_logo_home'),'resource')}?_t={:time()}" align=absmiddle></div>
+                    <div class="del file-input-del" id="J_upload_logo_home_btn" name="logo_home">点击更换</div>
+                    <div class="r-note">(建议尺寸240*70)</div>
+                </div>
+            <else/>
+                <div class="file-input-src hid">
+                    <div class="img"></div>
+                    <div class="del file-input-del" id="" name="logo_home">点击更换</div>
+                    <div class="r-note">(建议尺寸240*70)</div>
+                </div>
+                <div class="file-input-block" id="J_upload_logo_home_btn" name="logo_home"><span class="o-txt">上传</span>网站首页Logo<span class="re-txt">(建议尺寸240*70)</span></div>
+            </if>
+            <input type="hidden" class="file-input-save-name" name="logo_home" value="{:C('qscms_logo_home')}">
+        </div>
+        <div class="fl">网站其它页Logo：</div>
+        <div class="fr J-file-input-box">
+            <if condition="C('qscms_logo_other')">
+                <div class="file-input-src">
+                    <div class="img"><img src="{:attach(C('qscms_logo_other'),'resource')}?_t={:time()}" align=absmiddle></div>
+                    <div class="del file-input-del" id="J_upload_logo_other_btn" name="logo_other">点击更换</div>
+                    <div class="r-note">(建议尺寸210*55)</div>
+                </div>
+            <else/>
+                <div class="file-input-src hid">
+                    <div class="img"></div>
+                    <div class="del file-input-del" id="" name="logo_other">点击更换</div>
+                    <div class="r-note">(建议尺寸210*55)</div>
+                </div>
+                <div class="file-input-block" id="J_upload_logo_other_btn" name="logo_other" ><span class="o-txt">上传</span>网站其它页Logo<span class="re-txt">(建议尺寸210*55)</span></div>
+            </if>
+            <input type="hidden" class="file-input-save-name" name="logo_other" value="{:C('qscms_logo_other')}">
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" id="J_submit" value="保存修改"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+<script type="text/javascript">
+  var uploadUrl = "{:U('Upload/form_upload')}";
+</script>
+<script src="__ADMINPUBLIC__/js/ajaxfileupload.js"></script>
+<script src="__ADMINPUBLIC__/js/fileupload.js"></script>
+<script>
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('config/edit')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+    // 上传网站首页Logo
+    $.upload('#J_upload_logo_home_btn',{name:'logo_home',dir:'resource'},function(result){
+        if(result.error == 1){
+            var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+            $('#J_upload_logo_home_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+            $('#J_upload_logo_home_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+            if ($('#J_upload_logo_home_btn').hasClass('file-input-block')) {
+              $('#J_upload_logo_home_btn').closest('.J-file-input-box').find('.file-input-src').removeClass('hid');
+              var $delObj = $('#J_upload_logo_home_btn').closest('.J-file-input-box').find('.file-input-del');
+              $('#J_upload_logo_home_btn').remove();
+              $delObj.attr('id', "J_upload_logo_home_change_btn");
+              $.upload('#J_upload_logo_home_change_btn',{name:'logo_home',dir:'resource'},function(result){
+                if(result.error == 1){
+                  var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+                  $('#J_upload_logo_home_change_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+                  $('#J_upload_logo_home_change_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+                } else {
+                  disapperTooltip("remind", "上传失败："+result.message);
+                }
+              })
+            }
+        } else {
+            disapperTooltip("remind", "上传失败："+result.message);
+        }
+    })
+
+    // 上传网站其它页Logo
+    $.upload('#J_upload_logo_other_btn',{name:'logo_other',dir:'resource'},function(result){
+      if(result.error == 1){
+        var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+        $('#J_upload_logo_other_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+        $('#J_upload_logo_other_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+        if ($('#J_upload_logo_other_btn').hasClass('file-input-block')) {
+          $('#J_upload_logo_other_btn').closest('.J-file-input-box').find('.file-input-src').removeClass('hid');
+          var $delObj = $('#J_upload_logo_other_btn').closest('.J-file-input-box').find('.file-input-del');
+          $('#J_upload_logo_other_btn').remove();
+          $delObj.attr('id', "J_upload_logo_other_change_btn");
+          $.upload('#J_upload_logo_other_change_btn',{name:'logo_other',dir:'resource'},function(result){
+            if(result.error == 1){
+              var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+              $('#J_upload_logo_other_change_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+              $('#J_upload_logo_other_change_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+            } else {
+              disapperTooltip("remind", "上传失败："+result.message);
+            }
+          })
+        }
+      } else {
+        disapperTooltip("remind", "上传失败："+result.message);
+      }
+    })
+</script>
+</body>
+</html>

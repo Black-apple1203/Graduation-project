@@ -1,0 +1,33 @@
+<div class="mantit" style="margin-top:15px; margin-bottom: 8px;"><strong>订单列表</strong></div>
+<div style="max-height:200px;overflow-y:auto">
+    <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#DFDFDF" class="link_lan">
+        <tr>
+            <td width="120" bgcolor="#FFFFFF" align="center">下单时间</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">金额</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">支付状态</td>
+            <td bgcolor="#FFFFFF">订单说明</td>
+        </tr>
+        <if condition="$list">
+            <volist name="list" id="vo">
+                <tr>
+                    <td bgcolor="#FFFFFF" align="center">{:admin_date($vo['addtime'])}</td>
+                    <td bgcolor="#FFFFFF" align="center">{$vo['amount']}</td>
+                    <td bgcolor="#FFFFFF" align="center">
+                        <if condition="$vo['is_paid'] eq 1">
+                            <span style="color: #FF6600">待付款</span>
+                        <elseif condition="$vo['is_paid'] eq 2" />
+                            <span style="color: #009900;">已完成</span>
+                        <else />
+                            <span style="color: #999;">已取消</span>
+                        </if>
+                    </td>
+                    <td bgcolor="#FFFFFF">{$vo['service_name']}</td>
+                </tr>
+            </volist>
+        <else/>
+            <tr>
+                <td colspan="4" bgcolor="#FFFFFF">没有任何信息！</td>
+            </tr>
+        </if>
+    </table>
+</div>

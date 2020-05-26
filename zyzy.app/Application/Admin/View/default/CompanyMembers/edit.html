@@ -1,0 +1,104 @@
+<include file="public:header"/>
+
+<div class="toptit">
+    编辑会员 (用户名：<span style="color:#0066CC">{$company_user.username}</span>)
+</div>
+<div class="form_main width120">
+    <div class="fl">注册时间:</div>
+    <div class="fr txt">{$company_user.reg_time|date="Y-m-d H:i",###}</div>
+    <div class="fl">注册IP:</div>
+    <div class="fr txt">{$company_user.reg_ip|default='- - - -'}</div>
+    <div class="fl">注册地:</div>
+    <div class="fr txt">{$company_user.reg_address|default='- - - -'}</div>
+    <div class="fl">最后登录时间:</div>
+    <div class="fr txt">{$company_user.last_login_time|date="Y-m-d H:i",###}</div>
+    <div class="fl">最后登录IP:</div>
+    <div class="fr txt"><if condition="$company_user['last_login_ip']">{$company_user.last_login_ip}<else />- - - -</if></div>
+    <div class="clear"></div>
+</div>
+
+<div class="toptit link_blue">基本信息</div>
+<form action="{:U('edit')}" method="post" name="FormData" id="FormData" >
+    <div class="form_main width120">
+        <div class="fl">用户名:</div>
+        <div class="fr">
+            <input name="username" type="text" class="input_text_default middle" maxlength="16" value="{$company_user.username}"/>
+        </div>
+        <div class="fl">手机:</div>
+        <div class="fr">
+            <input name="mobile" type="text" class="input_text_default middle" maxlength="11" value="{$company_user.mobile}" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+        </div>
+        <div class="fl">&nbsp;</div>
+        <div class="fr">
+            <input name="landline_tel_first" type="text" class="input_text_default" maxlength="4" value="{$company_user['landline_tel_first']}" style="width: 70px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> -
+            <input name="landline_tel_next" type="text" class="input_text_default" maxlength="11" value="{$company_user['landline_tel_next']}" style="width: 207px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> -
+            <input name="landline_tel_last" type="text" class="input_text_default" maxlength="6" value="{$info['landline_tel_last']}" style="width: 70px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            <label><input name="landline_tel_show" type="checkbox" value="1" <if condition="$company_user['landline_tel_show'] eq 1">checked="checked"</if> />对外公开</label>
+        </div>
+        <div class="fl">邮箱:</div>
+        <div class="fr">
+            <input name="email" type="text" class="input_text_default middle" maxlength="50" value="{$company_user.email}"/>
+        </div>
+        <div class="fl">QQ绑定:</div>
+        <div class="fr txt">
+            <if condition="$company_user['qq_openid']">
+                已绑定QQ账号<label><input type="checkbox" name="qq_openid" value="1"/>取消绑定</label>
+            <else />
+                未绑定QQ帐号
+            </if>
+        </div>
+        <div class="fl">企业模版:</div>
+        <div class="fr">
+            <input name="tpl" type="text" class="input_text_default middle" maxlength="16" value="{$company_user.tpl}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="uid"  value="{$company_user.uid}" />
+            <input type="hidden" name="_k_v" value="{$Think.get._k_v}">
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">修改密码</div>
+<form action="{:U('edit')}" method="post">
+    <div class="form_main width120">
+        <div class="fl">新密码:</div>
+        <div class="fr">
+            <input name="password" type="password" class="input_text_default middle" maxlength="50" value=""/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="uid"  value="{$company_user.uid}" />
+            <input type="hidden" name="_k_v" value="{$Think.get._k_v}">
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">用户状态</div>
+<form action="{:U('edit')}" method="post">
+    <div class="form_main width120">
+        <div class="fl">帐号状态:</div>
+        <div class="fr">
+            <div data-code="2,1" class="imgchecked_small <eq name='company_user.status' value='1'>select</eq>"><input name="status" type="hidden" value="{$company_user['status']}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="uid"  value="{$company_user.uid}" />
+            <input type="hidden" name="_k_v" value="{$Think.get._k_v}">
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+</body>
+</html> 

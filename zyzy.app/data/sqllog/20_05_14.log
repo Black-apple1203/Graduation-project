@@ -1,0 +1,24 @@
+[ 2020-05-14T00:37:11+08:00 ] 127.0.0.1 /index.php?m=Home&c=index&a=ajax_recommend_resume
+SQL: SHOW COLUMNS FROM `qs_resume` [RunTime:0.2411s] [IP:127.0.0.1:42531] [AddTime:1589387831] [qscms]
+[ 2020-05-14T09:57:44+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: SHOW COLUMNS FROM `qs_menu` [RunTime:0.2356s] [IP:127.0.0.1:52211] [AddTime:1589421464] [qscms]
+[ 2020-05-14T09:57:45+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: SHOW COLUMNS FROM `qs_admin_auth` [RunTime:0.2325s] [IP:127.0.0.1:52211] [AddTime:1589421465] [qscms]
+[ 2020-05-14T09:57:45+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: DELETE FROM `qs_admin_auth` WHERE `role_id` = null [RunTime:0.2589s] [IP:127.0.0.1:52211] [AddTime:1589421465] [qscms]
+[ 2020-05-14T09:57:47+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: SELECT `id`,`pid`,`is_parent`,`name` FROM `qs_menu` WHERE `mods` <> 1 AND `module_name` IN ('Home','Admin')   ORDER BY pid,ordid  [RunTime:0.6529s] [IP:127.0.0.1:52211] [AddTime:1589421467] [qscms]
+[ 2020-05-14T09:57:48+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=index&a=login','127.0.0.1:52211','本机地址','1589421468','0','','0') [RunTime:0.2347s] [IP:127.0.0.1:52211] [AddTime:1589421468] [qscms]
+[ 2020-05-14T09:57:58+08:00 ] 127.0.0.1 /index.php?m=Admin&c=index&a=login
+SQL: DELETE FROM `qs_admin_log` WHERE `log_addtime` < 1581645478 [RunTime:0.2835s] [IP:127.0.0.1:52234] [AddTime:1589421478] [qscms]
+[ 2020-05-14T10:20:23+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+SQL: SELECT `id` FROM qs_jobs_search j WHERE MATCH (`key`) AGAINST ("+eme1" IN BOOLEAN MODE)   ORDER BY stime desc  LIMIT 0,15  [RunTime:0.3209s] [IP:127.0.0.1:54147] [AddTime:1589422823] [qscms]
+[ 2020-05-14T10:20:24+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+SQL: SELECT COUNT(distinct uid) AS tp_count FROM `qs_jobs_search`   ORDER BY refreshtime desc,id desc  LIMIT 1  [RunTime:0.2029s] [IP:127.0.0.1:54147] [AddTime:1589422824] [qscms]
+[ 2020-05-14T10:20:24+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+SQL: SELECT * FROM `qs_jobs` WHERE `id` IN ('5','6','3','2','4','7','1')   ORDER BY field(id,5,6,3,2,4,7,1)  LIMIT 16  [RunTime:0.3818s] [IP:127.0.0.1:54147] [AddTime:1589422824] [qscms]
+[ 2020-05-14T17:22:32+08:00 ] 127.0.0.1 /index.php?m=Admin&c=index&a=total
+SQL: SHOW COLUMNS FROM `qs_company_down_resume` [RunTime:0.3171s] [IP:127.0.0.1:1253] [AddTime:1589448152] [qscms]
+[ 2020-05-14T17:45:04+08:00 ] 127.0.0.1 /index.php?m=Admin&c=index&a=total
+SQL: SHOW COLUMNS FROM `qs_resume` [RunTime:0.4164s] [IP:127.0.0.1:3467] [AddTime:1589449504] [qscms]

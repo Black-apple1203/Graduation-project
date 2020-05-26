@@ -1,0 +1,150 @@
+<include file="public:header"/>
+  <div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>重置顾问是指：对已有顾问企业会员删除其顾问并进行重新设置。</p>
+  </div>
+
+<div class="toptit">
+    顾问姓名：<span style="color:#0066CC">{$consultant.name}</span>，顾问QQ：<span style="color:#0066CC">{$consultant.qq}</span>
+</div>
+<form id="form1" name="form1" method="post" action="{:U('resetting')}">
+    <div class="list_th">
+        <div class="td" style=" width:17%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>用户名
+            </label>
+        </div>
+        <div class="td" style=" width:15%;">企业信息</div>
+        <div class="td" style=" width:15%;">手机</div>
+        <div class="td" style=" width:20%;">email</div>
+        <div class="td center" style=" width:14%;">注册时间</div>
+        <div class="td center" style=" width:14%;">最后登录时间</div>
+        <div class="td" style=" width:5%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:17%;">
+                <div class="left_padding striking">
+                    <input name="uid[]" type="checkbox" id="id" value="{$vo['uid']}"/>{$vo['username']}
+                </div>
+            </div>
+            <div class="td" style=" width:15%;">
+                <if condition="$vo['trade']">
+                    <a href="{:url_rewrite('QS_companyshow',array('id'=>$vo['id']))}" target="_blank">{$vo.companyname}</a>
+                    <else/>
+                    <span style="color: #999999">未完善企业资料</span>
+                </if>
+            </div>
+            <div class="td" style=" width:15%;">
+                <span>{$vo['mobile']}</span>
+                <if condition="$vo['mobile']">
+                    <span class="smstip ajax_send_sms" title="发送短信" parameter="mobile={$vo['mobile']}&uid={$vo['uid']}">&nbsp;&nbsp;</span>
+                    <else />未填写
+                </if>
+            </div>
+            <div class="td" style=" width: 20%;">
+                <span><if condition="$vo['email']">{$vo['email']}<else />未填写</if></span>
+            </div>
+            <div class="td center" style=" width:14%;">{:admin_date($vo['reg_time'])}</div>
+            <div class="td center" style=" width:14%;">
+                <if condition="$vo['last_login_time']">
+                    {:admin_date($vo['last_login_time'])}<else />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从未登录
+                </if>
+                <span class="view login_log" title="最新5次登录记录" parameter="id={$vo['uid']}">&nbsp;&nbsp;&nbsp;</span>
+            </div>
+            <div class="td edit" style=" width:5%;">
+                <a href="{:U('resetting',array('uid'=>$vo['uid']))}" id="{$vo.uid}" onClick="return confirm('你确定要重置顾问吗？')">重置</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButResetting" value="重置顾问"/>
+        <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='公司名'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='公司名'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="公司名">公司名</li>
+                        <li id="2" title="公司ID">公司ID</li>
+                        <li id="3" title="会员名">会员名</li>
+                        <li id="4" title="会员ID">会员ID</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //发送短信
+        $(".ajax_send_sms").click(function () {
+            $('.modal_backdrop').remove();
+            $('.modal').remove();
+            var qsDialog = $(this).dialog({
+                title: '发送短信',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/ajax_send_sms')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //登录日志
+        $(".login_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '登录日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/login_log')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //批量重置
+        $("#ButDel").click(function () {
+            var data = $("form[name=form1]").serialize();
+            if(data.length == 0){
+                disapperTooltip('remind','请选择企业！');
+            } else {
+                if (confirm('你确定要重置顾问吗？')) {
+                    $("form[name=form1]").submit();
+                }
+            }
+        });
+        $("#ButResetting").click(function(){
+            $("form[name=form1]").submit();
+        });
+    });
+</script>
+</html>

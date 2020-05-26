@@ -1,0 +1,115 @@
+<include file="public:header"/>
+
+<div class="toptit">发送系统消息</div>
+<div class="form_main width120">
+    <form action="{:U('add')}" method="post" name="FormData" id="FormData">
+        <div class="fl">接受会员:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="spms_usertype" type="hidden" value="0">
+                <div class="radio select" data="0" title="全部会员">全部会员</div>
+                <div class="radio" data="1" title="企业会员">企业会员</div>
+                <div class="radio" data="2" title="个人会员">个人会员</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">消息类型:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="spms_type" type="hidden" value="1">
+                <div class="radio select" data="1" title="普通消息">普通消息</div>
+                <div class="radio" data="2" title="注册提醒">注册提醒</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+		<if condition="C('qscms_subsite_open') eq 1">
+           <div class="fl">分站:</div>
+		   <div class="fr">
+			   <div class="imgradio">
+				   <input name="subsite_id" type="hidden" value="0">
+				   <volist name="subsite_list" id="subsite">
+					<div class="radio <if condition="$i eq 1">select</if>" data="{$subsite.s_id}">{$subsite.s_sitename}</div>
+					</volist>
+				   <div class="clear"></div>
+			   </div>
+		   </div>
+		</if>
+        <div class="fl">消息内容:</div>
+        <div class="fr">
+            <textarea name="message" class="input_text_default middle" style="height: 100px; line-height: 20px;"></textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="发送" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </form>
+</div>
+
+<div class="toptit">发送给指定会员<span style="color: #999999; font-size: 12px;">（此信息不会在消息列表中显示）</span></div>
+<div class="form_main width120">
+    <form id="form1" action="{:U('add')}" method="post">
+        <div class="fl">接受会员:</div>
+        <div class="fr">
+            <textarea name="us" class="input_text_default middle" style="height: 100px; line-height: 20px;" placeholder="多个会员名请换行输入"></textarea>
+        </div>
+        <div class="fl">消息内容:</div>
+        <div class="fr">
+            <textarea name="msg" class="input_text_default middle" style="height: 100px; line-height: 20px;"></textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="发送" id="J_button"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </form>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('add')}",$('#FormData').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        $('#J_button').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('add')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

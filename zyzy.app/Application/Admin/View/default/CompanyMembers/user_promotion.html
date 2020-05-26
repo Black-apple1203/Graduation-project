@@ -1,0 +1,102 @@
+<include file="public:header" />
+  <div class="seltpye_x">
+    <div class="left">到期时间</div>
+    <div class="right">
+      <a href="{:P(array('settr'=>''))}" <if condition="$Think.get.settr eq ''">class="select"</if>>不限</a>
+      <a href="{:P(array('settr'=>'0'))}" <if condition="$Think.get.settr eq '0'">class="select"</if>>已经到期</a>
+      <a href="{:P(array('settr'=>'3'))}" <if condition="$Think.get.settr eq '3'">class="select"</if>>三天内到期</a>
+      <a href="{:P(array('settr'=>'7'))}" <if condition="$Think.get.settr eq '7'">class="select"</if>>一周内到期</a>
+      <a href="{:P(array('settr'=>'30'))}" <if condition="$Think.get.settr eq '30'">class="select"</if>>一月内到期</a>
+      <a href="{:P(array('settr'=>'90'))}" <if condition="$Think.get.settr eq '90'">class="select"</if>>三月内到期</a>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <div class="seltpye_x">
+    <div class="left">推广方案</div>
+    <div class="right">
+      <a href="{:P(array('ptype'=>''))}" <if condition="$Think.get.ptype eq ''">class="select"</if>>不限</a>
+      <a href="{:P(array('ptype'=>stick))}" <if condition="$Think.get.ptype eq 'stick'">class="select"</if>>职位置顶</a>
+      <a href="{:P(array('ptype'=>'emergency'))}" <if condition="$Think.get.ptype eq 'emergency'">class="select"</if>>职位紧急</a>
+      <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+  </div>
+  <form id="form1" name="form1" method="post" action="{:U('promotion/delete')}">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0"  id="list" class="link_lan">
+      <tr>
+        <td  width="30%" class="admin_list_tit admin_list_first">
+          <label id="chkAll"><input type="checkbox" name="" title="全选/反选" id="chk"/>推广职位</label>   </td>
+          <td align="center"  class="admin_list_tit">开始时间</td>
+          <td  align="center"  class="admin_list_tit">到期时间</td>
+          <td width="10%" align="center"  class="admin_list_tit">操作</td>
+        </tr>
+        <volist name="list" id="vo">
+        <tr>
+          <td   class="admin_list admin_list_first">
+            <input type="checkbox" name="id[]"  value="{$vo.cp_id}"/>
+            <a href="{$vo.jobs_url}" target="_blank" >{$vo.jobs_name}</a> &nbsp;&nbsp;
+            <span style="color:
+              <if condition="$vo['cp_ptype'] eq 'stick'">
+              #FF6600
+              <elseif condition="$vo['cp_ptype'] eq 'emergency'" />
+              #009900
+              <else />
+              #0099FF
+              </if>
+            ">[<if condition="$vo['cp_ptype'] eq 'stick'">置顶<else />紧急</if>]</span>
+          </td>
+          
+          <td align="center"  class="admin_list">
+            <if condition="$vo['cp_starttime'] eq '0'">
+            无限制
+            <else />
+            {$vo.cp_starttime|date="Y-m-d",###}
+         </if>   </td>
+          <td align="center"  class="admin_list">
+            <if condition="$vo['cp_endtime'] eq '0'">
+            无限制
+            <else />
+            <if condition="$vo['cp_endtime'] lt $now">
+            <span style="color:#FF6600">已经到期</span>
+            <else />
+            {$vo.cp_endtime|date="Y-m-d",###}
+            </if>
+          </if>   </td>
+          <td align="center"  class="admin_list">
+            <a href="{:U('promotion/edit',array('uid'=>$vo['cp_uid'],'cp_id'=>$vo['cp_id']))}">修改</a>
+          </tr>
+          </volist>
+        </table>
+        <if condition="!$list">
+        <div class="admin_list_no_info">没有任何信息！</div>
+        </if>
+      </form>
+      
+      <table width="100%" border="0" cellspacing="10"  class="admin_list_btm">
+        <tr>
+          <td>
+            <input type="button" name="ButDel" id="ButDel" value="取消推广" class="admin_submit" />
+          </td>
+        </tr>
+      </table>
+      <div class="qspage">{$page}</div>
+    </div>
+<include file="public:footer" />
+
+<script type="text/javascript">
+$(document).ready(function()
+{
+    //点击批量取消
+  $("#ButDel").click(function(){
+    
+    if (confirm('你确定要取消推广吗？'))
+    {
+      $("form[name=form1]").submit()
+    }
+  });
+    
+});
+</script>
+  </body>
+</html>

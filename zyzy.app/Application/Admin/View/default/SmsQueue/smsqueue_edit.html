@@ -1,0 +1,34 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>短信内容不能超过70个字！</p>
+</div>
+<div class="toptit">修改短信任务</div>
+<form id="form1" name="form1" method="post"   action="{:U('smsqueue_edit')}" >
+    <div class="form_main width150">
+        <div class="fl">发送内容：</div>
+        <div class="fr">
+            <textarea name="s_body" class="input_text_default" id="s_body" style="height:80px;width:300px;">{$info.s_body}</textarea> 内容不能超过70个字符
+        </div>
+        <div class="fl">短信模板ID：</div>
+        <div class="fr">
+            <input name="s_tplid" type="text" maxlength="100" class="input_text_default middle" value="{$info.m_subject}"/> 
+            如需报备请填写报备后的模板ID，否则留空
+        </div>
+        <div class="fl">收件人：</div>
+        <div class="fr">
+            <input name="s_sms" type="text" maxlength="100" class="input_text_default middle" value="{$info.s_mobile}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="s_id" type="hidden" value="{$info.s_id}" />
+            <input name="submit3" type="submit" class="admin_submit"    value="修改"/>
+            <input name="submit22" type="button" class="admin_submit"    value="返回" onclick="Javascript:window.history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </form>
+</div>
+<include file="public:footer" />
+</body>
+</html>

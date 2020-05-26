@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/company/company_resumes.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+	<include file="index_header" />
+	<div class="user_main">
+		<div class="mleft">
+			<include file="left_resumes" /> 
+		</div>
+		<div class="mright">
+			<div class="user_pagetitle">
+				<div class="pat_l">我发起的面试邀请</div>
+				<!--<div class="pat_r">系统保留三个月的记录，共<strong> {$interview['count']} </strong>条</div>-->
+				<div class="clear"></div>
+			</div>
+				
+			<div class="resume_interview_select">
+				<div class="td1">面试职位：</div>
+				<div class="td2">
+					<div class="input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+						<span class="J_listitme_text line_substring">
+							<if condition="$jobs_id eq 0">
+								全部职位
+							<else />
+								{$jobs_list[$jobs_id]}
+							</if>
+						</span>
+						<div class="dropdowbox6 J_dropdown_menu">
+				            <div class="dropdow_inner6">
+				                <ul class="nav_box">
+				                	<li><a class="J_listitme" href="{:P(array('jobs_id'=>0))}" >全部职位</a></li>
+				                	<volist name="jobs_list" id="vo">
+				                	<li><a class="J_listitme" href="{:P(array('jobs_id'=>$key))}" >{$vo}</a></li>
+				                	</volist>
+				                </ul>
+				            </div>
+				        </div>
+					</div>
+				</div>
+				<div class="td3">
+					<label><input type="checkbox" <if condition="$Think.get.stop eq '1'">checked="checked"</if> url="<if condition="$Think.get.stop eq '1'">{:P(array('stop'=>0))}<else />{:P(array('stop'=>1))}</if>" class="jump">包含停招职位</label>
+				</div>
+				<div class="td1">查看状态：</div>
+				<div class="radio_list">
+					<div class="li jump <if condition="!$Think.get.look || $Think.get.look eq '0'">checked</if>" url="{:P(array('look'=>0))}">全部</div>
+					<div class="li jump <if condition="$Think.get.look eq '2'">checked</if>" url="{:P(array('look'=>2))}">对方已查看</div>
+					<div class="li jump <if condition="$Think.get.look eq '1'">checked</if>" url="{:P(array('look'=>1))}">对方未查看</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+
+			<div class="resume_interview_th">
+    			<div class="th1">姓名</div>
+    			<div class="th2">基本信息</div>
+    			<div class="th3">期望薪资</div>
+    			<div class="th4">
+	    			<div class="input_90_30_div J_hoverinput J_dropdown J_listitme_parent">
+						<span class="J_listitme_text">
+							<if condition="$Think.get.settr eq 0">
+								邀请时间
+							<else />
+								{$Think.get.settr}天内
+							</if>
+						</span>
+						<div class="dropdowbox11 J_dropdown_menu">
+				            <div class="dropdow_inner11">
+				                <ul class="nav_box">
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>0))}" >不限时间</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>3))}" >3天内</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>7))}" >7天内</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>15))}" >15天内</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>30))}" >30天内</a></li>
+				                </ul>
+				            </div>
+				        </div>
+					</div>
+    			</div>
+    			<div class="th5">操作</div>
+    			<div class="clear"></div>
+    		</div>
+			<form id="form1" action="{:U('del_jobs_interview')}" method="post" class="J_allListBox">
+			<notempty name="interview['list']">
+			<volist name="interview['list']" id="vo">		
+			<if condition="$vo['fullname']">
+				<div class="resume_interview">
+					<div class="td1 link_blue substring">
+						<input name="y_id[]" class="J_allList" type="checkbox" value="{$vo['did']}"> &nbsp;<a href="{$vo['resume_url']}" target="_blank" title="{$vo['resume_name']}">{$vo['resume_name']}</a>
+	    			</div>
+	    			<div class="td2">{$vo['age']}岁/{$vo['sex_cn']}/{$vo['education_cn']}/{$vo['experience_cn']}</div>
+	    			<div class="td3">{$vo['wage_cn']}</div>
+	    			<div class="td4">{:fdate($vo['interview_addtime'])}</div>
+	    			<div class="td5 link_blue">
+	    				<a href="javascript:;" class="J_interviewDetails info" did="{$vo['did']}">详情</a>&nbsp;&nbsp;
+	    				<a href="javascript:;" url="{:U('del_jobs_interview',array('y_id'=>$vo['did']))}" class="del">删除</a>
+	    			</div>
+	    			<div class="clear"></div>					
+				</div>
+			<else />
+				<div class="resume_interview">
+					<div class="td6"><input name="y_id[]" class="J_allList" type="checkbox" value="{$vo['did']}">&nbsp;&nbsp;该简历不存在或已被删除</div>
+	    			<div class="td3">&nbsp;</div>
+	    			<div class="td4">&nbsp;</div>
+	    			<div class="td5 link_blue">
+	    				<a href="javascript:;" url="{:U('del_jobs_interview',array('y_id'=>$vo['did']))}" class="del">删除</a>
+	    			</div>
+	    			<div class="clear"></div>					
+				</div>
+			</if>
+			</volist>
+			<div class="resume_but">
+		 		<div class="td1"><input class="J_allSelected" type="checkbox" value="" /></div>
+		 		<div class="td2">
+					<div class="btn_lightgray J_hoverbut btn_inline" id="delete">删除</div>
+		 		</div>
+		 		<div class="clear"></div>
+	    	</div>
+			<div class="qspage">{$interview['page']}</div>
+			<else />
+				<if condition="$hasget">
+				<div class="res_empty">
+					抱歉，没有找到符合您条件的简历，建议您修改筛选条件后重试
+				</div>
+				<else />
+				<div class="res_empty link_blue">
+					您还没有对个人发起过面试邀请，建议您主动出击找人才！<br />
+					海量优质简历任您选，快速招人不再难。立即 <a href="{:url_rewrite('QS_resume')}" target="_blank">搜人才</a>
+				</div>
+				</if>
+			</notempty>
+			</form>
+		</div>	
+	</div>
+	<include file="index_footer" />
+	<script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".jump").click(function(){
+				location.href=$(this).attr('url');
+			});
+			$("#delete").click(function(){
+				var listCheckedArray = $('.J_allListBox .J_allList:checked');
+	            if (listCheckedArray.length) {
+	                var url = $("#form1").attr('action');
+	                var qsDialog = $(this).dialog({
+	                    title: '删除面试邀请',
+	                    loading: true,
+	                    border: false,
+	                    yes: function () {
+	                        $("#form1").submit();
+	                    }
+	                });
+	                $.getJSON(url, function (result) {
+	                    if (result.status == 1) {
+	                        qsDialog.setContent(result.data.html);
+	                    } else {
+	                        disapperTooltip('remind', result.msg);
+	                    }
+	                });
+	            } else {
+	                disapperTooltip("remind", "请选择要删除的记录");
+	            }
+			});
+			$(".del").click(function () {
+	            var url = $(this).attr('url');
+	            var qsDialog = $(this).dialog({
+	                title: '删除面试邀请',
+	                loading: true,
+	                border: false,
+	                yes: function () {
+	                    window.location.href = url;
+	                }
+	            });
+	            $.getJSON(url, function (result) {
+	                if (result.status == 1) {
+	                    qsDialog.setContent(result.data.html);
+	                } else {
+	                    disapperTooltip('remind', result.msg);
+	                }
+	            });
+	        });
+			$('.J_interviewDetails').click(function(){
+				var id = $(this).attr('did');
+				var qsDialog = $(this).dialog({
+	        		title: '面试详情',
+					loading: true,
+					showFooter: false
+				});
+				$.getJSON("{:U('company/jobs_interview_details')}",{id:id},function(result){
+		    		if(result.status == 1){
+		    			qsDialog.setContent(result.data);
+        				qsDialog.showFooter(true);
+		    		}else{
+		    			qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+		    		}
+		    	});
+			});
+		});
+	</script>
+</body>
+</html>

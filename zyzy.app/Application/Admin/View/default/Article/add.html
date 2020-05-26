@@ -1,0 +1,245 @@
+<include file="public:header"/>
+
+<div class="toptit">新增新闻资讯</div>
+<form id="form1" action="{:U('add')}" method="post" name="FormData" enctype="multipart/form-data">
+    <div class="form_main width150">
+        <div class="fl">新闻标题:</div>
+        <div class="fr">
+            <div style="float: left"><input name="title" type="text" class="input_text_default middle" maxlength="45" value=""/></div>
+            <div class="n-form" style="padding-left:10px;float: left">
+                <div class="color_layer" style="display: inline-block;">
+                    <div id="color_box" onclick="color_box_display()"></div>
+                    <input type="hidden" name="tit_color" id="tit_color" value="">
+                    <include file="public:select_color" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">新闻分类:</div>
+        <div class="fr">
+            <div class="select_input_new w400 J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">选择分类</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <volist name="article_category[0]" id="category">
+                                <li><a class="J_listitme <eq name='i' value='1'>list_sel</eq>" href="javascript:;" data-code="{$key}">{$category}</a></li>
+                                <foreach name="article_category[$key]" item="category_sub" key="k">
+                                    <li><a class="J_listitme" href="javascript:;" data-code="{$k}">├─{$category_sub}</a></li>
+                                </foreach>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="type_id" id="type_id" type="hidden" value="" />
+            </div>
+            <!-- <select name="type_id" id="type_id">
+                <volist name="article_category[0]" id="category">
+                    <option value="{$key}" <eq name='i' value='1'>selected="selected"</eq>>{$category}</option>
+                    <foreach name="article_category[$key]" item="category_sub" key="k">
+                        <option value="{$k}">├─{$category_sub}</option>
+                    </foreach>
+                </volist>
+            </select> -->
+        </div>
+		<if condition="C('qscms_subsite_open') eq 1">
+           <div class="fl">分站:</div>
+		   <div class="fr">
+			   <div class="imgradio">
+				   <input name="subsite_id" type="hidden" value="0">
+				   <volist name="subsite_list" id="subsite">
+					<div class="radio <if condition="$i eq 1">select</if>" data="{$subsite.s_id}">{$subsite.s_sitename}</div>
+					</volist>
+				   <div class="clear"></div>
+			   </div>
+		   </div>
+		</if>
+        <div class="fl">缩略图:</div>
+        <div class="fr J-file-input-box">
+            <div class="file-input-src hid">
+                <div class="img"></div>
+                <div class="del file-input-del" id="" name="small_img">点击更换</div>
+            </div>
+            <div class="file-input-block" id="J_upload_article_img" name="small_img"><span class="o-txt">上传</span>缩略图</div>
+            <input type="hidden" class="file-input-save-name" name="small_img" value="">
+        </div>
+        <div class="fl">内容:</div>
+        <div class="fr">
+            <textarea name="content" class="input_text_default" style=" width:682px;height:400px; line-height:180%"></textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <div class="admin_submit small gray" id="J_moreform">更多选项</div>
+        </div>
+        <div class="clear"></div>
+        <div class="moreform">
+            <div class="fl">是否显示:</div>
+            <div class="fr" style="width: 200px;">
+                <div data-code="0,1" class="imgchecked_small select"><input name="is_display" type="hidden" value="1" /></div>
+                <div class="clear"></div>
+            </div>
+            <div class="fl">标题加粗:</div>
+            <div class="fr" style="width: 200px;">
+                <div data-code="0,1" class="imgchecked_small"><input name="tit_b" type="hidden" value="0" /></div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">发布日期:</div>
+            <div class="fr" style="width: 200px;">
+                <input name="addtime" type="text" class="input_text_default small " id="addtime" maxlength="20" autocomplete="off" value="{:date('Y-m-d',time())}"/>
+            </div>
+            <div class="fl">文章排序:</div>
+            <div class="fr" style="width: 200px;">
+                <input name="article_order" type="text" class="input_text_default small" style="width: 50px;" id="sort" maxlength="3" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" placeholder="数字越大越靠前，默认是0"/>
+                <label class="no-fl-note">(数字越大越靠前)</label>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">作者:</div>
+            <div class="fr" style="width: 200px;">
+                <input name="author" type="text" class="input_text_default small" id="author" maxlength="20" value=""/>
+            </div>
+            <div class="fl">来源:</div>
+            <div class="fr" style="width: 200px;">
+                <input name="source" type="text" class="input_text_default small" id="source" maxlength="50" value=""/>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">文章属性:</div>
+            <div class="fr">
+                <div class="imgradio">
+                    <input name="focos" type="hidden" value="{$article_property|array_keys|current}">
+                    <volist name="article_property" id="property">
+                        <div class="radio <eq name='i' value='1'>select</eq>" data="{$key}" title="{$property}">{$property}</div>
+                    </volist>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">外部链接:</div>
+            <div class="fr">
+                <input name="is_url" type="text"  class="input_text_default" maxlength="80" value="http://" placeholder="请输入完整的链接地址,如http://www.74cms.com"/>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">Keywords:</div>
+            <div class="fr">
+                <input name="seo_keywords" type="text"  class="input_text_default" maxlength="150" value="" placeholder="合理设置Keywords有利于搜索引擎排名"/>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">Description:</div>
+            <div class="fr">
+                <textarea name="seo_description" type="text" class="input_text_default" style="height: 100px; line-height: 180%;" maxlength="150" placeholder="合理设置Description有利于搜索引擎排名"/></textarea>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<link rel="stylesheet" href="__ADMINPUBLIC__/js/kindeditor/themes/default/default.css"/>
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+  var uploadUrl = "{:U('Upload/form_upload')}";
+</script>
+<script src="__ADMINPUBLIC__/js/ajaxfileupload.js"></script>
+<script src="__ADMINPUBLIC__/js/fileupload.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($('.J_listitme.list_sel').length) {
+            var listSelCn = $.trim($('.J_listitme.list_sel').text());
+            var listSelCode = $('.J_listitme.list_sel').data('code');
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_text').text(listSelCn);
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_code').val(listSelCode);
+        }
+        //日期
+        laydate.render({
+            elem: '#addtime' //指定元素
+        });
+        var editor;
+        KindEditor.ready(function(K) {
+            editor = K.create('textarea[name="content"]', {
+                uploadJson : "?m={:C('admin_alias')}&c=upload&a=index",
+				extraFileUploadParams: {
+					   session_id : '{:session_id()}',   
+				},
+                afterBlur: function () { this.sync(); },
+                allowFileManager : true});
+        });
+        $('#J_submit').click(function(){
+            editor.sync();
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('add')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+      // 上传网站首页Logo
+      $.upload('#J_upload_article_img',{name:'small_img',dir:'images'},function(result){
+        if(result.error == 1){
+          var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+          $('#J_upload_article_img').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+          $('#J_upload_article_img').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+          if ($('#J_upload_article_img').hasClass('file-input-block')) {
+            $('#J_upload_article_img').closest('.J-file-input-box').find('.file-input-src').removeClass('hid');
+            var $delObj = $('#J_upload_article_img').closest('.J-file-input-box').find('.file-input-del');
+            $('#J_upload_article_img').remove();
+            $delObj.attr('id', "J_upload_article_img_change_btn");
+            $.upload('#J_upload_article_img_change_btn',{name:'small_img',dir:'images'},function(result){
+              if(result.error == 1){
+                var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+                $('#J_upload_article_img_change_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+                $('#J_upload_article_img_change_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+              } else {
+                disapperTooltip("remind", "上传失败："+result.message);
+              }
+            })
+          }
+        } else {
+          disapperTooltip("remind", "上传失败："+result.message);
+        }
+      });
+      // 分站全选
+        $('#J_all').click(function() {
+            if ($(this).is(':checked')) {
+                $('.J_for_all').each(function() {
+                    $(this).prop('checked', !0);
+                })
+            } else {
+                $('.J_for_all').each(function() {
+                    $(this).prop('checked', 0);
+                })
+            }
+        })
+        $('.J_for_all').click(function() {
+            if (!$(this).is(':checked')) {
+                $('#J_all').prop('checked', 0);
+            } else {
+                if ($('.J_for_all:checked').length == $('.J_for_all').length) {
+                    $('#J_all').prop('checked', !0);
+                }
+            }
+        })
+    });
+</script>
+</html>

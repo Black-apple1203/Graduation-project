@@ -1,0 +1,29 @@
+<include file="public:header" />
+    <div class="toptip">
+      <div class="toptit">提示：</div>
+        <p>自定义分类调用名不可以以 “QS_”开头</p>
+    </div>
+<form action="{:U('navigation/category_edit')}" method="post"  name="form1" id="form1">
+    <div class="toptit">修改导航分类</div>
+    <div class="form_main width150">
+      <div class="fl">分类名称(必填)：</div>
+      <div class="fr">
+          <input name="categoryname" type="text" maxlength="30" class="input_text_default" value="{$info.categoryname}"/>
+      </div>
+      <div class="fl">调用名称(必填)：</div>
+      <div class="fr">
+          <input name="alias" type="text" maxlength="180" class="input_text_default" value="{$info.alias}"/>
+      </div>
+      <div class="fl"></div>
+      <div class="fr">
+          <input name="id" type="hidden" value="{$info.id}">
+          <input type="submit" value="确定提交" class="admin_submit"   />
+          <input type="button" class="admin_submit" value="返 回" onclick="window.location='{:U('navigation/category')}'"/>
+      </div>
+      <div class="clear"></div>
+    </div>
+	</form>
+</div>
+<include file="public:footer" />
+</body>
+</html>

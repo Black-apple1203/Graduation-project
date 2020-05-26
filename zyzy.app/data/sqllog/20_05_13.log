@@ -1,0 +1,4 @@
+[ 2020-05-13T22:46:18+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+SQL: SELECT `id` FROM qs_jobs_search j WHERE MATCH (`key`) AGAINST ("+eme1" IN BOOLEAN MODE)   ORDER BY stime desc  LIMIT 0,15  [RunTime:0.2516s] [IP:127.0.0.1:28946] [AddTime:1589381178] [qscms]
+[ 2020-05-13T22:46:19+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+SQL: SELECT COUNT(distinct uid) AS tp_count FROM `qs_jobs_search`   ORDER BY refreshtime desc,id desc  LIMIT 1  [RunTime:0.3028s] [IP:127.0.0.1:28946] [AddTime:1589381179] [qscms]

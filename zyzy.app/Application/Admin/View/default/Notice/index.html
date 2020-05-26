@@ -1,0 +1,130 @@
+<include file="public:header"/>
+<div class="seltpye_x">
+    <div class="left">公告分类</div>
+    <div class="right">
+        <a href="{:P(array('type_id'=>''))}" <if condition="$Think.get.type_id eq ''">class="select"</if>>不限</a>
+        <volist name="category" id="category">
+            <a href="{:P(array('type_id'=>$key))}" <if condition="$Think.get.type_id eq $key">class="select"</if>>{$category}</a>
+        </volist>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="seltpye_x">
+    <div class="left">添加时间</div>
+    <div class="right">
+        <a href="{:P(array('settr'=>''))}" <eq name='Think.get.settr' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('settr'=>'3'))}" <eq name='Think.get.settr' value='3'>class="select"</eq>>三天内</a>
+        <a href="{:P(array('settr'=>'7'))}" <eq name='Think.get.settr' value='7'>class="select"</eq>>一周内</a>
+        <a href="{:P(array('settr'=>'30'))}" <eq name='Think.get.settr' value='30'>class="select"</eq>>一月内</a>
+        <a href="{:P(array('settr'=>'180'))}" <eq name='Think.get.settr' value='180'>class="select"</eq>>半年内</a>
+        <a href="{:P(array('settr'=>'360'))}" <eq name='Think.get.settr' value='360'>class="select"</eq>>一年内</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<if condition="C('qscms_subsite_open') eq 1">
+	 <div class="seltpye_x">
+		<div class="left">分站</div>
+		<div class="right">
+			<a href="{:P(array('subsite_id'=>''))}" <if condition="$Think.get.subsite_id eq ''">class="select"</if>>不限</a>
+			<volist name="subsite_list" id="subsite">
+				<a href="{:P(array('subsite_id'=>$subsite['s_id']))}" <if condition="$Think.get.subsite_id eq $subsite['s_id']">class="select"</if>>{$subsite.s_sitename}</a>
+			</volist>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</if>
+
+<form id="form1" name="form1" method="post" action="{:U('delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:40%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>标题
+            </label>
+        </div>
+        <div class="td" style=" width:15%;">所属分类</div>
+        <div class="td center" style=" width:10%;">排序</div>
+        <div class="td center" style=" width:10%;">点击</div>
+        <div class="td center" style=" width:15%;">添加日期</div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:40%;">
+                <div class="left_padding striking link_blue">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['id']}"/>
+                    <a href="{:url_rewrite('QS_noticeshow',array('id'=>$vo['id']))}" target="_blank" style="<if condition="$vo['tit_color']">color:{$vo.tit_color};</if><if condition="$vo['tit_b'] gt 0">font-weight:bold</if>">{$vo.title}<if condition="C('qscms_subsite_open') eq 1">({$subsite_list[$vo['subsite_id']]['s_sitename']|default="总站"})</if><!--分站标识--></a>
+                    <if condition="$vo['is_display'] neq 1">
+                        <span style="color:#999999">&nbsp;&nbsp;&nbsp;&nbsp;[已屏蔽]</span>
+                    </if>
+                </div>
+            </div>
+            <div class="td" style=" width:15%;">[{$vo.category.categoryname}]&nbsp;</div>
+            <div class="td center" style=" width:10%;">{$vo.sort|default='-'}</div>
+            <div class="td center" style=" width: 10%;">{$vo.click|default='-'}</div>
+            <div class="td center" style=" width:15%;">{:admin_date($vo['addtime'])}</div>
+            <div class="td edit" style=" width:10%;">
+                <a href="{:U('edit',array('id'=>$vo['id']))}">修改</a>
+                <a href="{:U('delete',array('id'=>$vo['id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAdd" value="添加公告" onclick="window.location='{:U('add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除"/>
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='标题'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='标题'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="标题">标题</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //批量删除
+        $("#ButDel").click(function () {
+            var ids = $("input[name='id[]']:checked");
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择公告！');
+            } else {
+                if(confirm('确定删除吗？')){
+                    $("#form1").submit();
+                }
+            }
+        });
+    });
+</script>
+</html>

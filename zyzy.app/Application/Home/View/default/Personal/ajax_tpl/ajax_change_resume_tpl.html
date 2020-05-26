@@ -1,0 +1,33 @@
+<div class="guide_service_dialog">
+    <div class="guide_resume_template">
+        <div class="guide_service_dialog_head">让您的优势跟职位更加匹配，HR第一眼就相中你</div>
+        <div class="guide_list_group">
+            <div class="guide_list_left">选择模版：</div>
+            <div class="guide_list_right">
+                <volist name="tpl_list" id="vo">
+                <div class="template_list">
+                    <div class="list_box <if condition="$resume['tpl'] eq $vo['tpl_dir']">active</if> J_temp_list" data="{$vo['tpl_dir']}">
+                        <div class="template_name">{$vo['tpl_name']}</div>
+                        <div class="thumb_box"><img src="{$vo.thumb_dir}/thumbnail.jpg" alt=""></div>
+                        <div class="view_line link_blue"><a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$resume['id'],'style'=>$vo['tpl_dir']))}">我要预览</a></div>
+                        <div class="hook"></div>
+                    </div>
+                </div>
+                </volist>
+                <div class="clear"></div>
+                <div class="tips_line link_blue">简历模版不够用？一次购买，永久使用，<a target="_blank" href="{:U('PersonalService/increment_add',array('cat'=>'tpl'))}">立即购买</a></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <input type="hidden" id="J_tplVal" value="{$resume['tpl']}"/>
+    </div>
+</div>
+<script type="text/javascript">
+    $('.J_temp_list').click(function(event) {
+        $('.J_temp_list').each(function() {
+            $(this).removeClass('active');
+        });
+        $(this).addClass('active');
+        $("#J_tplVal").val($(this).attr('data'));
+    });
+</script>

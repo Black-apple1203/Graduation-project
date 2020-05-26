@@ -1,0 +1,52 @@
+<volist name="list" id="vo">
+<section data-tools="74cmsqy2">
+    <section style="width: 100%;" data-width="100%">
+        <section style="border-left: 6px solid #ffb497;padding-left:6px;box-sizing: border-box;">
+            <section data-brushtype="text" style="background: #ffe8df;display: inline-block;padding: 2px 12px;letter-spacing: 1.5px;color: #333;font-size: 16px;">
+                {$vo.companyname}
+            </section>
+        </section>
+        <section style="padding-left: 5px;">
+            <section style="border: 1px solid #d0d0d0;border-top: none;border-right: none;">
+                <section data-autoskip="1" style="padding: 1em; letter-spacing: 1.5px; line-height: 1.75em; text-align: justify;">
+                    <p style="text-align: justify; color: rgb(102, 102, 102); font-size: 15px; font-family: &quot;microsoft yahei&quot;, 宋体; background-color: rgb(255, 255, 255); max-width: 100%; min-height: 1em; padding-bottom: 11px; line-height: 1.5em;">
+                        <strong>正在招聘：</strong>
+                    </p>
+                    <volist name="vo['job']" id="jobs">
+                        <p style="text-align: justify; color: rgb(102, 102, 102); font-size: 15px; font-family: &quot;microsoft yahei&quot;, 宋体; background-color: rgb(255, 255, 255); max-width: 100%; min-height: 1em; padding-bottom: 11px; line-height: 1.5em;">
+                            <span style="color: rgb(227, 108, 9); font-family: &quot;Microsoft YaHei&quot;, -apple-system-font, &quot;Helvetica Neue&quot;, &quot;PingFang SC&quot;, &quot;Hiragino Sans GB&quot;, sans-serif;">{$jobs.jobs_name}&nbsp;:<if condition="$jobs['negotiable'] eq 1">面议<else />{$jobs.minwage}-{$jobs.maxwage}元/月</if></span>
+                        </p>
+                    </volist>
+                    <if condition="$vo['tag_arr']">
+                    <p style="line-height: 1.5em;">
+                        <span style="font-size: 15px; color: #e36c09;"><br></span>
+                    </p>
+                    <hr>
+                    <p>
+                        <span style="color: rgb(102, 102, 102); font-family: &quot;microsoft yahei&quot;, 宋体; font-size: 15px; caret-color: red;">公司福利：
+                            <volist name="vo['tag_arr']" id="tag">
+                                {$tag},
+                            </volist>
+                    </span><br>
+                    </p>
+                    </if>
+                    <p style="text-align:justify;color: #666666; font-size: 15px; font-family: &quot;microsoft yahei&quot;, 宋体; background-color: #ffffff; max-width: 100%; min-height: 1em; line-height: 2; padding-bottom: 11px;">
+                        <span style="caret-color: red;">公司地址：{$vo.address}</span><span style="color: #333333; font-size: 14px; font-family: 微软雅黑, &quot;Microsoft YaHei&quot;, Arial, sans-serif; caret-color: red;">。</span>
+                    </p>
+                    <p style="text-align:center; color: #666666; font-size: 15px; font-family: &quot;microsoft yahei&quot;, 宋体; background-color: #ffffff; max-width: 100%; min-height: 1em; line-height: 2; padding-bottom: 11px;">
+                        <span style="color: #333333; font-size: 14px; font-family: 微软雅黑, &quot;Microsoft YaHei&quot;, Arial, sans-serif; caret-color: red;">{$vo.img_url}</span>
+                    </p>
+                    <p style="text-align: center;">
+                        <span style="font-size: 13px;">关注上面微信二维码</span>
+                    </p>
+                    <p style="text-align: center;">
+                        <span style="font-size: 13px;">获取企业电话</span>
+                    </p>
+                </section>
+            </section>
+            <section style="width: 1.2em;background: #ffb497;height:6px;float: right;"></section>
+            <section style="clear: both;"></section>
+        </section>
+    </section>
+</section>
+</volist>

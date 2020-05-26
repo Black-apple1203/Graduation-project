@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<qscms:help_category 列表名="info" 小类="$_GET['id']" />
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/help.css" rel="stylesheet" type="text/css" />
+	<script src="{:C('TPL_PUBLIC_DIR')}/js/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="help_banner"></div>
+<div class="helplist">
+  <div class="l">
+	<div class="catbox">
+	<qscms:classify 列表名="category_info" 类型="QS_help"/>
+	<qscms:help_category 列表名="category" 大类="0" />
+	<volist name="category" id="vo">
+	<div class="J_helplist help_category <if condition="$category_info[$_GET['id']]['parentid'] eq $vo['id'] or ($_GET['id'] eq '' and $i eq 1)">open</if>">
+	  <div class="titl J_helplistT">{$vo['title_']}</div>
+	  <ul class="link_gray6 help_category_list J_helplistG">
+	  <qscms:help_category 列表名="subcate" 大类="$vo['id']" />
+	  <volist name="subcate" id="v">
+	  <li><a <if condition="$v['id'] eq $_GET['id']">class="select"</if> href="{$v['url']}">{$v['title_']}</a></li>
+	  </volist>
+	  </ul>
+	  </div>
+	</volist>
+	</div>
+  </div>
+  <div class="r">
+  
+    <div class="main">
+    <if condition="$Think.get.key neq ''">
+		
+    <div class="titl">与 <font color="red">{$Think.get.key|urldecode|urldecode}</font> 有关的帮助信息</div>
+	<else />
+		<div class="titl">{$info['title_']}</div>
+  	</if>
+	  <qscms:help_list 列表名="list" 分页显示="1" 大类="$_GET['parentid']" 小类="$_GET['id']" 关键字="$_GET['key']" />
+	  <notempty name="list['list']">
+	  <volist name="list['list']" id="vo">
+      <div class="list link_gray6">
+        <div class="tit"><a href="{$vo['url']}">{$vo['title_']}</a></div>
+		<div class="time">{:date('Y-m-d',$vo['addtime'])}</div>
+		<div class="clear"></div>
+      </div>
+	  </volist>
+	  <div class="qspage">{$list['page']}</div>
+	  <else />
+	  <div class="list_empty_group">
+			<div class="list_empty">
+				<div class="list_empty_left"></div>
+				<div class="list_empty_right">
+					<div class="sorry_box">对不起，没有找到相应的信息！</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		</notempty>
+    </div>
+  </div>
+  
+  <div class="clear"></div>
+</div>
+<include file="public:footer_min" />
+<script type="text/javascript">
+	// 左侧菜单展开收起
+	$('.J_helplistT').click(function() {
+		var $thisParent = $(this).closest('.J_helplist');
+		$thisParent.toggleClass('open');
+		if ($thisParent.hasClass('open')) {
+			$('.J_helplist.open').not($thisParent).each(function(index, el) {
+				$(this).removeClass('open');
+			});
+		};
+	});
+</script>
+</body>
+</html>

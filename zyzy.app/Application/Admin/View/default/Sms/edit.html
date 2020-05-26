@@ -1,0 +1,51 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>通过短信接口设置，您可以自行配置第三方短信接口；</p>
+</div>
+	<form id="form1" name="form1" method="post" action="{:U('sms/edit')}">
+    	<div class="toptit">修改短信接口</div>
+    	<div class="form_main width150">
+    		<div class="fl">接口名称：</div>
+	        <div class="fr txt">
+	        	{$info.name}
+	            <input name="name" type="hidden" class="input_text_200" id="admin_name" maxlength="30" value="{$info.name}"/>
+	        </div>
+	        <div class="fl">接口标识：</div>
+	        <div class="fr txt">
+	        	{$info.alias}
+	            <input name="alias" type="hidden" class="input_text_200" maxlength="40" value="{$info.alias}"/>
+	        </div>
+	        <div class="fl">appkey：</div>
+	        <div class="fr">
+	            <input name="config[appkey]" type="text" maxlength="40" class="input_text_default middle" value="{$info.config.appkey}"/>（短信接口帐号）
+	        </div>
+	        <div class="fl">secretKey：</div>
+	        <div class="fr">
+	            <input name="config[secretKey]" type="password" maxlength="40" class="input_text_default middle" value="{$info.config.secretKey}"/>（短信接口密钥）
+	        </div>
+	        <div class="fl">signature：</div>
+	        <div class="fr">
+	            <input name="config[signature]" type="text" maxlength="40" class="input_text_default middle" value="{$info.config.signature}"/>（短信接口签名）
+	        </div>
+	        <div class="fl">接口描述：</div>
+	        <div class="fr">
+	            <textarea name="remark" class="input_text_default" id="remark" cols="70" rows="3" style="font-size:12px;">{$info.remark}</textarea>
+	        </div>
+	        <div class="fl">排序：</div>
+	        <div class="fr">
+	            <input name="ordid" type="text" class="input_text_default middle" value="{$info.ordid}"/>
+	        </div>
+	        <div class="fl"></div>
+	        <div class="fr">
+	            <input type="hidden" name="id" value="{$info.id}">
+				<input type="submit" class="admin_submit" value="保存"/>
+				<input type="button" class="admin_submit" value="返回" onclick="window.location='{:U('sms/index')}'"/>
+	        </div>
+    		<div class="clear"></div>
+    	</div>
+	</form>
+</div>
+<include file="public:footer" />
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_jobs.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_user.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_user" /> </div>
+			<div class="mright">
+				<div class="user_pagetitle pms_user_pagetitle">
+					<div class="pat_l">消息提醒</div>
+					<!--<div class="pat_r">系统保留三个月的记录，共 <span class="s_link_yellow">{:count($msg_list)}</span> 条</div>-->
+					<div class="clear"></div>
+				</div>
+				<div class="user_tab">
+					<a href="{:U('company/pms_sys')}" class="tabli " >系统消息</a>
+					<a href="{:U('company/pms_consult')}" class="tabli select">求职者咨询</a>
+					<div class="clear"></div>
+				</div>
+				<div class="consult_wrap">
+					<empty name="msg_list['list']">
+						<div class="res_empty">
+							暂时还没有求职者咨询！<br>
+						</div>
+					<else/>
+						<volist name="msg_list['list']" id="msg">
+							<div class="feedback">
+								<div class="leftimg">
+									<img  border="0" src="{$msg.from_avatars}" />
+								</div>
+								<div class="righttxt link_blue J_realyList">
+									<span>{:date('Y-m-d H:i:s',$msg['addtime'])}</span>
+									<br />
+									<if condition="$msg['fromuid'] eq $visitor['uid']">
+										{$msg.from_name} 对 <a href="<if condition="$msg['to_url']">{$msg.to_url}<else/>javascript:;</if>">{$msg.to_name}</a> 说：
+									<else/>
+										<a href="<if condition="$msg['from_url']">{$msg.from_url}<else/>javascript:;</if>">{$msg.from_name}</a> 对 {$msg.to_name} 说：
+									</if>
+									<br />
+									{$msg.message}
+									<volist name="msg['smsg']" id="smsg">
+										<div class="reply">
+											<if condition="$smsg['fromuid'] eq $visitor['uid']">
+												{$smsg.from_name} 回复 <a href="<if condition="$msg['to_url']">{$msg.to_url}<else/>javascript:;</if>">{$smsg.to_name}</a> ：
+											<else/>
+												<a href="<if condition="$msg['from_url']">{$msg.from_url}<else/>javascript:;</if>">{$smsg.from_name}</a> 回复 {$smsg.to_name} ：
+											</if>
+											{$smsg.message}
+										</div>
+									</volist>
+								</div>
+								<div class="clear"></div>
+								<div class="bottomdel link_gray6 J_realyWrap">
+									<div class="fbtn"><a class="J_realy" href="javascript:;">回复</a>|<a class="J_delrealy" mid="{$msg.id}" href="javascript:;">删除</a></div>
+									<div class="feedback_reply">
+										<div class="textareadiv J_focus">
+											<textarea name="" cols="" rows="" class="textarea_638_80"></textarea>
+										</div>
+										<div class="rbtn">
+											<div class="rlt">不能超过200个字。</div>
+											<div class="rrt">
+												<div class="btn_blue J_hoverbut btn_inline_small J_realyBth" touid="<if condition="$msg['fromuid'] eq $visitor['uid']">{$msg.touid}<else/>{$msg.fromuid}</if>" pid="{$msg.id}">&nbsp;&nbsp;回复&nbsp;&nbsp;</div>
+											</div>
+											<div class="clear"></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</volist>
+					</empty>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script type="text/javascript">
+			$('.J_realy').click(function(){
+				var f = $(this).closest('.J_realyWrap').find('.feedback_reply');
+				f.show();
+				f.find('textarea').val('');
+			});
+			$('.J_realyBth').click(function(){
+				var u = $(this),
+					f = u.closest('.feedback_reply'),
+					t = $.trim(f.find('textarea').val()),
+					pid = u.attr('pid'),
+					touid = u.attr('touid');
+				if(t == ''){
+					alert('回复内容不能为空！');
+					return !1;
+				}
+				$.post("{:U('company/msg_feedback_send')}",{pid:pid,touid:touid,message:t},function(result){
+					if(result.status == 1){
+						html = '<div class="reply">我 回复 <a href="'+result.data.to_url+'">'+result.data.to_name+'</a> ：'+result.data.message+'</div>';
+						u.closest('.feedback').find('.J_realyList').append(html);
+						disapperTooltip('success',result.msg);
+					}else{
+						disapperTooltip('remind',result.msg);
+					}
+					f.hide();
+					f.find('textarea').val('');
+				},'json');
+			});
+			$('.J_delrealy').click(function(){
+				var f = $(this),
+					id = f.attr('mid');
+	            if (id) {
+	            	var qsDialog = $(this).dialog({
+		                title: '删除咨询消息',
+		                loading: true,
+		                border: false,
+		                yes: function () {
+		                    $.post("{:U('company/msg_feedback_del')}",{id:id},function (result) {
+			                    if (result.status == 1) {
+			                    	f.closest('.feedback').remove();
+									disapperTooltip('success',result.msg);
+			                    } else {
+			                        disapperTooltip('remind', result.msg);
+			                    }
+			                },'json');
+		                }
+		            });
+		            $.getJSON("{:U('company/msg_feedback_del')}", function (result) {
+		                if (result.status == 1) {
+		                    qsDialog.setContent(result.data.html);
+		                } else {
+		                    disapperTooltip('remind', result.msg);
+		                }
+		            });
+	            } else {
+	                disapperTooltip("remind", "请选择要删除的咨询消息");
+	            }
+	        });
+		</script>
+	</body>
+</html>

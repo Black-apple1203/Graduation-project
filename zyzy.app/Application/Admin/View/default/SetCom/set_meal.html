@@ -1,0 +1,177 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>不同的运营阶段您可以选择不同的设置。</p>
+</div>
+<div class="toptit">会员默认套餐设置</div>
+<form id="form1" action="{:U('set_meal')}" method="post">
+    <div class="form_main width250">
+        <div class="fl">新注册会员赠送服务:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="reg_service" type="hidden" value="{:C('qscms_reg_service')}">
+                <volist name="setmeal_show" id="vo">
+                    <div class="radio <eq name='Think.config.qscms_reg_service' value='$vo.id'>select</eq>" data="{$vo.id}" title="{$vo['setmeal_name']}">{$vo['setmeal_name']}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">重新开通服务时叠加服务项目:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_is_superposition' value='1'>select</eq>"><input name="is_superposition" type="hidden" value="{:C('qscms_is_superposition')}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">重新开通服务时叠加服务时间:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_is_superposition_time' value='1'>select</eq>"><input name="is_superposition_time" type="hidden" value="{:C('qscms_is_superposition_time')}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">重新开通保留超出限额的在招职位:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_hold_beyond_jobs' value='1'>select</eq>"><input name="hold_beyond_jobs" type="hidden" value="{:C('qscms_hold_beyond_jobs')}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">套餐到期提前几天提醒:</div>
+        <div class="fr">
+            <input name="meal_min_remind" type="text" class="input_text_default small" maxlength="30" value="{:C('qscms_meal_min_remind')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            <span class="no-fl-note">(提醒方式为进入会员中心后弹窗提醒套餐即将到期，0为不提醒)</span>
+        </div>
+        <!-- <div class="fl">购买套餐允许使用积分抵现:</div> -->
+        <!-- <div class="fr"> -->
+            <!-- <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_setmeal_by_points' value='1'>select</eq>"><input name="setmeal_by_points" type="hidden" value="{:C('qscms_setmeal_by_points')}" /></div> -->
+            <!-- <div class="clear"></div> -->
+        <!-- </div> -->
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<div class="toptit">简历下载点数配置<span class="note" style="color:rgb(255, 0, 0)">根据被下载简历刷新时间，配置企业下载简历扣除点数</span></div>
+<form id="form2" action="{:U('set_meal')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">刷新时间一天之内:</div>
+        <div class="fr">
+            <input name="resume_download_points_conf[1]" type="text" class="input_text_default small" maxlength="10" value="{:C('qscms_resume_download_points_conf.1')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 点
+        </div>
+        <div class="fl">刷新时间三天之内:</div>
+        <div class="fr">
+            <input name="resume_download_points_conf[3]" type="text" class="input_text_default small" maxlength="10" value="{:C('qscms_resume_download_points_conf.3')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 点
+        </div>
+        <div class="fl">刷新时间五天之内:</div>
+        <div class="fr">
+            <input name="resume_download_points_conf[5]" type="text" class="input_text_default small" maxlength="10" value="{:C('qscms_resume_download_points_conf.5')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 点
+        </div>
+        <div class="fl">刷新时间五天以上:</div>
+        <div class="fr">
+            <input name="resume_download_points_conf[0]" type="text" class="input_text_default small" maxlength="10" value="{:C('qscms_resume_download_points_conf.0')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 点
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit1"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<div class="toptit">服务套餐列表</div>
+<div class="list_th">
+    <div class="td" style=" width:10%;">
+        <div class="left_padding">显示</div>
+    </div>
+    <div class="td" style=" width:30%;">名称</div>
+    <div class="td center" style=" width:10%;">会员申请</div>
+    <div class="td center" style=" width:15%;">服务价</div>
+    <div class="td center" style=" width:15%;">期限</div>
+    <div class="td center" style=" width:10%;">排序</div>
+    <div class="td" style=" width:10%;">操作</div>
+    <div class="clear"></div>
+</div>
+
+<volist name="setmeal" id="vo">
+    <div class="list_tr link_black">
+        <div class="td" style=" width:10%;">
+            <div class="left_padding striking">
+                <if condition="$vo['display'] eq 1">显示<else /><span style="color: #999999">屏蔽</span></else></if>
+            </div>
+        </div>
+        <div class="td" style=" width:30%;">
+            {$vo['setmeal_name']}<span style="color:#999999">(id:{$vo.id})</span>
+        </div>
+        <div class="td center" style=" width:10%;">
+            <if condition="$vo['apply'] eq 1">允许<else /><span style="color: #999999">不允许</span></if>
+        </div>
+        <div class="td center" style=" width: 15%;">
+            <if condition="$vo['expense'] eq 0">免费<else />￥<strong>{$vo.expense}</strong>元</if>
+        </div>
+        <div class="td center" style=" width:15%;">
+            <if condition="$vo['days'] eq 0">不限制<else />{$vo.days}天</if>
+        </div>
+        <div class="td center" style=" width:10%;">{$vo.show_order}</div>
+        <div class="td edit" style=" width:10%;">
+            <a href="{:U('Setmeal/edit',array('id'=>$vo['id']))}">设置</a>
+            <if condition="$vo['is_free'] neq 1">
+                <a href="{:U('Setmeal/delete',array('id'=>$vo['id']))}" onclick="return confirm('你确定要删除吗？')" class="gray">删除</a>
+            </if>
+        </div>
+        <div class="clear"></div>
+    </div>
+</volist>
+<empty name="setmeal">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAdd" value="新增套餐" onclick="window.location.href='{:U('Setmeal/add')}'"/>
+    </div>
+    <div class="footso"></div>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('set_meal')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        $('#J_submit1').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('set_meal')}",$('#form2').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

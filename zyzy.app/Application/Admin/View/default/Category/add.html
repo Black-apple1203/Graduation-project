@@ -1,0 +1,45 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>点击“继续添加”按钮，可同时添加多个分类！</p>
+</div>
+
+<div class="toptit">在 <span style="color:#0066CC">[{$group.g_name}] </span>下新增分类</div>
+<form action="{:U('add')}" method="post" name="FormData">
+    <div class="form_main width120">
+        <div class="category_tpl">
+            <div class="fl">名称:</div>
+            <div class="fr">
+                <input name="c_name[]" type="text" class="input_text_default middle" maxlength="20" value=""/>
+            </div>
+            <div class="fl">排序:</div>
+            <div class="fr">
+                <input name="c_order[]" type="text" class="input_text_default middle" maxlength="3" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" placeholder="数字越大越靠前，默认是0"/>
+                <input name="c_alias[]" type="hidden" value="{$group.g_alias}" />
+                <label class="no-fl-note">(数字越大越靠前)</label>
+            </div>
+            <div style="width: 660px; height: 20px; border-top: 1px #DFDFDF dashed; margin-left: 60px; float: left; margin-top: 10px">&nbsp;</div>
+        </div>
+        <div class="continue_add"></div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="继续添加" id="add_more"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('show_category',array('alias'=>$group['g_alias']))}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#add_more").click(function()
+        {
+            $(".continue_add").append($(".category_tpl").html());
+        });
+    });
+</script>
+</html>

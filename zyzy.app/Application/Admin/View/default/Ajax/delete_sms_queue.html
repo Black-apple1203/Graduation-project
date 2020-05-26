@@ -1,0 +1,30 @@
+<div style="width:410px;">
+    <form action="{:U('SmsQueue/del')}" method="post" name="form" id="form">
+    <volist name="ids" id="vo">
+        <input name="id[]" type="hidden" value="{$vo}"/>
+    </volist>
+    <div class="form_main width120">
+        <div class="fl">发送选择：</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="deltype" type="hidden" value="1">
+                <div class="radio select" data="1" title="已选项目">已选项目</div>
+                <div class="clear"></div>
+                <div class="radio" data="2" title="所有等待发送项目">所有等待发送项目</div>
+                <div class="clear"></div>
+                <div class="radio" data="3" title="所有发送成功项目">所有发送成功项目</div>
+                <div class="clear"></div>
+                <div class="radio" data="4" title="所有发布失败项目">所有发布失败项目</div>
+                <div class="clear"></div>
+                <div class="radio" data="5" title="清空所有列队">清空所有列队</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="submit" name="submitdel"  value="确定" class="admin_submit submitdel"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </form>
+</div>

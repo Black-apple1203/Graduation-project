@@ -1,0 +1,56 @@
+<div class="modal_body">
+<div class="dialog_box log">
+    <table width="850" border="0" cellpadding="0" cellspacing="0" id="list" class="link_blue">
+        <tr>
+            <td width="150" class="admin_list_tit admin_list_first">优惠券名称</td>
+            <td width="100" class="admin_list_tit">操作管理员</td>
+            <td width="150" class="admin_list_tit">发放企业</td>
+            <td width="100" class="admin_list_tit">发放时间</td>
+            <td width="100" class="admin_list_tit">是否使用</td>
+            <td width="100" class="admin_list_tit">使用时间</td>
+        </tr>
+        <if condition="$list">
+            <volist name="list" id="vo">
+                <tr>
+                    <td class="admin_list admin_list_first">
+					<strong>{$vo['gift_name']}</strong>
+					</td>
+                    <td class="admin_list">
+					{$vo['admin_name']}
+					</td>
+                    <td class="admin_list">
+					【UID:{$vo['uid']}】{$vo['companyname']}
+					</td>
+                    <td class="admin_list">
+					 {:admin_date($vo['addtime'])}
+					</td>
+                    <td class="admin_list">
+					 <eq name="vo['is_used']" value="1"><span style="color: #009900" title="已使用">已使用</span></eq>
+					 <eq name="vo['is_used']" value="2">未使用</eq>
+					 <eq name="vo['is_used']" value="3"><span style="color:red" title="已过期">已过期</span></eq>
+					</td>
+                    <td class="admin_list">
+					 <if condition="$vo['usetime'] eq 0"> -- <else />{:admin_date($vo['usetime'])}</if>
+					</td>
+                </tr>
+            </volist>
+        <else/>
+            <tr>
+                <td colspan="3" class="admin_list admin_list_first">没有任何信息！</td>
+            </tr>
+        </if>
+    </table>
+	<div class="pages ajax-page">{$page}</div>
+</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){  
+		$('.ajax-page a').click(function(){
+            var url = $(this).attr('href');
+            $.getJSON(url,function (result) {
+                $('.modal_body').html(result.data);
+            });
+            return false;
+        });
+    });
+</script>

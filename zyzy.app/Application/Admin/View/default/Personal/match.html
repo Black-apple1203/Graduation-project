@@ -1,0 +1,92 @@
+<include file="public:header"/>
+<div class="toptip">
+    <p style="font-size: 14px;">
+        简历：<span class="font_green">{$resume.title}</span>，姓名：<span class="font_green">{$resume.fullname}</span>，基本信息：
+        <span class="font_green"><notempty name="resume.birthdate">{:date('Y')-$resume['birthdate']}岁<else/>未填写</notempty>
+        <notempty name="resume.sex_cn">/{$resume['sex_cn']}</notempty>
+        <notempty name="resume.education_cn">/{$resume['education_cn']}</notempty>
+        <notempty name="resume.experience_cn">/{$resume['experience_cn']}</notempty>
+        </span>，手机：<span class="font_green">{$resume['telephone']}</span>，邮箱：<span class="font_green">{$resume['email']}</span>
+    </p>
+    <p style="font-size: 14px;">
+        意向职位：<span class="font_green">{$resume.intention_jobs}</span>，意向地区：<span class="font_green">{$resume.district_cn}</span>，意向行业：<span class="font_green">{$resume.trade_cn|default='不限'}</span>，意向薪资：<span class="font_green">{$resume['wage_cn']}</span>
+    </p>
+</div>
+
+<form id="form1" name="form1" method="post" action="{:U('apply')}">
+    <input type="hidden" name="id" value="{$resume['id']}"/>
+    <input type="hidden" name="uid" value="{$resume['uid']}"/>
+    <div class="list_th">
+        <div class="td" style=" width:20%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>职位名称
+            </label>
+        </div>
+        <div class="td" style=" width:16%;">公司名称</div>
+        <div class="td center" style=" width:14%;">所在地区</div>
+        <div class="td center" style=" width:12%;">所属行业</div>
+        <div class="td center" style=" width:13%;">职位要求</div>
+        <div class="td center" style=" width:10%;">薪资待遇</div>
+        <div class="td center" style=" width:10%;">刷新时间</div>
+        <div class="td" style=" width:5%;">操作</div>
+        <div class="clear"></div>
+    </div>
+    <volist name="jobslist['list']" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:20%;">
+                <div class="left_padding striking link_blue">
+                    <input name="jid[]" type="checkbox" id="id" value="{$vo['id']}" <in name='vo.id' value='$applied_jids'>disabled="disabled"</in>/>
+                    <a href="{$vo['jobs_url']}" target="_blank" <if condition="($vo['deadline'] lt $now && $vo['deadline'] neq 0) || $vo['display'] eq 2">style="color:#999999"</if>>{$vo['jobs_name']}</a>
+                    <if condition="$vo['emergency'] eq 1">&nbsp;<span style="color: #FF6600" title="紧急">[急]</span></if>
+                    <if condition="$vo['stick'] eq 1">&nbsp;<span style="color: #FF3399" title="置顶">[顶]</span></if>
+                    <if condition="$vo['display'] eq 2">&nbsp;<span style="color: #999999" title="暂停招聘">[暂停]</span></if>
+                </div>
+            </div>
+            <div class="td" style=" width:16%;">
+                <a href="{$vo['company_url']}" target="_blank" style="color: #333;" title="{$vo['companyname']}">{$vo['companyname']}</a>
+            </div>
+            <div class="td center" style=" width:14%;">{$vo.district_cn|default='-'}</div>
+            <div class="td center" style=" width:12%;">{$vo.trade_cn|default='-'}</div>
+            <div class="td center" style=" width:13%;">{$vo.education_cn}/{$vo.experience_cn}</div>
+            <div class="td center" style=" width:10%;">{$vo.wage_cn|default='-'}</div>
+            <div class="td center" style=" width:10%;">{:admin_date($vo['refreshtime'])}</div>
+            <div class="td edit" style=" width:5%;">
+                <notin name="vo.id" value="$applied_jids">
+                    <a href="{:U('apply',array('id'=>$resume['id'],'uid'=>$resume['uid'],'jid'=>$vo['id']))}">投递</a>
+                    <else/>
+                    <a href="javascript:void(0);" class="gray">已投递</a>
+                </notin>
+
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="jobslist['list']">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButApply" value="投递"/>
+        <input type="button" class="admin_submit" value="返回" onclick="window.location='{:U('personal/entrust')}'"/>
+    </div>
+
+    <div class="footso"></div>
+</div>
+<div class="pages">{$jobslist['page']}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //点击批量投递
+        $("#ButApply").click(function () {
+            $("form[name=form1]").submit();
+        });
+    });
+</script>
+</html>

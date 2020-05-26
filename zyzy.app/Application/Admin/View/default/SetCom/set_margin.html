@@ -1,0 +1,43 @@
+<include file="public:header" />
+    <div class="toptip">
+        <h2>提示：</h2>
+        <p>求职点击带有诚聘通标识的信息并在线完成投递简历或查看职位电话后，在与该企业面试过程中，因该企业的欺诈行为造成求职者直接经济损失的可获得网站先行赔付，赔付金为诚聘通保障金</p>
+    </div>
+
+  <div class="toptit">诚聘通</div>
+	<form action="{:U('set_margin')}" method="post" enctype="multipart/form-data" name="form1" id="form1">
+		<table width="100%" border="0" cellspacing="5" cellpadding="5">
+			<tr>
+				<td width="220" align="right">保障金：</td>
+				<td><input name="famous_company_price" type="text"  class="input_text_100" id="famous_company_price" value="{:C('qscms_famous_company_price')}" maxlength="30" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 元</td>
+			</tr>
+			<tr>
+				<td align="right">图标： </td>
+				<td>
+					<if condition="C('qscms_famous_company_img')">
+					<img src='{:attach(C('qscms_famous_company_img'),'images')}' border=0 align=absmiddle>
+					<else />
+					<img src='{:attach('famous.png','resource')}' border=0 align=absmiddle>
+					</if>
+				</td>
+			</tr>
+			<tr>
+				<td align="right">更改图标： </td>
+				<td>
+					<input name="famous_company_img" type="file" id="famous_company_img" style="width:300px; font-size:12px; padding:3px;" onKeyDown="alert('请点击右侧“浏览”选择您电脑上的图片！');return false"/>&nbsp;&nbsp;&nbsp;
+					 
+				</td>
+			</tr>
+			<tr>
+				<td align="right">&nbsp;</td>
+				<td height="50"> 
+					<input name="submit" type="submit" class="admin_submit"    value="保存修改"/>
+				</td>
+			</tr>
+		</table>
+	</form>
+	 
+</div>
+<include file="public:footer" />
+</body>
+</html>

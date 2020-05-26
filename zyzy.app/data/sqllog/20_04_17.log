@@ -1,0 +1,2 @@
+[ 2020-04-17T09:37:09+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=ajax_scroll
+SQL: SELECT `id`,`fullname`,`sex`,addtime as time,'add' as type FROM `qs_resume` WHERE `display` = 1 AND `audit` = 1   ORDER BY addtime DESC  LIMIT 5  [RunTime:0.2365s] [IP:127.0.0.1:52107] [AddTime:1587087429] [qscms]

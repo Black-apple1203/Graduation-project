@@ -1,0 +1,42 @@
+<include file="public:header" />
+    <div class="toptip">
+        <h2>提示：</h2>
+        <p>通过管理员设置，您可以进行编辑管理员资料、角色、密码以及删除管理员等操作；</p>
+    </div>
+	<div class="toptit">管理员详情</div>
+	<table width="100%" border="0" cellpadding="4" cellspacing="0" class="admin_table" >
+		<tr>
+			<td height="30" align="right" width="120" style="border:0px;">用户名：</td>
+			<td style="border:0px;" >{$info.username}</td>
+		</tr>
+		<tr>
+			<td height="30" align="right">电子邮件：</td>
+			<td>{$info.email}</td>
+		</tr>
+		<tr>
+			<td height="30" align="right">头衔：</td>
+			<td>{$roles[$info['role_id']]}</td>
+		</tr>
+		<tr>
+			<td height="30" align="right">创建时间：</td>
+			<td>{:date("Y-m-d H:i",$info['add_time'])}</td>
+		</tr>
+		<tr>
+			<td height="30" align="right">最后登录ip：</td>
+			<td>{$info.last_login_ip}</td>
+		</tr>
+		<tr>
+			<td height="30" align="right">最后登录时间：</td>
+			<td>{:date("Y-m-d H:i",$info['last_login_time'])}</td>
+		</tr>
+		<tr>
+			<td height="30" align="right">&nbsp;</td>
+			<td height="50">
+				<input name="submit22" type="button" class="admin_submit" value="返回" onclick="Javascript:window.history.go(-1)"/>
+			</td>
+		</tr>
+	</table>
+</div>
+<include file="public:footer" />
+</body>
+</html>

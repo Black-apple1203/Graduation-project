@@ -1,0 +1,49 @@
+<include file="public:header"/>
+<div class="toptit">修改分类</div>
+<form action="{:U('edit_category')}" method="post" name="FormData" id="FormData">
+    <div class="form_main width120">
+        <div class="fl">分类名称:</div>
+        <div class="fr">
+            <input name="categoryname" type="text" class="input_text_default middle" maxlength="25" value="{$info.categoryname}"/>
+        </div>
+        <div class="fl">排序:</div>
+        <div class="fr">
+            <input name="category_order" type="text" class="input_text_default middle" maxlength="3" value="{$info.category_order}" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="id" type="hidden" value="{$info.id}" />
+            <input type="button" class="admin_submit" value="保存" id="J_submit" />
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('invoice_category')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('edit_category')}",$('#FormData').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("OrderInvoice/invoice_category")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

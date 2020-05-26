@@ -1,0 +1,106 @@
+<include file="public:header"/>
+
+<div class="toptit">添加企业会员</div>
+<div class="form_main width150">
+    <form action="{:U('add')}" method="post" name="FormData" id="FormData">
+        <div class="fl">用户名:</div>
+        <div class="fr">
+            <input name="username" type="text" class="input_text_default" maxlength="25" value=""/>
+        </div>
+        <div class="fl">邮箱地址:</div>
+        <div class="fr">
+            <input name="email" type="text" class="input_text_default" maxlength="25" value=""/>
+        </div>
+        <div class="fl">登录密码:</div>
+        <div class="fr">
+            <input name="password" type="password" class="input_text_default" maxlength="25" value=""/>
+        </div>
+        <div class="fl">再次输入密码:</div>
+        <div class="fr">
+            <input name="repassword" type="password" class="input_text_default" maxlength="25" value=""/>
+        </div>
+        <div class="fl">公司名称:</div>
+        <div class="fr">
+            <input name="companyname" type="text" class="input_text_default" maxlength="30" value=""/>
+        </div>
+        <div class="fl">企业联系人:</div>
+        <div class="fr">
+            <input name="contact" type="text" class="input_text_default" maxlength="15" value=""/>
+        </div>
+        <div class="fl">手机号码:</div>
+        <div class="fr">
+            <input name="telephone" type="text" class="input_text_default" maxlength="11" value="" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+        </div>
+        <div class="fl">&nbsp;</div>
+        <div class="fr">
+            <input name="landline_tel_first" type="text" class="input_text_default" maxlength="4" value="" style="width: 70px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> -
+            <input name="landline_tel_next" type="text" class="input_text_default" maxlength="11" value="" style="width: 207px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> -
+            <input name="landline_tel_last" type="text" class="input_text_default" maxlength="6" value="" style="width: 70px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+        </div>
+        <div class="fl">是否赠送{:C('qscms_points_byname')}:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="regpoints" type="hidden" value="y">
+                <div class="radio yes_points select" data="y" title="赠送">赠送</div>
+                <div class="radio no_points" data="n" title="不赠送">不赠送</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="regpoints_num">
+            <div class="fl">赠送{:C('qscms_points_byname')}数量:</div>
+            <div class="fr">
+                <input name="regpoints_num" type="text" class="input_text_default" maxlength="11" value="0" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            </div>
+        </div>
+        <div class="fl">赠送服务套餐:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="reg_service" type="hidden" value="{:C('qscms_reg_service')}">
+                <volist name="givesetmeal" id="vo">
+                    <div class="radio <eq name='Think.config.qscms_reg_service' value='$key'>select</eq>" data="{$key}" title="{$vo}">{$vo}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF0000">是否已收费:</span></div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small select"><input name="is_money" type="hidden" value="1" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="log_amount">
+            <div class="fl"><span style="color:#FF0000">收费金额:</span></div>
+            <div class="fr">
+                <input name="log_amount" type="text" class="input_text_default middle" maxlength="5" value="{$setmeal.log_amount}"/> 元
+                <span style="color: #999999;">请填写收费金额</span>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="utype"  value="1"/>
+            <input type="submit" class="admin_submit" value="确定"/>
+            <input type="button" class="admin_submit" value="返回" onclick="window.location.href='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </form>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".no_money").click(function(){
+            $(".log_amount").hide();
+        });
+        $(".yes_money").click(function(){
+            $(".log_amount").show();
+        });
+        $(".no_points").click(function(){
+            $(".regpoints_num").hide();
+        });
+        $(".yes_points").click(function(){
+            $(".regpoints_num").show();
+        });
+    });
+</script>
+</html>

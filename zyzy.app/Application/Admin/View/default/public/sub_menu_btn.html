@@ -1,0 +1,5 @@
+<notempty name="sub_menu['btn']">
+	<volist name="sub_menu['btn']" id="btn">
+		<input name="ButSave" type="submit" class="admin_submit" id="ButSave" value="{$btn.name}" data-uri="{:U($btn['module_name'].'/'.$btn['action_name'])}{$btn.data}" data-title="{$btn.name}" data-id="{$btn.id}"/>
+	</volist>
+</notempty>

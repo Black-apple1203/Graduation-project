@@ -1,0 +1,166 @@
+<include file="public:header"/>
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>通过管理员设置，您可以进行编辑管理员资料、角色、密码以及删除管理员等操作；</p>
+    </div>
+<form id="form2">
+    <div class="toptit">修改管理员</div>
+    <div class="form_main width150">
+        <div class="fl">用户名：</div>
+        <div class="fr">
+            <input name="username" type="text" maxlength="25" class="input_text_default" value="{$info.username}"/>
+        </div>
+        <div class="fl">电子邮件：</div>
+        <div class="fr">
+            <input name="email" type="text" maxlength="25" class="input_text_default" value="{$info.email}"/>
+        </div>
+        <div class="fl">所属角色：</div>
+        <div class="fr">
+            <div class="select_input_new J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">选择角色</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <volist name="roles" id="role">
+                                <li><a class="J_listitme <eq name='info.role_id' value='$key'>list_sel</eq>" href="javascript:;" data-code="{$key}">{$role}</a></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="role_id" id="role_id" type="hidden" value="{$info.role_id}" />
+            </div>
+            <a onclick="link(this);" href="javascript:;" url="{:U('AdminRole/auth',array('id'=>'qscms','url'=>"__SELF__"))}" style="color:#003399">查看权限</a>
+        </div>
+        <div class="fl">创建时间：</div>
+        <div class="fr txt">{:date("Y-m-d H:i",$info['add_time'])}&nbsp;</div>
+        <div class="fl">最后登录ip：</div>
+        <div class="fr txt">{$info.last_login_ip}&nbsp;</div>
+        <div class="fl">最后登录时间：</div>
+        <div class="fr txt"><if condition="$info['last_login_time']">{:date("Y-m-d H:i",$info['last_login_time'])}&nbsp;<else />未登陆</if></div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="id" type="hidden" value="{$info.id}" />
+            <input type="button" name="submit3" id="J_submit2" class="admin_submit" value="修改"/>
+            <input name="submit22" type="button" class="admin_submit" value="返回" onclick="window.location='{:U('admin/index')}'"/>
+        </div>
+        <div class="fl">管理员微信</div>
+        <if condition="C('qscms_weixin_apiopen') eq 1 && C('qscms_weixin_public_type') eq 1 && C('qscms_weixin_appid') neq ''">
+        	<if condition="$info.openid eq ''">
+	        <div class="fr">
+	            <div class="bd_qr_box">
+	                <div id='J_weixinQrCode'></div> 扫码绑定微信，创建完成后请用此微信<br>登录管理后台
+	            </div>
+	        </div>
+	        <else/>
+	        	<div class="fr txt link_blue">此账号已绑定微信，如果更换或者取消，请点击解绑 <a href="javascript:;" id='clear_bind'>解绑</a></div>
+	        </if>
+	    <else />
+	        <div class="fr">
+	            <div class="bd_qr_box no_img link_blue">
+	                您还没有配置微信平台账号，无法使用此功能。<br>立即配置<a href="{:U('Weixin/index')}">微信账号登录>></a>
+	            </div>
+	        </div>
+    	</if>
+        <div class="clear"></div>
+    </div>
+</form>
+<form id="form1" method="post" action="{:U('admin/edit')}">
+    <div class="toptit">修改密码</div>
+    <div class="form_main width150">
+        <div class="fl">密码：</div>
+        <div class="fr">
+            <input name="password" type="password" maxlength="25" class="input_text_default" value=""/>
+        </div>
+        <div class="fl">再次输入密码：</div>
+        <div class="fr">
+            <input name="repassword" type="password" maxlength="25" class="input_text_default" value=""/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="id" type="hidden" value="{$info.id}" />
+            <input type="button" id="J_submit" name="submit3" class="admin_submit" value="修改"/>
+            <input name="submit22" type="button" class="admin_submit" value="返回" onclick="window.location='{:U('admin/index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script type="text/javascript">
+    if ($('.J_listitme.list_sel').length) {
+        var listSelCn = $('.J_listitme.list_sel').text();
+        $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_text').text(listSelCn);
+    }
+	//获取绑定二维码
+	get_weixin_qrcode();
+	function get_weixin_qrcode(){
+		var id={$info.id};
+			$.getJSON('?m={:C(admin_alias)}&c=Qrcode&a=get_oauth_weixin_qrcode',{type:'bind',id:id},function(result){
+				if(result.status == 1){
+					$('#J_weixinQrCode').empty().append(result.data);
+				}else{
+					$('#J_weixinQrCode').empty().html(result.msg);
+				}
+			});
+		};
+	//结束
+	$('#clear_bind').click(function(){
+        var id={$info.id};
+        $.post("{:U('admin/clear_bind')}",{id:id},function(result){
+            if(result.status==1){
+                window.location.reload();
+            }else{
+			 disapperTooltip("remind", result.msg);
+			return false;
+            }
+        },'json');
+    });
+	function link(a){
+	var id = $('#role_id').val(),
+	  a = $(a).attr('url');
+	a = a.replace('qscms',id);
+	window.location=a;
+	}
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('admin/edit')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    location.href='{:U("admin/index")}';
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+    $('#J_submit2').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('admin/edit')}",$('#form2').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    location.href='{:U("admin/index")}';
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

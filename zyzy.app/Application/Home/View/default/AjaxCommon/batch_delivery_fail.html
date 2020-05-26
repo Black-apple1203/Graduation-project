@@ -1,0 +1,36 @@
+<div class="batch_delivery">
+    <div class="result_info icon2">
+    <if condition="$apply['count_jids'] eq 1"> 
+        <div class="top_txt">申请失败，{$apply['list'][$jid]['tip']}</div>
+    <else />
+        <div class="top_txt">您申请了 <span class="yellow_light">{$apply.total}</span> 个职位，其中 <span class="yellow_light">{$apply.success|default=0}</span> 个成功了</div>
+        <div class="down_txt">简历投递成功<if condition="$apply['points'] neq 0">，<span class="yellow_light">获得 {$apply.points|default=0} {:C('qscms_points_byname')}</span></if></div>
+    </if>
+    </div>
+    <div class="clear"></div>
+    <div class="delivery_fail_box">
+    <if condition="$apply['count_jids'] eq 1">
+        <div class="fail_head">根据数据统计，平均投递10个职位能获得2-3次面试机会，快去申请其他职位试试吧！</div>
+    <else />
+        <div class="fail_head">以下职位投递失败：</div>
+        <div class="fail_list_line">
+            <volist name="apply['list']" id="list">
+                <if condition="$list['status'] neq 1">
+                    <div class="fail_cell_left" title="{$list.jobs_name}">{$list.jobs_name}</div>
+                    <div class="fail_cell right">{$list.tip}</div>
+                </if>
+            </volist>
+            <div class="clear"></div>
+        </div>
+    </if>
+    </div>
+    <div class="tips_info">当前共有 <span class="yellow_light">{$user_points|default=0}</span> {:C('qscms_points_byname')}，立即兑换简历推广，让企业主动找你</div>
+    <div class="txt_center">
+        <div class="tabs_group">
+            <a href="{:U('PersonalService/increment_add',array('cat'=>'stick'))}" class="tab_box"><span class="txt">简历置顶</span></a>
+            <a href="{:U('PersonalService/increment_add',array('cat'=>'tag'))}" class="tab_box"><span class="txt icon1">醒目标签</span></a>
+            <a href="{:U('PersonalService/increment_add',array('cat'=>'tpl'))}" class="tab_box last"><span class="txt icon2">简历模版</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

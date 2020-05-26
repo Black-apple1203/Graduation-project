@@ -1,0 +1,80 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>短信包只有在网站设置短信费用承担方为企业时才能生效，费用承担方为运营者则短信包不会被显示</p>
+    <p>修改短信费用承担方请在“企业>企业设置>基本> 其他设置”中修改。</p>
+</div>
+<div class="toptit">新增服务套餐</div>
+<volist name="unit_arr" id="vo">
+    <input type="hidden" class="unit_{$key}" value="{$vo}">
+</volist>
+<form id="form1" action="{:U('add')}" method="post">
+    <div class="form_main width150">
+        <div class="fl">套餐名称:</div>
+        <div class="fr">
+            <input name="name" type="text" class="input_text_default middle" maxlength="30" value=""/>
+        </div>
+        <div class="fl">类型:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="cat" type="hidden" value="{$cate_arr|array_keys|current}">
+                <volist name="cate_arr" id="vo">
+                    <div class="radio cate <eq name='i' value='1'>select</eq>" data="{$key}" title="{$vo}">{$vo}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">服务<span class="unit">条</span>数:</div>
+        <div class="fr">
+            <input name="value" type="text" class="input_text_default middle" maxlength="10" value="" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> <span class="unit"> 条</span>
+        </div>
+        <div class="fl">价格:</div>
+        <div class="fr">
+            <input name="price" type="text" class="input_text_default middle" maxlength="10" value=""/> 元
+            <span class="no-fl-note">(0表示免费)</span>
+        </div>
+        <div class="fl">排序:</div>
+        <div class="fr">
+            <input name="sort" type="text" class="input_text_default middle" maxlength="3" value="0"/>
+            <span class="no-fl-note">(数字越大越靠前)</span>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".unit").html($('.unit_'+$("input[name='cat']").val()).val());
+        $(".cate").live('click',function(){
+            $(".unit").html($('.unit_'+$(this).attr('data')).val());
+        });
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('add')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

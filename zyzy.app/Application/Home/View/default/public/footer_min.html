@@ -1,0 +1,118 @@
+<div class="footer_min" id="footer">
+	<div class="links link_gray6">
+	<a target="_blank" href="{:url_rewrite('QS_index')}">网站首页</a>
+	<qscms:explain_list 列表名="list" 分类id="1"/>
+
+	<volist name="list" id="vo">
+	|   <a target="_blank" href="{$vo['url']}">{$vo['title']}</a>
+	</volist>
+	|   <a target="_blank" href="{:url_rewrite('QS_suggest')}">意见建议</a>
+	</div>
+	<div class="txt">
+
+		联系地址：{:C('qscms_address')}      联系电话：{:C('qscms_bootom_tel')}<br />
+
+		{:C('qscms_bottom_other')}     <if condition="C('qscms_icp') neq ''"><a href="http://www.beian.miit.gov.cn" target="_blank">{:C('qscms_icp')}</a></if>
+		{:htmlspecialchars_decode(C('qscms_statistics'))}
+
+	</div>
+</div>
+
+<div class="">
+	<div class=""></div>
+</div>
+<!--[if lt IE 9]>
+	<script type="text/javascript" src="{:C('TPL_HOME_PUBLIC_DIR')}/js/PIE.js"></script>
+  <script type="text/javascript">
+    (function($){
+        $.pie = function(name, v){
+            // 如果没有加载 PIE 则直接终止
+            if (! PIE) return false;
+            // 是否 jQuery 对象或者选择器名称
+            var obj = typeof name == 'object' ? name : $(name);
+            // 指定运行插件的 IE 浏览器版本
+            var version = 9;
+            // 未指定则默认使用 ie10 以下全兼容模式
+            if (typeof v != 'number' && v < 9) {
+                version = v;
+            }
+            // 可对指定的多个 jQuery 对象进行样式兼容
+            if ($.browser.msie && obj.size() > 0) {
+                if ($.browser.version*1 <= version*1) {
+                    obj.each(function(){
+                        PIE.attach(this);
+                    });
+                }
+            }
+        }
+    })(jQuery);
+    if ($.browser.msie) {
+      $.pie('.pie_about');
+    };
+  </script>
+<![endif]-->
+<script type="text/javascript" src="{:C('TPL_HOME_PUBLIC_DIR')}/js/jquery.disappear.tooltip.js"></script>
+<div class="floatmenu">
+<eq name="show_backtop" value="1">
+  <div class="item mobile">
+    <a class="blk"></a>
+    <eq name="show_backtop_app" value="1">
+    <div class="popover <if condition="$show_backtop_weixin eq 1">popover1</if>">
+      <div class="popover-bd">
+        <label>手机APP</label>
+        <span class="img-qrcode img-qrcode-mobile"><img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(C('qscms_site_domain').U('Mobile/Index/app_download'))}" alt=""></span>
+      </div>
+    </div>
+    </eq>
+    <eq name="show_backtop_weixin" value="1">
+    <div class="popover">
+      <div class="popover-bd">
+        <label class="wx">企业微信</label>
+        <span class="img-qrcode img-qrcode-wechat"><img src="{:attach(C('qscms_weixin_img'),'resource')}" alt=""></span>
+      </div>
+      <div class="popover-arr"></div>
+    </div>
+    </eq>
+  </div>
+  </eq>
+  <div class="item ask">
+    <a class="blk" target="_blank" href="{:url_rewrite('QS_suggest')}"></a>
+  </div>
+  <div id="backtop" class="item backtop" style="display: none;"><a class="blk"></a></div>
+</div>
+<SCRIPT LANGUAGE="JavaScript">
+
+var global = {
+    h:$(window).height(),
+    st: $(window).scrollTop(),
+    backTop:function(){
+      global.st > (global.h*0.5) ? $("#backtop").show() : $("#backtop").hide();
+    }
+  }
+  $('#backtop').on('click',function(){
+    $("html,body").animate({"scrollTop":0},500);
+  });
+  global.backTop();
+  $(window).scroll(function(){
+      global.h = $(window).height();
+      global.st = $(window).scrollTop();
+      global.backTop();
+  });
+  $(window).resize(function(){
+      global.h = $(window).height();
+      global.st = $(window).scrollTop();
+      global.backTop();
+  });
+  // 客服QQ
+  var app_qq = "{:C('apply.Qqfloat')}";
+  var qq_open = "{:C('qscms_qq_float_open')}";
+  if(app_qq != '' && qq_open == 1){
+      var QQFloatUrl = "{:U('Qqfloat/Index/index')}";
+      $.getJSON(QQFloatUrl, function (result) {
+          if (result.status == 1) {
+              //$(".qq-float").html(result.data);
+              $("body").append(result.data);
+          }
+      });
+  }
+</SCRIPT>

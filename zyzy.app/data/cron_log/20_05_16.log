@@ -1,0 +1,67 @@
+[ 2020-05-16T09:08:12+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+INFO: Cron:ClearCache Runat 2020-05-16 09:08:12 Use 0.540000 s 
+Cron:ClearPromotion Runat 2020-05-16 09:08:12 Use -0.014041 s 
+Cron:AutoRefreshResume Runat 2020-05-16 09:08:12 Use -0.317356 s 
+Cron:AutoRefreshJobs Runat 2020-05-16 09:08:12 Use -0.350833 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-16 09:08:12 Use -0.352126 s 
+Cron:ClearOrder Runat 2020-05-16 09:08:12 Use -0.355646 s 
+Cron:ClearShareAllowance Runat 2020-05-16 09:08:12 Use -0.424018 s 
+
+[ 2020-05-16T10:50:47+08:00 ] 127.0.0.1 /index.php?m=Admin&c=Pms&a=index
+INFO: Cron:ClearPromotion Runat 2020-05-16 10:50:47 Use 0.094484 s 
+Cron:AutoRefreshResume Runat 2020-05-16 10:50:47 Use -0.000068 s 
+Cron:AutoRefreshJobs Runat 2020-05-16 10:50:47 Use -0.004930 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-16 10:50:47 Use -0.006056 s 
+Cron:ClearShareAllowance Runat 2020-05-16 10:50:47 Use -0.010752 s 
+
+[ 2020-05-16T13:07:07+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+INFO: Cron:ClearPromotion Runat 2020-05-16 13:07:07 Use 0.083087 s 
+Cron:AutoRefreshResume Runat 2020-05-16 13:07:07 Use -0.000074 s 
+Cron:AutoRefreshJobs Runat 2020-05-16 13:07:07 Use -0.004278 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-16 13:07:07 Use -0.005838 s 
+Cron:ClearShareAllowance Runat 2020-05-16 13:07:07 Use -0.009901 s 
+
+[ 2020-05-16T16:32:11+08:00 ] 127.0.0.1 /index.php?m=admin&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+INFO: Cron:ClearPromotion Runat 2020-05-16 16:32:11 Use 0.056132 s 
+Cron:AutoRefreshResume Runat 2020-05-16 16:32:11 Use -0.000069 s 
+Cron:AutoRefreshJobs Runat 2020-05-16 16:32:11 Use -0.003636 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-16 16:32:11 Use -0.005144 s 
+Cron:ClearShareAllowance Runat 2020-05-16 16:32:11 Use -0.009823 s 
+
+[ 2020-05-16T17:01:04+08:00 ] 127.0.0.1 /index.php?m=Admin&c=Index&a=waiting_weixin_login
+INFO: Cron:ClearPromotion Runat 2020-05-16 17:01:04 Use 0.015201 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-16 17:01:04 Use -0.000072 s 
+Cron:ClearShareAllowance Runat 2020-05-16 17:01:04 Use -0.002611 s 
+
+[ 2020-05-16T17:10:04+08:00 ] 127.0.0.1 /index.php?m=Admin&c=Index&a=waiting_weixin_login
+INFO: Cron:AutoRefreshResume Runat 2020-05-16 17:10:04 Use 0.019303 s 
+Cron:AutoRefreshJobs Runat 2020-05-16 17:10:04 Use -0.000095 s 
+
+[ 2020-05-16T20:36:42+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+INFO: Cron:ClearPromotion Runat 2020-05-16 20:36:42 Use 0.166636 s 
+Cron:AutoRefreshResume Runat 2020-05-16 20:36:42 Use -0.000088 s 
+Cron:AutoRefreshJobs Runat 2020-05-16 20:36:42 Use -0.005416 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-16 20:36:42 Use -0.007180 s 
+Cron:ClearShareAllowance Runat 2020-05-16 20:36:42 Use -0.026660 s 
+
+[ 2020-05-16T21:10:58+08:00 ] 127.0.0.1 /index.php?m=&c=Index&a=ajax_scroll
+INFO: Cron:ClearPromotion Runat 2020-05-16 21:10:58 Use 0.816764 s 
+Cron:AutoRefreshResume Runat 2020-05-16 21:10:58 Use -0.000067 s 
+Cron:AutoRefreshJobs Runat 2020-05-16 21:10:58 Use -0.035380 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-16 21:10:58 Use -0.037337 s 
+Cron:ClearShareAllowance Runat 2020-05-16 21:10:58 Use -0.070277 s 
+
+[ 2020-05-16T22:01:01+08:00 ] 127.0.0.1 /index.php?m=Admin&c=Order&a=index_per
+INFO: Cron:ClearPromotion Runat 2020-05-16 22:01:01 Use 0.068240 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-16 22:01:01 Use -0.000065 s 
+Cron:ClearShareAllowance Runat 2020-05-16 22:01:01 Use -0.013847 s 
+
+[ 2020-05-16T23:00:58+08:00 ] 127.0.0.1 /index.php?m=&c=hrtools&a=index
+INFO: Cron:AutoRefreshResume Runat 2020-05-16 23:00:58 Use 0.723459 s 
+Cron:AutoRefreshJobs Runat 2020-05-16 23:00:58 Use -0.000090 s 
+
+[ 2020-05-16T23:01:01+08:00 ] 127.0.0.1 /index.php?m=Home&c=AjaxCommon&a=get_header_min
+INFO: Cron:ClearPromotion Runat 2020-05-16 23:01:01 Use 0.490331 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-16 23:01:01 Use -0.000068 s 
+Cron:ClearShareAllowance Runat 2020-05-16 23:01:01 Use -0.032822 s 
+

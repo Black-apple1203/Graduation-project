@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<include file="public:meta" />
+		<link
+			href="{:C('TPL_PUBLIC_DIR')}/css/common.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="{:C('TPL_PUBLIC_DIR')}/css/vi.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="{:C('TPL_PUBLIC_DIR')}/css/selectmenu.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+	</head>
+	<body>
+		<div class="vi_head">
+			<div class="head_content">
+				<a href="__ROOT__/">
+					<img class="hc_logo" src="<if condition="C('qscms_logo_home')"
+						>{:attach(C('qscms_logo_home'),'resource')}<else />{:C('TPL_HOME_PUBLIC_DIR')}/images/logo.gif</if
+					>" alt="logo">
+				</a>
+				<div class="hc_logo_vi"></div>
+				<a href="__ROOT__/" class="hc_back_home">返回网站</a>
+				<a class="hc_contact">联系电话：{:C('qscms_top_tel')}</a>
+				<a href="{$test_url}" class="hc_detect">设备检测</a>
+			</div>
+		</div>
+		<div class="vi_container">
+			<div class="tip" style="display:none;">
+				为提高视频面试效率，建议您使用谷歌内核浏览器并提前检测您的设备是否能够正常连通
+			</div>
+			<div class="device_detect_group">
+				<div class="group_title">视频面试·设备检测</div>
+				<div class="detect_list">
+					<div class="list_line" id="video_grid">
+						<div class="line_title t1">摄像头检测</div>
+						<div class="line_li J_device_choose" type="0">默认 - 摄像头</div>
+						<div class="detect_result" id="local_stream"></div>
+					</div>
+					<div class="list_line">
+						<div class="line_title t2">
+							麦克风 (请说话，并观察右侧音量条是否变化)
+						</div>
+						<div class="line_li J_device_choose" type="1">
+							默认 - 麦克风阵列
+						</div>
+						<div class="detect_result">
+							<div class="volume_bar">
+								<div class="volume_contetn">
+									<div class="volume_auto" id="J_volume_auto"></div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="list_line">
+						<div class="line_title t4">
+							扬声器 (播放测试音频，并观察是否可以听到声音)
+						</div>
+						<div class="line_li J_device_choose disable" type="2">
+							默认 - 扬声器
+						</div>
+						<div class="detect_result">
+							<audio
+								id="sampleMusic"
+								loop="loop"
+								controls="controls"
+								class="audio"
+							>
+								<source
+									src="{:C('TPL_PUBLIC_DIR')}/images/vi/music.mp3"
+									type="audio/mp3"
+								/>
+								Your browser does not support the audio tag.
+							</audio>
+							<div class="test_play" id="J_audio_play">播放测试音频</div>
+							<div class="test_playing" id="J_audio_paused">正在播放</div>
+						</div>
+					</div>
+					<div class="list_line">
+						<div class="line_title t3">网络检测</div>
+						<div class="line_li not J_net_check_result">正在检测中……</div>
+						<div class="detect_result">
+							<div class="network_check">
+								<div class="check_ico J_check_ico"></div>
+								<div class="J_check_txt">网络检测中...</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<if condition="$code!=''">
+					<a href="{$main_url}" class="jump_room">进入面试</a>
+				</if>
+			</div>
+		</div>
+		<input type="hidden" id="userId" value="" />
+		<input type="hidden" id="roomId" value="" />
+		<script>
+			var isChrome = navigator.userAgent.indexOf("Chrome") > -1; // 是否是谷歌
+			if (isChrome === false) {
+				$(".tip").show();
+			}
+			// initialize userId/roomId
+			$("#userId").val("{$userid}");
+			$("#roomId").val("74_" + parseInt(Math.random() * 100000000));
+			var globalConfig = {
+					sdkAppId: parseInt("{:C('qscms_trtc_appid')}"),
+					userSig: "{$sig}"
+				},
+				isDetectPage = true, // 是否检测设备
+				camerasList = [],
+				microphonesList = [],
+				speakersList = [];
+		</script>
+		<script src="{:C('TPL_PUBLIC_DIR')}/js/layer/layer.js"></script>
+		<script
+			type="text/javascript"
+			src="{:C('TPL_PUBLIC_DIR')}/js/vi/selectmenu.min.js"
+		></script>
+		<script src="{:C('TPL_PUBLIC_DIR')}/js/vi/trtc.js?v={:date('Ymd')}"></script>
+		<script src="{:C('TPL_PUBLIC_DIR')}/js/vi/lib-generate-test-usersig.min.js?v={:date('Ymd')}"></script>
+		<script src="{:C('TPL_PUBLIC_DIR')}/js/vi/utils.js?v={:date('Ymd')}"></script>
+		<script src="{:C('TPL_PUBLIC_DIR')}/js/vi/rtc-client.js?v={:date('Ymd')}"></script>
+		<script src="{:C('TPL_PUBLIC_DIR')}/js/vi/handle.js?v={:date('Ymd')}"></script>
+		<script>
+			function handleMusicPlay() {
+				var sampleMusicPlayer = $("#sampleMusic")[0];
+				if (sampleMusicPlayer.paused) {
+					sampleMusicPlayer.play();
+				} else {
+					sampleMusicPlayer.pause();
+				}
+			}
+			$("#J_audio_play").click(function() {
+				$(this).hide();
+				$("#J_audio_paused").show();
+				handleMusicPlay();
+			});
+			$("#J_audio_paused").click(function() {
+				$(this).hide();
+				$("#J_audio_play").show();
+				handleMusicPlay();
+			});
+
+			var volmueTimer;
+			function detectVolume(stream) {
+				volmueTimer = window.setInterval(function() {
+					const volume = stream.getAudioLevel();
+					$("#J_volume_auto").css("width", volume * 100 + "%");
+				}, 600);
+			}
+			// 检测网络
+			let netWorkUrl = "{:U('vi/network_check')}",
+				netHtml = "";
+			$.ajax({
+				url: netWorkUrl,
+				type: "post",
+				dataType: "json",
+				success: function(result) {
+					if (eval(result.status) === 1) {
+						netHtml = "您当前的网络质量较好，可以进行视频面试";
+					} else {
+						netHtml =
+							"您当前的网络质量比较差，<span style='color:#FF7062'>建议更换网络环境</span>";
+					}
+					setTimeout(function() {
+						$(".J_net_check_result").html(netHtml);
+						$(".J_check_ico").addClass("checked");
+						$(".J_check_txt").html("网络检测完成");
+					}, 1500);
+				}
+			});
+		</script>
+	</body>
+</html>

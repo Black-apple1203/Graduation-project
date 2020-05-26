@@ -1,0 +1,10 @@
+<div class="create_resume_success">
+    <div class="result_info">
+    <div class="top_txt">简历创建成功</div>
+    </div>
+    <if condition="C('qscms_perfected_resume_allowance_open') eq 1">
+    <div class="tips_info">您当前简历完整度只有<span class="font_red">{$resume_info['complete_percent']}%</span><br />继续完善简历可获取最多 <span class="font_red">{:C('qscms_perfected_resume_allowance_value_max')}元</span> 微信现金红包。</div>
+    <else />
+    <div class="tips_info">您当前简历完整度只有<span class="font_red">{$resume_info['complete_percent']}%</span><br />继续完善简历可有效提高求职效果。</div>
+    </if>
+</div>

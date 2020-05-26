@@ -1,0 +1,29 @@
+<div class="admin_business link_blue">
+    <div class="user_tab mt15">
+        <a href="{:U('Ajax/ajax_send_sms',array('mobile'=>$userinfo['mobile'],'uid'=>$userinfo['uid']))}" class="tabli select">发送短信</a>
+        <a href="{:U('Ajax/ajax_send_pms',array('tousername'=>$userinfo['username'],'uid'=>$userinfo['uid']))}" class="tabli ">发站内信</a>
+        <if condition="$apply['Weixin']">
+        <a href="{:U('Weixin/Admin/msg_send',array('uid'=>$userinfo['uid']))}" class="tabli last">发微信</a>
+        </if>
+        <div class="clear"></div>
+    </div>
+    <div class="show_box" style="margin-top:10px;"></div>
+</div>
+<script type="text/javascript">
+    $.getJSON("{:U('Ajax/ajax_send_sms',array('mobile'=>$userinfo['mobile'],'uid'=>$userinfo['uid']))}", function (result) {
+        $('.show_box').html(result.data);
+    });
+    $(".user_tab a").click(function () {
+        $('.user_tab a').removeClass('select');
+        $(this).addClass('select');
+        var url = $(this).attr('href');
+        $.getJSON(url, function (result) {
+            if(result.status==1){
+                $('.show_box').html(result.data);
+            }else{
+                $('.show_box').html('<table width="100%" border="0" cellspacing="10" cellpadding="1" style=" margin-left:18px;"><tr><td width="60" align="left">'+result.msg+'</td></tr></table>');
+            }
+        });
+        return false;
+    });
+</script>

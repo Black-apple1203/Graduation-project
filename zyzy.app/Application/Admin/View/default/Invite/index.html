@@ -1,0 +1,111 @@
+<include file="public:header"/>
+<div class="toptit">参数配置</div>
+<form id="form1" action="{:U('index')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">是否开启邀请注册简历送红包:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_inviter_perfected_resume_allowance_open' value='1'>select</eq>">
+                <input name="inviter_perfected_resume_allowance_open" type="hidden" value="{:C('qscms_inviter_perfected_resume_allowance_open')}" />
+            </div>
+            <div class="note">（如需开启，请先正确配置微信支付参数）</div><br>
+            <div class="clear"></div>
+            <div style="padding-top:10px;color: #999999;">邀请红包的某些功能可能被微信视为诱导分享拦截域名，请谨慎开启！</div>
+        </div>
+        <div class="fl">服务费收取设置：</div>
+        <div class="fr">
+            <input name="inviter_service_charge" type="text" class="input_text_default small" maxlength="100" value="{:C('qscms_inviter_service_charge')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> % 
+            <label class="no-fl-note">（0为不收取）</label>
+        </div>
+        <div class="fl">要求简历完整度达到:</div>
+        <div class="fr">
+            <input name="inviter_perfected_resume_allowance_percent" type="text" class="input_text_default small" maxlength="10" value="{:C('qscms_inviter_perfected_resume_allowance_percent')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> %
+            <label class="no-fl-note">(完整度达到设定值，邀请才算成功，才能发红包)</label>
+        </div>
+        <div class="fl">新注册用户多长时间不能参与:</div>
+        <div class="fr">
+            <input name="inviter_new_username_timespace" type="text" class="input_text_default small" maxlength="100" value="{:C('qscms_inviter_new_username_timespace')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 天 
+            <label class="no-fl-note">（0为不限）</label>
+        </div>
+        <div class="fl">每天邀请红包任务限制数</div>
+        <div class="fr">
+            <input name="inviter_maxtime_perday" type="text" class="input_text_default small" maxlength="100" value="{:C('qscms_inviter_maxtime_perday')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 次 
+            <label class="no-fl-note">（0为不限）</label>
+        </div>
+        <div class="fl">红包金额:</div>
+        <div class="fr">
+            <input name="inviter_amount" type="text" class="input_text_default small" maxlength="10" value="{:C('qscms_inviter_amount')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 元
+        </div>
+        <div class="fl">允许领取红包的手机号归属地:</div>
+        <div class="fr">
+            <textarea name="inviter_allow_signon_mobile_address" class="input_text_default" style="line-height:200%; height:70px;">{:C('qscms_inviter_allow_signon_mobile_address')}</textarea>
+            <label class="no-fl-note">（请输入城市名，多个请用英文半角逗号“,”隔开，如：北京,太原。留空则为不限制）</label>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit1"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<div class="toptit">黑名单列表</div>
+<div class="list_th">
+    <div class="td" style=" width:10%;">
+        <div class="left_padding">黑名单</div>
+    </div>
+    <div class="td" style=" width:10%;">用户名</div>
+    <div class="td center" style=" width:10%;">添加时间</div>
+    <div class="td center" style=" width:60%;">备注</div>
+    <div class="td" style=" width:10%;">操作</div>
+    <div class="clear"></div>
+</div>
+
+<volist name="list" id="vo">
+    <div class="list_tr link_black">
+        <div class="td" style=" width:10%;">
+            <div class="left_padding striking">
+                {$vo.fullname}
+            </div>
+        </div>
+        <div class="td" style=" width:10%;">
+            {$vo['username']}
+        </div>
+        <div class="td center" style=" width:10%;">
+            {:admin_date($vo['addtime'])}
+        </div>
+        <div class="td center" style=" width:60%;">{$vo.note}</div>
+        <div class="td edit" style=" width:10%;">
+            <a href="{:U('invite/delete',array('id'=>$vo['id']))}" onclick="javascript:return confirm('移除后会员将恢复红包功能，确定从黑名单中移除吗？');">移除</a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</volist>
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit1').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('index')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

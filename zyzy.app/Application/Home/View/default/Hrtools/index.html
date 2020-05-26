@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/hrtools.css" rel="stylesheet" type="text/css" />
+	<script src="{:C('TPL_PUBLIC_DIR')}/js/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="new-hr-tp"></div>
+<div class="new-hr-main">
+    <qscms:hrtools_category 列表名="category" />
+    <volist name="category" id="vo">
+        <div class="nhm-cell">
+            <div class="hc-top-bar"></div>
+            <div class="hc-ic-bar">
+                <div class="hc-sp-h20"></div>
+                <div class="hib-icon h1"><img src="{$vo['img']}"></div>
+                <div class="hc-sp-h14"></div>
+                <div class="hc-sp-l">{$vo['c_name']}</div>
+            </div>
+            <div class="hc-tx-bar">{$vo['c_desc']}</div>
+            <div class="hc-m-l"><a target="_blank" href="{$vo['url']}" class="hc-more">查看更多</a></div>
+        </div>
+    </volist>
+    <div class="clear"></div>
+</div>
+<include file="public:footer_min" />
+<script type="text/javascript">
+    // 处理最后几个下边距的问题
+    var num = $('.nhm-cell').length;
+    if (num%3 == 0) {
+      $('.nhm-cell').eq(num-1).css('margin-bottom', '0');
+      $('.nhm-cell').eq(num-2).css('margin-bottom', '0');
+      $('.nhm-cell').eq(num-3).css('margin-bottom', '0');
+    }
+    if (num%3 == 1) {
+      $('.nhm-cell').eq(num-1).css('margin-bottom', '0');
+    }
+    if (num%3 == 2) {
+      $('.nhm-cell').eq(num-1).css('margin-bottom', '0');
+      $('.nhm-cell').eq(num-2).css('margin-bottom', '0');
+    }
+</script>
+</body>
+</html>

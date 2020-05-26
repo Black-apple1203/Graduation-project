@@ -1,0 +1,50 @@
+<include file="public:header"/>
+<div class="toptit link_blue">
+    企业模板 - <span style="color:#0066CC">{$info.companyname}</span>
+</div>
+<div class="form_main">
+    <table width="460" border="0" cellspacing="12" cellpadding="0" class="link_blue" style="margin-left: 30px; margin-bottom: 20px;">
+        <tr>
+            <td width="225">
+                <img src="{$templates.thumb_dir}/thumbnail.jpg" alt="{$templates.name}" width="225" height="136" border="1"  style="border: #CCCCCC;" />
+            </td>
+            <td width="220" style="line-height:180%;">
+                名称：{$templates.name}<br />
+                版本：{$templates.version}<br />
+                作者：<a href="{$templates.authorurl}" target="_blank">{$templates.author}</a>
+            </td>
+        </tr>
+    </table>
+</div>
+<div class="toptit link_blue">其它可用模版</div>
+<div class="form_main">
+    <volist name="list" id="li">
+        <div style="float:left; width:240px; text-align:center; padding:15px; line-height:180%;margin-left: 20px;"  class="link_blue tpl_list">
+            <a href="{:U('set_tpl',array('uid'=>$uid,'tpl_dir'=>$li['tpl_dir'],'_k_v'=>$_GET['_k_v']))}" onclick="return confirm('你确定要使用此模板吗？(提示：频繁更换模版会影响网站排名)')">
+                <img src="{$li.thumb_dir}/thumbnail.jpg" alt="{$li.info.name}" width="225" height="136" border="1"  style="border: #CCCCCC;"/>
+            </a>
+            <br />
+            <strong>{$li.info.name}</strong>
+            <br />
+            {$li.info.version} (作者:<a href="{$li.info.authorurl}" target="_blank">{$li.info.author}</a>)
+        </div>
+    </volist>
+    <div class="clear"></div>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".tpl_list").hover(
+            function () {
+                $(this).css("background-color","#E4F4FC");
+            },
+            function () {
+                $(this).css("background-color","");
+            }
+        );
+    });
+</script>
+</html>

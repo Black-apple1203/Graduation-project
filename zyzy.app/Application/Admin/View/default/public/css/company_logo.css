@@ -1,0 +1,10 @@
+.logo_wrap{cursor:pointer;width:120px;height:120px;padding:5px;position:absolute;right:0px;left:0px;border:1px solid #eeeeee;}
+.logo_wrap .logo{}
+.logo_wrap .logo_upload{display:none;width:122px;height:122px;padding:5px;position:absolute;top:0;right:0;font-size:16px;background:url('../images/31.png') repeat 0 0;color:#EAEAEA;}
+.clear_logo{width:122px;height:20px;line-height:20px;padding:5px;position:absolute;top:200px;right:320px;font-size:14px;text-align: center;cursor: pointer;display: none;}
+/*.logo_wrap .logo_upload.hover{display:block;}*/
+.logo_wrap:hover .logo_upload{display:block;}
+.logo_wrap .logo_upload.hover{display:block;background:url('../images/31.png') repeat 0 0}
+.logo_wrap .logo_upload .upimg{width:110px;margin:0 auto;}
+.logo_wrap .logo_upload .upimg .up{width:74px;background:url('../images/40.png') no-repeat 7px 21px;padding-left:36px;height:60px;line-height:60px;}
+.logo_wrap .logo_upload .uptip{padding-left:4px;font-size:12px;margin-top:0;line-height:20px;padding-bottom:22px;}

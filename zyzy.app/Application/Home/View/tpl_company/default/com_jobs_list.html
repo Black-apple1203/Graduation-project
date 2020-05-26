@@ -1,0 +1,655 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <qscms:company_show 列表名="info" 企业id="$_GET['id']"/>
+    <include file="public:meta" />
+    <link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="{:C('TPL_PUBLIC_DIR')}/css/common_ajax_dialog.css" rel="stylesheet" type="text/css" />
+    <link href="{:C('TPL_COMPANY_DIR')}/default/css/jobs.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak={:C('qscms_map_ak')}"></script>
+    <!--	<script src="../default/public/js/jquery.common.js" type="text/javascript" language="javascript"></script> -->
+</head>
+<body>
+<include file="public:header_other" />
+<div class="new-se-group">
+    <div class="new-se-main">
+        <div class="comshow_new no_pt">
+            <div class="comlogo">
+                <img src="{$info['logo']}">
+            </div>
+
+            <div class="cominfo">
+                <div class="cname">
+                    {$info['companyname']}
+                    <if condition="$info['audit'] eq 1"><img src="{:attach('auth.png','resource')}" title="认证企业"></if>
+                    <if condition="$info['setmeal_id'] gt 1"><img src="{:attach($info['setmeal_id'].'.png','setmeal_img')}" title="{$info.setmeal_name}"></if>
+                    <if condition="$info['famous'] eq 1">
+                        <img src="<if condition="C('qscms_famous_company_img') eq ''">{:attach('famous.png','resource')}<else/>{:attach(C('qscms_famous_company_img'),'images')}</if>" title="诚聘通企业"/>
+                    </if>
+                </div>
+                <div class="stat">
+                    <div class="li">
+                        <div class="t">{$info['jobs_count']}个</div>
+                        招聘职位
+                    </div>
+                    <div class="li">
+                        <div class="t">{$info['reply_ratio']}%</div>
+                        简历及时处理率
+                    </div>
+                    <div class="li">
+                        <div class="t">{$info['reply_time']}</div>
+                        简历处理用时
+                    </div>
+                    <div class="li">
+                        <div class="t">{$info['last_login_time']}</div>
+                        企业最近登录
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="share bdsharebuttonbox" data-tag="share_1">
+                    <a class="li s1 bds_tsina" data-cmd="tsina"></a>
+                    <a class="li s2 bds_renren" data-cmd="renren"></a>
+                    <a class="li s3 bds_qzone" data-cmd="qzone"></a>
+                    <a class="li s5 bds_sqq" data-cmd="sqq"></a>
+                    <a class="li s6 bds_weixin" data-cmd="weixin"></a>
+                    <div class="clear"></div>
+                </div>
+
+                <div class="attention">
+                    <div class="abtn <eq name="info['focus']" value="1">for_cancel<else /></eq>"><eq name="info['focus']" value="1">取消关注<else />关注</eq></div>
+                <div class="fans">粉丝：<span><strong>{$info['fans']}</strong></span></div>
+                <div class="clear"></div>
+            </div>
+
+
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+</div>
+<if condition="C('apply.Allowance')">
+    <!--投递红包领取成功弹出框-->
+    <div class="get-money-fail-suc" style="display: none">
+        <div class="gm-fs-group">
+            <div class="gm-fs-clo"></div>
+            <div class="cash-line">
+                <div class="cl-cell cl-big">000</div>
+                <div class="cl-cell">元</div>
+                <div class="clear"></div>
+            </div>
+            <div class="h119"></div>
+            <div class="qr-group"><img src="{:attach(C('qscms_weixin_img'),'resource')}" alt=""></div>
+            <div class="h16"></div>
+            <a href="{:U('Home/Personal/allowance')}" class="gms-chk-btn">查看我的红包 ></a>
+            <div class="h15"></div>
+            <div class="t-co-f">现金红包到账时间可能有延迟，请微信扫码查询</div>
+            <div class="h15"></div>
+            <div class="t-co-dr">本活动最终解释权归{:C('qscms_site_name')}所有</div>
+        </div>
+    </div>
+</if>
+
+
+<div class="comshowmain">
+
+    <div class="l">
+        <div class="comnav">
+            <a href="{:url_rewrite('QS_companyshow',array('id'=>$info['id']))}">公司主页</a>
+            <a href="{:url_rewrite('QS_companyjobs',array('id'=>$info['id']))}" class="select" >在招职位<span>({$info['jobs_count']})</span></a>
+            <if condition="C('apply.Allowance')">
+                <div class="for-al" style="display:none;">
+                    <div class="m-re-box">
+                        当前共有 <span class="red-txt" id="money_count_jobs">0</span> 个红包职位，红包总额 <span class="red-txt" id="money_count_amount">0</span> 元
+                        <div class="m-re-arr"></div>
+                        <div class="m-re-clo"></div>
+                    </div>
+                </div>
+            </if>
+            <div class="clear"></div>
+        </div>
+
+        <qscms:jobs_list 列表名="jobs" 会员uid="$info['uid']" 显示数目="20" 排序="stickrtime" 分页显示="1" 分站='1'/>
+        <div class="infobox link_blue">
+            <notempty name="jobs['list']">
+                <div class="ajax-list">
+                    <volist name="jobs['list']" id="vo">
+                        <div class="jobslist J_jobsList" data-jid="{$vo['id']}">
+                            <div class="jname">
+                                <a target="_blank" href="{$vo['jobs_url']}"><strong>{$vo['jobs_name']}</strong></a>
+                                <if condition="C('apply.Allowance') && $vo['allowance_id'] gt 0">
+                                    <img class="al-img" src="{:C('TPL_COMPANY_DIR')}/default/images/12.png" alt="{$vo['allowance_info']['type_cn']}" title="【{$vo['allowance_info']['type_cn']}】{$vo['allowance_info']['per_amount']}元 x {$vo['allowance_info']['surplus_num']}个">
+                                </if>
+                                <span>[{$vo['amount']}人]</span><span>{$vo['nature_cn']}</span>
+                                <span><u>{$vo['refreshtime_cn']}</u></span>
+                            </div>
+                            <div class="jtxt"><u>{$vo['wage_cn']}</u><span>|</span>{$vo['district_cn']}<span>|</span>{$vo['experience_cn']}<span>|</span>{$vo['education_cn']}</div>
+                            <eq name="vo['allowance_id']" value="0">
+                                <div class="jobapp J_applyForJob" data-batch="false" data-url="{:U('AjaxPersonal/resume_apply')}">投递简历</div>
+                                <else />
+                                <div class="jobapp J_applyForJobAllowance" data-jid="{$vo['id']}" data-batch="false">投递简历</div>
+                            </eq>
+                        </div>
+                    </volist>
+                </div>
+                <div class="j-more jobs-more" p="2">查看更多</div>
+                <else />
+                <div class="list_empty_group">
+                    <div class="list_empty">
+                        <div class="list_empty_left"></div>
+                        <div class="list_empty_right">
+                            <div class="sorry_box">不凑巧，目前该公司暂无招聘中的职位！</div>
+                            <div class="stips_box">我们建议您先点击关注该公司，及时获取招聘动态</div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </notempty>
+        </div>
+
+    </div>
+    <!-- -->
+    <div class="r">
+            <div class="contact link_gray6">
+                <div class="t">企业资料</div>
+                <div class="txt">
+                    <div class="fl txt_t">性质</div>
+                    <div class="fl">{$info['nature_cn']}</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="txt">
+                    <div class="fl txt_t">行业</div>
+                    <div class="fl">{$info['trade_cn']}</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="txt">
+                    <div class="fl txt_t">规模</div>
+                    <div class="line_substring" >{$info['scale_cn']}</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="txt">
+                    <div class="fl txt_t">地址</div>
+                    <div class="fl content_c" title="{$info['address']}">{$info['district_cn']}</div>
+                    <div class="clear"></div>
+                </div>
+                <if condition="$info['map_x'] && $info['map_y'] && $info['map_zoom']">
+                    <div class="map" id="map"></div>
+                    <script type="text/javascript">
+                        var map = new BMap.Map("map");       // 创建地图实例
+                        var point = new BMap.Point({$info['map_x']},{$info['map_y']});  // 创建点坐标
+                        map.centerAndZoom(point, {$info['map_zoom']});
+                        var qs_marker = new BMap.Marker(point);        // 创建标注
+                        map.addOverlay(qs_marker);
+                        map.setCenter(point);
+                    </script>
+                </if>
+            </div>
+        <if condition="$info['famous'] eq 1">
+            <div class="famousWrap">
+                <img src="{:attach('famous_img.png','resource')}" title="诚聘通企业">
+            </div>
+        </if>
+        <qscms:company_list 列表名="similar" 行业="$info['trade']" 显示数目="5" 去除id="$_GET['id']"/>
+        <if condition="$similar['list']">
+            <div class="same link_gray6">
+                <div class="t">看过此公司的人还看过</div>
+                <volist name="similar['list']" id="vo">
+                    <if condition="$vo['jobs_count'] gt 0">
+                        <div class="list link_gray6">
+                            <div class="pic"><a target="_blank" href="{$vo['url']}"><img src="{$vo['logo']}" /></a></div>
+                            <div class="txt">
+                                <div class="comname"><a href="{$vo['url']}" target="_blank">{$vo['companyname']}</a></div>
+                                <div class="count"><a target="_blank" href="{:url_rewrite('QS_companyjobs',array('id'=>$vo['id']))}"><span>{$vo['jobs_count']}</span></a>个招聘职位</div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </if>
+                </volist>
+            </div>
+        </if>
+
+    </div>
+    <div class="clear"></div>
+</div>
+<include file="Home@default/public/footer_min" />
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.modal.dialog.js"></script>
+<script type="text/javascript">
+    $('.get-money-fail-suc').css({
+        left: ($(window).width() - $('.get-money-fail-suc').outerWidth())/2,
+        top: ($(window).height() - $('.get-money-fail-suc').outerHeight())/2 + $(document).scrollTop()
+    });
+    $('.gm-fs-group .gm-fs-clo').die().live('click', function () {
+        $(this).closest('.get-money-fail-suc').remove();
+        $('.modal_backdrop').remove();
+    });
+    window._bd_share_config = {
+        common : {
+            bdText : "{$info['companyname']}-{:C('qscms_site_name')}",
+            bdDesc : "{$info['companyname']}-{:C('qscms_site_name')}",
+            bdUrl : "{:C('qscms_site_domain')}{:url_rewrite('QS_companyshow',array('id'=>$info['id']))}",
+            bdPic : "{$info['logo']}"
+        },
+        share : [{
+            "tag" : "share_1",
+            "bdCustomStyle":"{:C('TPL_COMPANY_DIR')}/default/css/jobs.css"
+        }]
+    }
+    with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/static/api/js/share.js?cdnversion='+~(-new Date()/36e5)];
+    $(document).ready(function(){
+        $.getJSON("{:U('ajaxCommon/company_statistics_add')}",{comid:"{$info['id']}"});
+        var isVisitor = "{$visitor['uid']}";
+        // 关注
+        $(".abtn").die().live('click',function(){
+            var url = "{:U('ajaxPersonal/company_focus')}";
+            var company_id = "{$info['id']}";
+            var thisObj = $(this);
+            if ((isVisitor > 0)) {
+                $.getJSON(url,{company_id:company_id},function(result){
+                    if(result.status==1){
+                        disapperTooltip('success',result.msg);
+                        thisObj.html(result.data.html).toggleClass('for_cancel');
+                        if(result.data.op==1){
+                            $(".fans_num").html(parseInt($(".fans_num").html())+1);
+                        }else{
+                            $(".fans_num").html(parseInt($(".fans_num").html())-1);
+                        }
+                    } else {
+                        disapperTooltip('remind',result.msg);
+                    }
+                });
+            } else {
+                var qsDialog = $(this).dialog({
+                    loading: true,
+                    footer: false,
+                    header: false,
+                    border: false,
+                    backdrop: false
+                });
+                var loginUrl = "{:U('AjaxCommon/ajax_login')}";
+                $.getJSON(loginUrl, function(result){
+                    if(result.status==1){
+                        qsDialog.hide();
+                        var qsDialogSon = $(this).dialog({
+                            header: false,
+                            content: result.data.html,
+                            footer: false,
+                            border: false
+                        });
+                        qsDialogSon.setInnerPadding(false);
+                    } else {
+                        qsDialog.hide();
+                        disapperTooltip('remind',result.msg);
+                    }
+                });
+            }
+        });
+
+        // 查看联系方式
+        $('.J_check_truenum').die().live('click', function() {
+            if (!(isVisitor > 0)) {
+                var qsDialog = $(this).dialog({
+                    loading: true,
+                    footer: false,
+                    header: false,
+                    border: false,
+                    backdrop: false
+                });
+                var loginUrl = "{:U('AjaxCommon/ajax_login')}";
+                $.getJSON(loginUrl, function(result){
+                    if(result.status==1){
+                        qsDialog.hide();
+                        var qsDialogSon = $(this).dialog({
+                            header: false,
+                            content: result.data.html,
+                            footer: false,
+                            border: false
+                        });
+                        qsDialogSon.setInnerPadding(false);
+                    } else {
+                        qsDialog.hide();
+                        disapperTooltip('remind',result.msg);
+                    }
+                });
+            }else{
+                var utype = "{$visitor['utype']}";
+                if(utype == 1){
+                    disapperTooltip('remind','请登录个人账号！');
+                }else{
+                    disapperTooltip('remind','请先填写一份简历');
+                    setTimeout(function() {
+                        location.href="{:U('Personal/resume_add')}";
+                    },1000);
+                }
+            }
+        });
+        $('.jobs-more').die().live('click',function(){
+            $(this).html('加载中...');
+            var p = $(this).attr('p');
+            $.getJSON("{:U('AjaxCommon/get_com_jobs')}",{p:p,uid:"{$info['uid']}"},function(result){
+                if(!result.data.isfull){
+                    $('.jobs-more').html('查看更多');
+                    var html = '';
+                    $.each(result.data.list, function(i, r){
+
+                        html += '<div class="jobslist J_jobsList" data-jid="'+r.id+'">';
+                        html += '<div class="jname">';
+                        html += '<a target="_blank" href="'+r.jobs_url+'"><strong>'+r.jobs_name+'</strong></a>';
+                        html += '<span>['+r.amount+'人]</span><span>'+r.nature_cn+'</span><span><u>'+r.refreshtime_cn+'</u></span></div>';
+                        html += '<div class="jtxt"><u>'+r.wage_cn+'</u><span>|</span>'+r.district_cn+'<span>|</span>'+r.experience_cn+'<span>|</span>'+r.education_cn+'</div>';
+                        html += '<div class="jobapp J_applyForJob" data-batch="false" data-url="{:U(\'AjaxPersonal/resume_apply\')}">投递简历</div></div>';
+                    });
+                    $('.ajax-list').append(html);
+                    $('.jobs-more').attr('p',parseInt($('.jobs-more').attr('p'))+1);
+
+                }else{
+                    $('.jobs-more').html('没有更多职位了');
+                    $('.j-more').removeClass('jobs-more');
+                }
+            });
+        });
+        // 申请职位
+        $('.J_applyForJob').die().live('click', function(){
+            var url = $(this).data('url');
+            var jidValue = $(this).closest('.J_jobsList').data('jid');
+            $.ajax({
+                url: url,
+                type: 'POST',
+                dataType: 'json',
+                data: {jid: jidValue}
+            }).done(function(data) {
+                if (parseInt(data.status)) {
+                    if(data.data.html){
+                        $(this).dialog({
+                            title: '申请职位',
+                            border: false,
+                            content:data.data.html,
+                            yes: function () {
+                                window.location.reload();
+                            },
+                        });
+                    } else {
+                        disapperTooltip('success', successMsg);
+                    }
+                }
+                else if(data.data==1){
+                    location.href=qscms.root+"?m=Home&c=Personal&a=resume_add";
+                } else {
+                    if (eval(data.dialog)) {
+                        var qsDialog = $(this).dialog({
+                            loading: true,
+                            footer: false,
+                            header: false,
+                            border: false,
+                            backdrop: false
+                        });
+                        if (eval(qscms.smsTatus)) { // 是否开启短信
+                            var creatsUrl = qscms.root + '?m=Home&c=AjaxPersonal&a=resume_add_dig';
+                            $.getJSON(creatsUrl,{jid:jidValue}, function(data1){
+                                if(data1.status==1){
+                                    qsDialog.hide();
+                                    var qsDialogSon = $(this).dialog({
+                                        content: data1.data.html,
+                                        footer: false,
+                                        header: false,
+                                        border: false
+                                    });
+                                    qsDialogSon.setInnerPadding(false);
+                                } else {
+                                    qsDialog.hide();
+                                    disapperTooltip("remind", data1.msg);
+                                }
+                            });
+                        } else {
+                            var loginUrl = qscms.root + '?m=Home&c=AjaxCommon&a=ajax_login';
+                            $.getJSON(loginUrl, function(data1){
+                                if(data1.status==1){
+                                    qsDialog.hide();
+                                    var qsDialogSon = $(this).dialog({
+                                        header: false,
+                                        content: data1.data.html,
+                                        footer: false,
+                                        border: false
+                                    });
+                                    qsDialogSon.setInnerPadding(false);
+                                } else {
+                                    qsDialog.hide();
+                                    disapperTooltip("remind", data1.msg);
+                                }
+                            });
+                        }
+                    } else {
+                        disapperTooltip("remind", data.msg);
+                    }
+                }
+            })
+        });
+        var qrcode_bind_time,
+            waiting_weixin_bind = function(){
+                $.getJSON("{:U('Home/Members/waiting_weixin_bind')}");
+            };
+        $(".J_applyForJobAllowance").die().live('click',function(){
+            var qsDialog = $(this).dialog({
+                loading: true,
+                footer: false,
+                header: false,
+                border: false,
+                backdrop: false
+            });
+        <if condition="$visitor">
+                var url = qscms.root+"?m=Allowance&c=Ajax&a=apply_allowance";
+            var jid = $(this).data('jid');
+            $.getJSON(url,{jid:jid},function(data){
+                if(data.status==1) {
+                    qsDialog.hide();
+                    var qsDialogSon = $(this).dialog({
+                        title: '领取红包',
+                        content: data.data.html,
+                        yes:function(){
+                            if(data.data.tip_status==1){
+                                $.getJSON(qscms.root+'?m=Allowance&c=Ajax&a=apply_allowance_save',{jid:jid,need_check_bind:1},function(r){
+                                    if(r.status==1){
+                                        qsDialogSon.hide();
+                                        if(r.data.type_alias=='apply'){
+                                            $('body').append('<div class="modal_backdrop"></div>');
+                                            $('.get-money-fail-suc').show();
+                                            $('.get-money-fail-suc .cash-line .cl-big').html(r.data.per_amount);
+                                        }else{
+                                            $.getJSON(qscms.root+'?m=Allowance&c=Ajax&a=apply_allowance_okremind',{type:r.data.type_alias},function(re){
+                                                if(re.status==1){
+                                                    var remindDialog = $(this).dialog({
+                                                        title: '系统提示',
+                                                        content: re.data,
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    }
+                                    else if(r.status==2){
+                                        qsDialogSon.hide();
+                                        var qsDialogBind = $('.J_applyForJobAllowance').dialog({
+                                            title: '绑定微信',
+                                            content: r.data,
+                                            yes:function(){
+                                                clearInterval(qrcode_bind_time);
+                                                $.getJSON(qscms.root+'?m=Allowance&c=Ajax&a=apply_allowance_save',{jid:jid},function(t_r){
+                                                    if(t_r.status==1){
+                                                        qsDialogBind.hide();
+                                                        if(t_r.data.type_alias=='apply'){
+                                                            $('body').append('<div class="modal_backdrop"></div>');
+                                                            $('.get-money-fail-suc').show();
+                                                            $('.get-money-fail-suc .cash-line .cl-big').html(t_r.data.per_amount);
+                                                        }else{
+                                                            $.getJSON(qscms.root+'?m=Allowance&c=Ajax&a=apply_allowance_okremind',{type:t_r.data.type_alias},function(t_re){
+                                                                if(t_re.status==1){
+                                                                    var remindDialog = $(this).dialog({
+                                                                        title: '系统提示',
+                                                                        content: t_re.data,
+                                                                    });
+                                                                }
+                                                            });
+                                                        }
+                                                    }else{
+                                                        disapperTooltip('remind',t_r.msg);
+                                                        return false;
+                                                    }
+                                                });
+                                            },
+                                            cancel:function(){
+                                                clearInterval(qrcode_bind_time);
+                                            }
+                                        });
+                                        qsDialogBind.setCloseDialog(false);
+                                        qsDialogBind.setBtns(['我已绑定', '取消']);
+                                        clearInterval(qrcode_bind_time);
+                                        qrcode_bind_time=setInterval(waiting_weixin_bind,5000);
+                                    }
+                                    else if(r.status==3){
+                                        qsDialogSon.hide();
+                                        var authMobileDialog = $(this).dialog({
+                                            title: "验证手机号",
+                                            content:r.data,
+                                            loading: false,
+                                            showFooter: true,
+                                            yes: function() {
+                                                var verifycode  = $.trim($('#J_mobileWrap input[name="verifycode"]').val());
+                                                if(!verifycode){
+                                                    disapperTooltip("remind", "请填写验证码！");
+                                                    return !1;
+                                                }
+                                                $.post("{:U('Home/Members/verify_mobile_code')}",{verifycode:verifycode},function(result){
+                                                    if(result.status == 1){
+                                                        disapperTooltip('success','手机号验证成功，请重新领取红包');
+                                                        authMobileDialog.hide();
+                                                    }else{
+                                                        disapperTooltip('remind',result.msg);
+                                                    }
+                                                },'json');
+                                            }
+                                        });
+                                        authMobileDialog.setCloseDialog(false);
+                                    }
+                                    else{
+                                        disapperTooltip('remind',r.msg);
+                                        return false;
+                                    }
+                                });
+                            }else{
+                                disapperTooltip('remind','你的简历不满足条件，无法领取红包，你可以直接投递');
+                                return false;
+                            }
+                        },
+                        cancel:function(){
+                            var url = "{:U('ajaxPersonal/resume_apply')}";
+                            $.getJSON(url,{jid:jid},function(result){
+                                if(result.status==1) {
+                                    if(result.data.html){
+                                        if(result.data.rid){
+                                            var qsDialogSon = $(this).dialog({
+                                                title: '申请职位',
+                                                yes: function () {
+                                                    var url = "{:U('Personal/index')}";
+                                                    url = url.replace('rid',result.data.rid);
+                                                    location.href = url;
+                                                },
+                                                btns: ['完善简历', '放弃申请'],
+                                                loading: true
+                                            });
+                                        }else{
+                                            var qsDialogSon = $(this).dialog({
+                                                title: '申请职位',
+                                                loading: true
+                                            });
+                                        }
+                                        qsDialogSon.setContent(result.data.html);
+                                    }
+                                    else {
+                                        qsDialog.hide();
+                                        disapperTooltip("remind", result.msg);
+                                    }
+                                }
+                                else if(result.data==1){
+                                    qsDialog.hide();
+                                    disapperTooltip('remind',result.msg);
+                                    setTimeout(function() {
+                                        location.href="{:U('Personal/resume_add')}";
+                                    },1000);
+                                }
+                                else
+                                {
+                                    if (eval(result.dialog)) {
+                                        var creatsUrl = "{:U('AjaxPersonal/resume_add_dig')}";
+                                        $.getJSON(creatsUrl,{jid:jid}, function(result){
+                                            if(result.status==1){
+                                                qsDialog.hide();
+                                                var qsDialogSon = $(this).dialog({
+                                                    content: result.data.html,
+                                                    footer: false,
+                                                    header: false,
+                                                    border: false
+                                                });
+                                                qsDialogSon.setInnerPadding(false);
+                                            } else {
+                                                qsDialog.hide();
+                                                disapperTooltip('remind',result.msg);
+                                            }
+                                        });
+                                    } else {
+                                        qsDialog.hide();
+                                        disapperTooltip('remind',result.msg);
+                                    }
+                                }
+                            });
+                        }
+                    });
+                    qsDialogSon.setBtnClass(['w130', 'w130']);
+                    qsDialogSon.setCloseDialog(false);
+                    qsDialogSon.setBtns(['领取红包并投递', '不领红包直接投递']);
+                }
+                else
+                {
+                    qsDialog.hide();
+                    disapperTooltip('remind',data.msg);
+                    if(data.status==2){
+                        setTimeout(function() {
+                            location.href="{:U('Personal/resume_add')}";
+                        },2000);
+                    }
+                }
+            });
+        <else />
+            var loginUrl = "{:U('AjaxCommon/ajax_login')}";
+            $.getJSON(loginUrl, function(result){
+                if(result.status==1){
+                    qsDialog.hide();
+                    var qsDialogSon = $(this).dialog({
+                        header: false,
+                        content: result.data.html,
+                        footer: false,
+                        border: false
+                    });
+                    qsDialogSon.setInnerPadding(false);
+                } else {
+                    qsDialog.hide();
+                    disapperTooltip('remind',result.msg);
+                }
+            });
+        </if>
+        });
+
+    <if condition="C('apply.Allowance')">
+            // 关闭红包提醒
+            $('.for-al .m-re-clo').click(function() {
+                $(this).closest('.m-re-box').hide();
+            });
+        $.getJSON(qscms.root+'?m=Allowance&c=Ajax&a=counter_per_company',{uid:"{$info['uid']}"},function(result){
+            if(result.status==1){
+                $('#money_count_jobs').html(result.data.money_count_jobs);
+                $('#money_count_amount').html(result.data.money_count_amount);
+                $('.for-al').show();
+            }
+        });
+    </if>
+    });
+</script>
+</body>
+</html>

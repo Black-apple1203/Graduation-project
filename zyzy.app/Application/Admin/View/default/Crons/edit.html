@@ -1,0 +1,137 @@
+<include file="public:header" />
+ <div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>计划任务是一项使系统在规定时间自动执行某些特定任务的功能，在需要的情况下，您也可以方便的将其用于功能的扩展。</p>
+    <p>计划任务是与系统核心紧密关联的功能特性，不当的设置可能造成功能的隐患，严重时可能导致网站无法正常运行。</p>
+</div>
+<div class="toptit">修改计划任务</div>
+<form action="{:U('crons/edit')}" method="post"  name="FormData" id="FormData" >
+    <div class="form_main width120">
+        <div class="fl">名称：</div>
+        <div class="fr">
+            <input name="name" type="text" maxlength="20" class="input_text_default middle" value="{$info.name}"/>
+            <label class="no-fl-note">设置本任务的任务类名称</label>
+        </div>
+        <div class="fl">任务脚本类名称：</div>
+        <div class="fr">
+            <input name="filename" type="text" maxlength="30" class="input_text_default small" style="width:150px;" value="{$info.filename}"/>
+            <label class="no-fl-note">设置本任务的执行程序类名称，请勿包含路径，程序脚本统一存放于 ./app/Lib/Cron/ 目录中</label>
+        </div>
+        <div class="fl">每周：</div>
+        <div class="fr">
+            <div class="select_input_new w400 flo J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">请选择</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme <if condition="$info['weekday'] eq '-1'">list_sel</if>" href="javascript:;" data-code="-1">*</a></li>
+                            <li><a class="J_listitme <if condition="$info['weekday'] eq '0'">list_sel</if>" href="javascript:;" data-code="0">日</a></li>
+                            <li><a class="J_listitme <if condition="$info['weekday'] eq '1'">list_sel</if>" href="javascript:;" data-code="1">一</a></li>
+                            <li><a class="J_listitme <if condition="$info['weekday'] eq '2'">list_sel</if>" href="javascript:;" data-code="2">二</a></li>
+                            <li><a class="J_listitme <if condition="$info['weekday'] eq '3'">list_sel</if>" href="javascript:;" data-code="3">三</a></li>
+                            <li><a class="J_listitme <if condition="$info['weekday'] eq '4'">list_sel</if>" href="javascript:;" data-code="4">四</a></li>
+                            <li><a class="J_listitme <if condition="$info['weekday'] eq '5'">list_sel</if>" href="javascript:;" data-code="5">五</a></li>
+                            <li><a class="J_listitme <if condition="$info['weekday'] eq '6'">list_sel</if>" href="javascript:;" data-code="6">六</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="weekday" id="weekday" type="hidden" value="{$info.weekday}" />
+            </div>
+            <!-- <select name="weekday"  class="input_text_200_select">
+                <option value="-1"  <if condition="$info['weekday'] eq '-1'">selected="selected"</if>>*</option>
+                <option value="0" <if condition="$info['weekday'] eq '0'">selected="selected"</if>>日</option>
+                <option value="1" <if condition="$info['weekday'] eq '1'">selected="selected"</if>>一</option>
+                <option value="2" <if condition="$info['weekday'] eq '2'">selected="selected"</if>>二</option>
+                <option value="3" <if condition="$info['weekday'] eq '3'">selected="selected"</if>>三</option>
+                <option value="4" <if condition="$info['weekday'] eq '4'">selected="selected"</if>>四</option>
+                <option value="5" <if condition="$info['weekday'] eq '5'">selected="selected"</if>>五</option>
+                <option value="6" <if condition="$info['weekday'] eq '6'">selected="selected"</if>>六</option>
+            </select> -->
+            <label class="no-fl-note">设置星期几执行本任务，“*”为不限制，本设置会覆盖下面的“日”设定</label>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">每月：</div>
+        <div class="fr">
+            <div class="select_input_new w400 flo J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">请选择</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme <if condition="$info['day'] eq '-1'">list_sel</if>" href="javascript:;" data-code="-1">*</a></li>
+                            <for start="1" end="31">
+                                <li><a class="J_listitme <if condition="$info['day'] eq $i">list_sel</if>" href="javascript:;" data-code="{$i}">{$i} 日</a></li>
+                            </for>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="day" id="day" type="hidden" value="{$info.day}" />
+            </div>
+            <!-- <select name="day" class="input_text_200_select">
+                <option value="-1" <if condition="$info['day'] eq '-1'">selected="selected"</if>>*</option>
+                <for start="1" end="28">
+                <option value="{$i}"  <if condition="$info['day'] eq $i">selected="selected"</if>>{$i} 日</option>
+                </for>
+            </select> -->
+            <label class="no-fl-note sin_text">设置哪一日执行本任务，“*”为不限制</label>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">小时：</div>
+        <div class="fr">
+            <div class="select_input_new w400 flo J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">请选择</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme <if condition="$info['hour'] eq '-1'">list_sel</if>" href="javascript:;" data-code="-1">*</a></li>
+                            <for start="1" end="23">
+                                <li><a class="J_listitme <if condition="$info['hour'] eq $i">list_sel</if>" href="javascript:;" data-code="{$i}">{$i} 时</a></li>
+                            </for>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="hour" id="hour" type="hidden" value="{$info.hour}" />
+            </div>
+            <!-- <select name="hour" class="input_text_200_select">
+                <option value="-1" <if condition="$info['hour'] eq '-1'">selected="selected"</if>>*</option>
+                <for start="1" end="23">
+                <option value="{$i}"  <if condition="$info['hour'] eq $i">selected="selected"</if>>{$i} 时</option>
+                </for>
+            </select> -->
+            <label class="no-fl-note sin_text">设置哪一小时执行本任务，“*”为不限制</label>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">分钟：</div>
+        <div class="fr">
+            <input name="minute" type="text" maxlength="20" class="input_text_default middle" value="{$info.minute}"/>
+            <label class="no-fl-note">设置哪一分钟执行本任务，留空为不限制</label>
+        </div>
+        <div class="fl">可用：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="$info['available'] eq 1">select</if>"><input name="available" type="hidden" value="{$info.available}" /></div>
+            <div class="note">设置不可用则任务不会执行</div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="cronid" type="hidden" value="{$info.cronid}" />
+            <input type="submit" name="Submit" value="确定提交" class="admin_submit"   />
+            
+            <input name="submit22" type="button" class="admin_submit"    value="返 回" onclick="window.location='{:U('crons/index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script type="text/javascript">
+    if ($('.J_listitme.list_sel').length) {
+        $('.J_listitme.list_sel').each(function(index, val) {
+            var listSelCn = $(this).text();
+            $(this).closest('.J_listitme_parent').find('.J_listitme_text').text(listSelCn);
+        })
+    }
+</script>
+</body>
+</html>

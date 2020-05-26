@@ -1,0 +1,13 @@
+.search_div{display: inline-flex;}
+.search_div .left{width: 450px;float: left;border:1px solid #f3f3f3;padding: 20px 0;}
+.search_div .left .search_input{width:450px;}
+.search_div .left .search_input input{margin-left:20px;margin-bottom: 20px;}
+.search_div .left .search_result{max-height: 400px;overflow-y: scroll;}
+.search_div .item-list .item{border-top:1px solid #f3f3f3;padding: 10px 20px;line-height: 24px;cursor: pointer;position: relative;}
+.search_div .item-list .item.hide{display: none;}
+.search_div .item-list .item.disable{cursor: auto;background-color: #f3f3f3;}
+.search_div .item-list.select_result .item{cursor: auto;}
+.search_div .item-list .item .close{cursor:pointer;display:block;position:absolute;right:15px;top:12px;width:16px;height:16px;background:url(../images/05.png) no-repeat;*font-size:0;}
+.search_div .right{width: 450px;float: left;border:1px solid #f3f3f3;border-left: 0;padding: 20px 0;}
+.search_div .right .select_tit{width:450px;height: 58px;line-height: 40px;padding-left: 20px;color: #666;}
+.search_div .right .select_result{max-height: 400px;overflow-y: scroll;}

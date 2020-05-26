@@ -1,0 +1,40 @@
+<div class="dialog_box">
+    <form action="{:U('Ajax/ajax_send_pms')}" method="post" name="form" id="form">
+        <input type="hidden" name="tousername" value="{$tousername}">
+        <table width="100%" border="0" cellspacing="10" cellpadding="1" style=" margin-bottom:3px;">
+            <tr>
+                <td width="60" align="right">发送内容:</td>
+                <td>
+                    <textarea name="msg" class="input_text_default middle" style="height:80px;"></textarea></td>
+            </tr>
+            <tr>
+                <td align="right">&nbsp;</td>
+                <td>
+                    <input name="check" type="button" class="admin_submit" id="check" value="立即发送"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#check').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('Ajax/ajax_send_pms')}",$('#form').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>

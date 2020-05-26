@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="Home@default/public:meta" />
+	<link href="{:C('TPL_HOME_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_HOME_PUBLIC_DIR')}/css/jobs.css" rel="stylesheet" type="text/css" />
+	<script src="{:C('TPL_HOME_PUBLIC_DIR')}/js/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="Home@default/public:header" />
+<div class="sub-split-20"></div>
+<div class="sub-quick-select-group">
+    <div class="sg1">快速选择</div>
+    <div class="sg2">
+        <input type="text" class="sg-input" id="J-sub-filter" value="">
+        <div class="sub-filter-box"></div>
+    </div>
+    <div class="sg3">
+        <div class="hot-txt">热门地区：</div>
+        <div class="hot-link">
+            <volist name="sitegroup" id="vo" offset="0" length="6">
+                <div class="link-cell link_gray6"><a href="{$vo.domain}">{$vo.name}</a></div>
+            </volist>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <empty name="sitegroup">
+        <div class="sg5 link_yellow"><a href="{:C('qscms_site_domain')}">进入总站>></a></div>
+    </empty>
+    <div class="clear"></div>
+</div>
+<div class="sub-split-10"></div>
+<div class="sub-list-group">
+    <div class="sub-list-head">按照拼音首字母选择</div>
+    <div class="sl-cell">
+        <div class="sl-cell-left">
+            <volist name="sitegroup_list" id="sub" mod="$mod">
+                <div class="sl-cell-list">
+                    <div class="up-case">{$key}</div>
+                    <div class="sub-h-split-10"></div>
+                    <div class="sl-link-group">
+                        <volist name="sub" id="vo" key="k">
+                            <div class="sl-link link_blue"><a class="sub-city-cell" href="{$vo.domain}" alias="{$vo.spell}" title="{$vo.name}">{$vo.name}</a></div>
+                        </volist>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+                <div class="sub-split-15"></div>
+                <eq name="i" value="$mod_val">
+                    </div>
+                    <div class="sl-cell-right">
+                </eq>
+            </volist>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<include file="public:footer_min" />
+<script type="text/javascript" src="{:C('TPL_HOME_PUBLIC_DIR')}/js/jquery.jobslist.js"></script>
+<script type="text/javascript" src="{:C('TPL_HOME_PUBLIC_DIR')}/js/jquery.search.city.js"></script>
+<script type="text/javascript">
+	$('.J_jobIndexCategory').hover(function() {
+		$(this).addClass('select').siblings().removeClass('select');
+		var thisIndex = $('.J_jobIndexCategory').index(this);
+		$('.J_jobIndexCategoryBox').eq(thisIndex).show().siblings('.J_jobIndexCategoryBox').hide();
+	});
+	// 分站筛选
+    $('#J-sub-filter').on('keyup', function() {
+        var tVal = $(this).val();
+        if (!tVal.length) {
+            $('.sub-filter-box').hide();
+            return false;
+        }
+        var $subCityArr = $('.sub-city-cell');
+        var eHtml = '';
+        $.each($subCityArr, function () {
+            var eVal = $(this).attr('title');
+            var eUrl = $(this).attr('href');
+            if (eVal.indexOf(tVal) != -1) {
+                eHtml += '<a href="'+eUrl+'" title="'+eVal+'" target="_blank">'+eVal+'</a>';
+            }
+        });
+        $.each($subCityArr, function () {
+            var eVal = $(this).attr('alias');
+            var eUrl = $(this).attr('href');
+            var eTxt = $(this).text();
+            if (eVal.indexOf(tVal) != -1) {
+                eHtml += '<a href="'+eUrl+'" title="'+eVal+'" target="_blank">'+eTxt+'</a>';
+            }
+        });
+        if (eHtml.length) {
+            $('.sub-filter-box').html(eHtml).show();
+        } else {
+            $('.sub-filter-box').hide();
+        }
+    });
+</script>
+</body>
+</html>

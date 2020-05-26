@@ -1,0 +1,37 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>调用名不能以“QS_”开头。</p>
+</div>
+
+<div class="toptit">修改分类组</div>
+<form action="{:U('group_edit')}" method="post" name="FormData">
+    <div class="form_main width120">
+        <div class="fl">分类组名称:</div>
+        <div class="fr">
+            <input name="g_name" type="text" class="input_text_default middle" maxlength="20" value="{$info.g_name}"/>
+        </div>
+        <div class="fl">调用名:</div>
+        <div class="fr">
+            <input name="g_alias" type="text" class="input_text_default middle" maxlength="100" value="{$info.g_alias}"/>
+            <label class="no-fl-note">(自定义分类组调用名不能以“QS_”开头)</label>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="g_id" type="hidden" value="{$info.g_id}" />
+            <input name="old_g_alias" type="hidden" value="{$info.g_alias}" />
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('group_list')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+</script>
+</html>

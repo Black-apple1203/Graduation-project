@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta" />
+    <link href="../public/css/personal/common.css?v={:strtotime('today')}" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_job.css?v={:strtotime('today')}" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+    <include file="public:header_other" />
+    <div class="us-top">
+        <div class="us-main">
+            <div class="us-top-box">
+                <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                    <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                    <div class="se-btn"><input type="submit" value="搜 索"></div>
+                    <div class="clear"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="user_main">
+        <include file="index_left_nav"/>
+        <div class="mainbox">
+            <div class="tab">
+                <if condition="C('qscms_share_allowance_open')">
+                    <a class="li J_hoverbut" href="{:U('share_allowance_partake')}">分享红包</a>
+                </if>
+                <if condition="C('qscms_inviter_perfected_resume_allowance_open')">
+                    <a class="li select" href="{:U('invite_friend')}">邀请赚钱</a>
+                </if>
+                <div class="clear"></div>
+            </div>
+            <div class="resume_tip">
+                <div class="tiptit">小提示</div>
+                <div class="tiptxt link_blue">
+                    邀请一人可赚<span class="yellow_txt">{:C('qscms_inviter_amount')}元</span>，好友完善简历到{:C('qscms_inviter_perfected_resume_allowance_percent')}%，即可获得红包，邀请奖励无上限！
+                </div>
+            </div>
+            <div class="share_alo_list_th">
+                <div class="th1">邀请手机号</div>
+                <div class="th2">任务红包</div>
+                <div class="th3">简历完整度</div>
+                <div class="th3">邀请状态</div>
+                <div class="th3">红包状态</div>
+                <div class="th6">邀请时间</div>
+                <div class="clear"></div>
+            </div>
+            <form id="form1" action="" method="post" class="J_allListBox">
+                <notempty name="list">
+                    <volist name="list" id="vo">
+                        <div class="share_alo_list">
+                            <div class="th1">
+                                {$vo.invitee_mobile}
+                            </div>
+                            <div class="th2"><span class="yellow_txt">{$vo['money']}元</span></div>
+                            <div class="th3">{$vo['resume_percent']}%</div>
+                            <div class="th4"><span class="green_txt">
+                                <if condition="$vo['resume_percent'] EGT 80">
+                                    成功
+                                   <else />
+                                    进行中
+                                   </if></span>
+                            </div>
+                            <div class="th5"><span class="green_txt">
+                                <if condition="$vo['state'] eq 1">
+                                    已发放
+                                <elseif condition="$vo['state'] eq 3" />
+                                    <span style="color: #FF0000;">红包审核未通过</span>
+                                <else />
+                                    红包审核中
+                                </if> 
+                            </span></div>
+                            <div class="th6">{:date('Y-m-d',$vo['inviter_time'])}</div>
+                        </div>
+                    </volist> 
+                    <div class="qspage">{$page}</div>   
+                <else />
+                    <div class="res_empty">
+                        抱歉，您还没邀请过任何人！
+                </div>
+                </notempty>
+            </form>
+        </div>
+    </div>
+    <include file="index_footer"/>
+    <script type="text/javascript" src="../public/js/jquery.listitem.js"></script>
+    <script type="text/javascript" src="../public/js/jquery.dropdown.js"></script>
+    <script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+</body>
+</html>

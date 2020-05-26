@@ -1,0 +1,441 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/personal/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_resume.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+	<div class="user_main">
+		<include file="index_left_nav" />
+		<div class="mainbox">
+			<div class="tab">
+				<a class="li select" >我的简历</a>
+				<a class="li J_hoverbut"  href="{:U('personal/resume_outward')}">简历外发</a>
+				<a class="li J_hoverbut" href="{:U('personal/resume_privacy')}">隐私设置</a>
+			  	<div class="clear"></div>
+			</div>
+			<if condition="$resume_list or $def_resume">
+				<div class="J_resumeParent res_list <switch name="def_resume['_audit']"><case value="2">state1</case><case value="3">state0</case></switch>" pid="{$def_resume.id}">
+					<div class="td1">默认简历</div>
+					<div class="td2">
+						<span class="rname link_gray6 <if condition="$def_resume['display'] eq 0">close</if> substring"><a href="{:url_rewrite('QS_resumeshow',array('id'=>$def_resume['id'],'preview'=>1))}" title="{$def_resume['title']}">{$def_resume['title']}</a></span>
+						<div class="state">
+							<switch name="def_resume['_audit']">
+								<case value="1">
+									<span class="font_green">审核通过</span>
+								</case>
+								<case value="2">
+									<span class="font_yellow">审核中</span>
+								</case>
+								<case value="3">
+									<span class="font_red">审核未通过</span>
+								</case>
+							</switch>
+						</div> 
+						<div class="clear"></div>
+						<div class="lis1">完整度：</div>
+						<div class="lis2"><div style="width:{$def_resume['complete_percent']}%;"></div></div>
+						<div class="lis3">
+							{$def_resume['complete_percent']}%(<if condition="$def_resume['level'] eq 3"><span class="t1">优</span><elseif condition="$def_resume['level'] eq 1"/><span class="t1">差</span><else/><span class="t1">良</span></if>)
+						</div>
+						<div class="clear"></div>
+				  	</div>
+					<div class="td3 J_hoverbut" onclick="window.location='{:U('personal/jobs_apply',array('resume_id'=>$def_resume['id']))}'"><div class="val">{$def_resume['countapply']}</div>已申请职位</div>
+					<div class="td10"></div>
+					<div class="td4 J_hoverbut" onclick="window.location='{:U('personal/jobs_interview',array('resume_id'=>$def_resume['id']))}'"><div class="val">{$def_resume['countinterview']}</div>面试邀请</div>
+					<div class="td10"></div>
+					<div class="td5 J_hoverbut" onclick="window.location='{:U('personal/attention_me',array('resume_id'=>$def_resume['id']))}'"><div class="val">{$def_resume['views']}</div>谁在关注我</div>
+					<div class="td10"></div>
+					<div class="td6">
+						<div class="val">刷新时间</div>
+						<div class="J_rtime">{:fdate($def_resume['refreshtime'])}</div>
+					</div>
+					<div class="td7 link_blue">
+						<if condition="$def_resume['_audit'] eq 1 && $def_resume['display'] eq 1">
+                            <div class="ali"><a class="J_refresh_resume" pid="{$def_resume.id}" href="javascript:;">刷新</a></div>
+                            <div class="ali"><a href="{:U('personal/resume_edit',array('pid'=>$def_resume['id']))}">修改</a></div>
+                            <div class="ali"><a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$def_resume['id'],'preview'=>1))}">预览</a></div>
+							<eq name="def_resume['stick']" value="1">
+							<div class="ali link_gray9">
+								<div class="for_hover">
+								    <a>置顶</a>
+									<div class="des_box">
+										<div class="desarrow"></div>
+									  	<div class="des_txt">
+											<!-- -->
+											<strong>已购买【简历置顶】服务</strong><br />
+											有效时间：{:date('Y-m-d',$def_resume['stick_info']['addtime'])} 至 {:date('Y-m-d',$def_resume['stick_info']['endtime'])}
+										</div>
+									</div>
+								</div>
+							</div>
+							<else />
+							<div class="ali link_yellow"><a href="javascript:;" class="resume_stick" resume_id="{$def_resume['id']}">置顶</a></div>
+							</eq>
+							<eq name="def_resume['strong_tag']" value="0">
+							<div class="ali link_yellow"><a href="javascript:;" class="resume_tag" resume_id="{$def_resume['id']}">标签</a></div>
+							<else />
+							<div class="ali link_gray9">
+							<div class="for_hover">
+								<a>标签</a>
+								<div class="des_box">
+									<div class="desarrow"></div>
+								  	<div class="des_txt">
+										<!-- -->
+										<strong>已购买醒目标签【{$def_resume['tag_info']['tag_name']}】</strong><br />
+										有效时间：{:date('Y-m-d',$def_resume['tag_info']['addtime'])} 至 {:date('Y-m-d',$def_resume['tag_info']['endtime'])}
+									</div>
+								</div>
+							</div>
+							</div>
+							</eq>
+							<div class="ali J_tooltip">
+								<a href="javascript:;" class="clink">更多</a>
+								<div class="dropdowbox2 J_tooltip_menu">
+						            <div class="dropdow_inner2">
+						                <ul class="nav_box">
+						                	<li><a  class="J_entrust_btn" href="javascript:;">
+						                		<empty name="def_resume['entrust']">
+													委托
+												<else/>
+													取消委托
+												</empty>
+						                	</a></li>
+						                    <li><a class="J_tpl_btn" href="javascript:;">更换模板</a></li>
+						                    <li><a class="J_del_resume" href="javascript:;">删除简历</a></li>
+						                </ul>
+						            </div>
+						        </div>
+							</div>
+						<elseif condition="$def_resume['_audit'] neq 1"/>
+                            <div class="ali link_gray9"><a title="审核中或未通过简历无法刷新">刷新</a></div>
+                            <div class="ali"><a href="{:U('personal/resume_edit',array('pid'=>$def_resume['id']))}">修改</a></div>
+                            <div class="ali"><a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$def_resume['id'],'preview'=>1))}">预览</a></div>
+							<div class="ali link_gray9"><a title="审核中或未通过简历不能置顶推广">置顶</a></div>
+							<div class="ali link_gray9"><a title="审核中或未通过简历不能购买标签">标签</a></div>
+							<div class="ali J_tooltip">
+								<a href="javascript:;" class="clink">更多</a>
+								<div class="dropdowbox2 J_tooltip_menu">
+						            <div class="dropdow_inner2">
+						                <ul class="nav_box">
+						                	<li><a title="审核中或未通过简历不允许委托投递">委托</a></li>
+						                    <li><a class="J_tpl_btn" href="javascript:;">更换模板</a></li>
+						                    <li><a class="J_del_resume" href="javascript:;">删除简历</a></li>
+						                </ul>
+						            </div>
+						        </div>
+							</div>
+						<else/>
+							<div class="ali link_gray9"><a title="已关闭简历无法刷新">刷新</a></div>
+							<div class="ali"><a href="{:U('personal/resume_edit',array('pid'=>$def_resume['id']))}">修改</a></div>
+							<div class="ali"><a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$def_resume['id'],'preview'=>1))}">预览</a></div>
+							<div class="ali link_gray9"><a title="已关闭简历不能置顶推广">置顶</a></div>
+							<div class="ali link_gray9"><a title="已关闭简历不能购买标签">标签</a></div>
+							<div class="ali J_tooltip">
+								<a href="javascript:;" class="clink">更多</a>
+								<div class="dropdowbox2 J_tooltip_menu">
+									<div class="dropdow_inner2">
+										<ul class="nav_box">
+											<li>
+												<a  class="J_entrust_btn" href="javascript:;">
+													<empty name="def_resume['entrust']">
+														委托
+														<else/>
+														取消委托
+													</empty>
+												</a>
+											</li>
+											<li><a class="J_tpl_btn" href="javascript:;">更换模板</a></li>
+											<li><a class="J_del_resume" href="javascript:;">删除简历</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</if>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+			
+				<!--提示创建简历 -->
+				<if condition="$surplus eq 0">
+				<div class="res_list_add link_yellow">共可以创建 <a>{$total}</a> 份简历，您已创建 <a>{$total}</a> 份</div>
+				<else />
+				<div class="res_list_add link_blue">您还可以创建{$surplus}份简历，<a id="J_createResumeBtn" href="javascript:;">立即创建</a></div>
+				</if>
+				
+				<!--备用简历列表 -->
+				
+				<volist name="resume_list" id="resume">
+					<div class="J_resumeParent res_list_extra link_blue J_hoverbut" pid="{$resume.id}">
+						<div class="td1"><a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$resume['id'],'preview'=>1))}" <if condition="$resume['display'] eq 0">class="close"</if> title="{$resume.title}">{$resume.title}</a></div>
+						<div class="td2">
+							<switch name="resume['_audit']">
+								<case value="1">
+									<span class="font_green">审核通过</span>
+								</case>
+								<case value="2">
+									<span class="font_yellow">审核中</span>
+								</case>
+								<case value="3">
+									<span class="font_red">审核未通过</span>
+								</case>
+							</switch>
+						</div>
+						<div class="td3">完整度：{$resume.complete_percent}%&nbsp;
+							(<if condition="$resume['complete_percent'] egt 80"><span class="t1">优</span><elseif condition="$resume['complete_percent'] lt 60"/><span class="t1">差</span><else/><span class="t1">良</span></if>)
+						</div>
+						<div class="td4">刷新时间：<span class="J_rtime">{:fdate($resume['refreshtime'])}</span></div>
+						<div class="td5"><a href="{:U('personal/resume_edit',array('pid'=>$resume['id']))}">修改</a></div>
+						<div class="td6"><a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$resume['id'],'preview'=>1))}">预览</a></div>
+						<div class="td7">
+							<if condition="$resume['def']">
+								<span class="font_yellow">黙认简历</span>
+							<else/>
+								<a class="set_def" href="{:U('personal/set_default',array('pid'=>$resume['id']))}">设为默认</a>
+							</if>
+						</div>
+						<div class="td8 J_tooltip">
+							<a href="javascript:;">更多</a>
+							<div class="dropdowbox2 J_tooltip_menu">
+					            <div class="dropdow_inner2">
+					                <ul class="nav_box">
+					                	<if condition="$resume['_audit'] eq 1 && $resume['display'] eq 1">
+                                            <li><a class="J_refresh_resume" pid="{$resume.id}" href="javascript:;">刷新</a></li>
+						                	<neq name="resume['stick']" value="1">
+											<li><a href="javascript:;" class="resume_stick" resume_id="{$resume['id']}">置顶</a></li>
+											<else />
+											<li class="link_gray6"><a title="已购买【简历置顶】服务;有效时间：{:date('Y-m-d',$resume['stick_info']['addtime'])} 至 {:date('Y-m-d',$resume['stick_info']['endtime'])}">置顶</a></li>
+											</neq>
+											<eq name="resume['strong_tag']" value="0">
+											<li><a href="javascript:;" class="resume_tag" resume_id="{$resume['id']}">标签</a></li>
+											<else />
+											<li class="link_gray6"><a title="已购买醒目标签【{$resume['tag_info']['tag_name']}】;有效时间：{:date('Y-m-d',$resume['tag_info']['addtime'])} 至 {:date('Y-m-d',$resume['tag_info']['endtime'])}">标签</a></li>
+											</eq>
+											<li><a class="J_entrust_btn" href="javascript:;"><if condition="$resume['entrust']">取消委托<else/>委托</if></a></li>
+										</if>
+					                    <li><a class="J_tpl_btn" href="javascript:;">更换模板</a></li>
+					                    <li><a class="J_del_resume" href="javascript:;">删除简历</a></li>
+					                </ul>
+					            </div>
+					        </div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</volist>
+				<!--备用简历列表结束 -->
+			<else/>
+			    <div class="res_empty">
+					简历是求职的利器，填写简历才能更快找到好工作！<br />
+					去填写一份优质的简历吧，认真的人，才能让认真的企业找上你！
+				</div>
+			    <div class="res_empty_addbox">
+					<div class="but_blue_115 J_hoverbut" onclick="window.location='{:U('resume/resume_add')}'">创建简历</div>
+				</div>
+			</if>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<include file="index_footer" />
+	<script type="text/javascript" src="../public/js/jquery.modal.userselectlayer.js"></script>
+	<script type="text/javascript">
+		$('.J_refresh_resume').click(function(){
+        	var f = $(this),
+        		pid = $(this).attr('pid');
+			$.post("{:U('Personal/refresh_resume')}",{pid:pid},function(result){
+				if(result.status == 1){
+					if(result.data){
+						f.closest('.J_resumeParent').find('.J_rtime').html('刚刚');
+						disapperTooltip("goldremind", '刷新简历增加'+result.data+'{:C('qscms_points_byname')}<span class="point">+'+result.data+'</span>');
+					}else{
+						disapperTooltip('success',result.msg);
+					}
+					// window.location.reload();
+				}else{
+					disapperTooltip('remind',result.msg);
+				}
+			},'json');
+        });
+        $('.J_del_resume').click(function(){
+        	var f = $(this).closest('.J_resumeParent'),
+        		id = f.attr('pid');
+        	var qsDialog=$(this).dialog({
+				title: '删除简历',
+				loading: true,
+				border: false,
+				yes: function() {
+					var could = $("#hidden_id").val();
+					if(could==1){
+						$.post("{:U('Personal/set_del_resume')}",{id:id},function(result){
+			        		if(result.status == 1){
+			        			disapperTooltip('success',result.msg);
+			        			setTimeout(function () {
+			                        window.location.reload();
+			                    }, 2000);
+			        		}else{
+			        			disapperTooltip('remind',result.msg);
+			        		}
+			        	},'json');
+					}else{
+						window.location.href="{:U('resume_privacy')}";
+					}
+				}
+			});
+			$.getJSON("{:U('Personal/set_del_resume')}",{id:id},function(result){
+        		if(result.status == 1){
+        			qsDialog.setContent(result.data.html);
+        			if(result.data.hidden_val==1){
+        				qsDialog.setBtns(['确定', '取消']);
+        			}else{
+        				qsDialog.setBtns(['隐私设置', '取消']);
+        			}
+        		}else{
+        			disapperTooltip('remind',result.msg);
+        		}
+        	});
+        });
+        $('#J_createResumeBtn').click(function(){
+        	var qsDialog = $(this).dialog({
+        		title: '请选择简历创建方式',
+				loading: true,
+				showFooter: false,
+				yes: function() {
+					var pid = parseInt($('#J_resume_id').val());
+					if(pid>0){
+						window.location = qscms.root + '?m=Home&c=Personal&a=copy_resume&pid='+pid;
+					}else{
+						window.location = "{:U('Personal/resume_add')}";
+					}
+				}
+			});
+        	$.getJSON("{:U('Personal/resume_create_type')}",function(result){
+        		if(result.status == 1){
+        			qsDialog.setContent(result.data);
+        			qsDialog.showFooter(true);
+        		}else{
+        			qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+        		}
+        	});
+        });
+        $('.J_entrust_btn').click(function(){
+        	var f = $(this),
+        		pid = $(this).closest('.J_resumeParent').attr('pid');
+        	var resultEntrustVal = 0;
+        	var qsDialog = $(this).dialog({
+				loading: true,
+				showFooter: false,
+				yes: function() {
+					if (resultEntrustVal) {
+						$.post("{:U('Personal/set_entrust_del')}",{pid:pid},function(result){
+							if(result.status == 1){
+			        			disapperTooltip('success',result.msg);
+			        			f.text('委托');
+			        		}else{
+			        			disapperTooltip('remind',result.msg);
+			        		}
+						},'json');
+					} else {
+						var entrust = $('#J_entrust_time').val();
+						$.post("{:U('Personal/set_entrust')}",{pid:pid,entrust:entrust},function(result){
+							if(result.status == 1){
+			        			disapperTooltip('success',result.msg);
+			        			f.text('取消委托');
+			        		}else{
+			        			disapperTooltip('remind',result.msg);
+			        		}
+						},'json');
+					}
+				}
+			});
+        	$.getJSON("{:U('Personal/entrust')}",{pid:pid},function(result){
+        		if(result.status == 1){
+        			resultEntrustVal = eval(result.data.entrust);
+        			var dialogTitle = resultEntrustVal == 0 ? '委托投递' : '取消委托';
+        			qsDialog.setTitle(dialogTitle);
+        			qsDialog.setContent(result.data.html);
+        			if (resultEntrustVal) {
+        				$('.J_radioitme_parent_entrust .J_radioitme.checked').siblings('.J_radioitme').removeClass('J_radioitme');
+        			}
+        			if(resultEntrustVal==0){
+        				qsDialog.setBtns(['保存', '取消']);
+        			}else{
+        				qsDialog.setBtns(['取消委托', '关闭']);
+        			}
+        			qsDialog.showFooter(true);
+        		}else{
+        			qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+        		}
+        	});
+        });
+        $('.J_tpl_btn').click(function(){
+        	var pid = $(this).closest('.J_resumeParent').attr('pid');
+        	var qsDialog = $(this).dialog({
+        		title: '更换模板',
+				loading: true,
+				showFooter: false,
+				btns: ['立即使用', '取消'],
+				yes: function() {
+					var tpl = $('#J_tplVal').val();
+					$.post("{:U('Personal/set_tpl')}",{pid:pid,tpl:tpl},function(result){
+						if(result.status == 1){
+		        			disapperTooltip('success',result.msg);
+		        		}else{
+		        			disapperTooltip('remind',result.msg);
+		        		}
+					},'json');
+				}
+			});
+        	$.getJSON("{:U('Personal/resume_tpl')}",{pid:pid},function(result){
+        		if(result.status == 1){
+        			qsDialog.setContent(result.data.html);
+        			qsDialog.showFooter(true);
+        		}else{
+        			qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+        		}
+        	});
+        });
+        $(".resume_stick").click(function(){
+        	var qsDialog = $(this).dialog({
+        		title: '简历置顶',
+        		loading:true,
+				showFooter: false
+			});
+			var url = "{:U('PersonalService/resume_stick')}";
+			var resume_id = $(this).attr('resume_id');
+			$.getJSON(url,{resume_id:resume_id},function(result){
+				qsDialog.setContent(result.msg);
+			});
+        });
+        $(".resume_tag").click(function(){
+        	var qsDialog = $(this).dialog({
+        		title: '简历标签',
+        		loading:true,
+				showFooter: false
+			});
+			var url = "{:U('PersonalService/resume_tag')}";
+			var resume_id = $(this).attr('resume_id');
+			$.getJSON(url,{resume_id:resume_id},function(result){
+				qsDialog.setContent(result.msg);
+			});
+        });
+        $(".set_def").click(function(){
+        	var url = $(this).attr('href');
+        	$.getJSON(url,function(result){
+        		if(result.status==1){
+        			disapperTooltip('success',result.msg);
+        			setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+        		}else{
+        			disapperTooltip('remind',result.msg);
+        		}
+        	});
+        	return false;
+        });
+	</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<include file="Admin@default/public/header" />
+    <form action="" method="post" name="form1" id="form1">
+        <div class="toptit">提示：快速筛选出符合条件的职位进行复制到微信公众号中推送；职位默认按刷新时间排序</div>
+        <div class="form_main">
+            <div class="fl">模板选择:</div>
+            <div class="fr">
+                <div class="imgradio">
+                    <input name="display" type="hidden" id="J_tem_code" value="1">
+                    <div class="radio select" data="1"><if condition="$list_type eq 1">职位列表1<else />企业列表1</if></div>
+                    <div class="radio" data="2"><if condition="$list_type eq 1">职位列表2<else />企业列表2</if></div>
+                    <div class="radio" data="3"><if condition="$list_type eq 1">职位列表3<else />企业列表3</if></div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="fl"></div>
+            <div class="fr">
+                <div class="wx_public_tem_box" id="J_tem_box">
+                  <if condition="$list_type eq 1">
+                    <include file="Admin@default/Weixin/ajax_job_1" />
+                  <else />
+                    <include file="Admin@default/Weixin/ajax_com_1" />
+                  </if>  
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="fl"></div>
+            <div class="fr">
+                <input name="list_type" type="hidden" id="J_type_code" value="{$list_type}">
+                <input name="setmeal_id" type="hidden" id="J_type_setmeal" value="{$setmeal_id}">
+                <input name="jobs_order" type="hidden" id="J_type_order" value="{$jobs_order}">
+                <input name="jobs_num" type="hidden" id="J_type_num" value="{$jobs_num}">
+                <input type="text" class="for_copy" id="J_copy_hid" value="">
+                <input type="button" class="admin_submit" rev="copy" textareaId="J_copy_hid" value="一键复制" id="J_copy">
+                <span>复制后在微信编辑器粘贴内容即可</span>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </form>
+</div>
+<include file="Admin@default/public/footer" />
+<script type="text/javascript" src="../public/js/zeroclipboard/ZeroClipboard.js"></script>
+<script>
+    $('#J_copy_hid').val($('#J_tem_box').html());
+
+    $('.radio').click(function() {
+        var numValue = $(this).attr('data'), typeValue = $('#J_type_code').val(), setmealValue = $('#J_type_setmeal').val(),orderValue = $('#J_type_order').val(),jobsnumValue = $('#J_type_num').val();
+        $.post("{:U('Weixin/ajax_tpl')}", { list_type: typeValue, num: numValue, setmeal_id: setmealValue, jobs_num: jobsnumValue, jobs_order: orderValue}, function (result) {
+            if (eval(result.status) === 1) {
+                $('#J_tem_box').html(result.data);
+            } else {
+                disapperTooltip('remind', result.msg);
+            }
+        });
+    });
+    // 一键复制
+    /*$('#J_copy').click(function() {
+        var urlresult = document.getElementById("J_copy_hid");
+        urlresult.select(); // 选择对象
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        disapperTooltip("success", "复制成功！");
+    });*/
+    if (ZeroClipboard) {
+        ZeroClipboard.config({
+            swfPath: "../public/js/zeroclipboard/ZeroClipboard.swf"
+        });
+        var clip = new ZeroClipboard($('#J_copy'));
+        clip.on('ready', function() {
+            this.on('copy', function(event) {
+                var html = $('#J_tem_box').html();
+                ZeroClipboard.setData('text/html', html.replace("&nbsp;", ""));
+                ZeroClipboard.setData('text/plain', html.replace("&nbsp;", ""));
+            });
+            this.on('aftercopy', function(event) {
+                disapperTooltip("remind", "正文内容已经复制到剪切板，请粘贴(CTRL+V)使用！");
+            });
+        });
+        clip.on("error", function(event) {
+            disapperTooltip("remind", "复制按钮失效，建议使用360浏览器极速模式，可以防止此错误！");
+            ZeroClipboard.destroy();
+        });
+    }
+</script>
+</body>
+</html>

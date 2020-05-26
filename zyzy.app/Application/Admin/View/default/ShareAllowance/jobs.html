@@ -1,0 +1,137 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>企业发布分享红包职位后不可关闭不可中途停止。</p>
+</div>
+<div class="seltpye_y">
+    <div class="tit">红包状态</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.status'>select</notempty>">{$Think.get.status_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('status'=>'','status_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('status'=>'1','status_cn'=>'已完成'))}">推广中</li>
+        <li url="{:P(array('status'=>'0','status_cn'=>'未完成'))}">已结束</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">开启时间</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.addtimesettr'>select</notempty>">{$Think.get.addtimesettr_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('addtimesettr'=>'','addtimesettr_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('addtimesettr'=>'3','addtimesettr_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('addtimesettr'=>'7','addtimesettr_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('addtimesettr'=>'30','addtimesettr_cn'=>'一月内'))}">一月内</li>
+    </div>
+</div>
+<div class="clear"></div>
+
+<form id="form1" name="form1" method="post" action="{:U('set_audit')}">
+    <div class="list_th">
+        <div class="td" style=" width:17%;">
+            <label id="chkAll" class="left_padding">
+                职位名称
+            </label>
+        </div>
+        <div class="td" style=" width:24%;">公司名称</div>
+        <div class="td center" style=" width:8%;">单任务查看数</div>
+        <div class="td center" style=" width:10%;">单红包金额</div>
+        <div class="td center" style=" width:8%;">已领取/红包总数</div>
+        <div class="td center" style=" width:8%;">完成推广/推广人数</div>
+        <div class="td center" style=" width:8%;">红包状态</div>
+        <div class="td center" style=" width:8%;">开启时间</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:17%;">
+                <div class="left_padding striking">
+                    <a href="{$vo['jobs_url']}" target="_blank">{$vo['jobs_name']}</a>
+                </div>
+            </div>
+            <div class="td" style=" width:24%;">
+                <if condition="$vo['companyname']">
+                    {$vo.companyname}
+                <else/>
+                    <span style="color: #999999">企业已删除</span>
+                </if>
+            </div>
+            <div class="td center" style=" width:8%;">{$vo.task_views}</div>
+            <div class="td center" style=" width:10%;">￥{$vo.amount}元</div>
+            <div class="td center" style=" width:8%;">
+                {$vo.issued}/{$vo.count}<a class="J_partake_log" href="javascript:;" style="color: #53BAEB" parameter="sid={$vo['id']}">[日志]</a>
+            </div>
+            <div class="td center" style=" width:8%;">
+                {$vo.complete}/{$vo.share}
+            </div>
+            <div class="td center" style=" width:8%;">
+                <if condition="$vo['status'] eq 1">
+                    <span style="color: #009900">推广中</span>
+                <elseif condition="$vo['audit'] eq 0"/>
+                    <span style="color:#FF6600">已结束</span>
+                </if>
+            </div>
+            <div class="td center" style=" width:8%;">{:date('Y-m-d',$vo['pay_time'])}</div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+    </div>
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='职位'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='职位'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="职位">职位</li>
+                        <li id="2" title="职位ID">职位ID</li>
+                        <li id="3" title="用户UID">用户UID</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.entrustinfotip-min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".J_partake_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '查看日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('ShareAllowance/ajax_partake_list')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data.html);
+            });
+        });
+    });
+</script>
+</html>

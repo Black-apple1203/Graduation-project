@@ -1,0 +1,14 @@
+<qscms:news_list 列表名="list" 显示数目="5" 开始位置="$start" 填补字符="…" 摘要长度="160"/>
+<volist name="list['list']" id="vo">
+<div class="listb">
+		<div class="bl">
+	    <div class="pic"><img src="{$vo['img']}" border="0"/></div>
+	</div>
+	<div class="br link_gray6">
+  		<div class="t substring"><a target="_blank" href="{$vo['url']}">{$vo['title']}</a></div>
+        <div class="time substring">{:date('Y-m-d',$vo['addtime'])}<if condition="$vo['author']">&nbsp;/&nbsp;作者：{$vo['author']}</if><if condition="$vo['source']">&nbsp;/&nbsp;来源：{$vo['source']}</if></div>
+        <div class="summary">{$vo['briefly']}</div>
+	</div>
+	<div class="clear"></div>
+</div>
+</volist>

@@ -1,0 +1,135 @@
+<div class="admin_management link_blue">
+    <if condition="$userinfo[utype] eq 1">
+        <div style="height:60px;">对 <strong style="color:#FF6600">{$company_profile['companyname']}</strong> 进行以下操作&nbsp;&nbsp;&nbsp;&nbsp;
+            <a target="_blank" href="{$manage_url}">进入会员中心>></a><br/>
+            <span class="admin_note"><br/>
+                用户名：{$userinfo['username']}，uid:{$userinfo['uid']}，招聘顾问：{$consultant['name']}
+            </span>
+        </div>
+        <div class="mantit">资料管理</div>
+        <div class="manitem">
+            <a href="{:U('Jobs/index',array('key_type_cn'=>'会员ID','key_type'=>5,'key'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">职位管理</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Company/edit_company',array('id'=>$company_profile['id'],'_k_v'=>$company_profile['id']))}">企业资料</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Company/license',array('id'=>$company_profile['id'],'_k_v'=>$company_profile['id']))}">营业执照</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Company/img',array('id'=>$company_profile['id'],'_k_v'=>$company_profile['id']))}">企业风采</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Company/tpl',array('id'=>$company_profile['id'],'_k_v'=>$company_profile['id']))}">企业模板</a>
+        </div>
+        <notempty name="apply['Report']">
+        <div class="manitem">
+            <a href="{:U('Report/Admin/index',array('id'=>$company_profile['id'],'_k_v'=>$company_profile['id']))}">实地认证</a>
+        </div>
+        </notempty>
+        <div class="clear"></div>
+        <div class="mantit">分析统计</div>
+        <div class="manitem"><a
+                href="{:U('Analyze/Admin/analyze_list_com',array('uid'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">行为分析</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('CompanyMembers/user_log',array('uid'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">会员日志</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Company/mobile_recruit_statistics',array('id'=>$company_profile['id'],'_k_v'=>$company_profile['id']))}">微信招聘</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Company/statistics_visitor',array('id'=>$company_profile['id'],'uid'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">招聘效果</a>
+        </div>
+        <div class="clear"></div>
+        <div class="mantit">
+            联系会员
+            <span>（手机:<notempty name="userinfo['mobile']">{$userinfo['mobile']}<else/>未填写</notempty>，邮箱:<notempty
+                name="userinfo['email']">{$userinfo['email']}<else/>未填写</notempty>）
+            </span>
+        </div>
+        <div class="manitem">
+            <a class="ajax_send_sms" href="javascript:;" parameter="mobile={$userinfo['mobile']}&uid={$userinfo['uid']}">发送短信</a>
+        </div>
+        <div class="manitem">
+            <a class="ajax_send_pms" href="javascript:;" parameter="tousername={$userinfo['username']}">发站内信</a>
+        </div>
+        <div class="clear"></div>
+        <else/>
+        <div style="height:30px;">对 <strong style="color:#FF6600">{$userinfo.realname|default=$userinfo['username']}</strong> 进行以下操作
+            <span class="admin_note">用户名：{$userinfo['username']}，uid:{$userinfo.uid}</span>&nbsp;&nbsp;&nbsp;&nbsp;
+            <a target="_blank" href="{$manage_url}">进入会员中心>></a>
+        </div>
+        <div class="mantit">会员管理</div>
+        <div class="manitem">
+            <a target="_blank" href="{$resume_manage}">简历管理</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Personal/user_points_edit',array('uid'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">{:C('qscms_points_byname')}管理</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Order/index_per',array('uid'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">充值/订单</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Personal/promotion',array('uid'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">简历推广</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Personal/user_apply_jobs',array('uid'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">申请的职位</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Personal/member_edit',array('uid'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">个人资料</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Personal/member_edit',array('uid'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">修改密码</a>
+        </div>
+        <div class="clear"></div>
+        <div class="mantit">分析统计</div>
+        <div class="manitem">
+            <a href="{:U('Analyze/Admin/analyze_list_per',array('uid'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">行为分析</a>
+        </div>
+        <div class="manitem">
+            <a href="{:U('Personal/user_log',array('uid'=>$userinfo['uid'],'_k_v'=>$userinfo['uid']))}">会员日志</a></div>
+        <div class="clear"></div>
+        <div class="mantit">
+            联系会员<span>（手机:<notempty name="userinfo['mobile']">{$userinfo['mobile']}<else/>未填写</notempty>，邮箱:<notempty
+                name="userinfo['email']">{$userinfo['email']}<else/>未填写</notempty>）</span>
+        </div>
+        <div class="manitem">
+            <a class="ajax_send_sms" href="javascript:;" parameter="mobile={$userinfo['mobile']}&uid={$userinfo['uid']}">发送短信</a>
+        </div>
+        <div class="manitem">
+            <a class="ajax_send_pms" href="javascript:;" parameter="tousername={$userinfo['username']}">发站内信</a>
+        </div>
+        <div class="clear"></div>
+    </if>
+</div>
+<script type="text/javascript">
+    $(".ajax_send_sms").click(function () {
+        $('.modal_backdrop').remove();
+        $('.modal').remove();
+        var qsDialog = $(this).dialog({
+            title: '发送短信',
+            loading: true,
+            footer : false
+        });
+        var param = $(this).attr('parameter');
+        var url = "{:U('Ajax/ajax_send_sms')}&" + param;
+        $.getJSON(url, function (result) {
+            qsDialog.setContent(result.data);
+        });
+    });
+    $(".ajax_send_pms").click(function () {
+        $('.modal_backdrop').remove();
+        $('.modal').remove();
+        var qsDialog = $(this).dialog({
+            title: '发送站内信',
+            loading: true,
+            footer : false
+        });
+        var param = $(this).attr('parameter');
+        var url = "{:U('Ajax/ajax_send_pms')}&" + param;
+        $.getJSON(url, function (result) {
+            qsDialog.setContent(result.data);
+        });
+    });
+</script>

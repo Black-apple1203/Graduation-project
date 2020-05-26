@@ -1,0 +1,10 @@
+[ 2020-05-17T07:54:40+08:00 ] 127.0.0.1 /
+SQL: SELECT qs_order.*,m.username,m.utype FROM `qs_order` INNER JOIN qs_members as m on qs_order.uid=m.uid  WHERE qs_order.is_paid = 1 AND qs_order.addtime < 1588377279    [RunTime:0.8321s] [IP:127.0.0.1:2943] [AddTime:1589673280] [qscms]
+[ 2020-05-17T07:54:43+08:00 ] 127.0.0.1 /
+SQL: SELECT `id`,`type_id`,`title`,`content`,`url`,`text_color`,`uid` FROM `qs_ad` WHERE `alias` = 'QS_indextopimg' AND `starttime` <= 1589673283 AND ( `deadline` >= 1589673283 OR `deadline` = 0 ) AND `is_display` = 1   ORDER BY show_order desc  LIMIT 3  [RunTime:0.5747s] [IP:127.0.0.1:2943] [AddTime:1589673283] [qscms]
+[ 2020-05-17T07:54:44+08:00 ] 127.0.0.1 /
+SQL: SELECT `id` FROM qs_jobs_search j WHERE MATCH (`key`) AGAINST ("+eme1" IN BOOLEAN MODE)   ORDER BY stime desc  LIMIT 0,15  [RunTime:0.2273s] [IP:127.0.0.1:2943] [AddTime:1589673284] [qscms]
+[ 2020-05-17T07:55:18+08:00 ] 127.0.0.1 /index.php?m=Admin&c=index&a=login
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=Admin&c=index&a=login','127.0.0.1:2999','本机地址','1589673318','0','','0') [RunTime:0.2077s] [IP:127.0.0.1:2999] [AddTime:1589673318] [qscms]
+[ 2020-05-17T09:27:11+08:00 ] 127.0.0.1 /index.php?m=Admin&c=index&a=login
+SQL: DELETE FROM `qs_admin_log` WHERE `log_addtime` < 1581902830 [RunTime:0.266s] [IP:127.0.0.1:7811] [AddTime:1589678831] [qscms]

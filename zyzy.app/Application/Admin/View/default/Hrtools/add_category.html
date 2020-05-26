@@ -1,0 +1,98 @@
+<include file="public:header"/>
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>点击“继续添加”按钮，可同时添加多个分类！</p>
+    </div>
+
+<div class="toptit">新增分类</div>
+<form action="{:U('add_category')}" method="post" name="FormData" id="FormData">
+    <div class="form_main width120">
+        <div class="fl">分类名称:</div>
+        <div class="fr">
+            <input name="c_name" type="text" class="input_text_default middle" maxlength="30" value=""/>
+        </div>
+        <div class="fl">缩略图:</div>
+        <div class="fr J-file-input-box">
+            <div class="file-input-src hid">
+                <div class="img"></div>
+                <div class="del file-input-del" id="" name="c_img">点击更换</div>
+            </div>
+            <div class="file-input-block" id="J_upload_c_img" name="c_img"><span class="o-txt">上传</span>缩略图</div>
+            <input type="hidden" class="file-input-save-name" name="c_img" value="">
+        </div>
+        <div class="fl">描述:</div>
+        <div class="fr">
+            <textarea name="c_desc" class="input_text_default middle" style="height: 100px; line-height: 20px;"></textarea>
+        </div>
+        <div class="fl">排序:</div>
+        <div class="fr">
+            <input name="c_order" type="text" class="input_text_default middle" maxlength="3" value="0"/>
+            <label class="no-fl-note">(数字越大越靠前)</label>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('category')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+  var uploadUrl = "{:U('Upload/form_upload')}";
+</script>
+<script src="__ADMINPUBLIC__/js/ajaxfileupload.js"></script>
+<script src="__ADMINPUBLIC__/js/fileupload.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+      
+      $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('add_category')}",$('#FormData').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("category")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存修改').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+      // 上传网站首页Logo
+      $.upload('#J_upload_c_img',{name:'c_img',dir:'hrtools_img'},function(result){
+        if(result.error == 1){
+          var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+          $('#J_upload_c_img').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+          $('#J_upload_c_img').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+          if ($('#J_upload_c_img').hasClass('file-input-block')) {
+            $('#J_upload_c_img').closest('.J-file-input-box').find('.file-input-src').removeClass('hid');
+            var $delObj = $('#J_upload_c_img').closest('.J-file-input-box').find('.file-input-del');
+            $('#J_upload_c_img').remove();
+            $delObj.attr('id', "J_upload_c_img_change_btn");
+            $.upload('#J_upload_c_img_change_btn',{name:'c_img',dir:'hrtools_img'},function(result){
+              if(result.error == 1){
+                var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+                $('#J_upload_c_img_change_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+                $('#J_upload_c_img_change_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+              } else {
+                disapperTooltip("remind", "上传失败："+result.message);
+              }
+            })
+          }
+        } else {
+          disapperTooltip("remind", "上传失败："+result.message);
+        }
+      });
+    });
+</script>
+</html>

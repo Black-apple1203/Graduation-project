@@ -1,0 +1,109 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>短信模块属收费模块，需申请开通后才能使用，请联系我司客服申请开通。</p>
+    <p class="link_green_line">资费标准请联系骑士销售获取，更多介绍请进入 <a href="http://www.74cms.com" target="_blank">骑士人才系统官方网站</a></p>
+    <p><font color="red">使用短信发送服务前，请确认短信服务商已正确配置！</font></p>
+    <p><font color="red">阿里大于的短信暂时不能正常发送招聘类信息，使用前请先向阿里大于官方核实，谨慎使用！</font></p>
+</div>
+	<form action="{:U('sms/config_edit')}" method="post" enctype="multipart/form-data" name="form1" id="form1">
+		<div class="toptit">设置</div>
+		<div class="form_main width200">
+            <div id="j_show" >
+            	<div class="fl">默认短信服务商：</div>
+	            <div class="fr">
+	            	<div class="select_input_new w400 flo J_hoverinput J_dropdown J_listitme_parent">
+		                <span class="J_listitme_text">请选择短信服务商</span>
+		                <div class="dropdowbox_sn J_dropdown_menu">
+		                    <div class="dropdow_inner_sn">
+		                        <ul class="nav_box">
+		                            <volist name="sms_list" id="sms">
+		                                <li><a class="J_listitme <if condition="$key eq C('qscms_sms_default_service')">list_sel</if>" href="javascript:;" data-code="{$key}">{$sms.name}</a></li>
+		                            </volist>
+		                        </ul>
+		                    </div>
+		                </div>
+		                <input class="J_listitme_code" name="sms_default_service" id="sms_default_service" type="hidden" value="" />
+		            </div>
+					<div class="sin_text">（请在“服务商接入”栏目下安装短信接口）</div>
+					<div class="clear"></div>
+	            </div>
+	            <div class="fl">验证码类短信服务商：</div>
+	            <div class="fr">
+	            	<div class="select_input_new w400 flo J_hoverinput J_dropdown J_listitme_parent">
+		                <span class="J_listitme_text">请选择短信服务商</span>
+		                <div class="dropdowbox_sn J_dropdown_menu">
+		                    <div class="dropdow_inner_sn">
+		                        <ul class="nav_box">
+		                            <volist name="sms_list" id="sms">
+		                                <li><a class="J_listitme <if condition="$key eq C('qscms_sms_captcha_service')">list_sel</if>" href="javascript:;" data-code="{$key}">{$sms.name}</a></li>
+		                            </volist>
+		                        </ul>
+		                    </div>
+		                </div>
+		                <input class="J_listitme_code" name="sms_captcha_service" id="sms_captcha_service" type="hidden" value="" />
+		            </div>
+					<div class="sin_text">（请在“服务商接入”栏目下安装短信接口）</div>
+					<div class="clear"></div>
+	            </div>
+	            <div class="fl">通知类短信服务商：</div>
+	            <div class="fr">
+	            	<div class="select_input_new w400 flo J_hoverinput J_dropdown J_listitme_parent">
+		                <span class="J_listitme_text">请选择短信服务商</span>
+		                <div class="dropdowbox_sn J_dropdown_menu">
+		                    <div class="dropdow_inner_sn">
+		                        <ul class="nav_box">
+		                            <volist name="sms_list" id="sms">
+		                                <li><a class="J_listitme <if condition="$key eq C('qscms_sms_notice_service')">list_sel</if>" href="javascript:;" data-code="{$key}">{$sms.name}</a></li>
+		                            </volist>
+		                        </ul>
+		                    </div>
+		                </div>
+		                <input class="J_listitme_code" name="sms_notice_service" id="sms_notice_service" type="hidden" value="" />
+		            </div>
+					<div class="sin_text">（请在“服务商接入”栏目下安装短信接口）</div>
+					<div class="clear"></div>
+	            </div>
+	            <div class="fl">其它类短信服务商：</div>
+	            <div class="fr">
+	            	<div class="select_input_new w400 flo J_hoverinput J_dropdown J_listitme_parent">
+		                <span class="J_listitme_text">请选择短信服务商</span>
+		                <div class="dropdowbox_sn J_dropdown_menu">
+		                    <div class="dropdow_inner_sn">
+		                        <ul class="nav_box">
+		                            <volist name="sms_list" id="sms">
+		                                <li><a class="J_listitme <if condition="$key eq C('qscms_sms_other_service')">list_sel</if>" href="javascript:;" data-code="{$key}">{$sms.name}</a></li>
+		                            </volist>
+		                        </ul>
+		                    </div>
+		                </div>
+		                <input class="J_listitme_code" name="sms_other_service" id="sms_other_service" type="hidden" value="" />
+		            </div>
+					<div class="sin_text">（请在“服务商接入”栏目下安装短信接口）</div>
+					<div class="clear"></div>
+	            </div>
+            </div>
+            <div class="fl"></div>
+	        <div class="fr">
+	            <input type="submit" class="admin_submit" value="保存修改"/>
+	        </div>
+			<div class="clear"></div>
+		</div>
+	</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script type="text/javascript">
+	if ($('.J_listitme.list_sel').length) {
+		$('.J_listitme.list_sel').each(function(index, el) {
+			var listSelCn = $.trim($(this).text());
+            var listSelCode = $(this).data('code');
+			console.log(listSelCn);
+            $(this).closest('.J_listitme_parent').find('.J_listitme_text').text(listSelCn);
+            $(this).closest('.J_listitme_parent').find('.J_listitme_code').val(listSelCode);
+		})
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<include file="public:header" />
+<form id="form1">
+    <div class="toptit">新增管理员角色</div>
+    <div class="form_main width120">
+        <div class="fl">角色名称：</div>
+        <div class="fr">
+            <input name="name" type="text" maxlength="25" class="input_text_default" value=""/>
+        </div>
+        <div class="fl">角色描述：</div>
+        <div class="fr">
+            <textarea name="remark" id="remark" cols="70" rows="3" class="input_text_default" style="font-size:12px;line-height:200%;height:150px;"></textarea>
+        </div>
+        <div class="fl">排序：</div>
+        <div class="fr">
+            <input name="ordid" type="text" class="input_text_default" value="0"/>
+        </div>
+        <div class="fl">是否激活：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small select"><input name="status" type="hidden" value="1" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" id="J_submit" name="submit3" class="admin_submit" value="添加"/>
+            <input name="submit22" type="button" class="admin_submit" value="返回" onclick="window.location='{:U('AdminRole/index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('AdminRole/add')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    location.href='{:U("AdminRole/index")}';
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('添加').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

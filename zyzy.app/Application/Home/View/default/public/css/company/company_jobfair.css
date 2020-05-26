@@ -1,0 +1,28 @@
+/*招聘会列表*/
+.jobfairWrap{margin:20px 30px}
+.jobfairList{padding:20px 10px;border-bottom:1px dashed #E7E7E7;display:inline-block;position:relative;}
+.jobfairWrap .jobfairList .timeWrap{position:relative;width:65px;height:45px;color:#fff;padding:10px 0;float:left;background:#8ab1e3;margin-top: 8px;}
+.jobfairWrap .jobfairList .timeWrap .time,.jobfairWrap .jobfairList .timeWrap .week{font-size:16px;height:22px;line-height:22px;width:65px;color:#fff;text-align:center}
+.jobfairWrap .jobfairList .timeWrap .time{font-size:14px}
+.jobfairWrap .jobfairList .timeWrap .arrow{position:absolute;right:-5px;_right:-6px;top:0;bottom:0;width:5px;height:65px;background:url(../../images/64.png) no-repeat left center}
+.jobfairWrap .jobfairList .info{width:700px;height:70px;margin-left:24px;float:left}
+.jobfairWrap .jobfairList .info .title,.jobfairWrap .jobfairList .info .title a,.jobfairWrap .jobfairList .info .addressWrap{height:26px;line-height:26px}
+.jobfairWrap .jobfairList .info .title.substring{width:650px;}
+.jobfairWrap .jobfairList .info .title a{font-size:16px;color:#333;font-weight:400;margin-bottom:3px;text-decoration:none}
+.jobfairWrap .jobfairList .info .title a:hover{text-decoration:underline}
+.jobfairWrap .jobfairList .info .addressWrap span{color:#999;padding-left:20px;margin-right:25px;background:url(../../images/65.png) no-repeat 0 4px}
+.jobfairWrap .jobfairList .info .addressWrap span.address{background-position:0 -18px}
+.jobfairWrap .jobfairList .btns{width:90px;float:left;height:39px;padding:18px 0;text-align:center}
+.jobfairWrap .jobfairList .btns span{height:38px;line-height:38px}
+.jobfairList .jfl_ed{position:absolute;right:188px;text-decoration:none;top:50%;transform:translate(0,-50%);-webkit-transform: translate(0,-50%);color:#5F8DC9;}
+.jobfairList .jfl_ed:hover{text-decoration:underline}
+.jobfairList .delete_all{position:absolute;right:136px;text-decoration:none;top:50%;transform:translate(0,-50%);-webkit-transform: translate(0,-50%);color:#5F8DC9;}
+.jobfairList .delete_all:hover{text-decoration:underline}
+
+/*我参与的招聘会*/
+.jobfairWrap .jobfair_th{background:#f7f7f7;height:26px;line-height:26px;padding:6px 10px;display:inline-block}
+.jobfairWrap .jobfair_th .th1,.jobfairWrap .jobfair_th .th2,.jobfairWrap .jobfair_th .th3,.jobfairWrap .jobfair_td .td1,.jobfairWrap .jobfair_td .td2,.jobfairWrap .jobfair_td .td3{padding:0 10px}
+.jobfairWrap .jobfair_th .th1,.jobfairWrap .jobfair_td .td1{width:418px}
+.jobfairWrap .jobfair_th .th2,.jobfairWrap .jobfair_th .th3,.jobfairWrap .jobfair_td .td2,.jobfairWrap .jobfair_td .td3{width:140px;text-align:center}
+.jobfairWrap .jobfair_td{padding:12px 10px;border-bottom:1px solid #EDEDED;display:inline-block}
+.jobfairWrap .jobfair_td .td1,.jobfairWrap .jobfair_td .td2,.jobfairWrap .jobfair_td .td3{height:26px;line-height:26px;padding:13px 10px;}

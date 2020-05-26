@@ -1,0 +1,141 @@
+<form id="allowance_form" method="post" target="_blank">
+    <div class="j-m-d-box small J_modal_job_share">
+        <div class="j-m-d-r">
+            <div class="re-box">
+                <div class="re-line last">
+                    <div class="re-l-l">温馨提示：</div>
+                    <div class="re-l-r">
+                        您的分享红包一旦开启，中途不可取消！
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="r-l-group">
+                <div class="h20"></div>
+                <div class="r-l-tit">任务设置</div>
+                <div class="h22"></div>
+                <div class="r-l-inp-line">
+                    <div class="inp-l">职位名称：</div>
+                    <div class="inp-t">{$jobs.jobs_name}</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="h16"></div>
+                <div class="r-l-inp-line">
+                    <div class="inp-l"><span></span>每个红包金额：</div>
+                    <div class="inp-r"><input name="amount" id="J_amount" type="text" class="input_250_34 counter_input" value="" placeholder="求职者每次领取红包的金额，如：3" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) {value=value.replace(/\D/g,'');}" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"></div>
+                    <div class="inp-t">元</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="h16"></div>
+                <div class="r-l-inp-line">
+                    <div class="inp-l"><span></span>红包总数量：</div>
+                    <div class="inp-r"><input name="count" id="count" type="text" class="input_250_34 counter_input" value="" placeholder="此职位红包总数量，如：100" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"></div>
+                    <div class="inp-t">个</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="h16"></div>
+                <div class="r-l-inp-line">
+                    <div class="inp-l"><span></span>单任务查看数：</div>
+                    <div class="inp-r"><input name="task_views" id="task_views" type="text" class="input_250_34" value="" placeholder="此职位被查看数量，如：100" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"></div>
+                    <div class="inp-t">次</div>
+                    <div class="clear"></div>
+                </div>
+                <div class="h30"></div>
+            </div>
+            <div class="r-l-c-line"></div>
+            <div class="h20"></div>
+            <div class="m-s-line">应付金额：<span class="code" id="show_need_pay">0</span> 元</div>
+            <div class="h30"></div>
+            <div class="c-b-group">
+                <div class="c-b-cell">
+                    <a href="javascript:;" class="cash_pay_submit" payment="wxpay">
+                        <div class="c-icon"></div>
+                        <div class="c-txt">微信扫码支付</div>
+                    </a>
+                </div>
+                <div class="c-b-cell">
+                    <a href="javascript:;" class="cash_pay_submit" payment="alipay">
+                        <div class="c-icon icon2"></div>
+                        <div class="c-txt">支付宝快捷支付</div>
+                    </a>
+                </div>
+                <input type="hidden" name="payment" id="payment" value="wxpay">
+                <input type="hidden" name="id" id="jobsid" value="{$jobs.id}">
+                <div class="clear"></div>
+            </div>
+            <div class="r-rem">注：使用过程中遇到任何问题请及时联系您的专属顾问</div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</form>
+<script>
+    //计算需要支付的金额
+    function count_need_pay(){
+        var amount = $.trim($('#J_amount').val())!=''?parseInt($('#J_amount').val()):0;
+        var count = $.trim($('#count').val())!=''?parseInt($('#count').val()):0;
+        return amount * count;
+    }
+    //扫描是否支付成功
+    function run(){
+        $.getJSON("{:U('share_allowance_check')}",function(result){
+            if(result.status==1){
+               location.href=result.data;
+            }
+        });
+    }
+    $('.counter_input').keyup(function(){
+        var total = count_need_pay();
+        $('#show_need_pay').html(total);
+    });
+    $('.counter_input').focusout(function(){
+        var total = count_need_pay();
+        $('#show_need_pay').html(total);
+    });
+    $('.cash_pay_submit').die().live('click', function () {
+        var action_url = qscms.root+'?m=Home&c=CompanyService&a=share_allowance_pay';
+        var payment = $(this).attr('payment');
+        $('#payment').val(payment);
+        if(!parseInt($('#J_amount').val())){
+            disapperTooltip('remind','请填写红包金额！');
+            return false;
+        }
+        if(parseInt($('#J_amount').val())<1){
+            disapperTooltip('remind','红包金额不能小于1元！');
+            return false;
+        }
+        if(!parseInt($('#count').val())){
+            disapperTooltip('remind','请填写红包总数量！');
+            return false;
+        }
+        if(!parseInt($('#task_views').val())){
+            disapperTooltip('remind','请填写单任务查看数！');
+            return false;
+        }
+        if(payment=='wxpay'){
+            var qsDialog = $(this).dialog({
+                title: '微信支付',
+                loading:true,
+                footer:false
+            });
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url:action_url,
+                data:$('#allowance_form').serialize(),
+                dataType:"json",
+                success: function(result) {
+                    if(result.status==1){
+                        qsDialog.setContent("<img src='"+result.data+"' alt='扫描二维码' width='250' height='250' />");
+                        window.setInterval(run, 5000);
+                    }else{
+                        qsDialog.setContent(result.msg);
+                        return false;
+                    }
+                }
+            });
+        }else{
+            $('#allowance_form').attr('action',action_url);
+            $('#allowance_form').submit();
+        }
+    });
+</script>

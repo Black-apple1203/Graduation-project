@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_rpo.css" rel="stylesheet" type="text/css"/>
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+		
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="Company:left_service" /> 
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">招聘外包</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tab rpo_tab">
+					<a href="{:U('Home/CompanyService/rpo')}" class="tabli <eq name='ACTION_NAME' value='rpo'>select</eq>">服务说明</a>
+					<a href="{:U('Home/CompanyService/rpo_list')}" class="tabli <eq name='ACTION_NAME' value='rpo_list'>select</eq>">申请记录</a>
+					<div class="clear"></div>
+				</div>
+				<div class="rpo_th">
+				    <div class="th1">岗位类别</div>
+				    <div class="th2">服务类型</div>
+					<div class="th3">联系人</div>
+					<div class="th4">联系方式</div>
+				    <div class="th5">申请时间</div>
+				    <div class="clear"></div>
+				</div>
+				<notempty name="list['list']">
+				<volist name="list['list']" id="vo">
+					<div class="rpo_td">
+					<div class="line">
+						<div class="td1">{$vo.job_cn}</div>
+						<div class="td2">{$vo.stage_cn}</div>
+						<div class="td3">{$vo.contact}</div>
+						<div class="td4">{$vo.phone}</div>
+						<div class="td5">{:fdate($vo['add_time'])}</div>
+						<div class="clear"></div>
+					</div>
+					<notempty name="vo['notes']">
+						<div class="line notes">备注：{$vo.notes}</div>
+					</notempty>
+					</div>
+				</volist>
+				<div class="qspage">{$order['page']}</div>
+				<else />
+					<div class="res_empty">
+						没有符合条件的申请记录
+					</div>
+				</notempty>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+		<script type="text/javascript">
+			$(document).ready(function(){
+			});
+		</script>
+	</body>
+</html>

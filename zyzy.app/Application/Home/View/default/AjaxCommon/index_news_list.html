@@ -1,0 +1,21 @@
+<notempty name="article_list">
+    <div class="ncg-con-left">
+        <div class="ncg-img-cell">
+            <div class="img-b"><a target="_blank" href="{$article_list[0]['url']}"><img src="{$article_list[0]['img']}"></a></div>
+            <div class="img-t"><a target="_blank" href="{$article_list[0]['url']}" title="{$article_list[0]['title']}">{$article_list[0]['title']}</a></div>
+        </div>
+        <div class="ncg-img-cell">
+            <div class="img-b"><a target="_blank" href="{$article_list[1]['url']}"><img src="{$article_list[1]['img']}"></a></div>
+            <div class="img-t"><a target="_blank" href="{$article_list[1]['url']}" title="{$article_list[1]['title']}">{$article_list[1]['title']}</a></div>
+        </div>
+    </div>
+    <div class="ncg-con-right">
+        <volist name="article_list" id="article" offset="2" length="10">
+            <div class="ncr-line">
+                <div class="ncr-line-left"><a target="_blank" href="<if condition="$article['is_url'] neq '' and $article['is_url'] neq 'http://'">{$article.is_url}<else/>{:url_rewrite('QS_newsshow',array('id'=>$article['id']))}</if>" style="<if condition="$article['tit_color']">color:{$article.tit_color};</if><if condition="$article['tit_b'] gt 0">font-weight:bold</if>" title="{$article.title}">{$article.title}</a></div>
+                <div class="ncr-line-right">{:date("Y-m-d",$article['addtime'])}</div>
+                <div class="clear"></div>
+            </div>
+        </volist>
+    </div>
+</notempty>

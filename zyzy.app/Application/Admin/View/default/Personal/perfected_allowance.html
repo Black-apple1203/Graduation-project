@@ -1,0 +1,100 @@
+<include file="public:header"/>
+
+<div class="seltpye_x">
+    <div class="left">发放状态</div>
+    <div class="right">
+        <a href="{:P(array('status'=>''))}" <eq name='Think.get.status' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('status'=>'1'))}" <eq name='Think.get.status' value='1'>class="select"</eq>>已发放</a>
+        <a href="{:P(array('status'=>'0'))}" <eq name='Think.get.status' value='0'>class="select"</eq>>未发放</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="seltpye_x">
+    <div class="left">记录时间</div>
+    <div class="right">
+        <a href="{:P(array('settr'=>''))}" <eq name='Think.get.settr' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('settr'=>'3'))}" <eq name='Think.get.settr' value='3'>class="select"</eq>>三天内</a>
+        <a href="{:P(array('settr'=>'7'))}" <eq name='Think.get.settr' value='7'>class="select"</eq>>一周内</a>
+        <a href="{:P(array('settr'=>'30'))}" <eq name='Think.get.settr' value='30'>class="select"</eq>>一月内</a>
+        <a href="{:P(array('settr'=>'180'))}" <eq name='Think.get.settr' value='180'>class="select"</eq>>半年内</a>
+        <a href="{:P(array('settr'=>'360'))}" <eq name='Think.get.settr' value='360'>class="select"</eq>>一年内</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+    <div class="list_th">
+        <div class="td" style=" width:20%;"><div class="left_padding">用户名</div></div>
+        <div class="td center" style=" width:15%;">发放金额</div>
+        <div class="td center" style=" width:15%;">发放状态</div>
+        <div class="td center" style=" width:20%;">未发放原因</div>
+        <div class="td center" style=" width:15%;">记录时间</div>
+        <div class="td center" style=" width:15%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:20%;">
+                <div class="left_padding">
+                    {$vo['username']}（uid：{$vo['uid']}）
+                </div>
+            </div>
+            <div class="td center" style=" width:15%;">
+                {$vo['value']}元
+            </div>
+            <div class="td center" style=" width: 15%;">
+                <span <if condition="$vo['status'] eq '1'">style="color:#009900"<else />style="color:#FF0000"</if>><if condition="$vo['status'] eq '0'">未发放<else />已发放</if></span>
+            </div>
+            <div class="td center" style=" width:20%;"><if condition="$vo['status'] eq '0'">{$vo['reason']}<else />-</if></div>
+            <div class="td center" style=" width:15%;">
+                {:admin_date($vo['addtime'])}
+            </div>
+            <div class="td edit center" style=" width:15%;">
+                <if condition="$vo['status'] eq 0">
+                <a href="{:U('perfected_allowance_repay',array('id'=>$vo['id']))}">重新发放</a>
+                <else />
+                -
+                </if>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox"></div>
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='用户名'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='用户名'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="用户名">用户名</li>
+                        <li id="2" title="UID">UID</li>
+                        <li id="3" title="email">email</li>
+                        <li id="4" title="手机号">手机号</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+</html>

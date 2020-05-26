@@ -1,0 +1,46 @@
+<div class="header_min" id="header">
+	<div class="header_min_top <if condition="C('qscms_subsite_open') eq 1">sub</if>">
+		<div id="J_header" class="itopl font_gray6 link_gray6">
+			<if condition="C('qscms_subsite_open') eq 1">
+				<!--分站-->
+				<div class="sub_city_box">
+					<div class="city_switch">
+						<div class="c_item"><span>{$subsite_list[$subsite['s_id']]['s_sitename']}</span>&nbsp;&nbsp;[&nbsp;&nbsp;切换站点</div>
+						<div class="city_drop">
+							<div class="d_tit">点击进入&nbsp;&nbsp;<a href="{:C('qscms_site_domain')}">[&nbsp;&nbsp;总站&nbsp;&nbsp;]</a></div>
+							<div class="d_list">
+								<volist name="subsite_list" id='vo' offset="0" length='20'>
+									<if condition="$vo['s_id'] eq 0"><a href="{:C('qscms_site_domain')}" class="d_item">总站</a><else />
+										<a href="{$subsite_list[$vo['s_id']]['pc_type']}{$subsite_list[$vo['s_id']]['s_domain']}" class="d_item">{$subsite_list[$vo['s_id']]['s_sitename']}</a>
+									</if>
+								</volist>
+							<if condition="count($subsite_list) gt 20"><a href="{:U('Home/Index/subsite')}" class="d_item">更多分站>></a></if><div class="clear"></div>
+							</div>
+						</div>
+					</div>
+					<div class="city_near">
+					<a href="{:C('qscms_site_domain')}" class="d_item">总站</a>
+						<!-- <volist name="subsite_list" id='vo' offset="0" length='2'>
+						<if condition="$vo['s_id'] neq C('subsite_info.s_id')">
+							<if condition="$vo['s_id'] eq 0"><a href="{:C('qscms_site_domain')}" class="d_item">总站</a><else />
+							<a href="{$subsite_list[$vo['s_id']]['pc_type']}{$subsite_list[$vo['s_id']]['s_domain']}" class="c_name">{$subsite_list[$vo['s_id']]['s_sitename']}</a>
+							</if>
+						</if>
+						</volist>	 -->
+					</div>
+					&nbsp;&nbsp;]
+					<div class="clear"></div>
+				</div>
+			<else />
+				<span class="link_yellow">欢迎登录{:C('qscms_site_name')}！请 <a id="J_site_login" href="javascript:;">登录</a> 或 <a id="J_site_reg" href="javascript:;">免费注册</a></span>
+			</if>
+		</div>
+		<div class="itopr font_gray9 link_gray6" id="J_header_sub">
+			<a href="__ROOT__/" class="home">网站首页</a>|
+			<a href="{:url_rewrite('QS_m')}" class="m">手机访问</a>|
+			<a href="{:url_rewrite('QS_help')}" class="help">帮助中心</a>|
+			<a href="{:U('Home/Index/shortcut')}" class="last">保存到桌面</a>
+		</div>
+	    <div class="clear"></div>
+	</div>
+</div>

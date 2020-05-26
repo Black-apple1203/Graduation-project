@@ -1,0 +1,41 @@
+<div class="dialog_box">
+    <form action="{:U($controller.'/set_audit')}" method="post" name="form" id="form">
+        <volist name="ids" id="vo">
+            <input name="id[]" type="hidden" value="{$vo}"/>
+        </volist>
+        <table width="400" border="0" align="center" cellpadding="0" cellspacing="6">
+            <tr>
+                <td width="20" height="20">&nbsp;</td>
+                <td height="20">将所选图片设置为：</td>
+            </tr>
+            <tr>
+                <td width="40" height="25">&nbsp;</td>
+                <td>
+                    <div class="imgradio">
+                        <input name="audit" type="hidden" value="1">
+                        <div class="radio select" data="1" id="success">审核通过</div>
+                        <div class="radio " data="3" id="fail">审核未通过</div>
+                        <div class="radio " data="2" id="wait">等待认证</div>
+                        <div class="clear"></div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td width="40" height="25">备注：</td>
+                <td>
+                    <textarea name="reason" class="input_text_default" style="width:300px; height:60px; line-height: 20px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td width="40" height="25">&nbsp;</td>
+                <td>
+                    <label style="color: rgb(0, 153, 0)"><input type="checkbox" name="pms_notice" value="1" checked="checked"/>站内信通知</label>
+                </td>
+            </tr>
+            <tr>
+                <td height="25">&nbsp;</td>
+                <td><input type="submit" name="set_audit" value="确定" class="admin_submit"/></td>
+            </tr>
+        </table>
+    </form>
+</div>

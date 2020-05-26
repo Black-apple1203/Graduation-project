@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_user.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_user" /> </div>
+			<div class="mright">
+				<div class="user_pagetitle pms_user_pagetitle">
+					<div class="pat_l">消息提醒</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tab">
+					<a href="{:U('company/pms_sys')}" class="tabli select" >系统消息</a>
+					<a href="{:U('company/pms_consult')}" class="tabli ">求职者咨询</a>
+					<div class="clear"></div>
+				</div>
+				<div class="pms_wrap">
+					<div class="pms_th">
+				    	<div class="th1">消息内容</div>
+						<div class="th2">
+							<div class="th_select input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+			                    <span class="J_listitme_text"><if condition="$Think.get.new eq 1">未查看<elseif condition="$Think.get.new eq 2"/>已查看<else/>查看状态</if></span>
+			                    <div class="dropdowbox13 J_dropdown_menu">
+			                        <div class="dropdow_inner13">
+			                            <ul class="nav_box">
+			                                <li><a class="J_listitme" href="{:P(array('new'=>''))}">全部</a></li>
+			                                <li><a class="J_listitme" href="{:P(array('new'=>1))}">未查看</a></li>
+			                                <li><a class="J_listitme" href="{:P(array('new'=>2))}">已查看</a></li>
+			                            </ul>
+			                        </div>
+			                    </div>
+			                </div>
+						</div>
+						<div class="th3">
+							<div class="th_select input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+			                    <span class="J_listitme_text"><if condition="$Think.get.settr gt 0">{$Think.get.settr}天内<else/>发送时间</if></span>
+			                    <div class="dropdowbox13 J_dropdown_menu">
+			                        <div class="dropdow_inner13">
+			                            <ul class="nav_box">
+			                                <li><a class="J_listitme" href="{:P(array('settr'=>0))}">全部</a></li>
+			                                <li><a class="J_listitme" href="{:P(array('settr'=>3))}">3天内</a></li>
+			                                <li><a class="J_listitme" href="{:P(array('settr'=>7))}">7天内</a></li>
+			                                <li><a class="J_listitme" href="{:P(array('settr'=>15))}">15天内</a></li>
+			                            </ul>
+			                        </div>
+			                    </div>
+			                </div>
+						</div>
+						<div class="th4">操作</div>
+						<div class="clear"></div>
+					</div>
+					<notempty name="msg['list']">
+						<form id="J_favoritesForm" class="J_allListBox" method="post">
+							<volist name="msg['list']" id="m">
+								<div class="pms J_hoverbut" pmid="{$m.pmid}">
+									<div class="td1 substring nowrap link_blue">
+										<input class="J_allList chk" type="checkbox" name="id[]" value="{$m.pmid}">{$m.message|default="&nbsp;&nbsp;"}
+									</div>
+									<if condition="$m['new'] eq 2">
+										<div class="td2">已查看</div>
+									<else/>
+										<div class="td2"><span class="no_chk">未查看</span></div>
+									</if>
+									<div class="td3">{:date('Y-m-d H:i',$m['dateline'])}</div>
+									<div class="td4 link_blue">
+										<a href="javascript:;" class="J_msg_check">查看</a>&nbsp;&nbsp;
+										<a href="javascript:;" url="{:U('company/msg_del',array('id'=>$m['pmid']))}" class="delete">删除</a>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</volist>
+						</form>
+						<div class="pms_btn">
+							<div class="allSelWrap">
+								<input name="" class="allSel J_allSelected" type="checkbox">
+							</div>
+							<div class="btn_blue J_hoverbut btn_inline J_set_interview">设为已读</div>
+							<div class="btn_lightgray J_hoverbut btn_inline btn_border J_delall">删除</div>
+							<div class="clear"></div>
+						</div>
+	  					<div class="qspage">{$msg.page}</div>
+					<else />
+						<div class="res_empty">
+			                您暂时还没有消息记录
+			            </div>
+					</notempty>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+		<script type="text/javascript">
+			$('.J_msg_check').click(function(){
+				var f = $(this).closest('.pms'),
+					id = f.attr('pmid');
+				var qsDialog = $(this).dialog({
+	        		title: '消息详情',
+					loading: true,
+					btns: ['删除', '返回'],
+					showFooter: false,
+					yes: function() {
+						$.post("{:U('Company/msg_del')}",{id:id},function(result){
+							if(result.status == 1){
+								f.remove();
+								disapperTooltip('success',result.msg);
+							}else{
+								disapperTooltip('remind',result.msg);
+							}
+						},'json');
+					}
+				});
+				$.getJSON("{:U('Company/msg_check')}",{id:id},function(result){
+		    		if(result.status == 1){
+		    			f.find('.td2').html('已查看');
+		    			qsDialog.setContent(result.data);
+	        			qsDialog.showFooter(true);
+		    		}else{
+		    			qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+		    		}
+		    	});
+			});
+			$(".delete").click(function () {
+	            var url = $(this).attr('url'),
+	            	f = $(this).closest('.pms'),
+					id = f.attr('pmid');
+	            var qsDialog = $(this).dialog({
+	                title: '删除消息',
+	                loading: true,
+	                border: false,
+	                yes: function () {
+	                    $.post("{:U('Company/msg_del')}",{id:id},function(result){
+							if(result.status == 1){
+								f.remove();
+								disapperTooltip('success',result.msg);
+							}else{
+								disapperTooltip('remind',result.msg);
+							}
+						},'json');
+	                }
+	            });
+	            $.getJSON(url, function (result) {
+	                if (result.status == 1) {
+	                    qsDialog.setContent(result.data.html);
+	                } else {
+	                    disapperTooltip('remind', result.msg);
+	                }
+	            });
+	        });
+	        $('.J_set_interview').click(function(){
+	        	var listCheckedArray = $('.J_allListBox .J_allList:checked');
+	            if (listCheckedArray.length) {
+	                $.post("{:U('Company/msg_check')}",$("#J_favoritesForm").serialize(),function (result) {
+	                    if (result.status == 1) {
+	                    	listCheckedArray.closest('.pms').find('.td2').addClass('ok').html('已查看');
+	                        disapperTooltip('success','系统信息查看成功！');
+	                    } else {
+	                        disapperTooltip('remind', result.msg);
+	                    }
+	                },'json');
+	            } else {
+	                disapperTooltip("remind", "请选择要查看的系统消息");
+	            }
+	        });
+	        $('.J_delall').click(function(){
+	        	var listCheckedArray = $('.J_allListBox .J_allList:checked');
+	            if (listCheckedArray.length) {
+	            	var qsDialog = $(this).dialog({
+				        title: '删除消息',
+		                loading: true,
+		                border: false,
+		                footer: false
+		            });
+		            $.getJSON("{:U('Company/msg_del')}", function (result) {
+		                if (result.status == 1) {
+		                	qsDialog.hide();
+		                	var qsDialogSon = $(this).dialog({
+				                title: '删除消息',
+				                content: result.data.html,
+				                border: false,
+				                yes: function () {
+				                    $.post("{:U('Company/msg_del')}",$("#J_favoritesForm").serialize(),function (result) {
+					                    if (result.status == 1) {
+					                    	listCheckedArray.closest('.pms').remove();
+					                        disapperTooltip('success',result.msg);
+					                    } else {
+					                        disapperTooltip('remind', result.msg);
+					                    }
+					                },'json');
+				                }
+				            });
+		                } else {
+		                	qsDialog.hide();
+		                    disapperTooltip('remind', result.msg);
+		                }
+		            });
+	            } else {
+	                disapperTooltip("remind", "请选择要删除的系统消息");
+	            }
+	        });
+		</script>
+	</body>
+</html>

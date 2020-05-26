@@ -1,0 +1,443 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/company/company_index.css?v={:time()}" rel="stylesheet" type="text/css" />
+	<link href="../public/css/common_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="index_header" />
+<div class="index_main">
+	<div class="ileft">
+		<div class="hellow">
+			<div class="tit"><span>{$am_pm}，亲爱的HR</span><br />今天是{:date('Y年m月d日',time())}&nbsp;&nbsp;&nbsp;星期{$week[date('w')]}</div>
+			<div class="td1">
+				<div class="mygold link_yellow">{:C('qscms_points_byname')}：&nbsp;<a href="{:U('companyService/points')}"><span class="my_points_num">{$points}</span></a></div>
+				<div class="link_blue"><a href="{:U('companyService/points')}">做任务赚{:C('qscms_points_byname')}</a></div>
+			</div>
+			<div class="td2">
+				<div id="J_sign_in" class="J_hoverbut <if condition="$issign">btn_lightgray<else/>btn_yellow</if>"><if condition="$issign">已签到<else/>未签到</if></div>
+			</div>
+			<div class="clear"></div>
+			<div class="btnbox link_gray6">
+				<if condition="$upper_limit neq 1">
+					<a href="{:U('jobs_add')}" class="btn1">发布职位</a>
+				<else/>
+					<a href="javascript:;" class="J_addJobsDig btn1">发布职位</a>
+				</if>
+				<a href="javascript:;" class="btn2" id="refresh_jobs_all">刷新职位</a>
+				<a target="_blank" href="{:url_rewrite('QS_resumelist')}" class="btn3">搜索简历</a>
+			</div>
+		</div>
+		<if condition="$setmeal">
+			<div class="vip">
+				<if condition="$setmeal['setmeal_id'] eq 1">
+					<div class="tit link_gray6">
+						我的服务：<a href="{:U('companyService/index')}" class="vipname">{$setmeal.setmeal_name}</a><br/>
+						<span><a target="_blank" href="{:U('CompanyService/explain')}" target="_blank">VIP会员享受更多招聘特权</a></span>
+					</div>
+					<div class="open">
+						<a class="openbtn J_hoverbut"  href="{:U('companyService/index')}">开通VIP会员</a>
+					</div>
+				<else/>
+					<div class="tit link_gray6">
+						我的服务：<a href="{:U('companyService/index')}">{$setmeal.setmeal_name}</a><br/>
+						<span>
+							({:date('Y-m-d',$setmeal['starttime'])} 至 <eq name="setmeal['endtime']" value="0">--<else/>{:date('Y-m-d',$setmeal['endtime'])}</eq>)
+						</span>
+						<div class="btnbox">
+						    <div class="viewbtn J_hoverbut" onclick="window.location='{:U('jobs_list')}'">可发布职位：<strong title="{$surplus_jobs_num}">{$surplus_jobs_num}</strong></div>
+							<div class="viewbtn btn2 J_hoverbut" onclick="window.location='{:U('resume_down')}'">剩余简历点：<strong title="{$setmeal['download_resume']}">{$setmeal['download_resume']}</strong></div>
+						</div>
+					</div>
+				</if>
+			</div>
+		</if>
+		<!-- 客服-->
+		<notempty name="consultant">
+			<div class="service">
+				<div class="tit">专属客服</div>
+				<div class="pic">
+					<div class="td1"><img src="{:attach($consultant['pic'],'consultant')}"  width="70"  height="70"  border="0"/></div>
+					<div class="td2">
+						<div class="name">{$consultant.name}</div>
+							<a target="blank" href="tencent://message/?uin={$consultant.qq}&Site=menu&Menu=yes"><img border="0" SRC=http://wpa.qq.com/pa?p=1:{$consultant.qq}:1 alt="点击这里给我发消息"></a>
+						</div>
+					<div class="clear"></div>
+				</div>
+				<if condition="$consultant['mobile'] || $consultant['tel']">
+				<div class="tel">
+					<if condition="$consultant['mobile']">
+					手机：{$consultant.mobile}<br />
+					</if>
+					<if condition="$consultant['tel']">
+					电话：{$consultant.tel}
+					</if>
+				</div>
+				</if>
+				<div class="btnbox">
+					<div class="J_hoverbut btn_complaint">投诉TA</div>
+				</div>
+			</div>
+		</notempty>
+	</div>
+	<div class="iright">
+		<if condition="!$cominfo_flge">
+			<div class="cominfotip">
+				<div class="td1">
+					<div class="t">贵公司的资料还未填写完整，可能会影响您的招聘效果哦！</div>
+					<div class="v">完善公司基本信息、联系方式、上传营业执照…等，可以有效提高招聘成功率	 </div> 
+				</div>
+				<div class="td2">
+					<a href="{:U('com_info')}" class="btn_yellow J_hoverbut btn_100_38 btn_border">马上完善资料</a>
+					<div class="J_companyinfo closs J_hoverbut" title="关闭"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		<else />
+			<if condition="$comgift_flge">
+			<div class="comgifttip">
+				<div class="td1">
+					<div class="t">恭喜您获得{$giftcount}张会员优惠券，请及时使用哦！</div>
+					<div class="v">使用会员优惠券可以更低价获得招聘特权，会员有效期内享受增值服务专享折扣！</div> 
+				</div>
+				<div class="td2">
+					<a href="{:U('CompanyService/gifts')}" class="btn_yellow J_hoverbut btn_100_38 btn_border">立即查看</a>
+					<div class="J_companygift closs J_hoverbut" title="关闭"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			</if>
+		</if>
+		
+			
+		
+		<div class="i_main">
+			<div class="comlogo">
+				<div class="log link_blue">
+		        	上次登录：<eq name="visitor['last_login_time']" value="0">从未登录<else />{:date('Y-m-d H:i',$visitor['last_login_time'])}</eq>&nbsp;&nbsp;&nbsp;<a href="{:U('user_loginlog')}">[查看登录日志]</a>
+		        </div>
+				<div class="td1">
+					<div class="logobox">
+						<a href="{:U('com_info')}"><img src="<if condition="$company_profile['logo']">{:attach($company_profile['logo'],'company_logo')}<else/>{:attach('no_logo.png','resource')}</if>?{:time()}" width="120" height="120" border="0" /></a>
+					</div>
+				</div>
+				<div class="td2">
+					<if condition="$company_profile['companyname']">
+						<div class="comname link_blue substring">
+							{$company_profile.companyname} <a href="{:U('com_info')}">编辑</a>
+						</div>
+					</if>
+	  		  		<if condition="$company_profile['nature']">
+					<div class="txt_line mt8 link_blue">{$company_profile.nature_cn} | {$company_profile.trade_cn} | {$company_profile.scale_cn} | {$company_profile.district_cn}</div>
+	  		  		<else />
+	  		  		<div class="txt_line mt8 link_blue">完善企业基本资料是招聘的第一步，立即 <a href="{:U('com_info')}">完善资料</a></div>
+	  		  		</if>
+	  		  		<if condition="$tag_arr">
+					<div class="tag_group mt14">
+					<volist name="tag_arr" id="vo">
+	  		  			<div class="group_cell"><div class="tag_cell">{$vo}</div></div>
+	  		  		</volist>
+	  		  		<div class="clear"></div>
+	  		  		</div>
+	  		  		<else />
+					<div class="txt_line mt17 link_blue"><a href="{:U('com_info')}">添加企业福利</a>，让职位更有魅力</div>
+	  		  		</if>
+			        <div class="checkbox mt15 link_blue">
+						<!--已经认证的叠加css  ok -->
+						<if condition="$company_profile['audit'] eq 1">
+							<a href="{:U('com_auth')}" class="btns btn1 ok">企业已认证</a>
+						<else/>
+							<a href="{:U('com_auth')}" class="btns btn1">企业未认证</a>
+						</if>
+						<notempty name="wx_status">
+							<if condition="$weixin_bind">
+								|<a href="{:U('user_security')}" class="btns btn4 ok">微信已认证</a>
+							<else/>
+								|<a href="{:U('user_security')}" class="btns btn4 J_bind_wx">微信未认证</a>
+							</if>
+						</notempty>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+	        <div class="counts">
+				<div class="cli">
+					<div class="item J_hoverbut" onclick="window.location='{:U('jobs_list')}'">
+						<div class="n">{$total_audit_jobs}</div>
+						<div class="t">招聘中的职位</div>
+					</div>
+				</div>
+				<div class="cli">
+					<div class="item J_hoverbut" onclick="window.location='{:U('jobs_apply')}'">
+						<div class="n">{$total_nolook_resume}</div>
+						<div class="t">待处理简历</div>
+					</div>
+				</div>
+				<div class="cli">
+					<div class="item J_hoverbut" onclick="window.location='{:U('jobs_interview')}'">
+						<div class="n">{$total_interview}</div>
+						<div class="t">面试邀请</div>
+					</div>
+				</div>
+				<div class="cli">
+					<div class="item J_hoverbut" onclick="window.location='{:U('company/jobs_viewlog')}'">
+						<div class="n">{$total_view}</div>
+						<div class="t">谁在关注我</div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="data">
+				<div class="titbg">
+					<div class="btns">
+						<div class="select_input input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+							<span class="J_listitme_text">
+								访客统计
+							</span>
+							<div class="dropdowbox12 J_dropdown_menu">
+					            <div class="dropdow_inner12">
+					                <ul class="nav_box">
+					                	<li><a class="J_listitme statistics_select" href="javascript:;" data_k="type" data_val="visitor">访客统计</a></li>
+					                	<li><a class="J_listitme statistics_select" href="javascript:;" data_k="type" data_val="viewjobs">职位浏览</a></li>
+					                	<li><a class="J_listitme statistics_select" href="javascript:;" data_k="type" data_val="apply">应聘统计</a></li>
+					                </ul>
+					            </div>
+					        </div>
+					        <input class="J_listitme_code statistics_type" name="" type="hidden" value="visitor" />
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="btns1">
+						<div class="select_input input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+							<span class="J_listitme_text">
+								最近7天
+							</span>
+							<div class="dropdowbox12 J_dropdown_menu">
+					            <div class="dropdow_inner12">
+					                <ul class="nav_box">
+					                	<li><a class="J_listitme statistics_select" href="javascript:;" data_k="settr" data_val="7">最近7天</a></li>
+					                	<li><a class="J_listitme statistics_select" href="javascript:;" data_k="settr" data_val="15">最近15天</a></li>
+					                	<li><a class="J_listitme statistics_select" href="javascript:;" data_k="settr" data_val="30">最近30天</a></li>
+					                </ul>
+					            </div>
+					        </div>
+					        <input class="J_listitme_code statistics_settr" name="" type="hidden" value="7" />
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="more link_blue"><a href="{:U('company/statistics_visitor')}">查看详细>></a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="info statistics_wrap">暂无数据...</div>
+			</div>
+			<div class="resumetit">
+			  		<div class="lt">推荐简历</div>
+					<div class="rt link_blue"><a href="javascript:;" class="more J_refresh" data-ajaxtype="recommend_jobs" ajaxpage="2">换一批</a></div>
+					<div class="clear"></div>
+			</div>
+	        <div class="resumelist">
+	        	<notempty name="resume_list">
+					<volist name="resume_list" id="resume">
+						<div class="li">
+							<div class="bg J_hoverbut">
+							 	<div class="photobox">
+							 		<a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$resume['id']))}">
+							 			<img  border="0" src="{$resume['photosrc']}" />
+							 		</a>
+							 	</div>
+								<div class="info">
+									  <div class="name link_blue"><a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$resume['id']))}">{$resume.fullname}</a></div>
+									  <div class="time">{:date('Y-m-d',$resume['refreshtime'])}</div>
+									  <div class="clear"></div>
+								      <div class="txt">{$resume['sex_cn']} | {$resume['age']}岁 | {$resume['education_cn']} | {$resume['experience_cn']} <br /><div class="substring">{$resume['intention_jobs']}</div> </div>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</volist>
+				<else />
+					<div class="res_empty link_blue">
+						抱歉，没有找到相关简历，请<a href="{:U('jobs_add')}">发布职位</a>让求职者主动投递简历。
+					</div>
+				</notempty>
+				<div class="clear"></div>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<include file="index_footer" />
+<script type="text/javascript" src="../public/js/company/fusioncharts/fusioncharts.js"></script>
+<script type="text/javascript" src="../public/js/company/fusioncharts/fusioncharts.theme.fint.js"></script>
+<if condition="$weixin_focus">
+	<script id="weixin_focus" type="html/javascript">
+		<div class="dia_wx">
+			<div class="dia_tit">公众号绑定</div><div class="dia_close"></div><div class="dia_never" id="J_never_tip">不再提示</div>
+			<div class="dia_t1">扫码关注微信公众号</div><div class="dia_t2">及时接收简历投递通知 优秀人才一手掌握</div>
+			<div class="dia_qr">{$weixin_img}</div>
+			<div class="dia_t3">手机微信扫一扫</div>
+		</div>
+	</script>
+	<script type="text/javascript">
+        var qsDialog = $(this).dialog({
+            loading: false,
+            header: false,
+            showFooter: false,
+            border: false,
+            innerPadding: false,
+            content:$('#weixin_focus').html()
+        });
+        var tipSw = true;
+        $('#J_never_tip').live('click', function() {
+        	if (!tipSw) { return false; }
+        	$(this).toggleClass('check');
+			tipSw = false;
+			$.getJSON("{:U('members/sign_wx')}",function(result){
+				if(result.status == 1){
+
+					$('.modal_backdrop').remove();
+					$('.modal').remove();
+				}else{
+					disapperTooltip('remind',result.msg);
+				}
+				tipSw = true;
+			});
+        });
+        $('.dia_close').live('click', function() {
+        	$('.modal_backdrop').remove();
+			$('.modal').remove();
+        });
+    </script>
+</if>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".J_bind_wx").click(function(){
+			$('#J_popWeixin').show();
+		});
+		// 关闭微信绑定提示
+        $('#J_popWeixin .close').on('click', function(){
+            $('#J_popWeixin').hide();
+        });
+        $('.J_companyinfo').click(function(){
+        	$(this).closest('.cominfotip').remove();
+        });
+        $('.J_companygift').click(function(){
+        	$(this).closest('.comgifttip').remove();
+        });
+		$('#J_sign_in').click(function(){
+			var f = $(this);
+	    	$.getJSON("{:U('members/sign_in')}",function(result){
+	    		if(result.status == 1){
+	    			disapperTooltip("goldremind", '每天签到增加'+result.data+'{:C('qscms_points_byname')}<span class="point">+'+result.data+'</span>');
+					f.addClass('btn_gray9').text('已签到');
+	    			$(".my_points_num").html(parseInt($(".my_points_num").html())+parseInt(result.data));
+	    		}else{
+	    			disapperTooltip('remind',result.msg);
+	    		}
+	    	});
+	    });
+		get_statistics_data();
+		$(".statistics_select").click(function(){
+			var data_k = $(this).attr('data_k');
+			var data_val = $(this).attr('data_val');
+			$(".statistics_"+data_k).val(data_val);
+			get_statistics_data();
+		});
+		function get_statistics_data(){
+			var type = $(".statistics_type").val();
+			var settr = $(".statistics_settr").val();
+			$.getJSON("{:U('company/ajax_get_statistics')}",{type:type,settr:settr},function(result){
+				$(".statistics_wrap").html(result.data);
+			});
+		}
+        var isDone = true; // 防止重复点击
+		// 换一批
+        $('.J_refresh').on('click', function(event) {
+        	var obj = $(this);
+        	var ajaxtype = obj.data('ajaxtype');
+        	var ajaxpage = parseInt(obj.attr('ajaxpage')); // 记录页数
+        	if (isDone) {
+        		isDone = false;
+	        	$.getJSON("{:U('company/ajax_get_interest_resume')}", {type: ajaxtype, p: ajaxpage}, function(data) {
+		        		$('.resumelist').html(data.data.html);
+		        		if(data.data.page==ajaxpage){
+		        			obj.attr('ajaxpage', 1);
+		        		}else{
+		        			obj.attr('ajaxpage', ajaxpage+1);
+		        		}
+		        		isDone = true;
+	        	});
+        	};
+        });
+        $("#refresh_jobs_all").click(function(){
+        	$.getJSON("{:U('CompanyService/jobs_refresh_all')}",function(result){
+        		if(result.status==1){
+        			disapperTooltip('success',result.msg);
+        		}
+        		else if(result.status==2)
+        		{
+        			var qsDialog = $(this).dialog({
+		                title: '批量刷新职位',
+		                loading: true,
+		                border: false,
+		                yes: function () {
+		                	window.location.href=result.data;
+		                }
+		            });
+		            qsDialog.setBtns(['单条刷新', '取消']);
+		            qsDialog.setContent('<div class="refresh_jobs_all_confirm">' + result.msg + '</div>');
+        		}
+        		else
+        		{
+        			disapperTooltip('remind',result.msg);
+        		}
+        	});
+        });
+        $(".btn_complaint").click(function(){
+        	var url = "{:U('Company/complaint_consultant')}";
+            var qsDialog = $(this).dialog({
+                title: '投诉客服',
+                loading: true,
+                border: false,
+                yes: function () {
+                	var notes = $("#notes").val();
+                    $.post(url, {notes:notes},function (result) {
+		                if (result.status == 1) {
+		                	disapperTooltip('success', result.msg);
+		                    qsDialog.setCloseDialog(true);
+		                } else {
+		                    disapperTooltip('remind', result.msg);
+		                    qsDialog.setCloseDialog(false);
+		                }
+		            },'json');
+                }
+            });
+            $.getJSON(url, function (result) {
+                if (result.status == 1) {
+                    qsDialog.setContent(result.data);
+                } else {
+                    disapperTooltip('remind', result.msg);
+                }
+            });
+        });
+		<if condition="$confirm_setmeal eq 1">
+			var confirmDialog = $(this).dialog({
+        		title: '温馨提示',
+				loading: true,
+				btns: ['立即缴费', '残忍拒绝'],
+				yes: function () {
+                    location.href="{:U('companyService/index')}";
+                }
+			});
+			$.getJSON("{:U('company/confirm_setmeal')}",function(result){
+				confirmDialog.setContent(result.data.html);
+			});
+		</if>
+	});
+</script>
+</body>
+</html>

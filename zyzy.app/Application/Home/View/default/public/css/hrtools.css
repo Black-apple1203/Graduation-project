@@ -1,0 +1,39 @@
+﻿/*HR工具箱首页*/
+.hr_nav{width:1198px;margin:0 auto;height:42px;line-height:42px;border:1px #EEEEEE solid;margin-top:25px;}
+.hr_nav .txt{padding-left:30px;}
+.hr_nav .txt span{padding-left:3px;padding-right:3px;}
+.hrlistbox{width:1200px;margin:0 auto;padding-bottom:30px;}
+.hrlistbox .list{float:left;width:600px;padding-top:50px;}
+.hrlistbox .list .l{float:left;width:110px;}
+.hrlistbox .list .l img{width:98px;height:98px;}
+.hrlistbox .list .r{float:left;width:460px;}
+.hrlistbox .list .r .tit{height:30px;font-size:16px;padding-right:25px;padding-top:7px;position:relative;float:left}
+.hrlistbox .list .r .tit .hot{position:absolute;right:0px;top:0px;width:21px;height:16px;background-image:url(../images/134.gif)}
+.hrlistbox .list .r .txt{line-height:190%;}
+
+/*HR工具列表页*/
+.hrl{width:1198px;margin:0 auto;border:1px #EEEEEE solid;margin-top:25px;}
+.hrl .tit{height:46px;line-height:46px;width:1168px;border-bottom:1px #EEEEEE solid;padding-left:30px;background-color:#F9F9F9}
+.hrl .tit span{padding-left:3px;padding-right:3px;}
+.hrl .txt{padding-left:30px;padding-top:15px;padding-bottom:15px;}
+.hrl .txt li{background-image:url(../images/123.png);background-repeat:no-repeat;background-position:10px -16px;width:180px;margin-left:20px;height:28px;line-height:28px;padding-left:20px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;float:left;margin-top:5px;margin-bottom:5px;}
+.hrl .txt li a{color:#0066CC}
+
+/*新首页*/
+.new-hr-tp{width:100%;height:155px;background-image:url(../images/nebanner.jpg);background-repeat:no-repeat;background-position:center center;}
+.new-hr-main{width:1117px;margin:0 auto;background:#FFF;padding-left:83px;padding-top:50px;margin-top:-100px;}
+.new-hr-main .nhm-cell{float:left;width:300px;height:348px;border:1px solid #dcdcdc;margin-right:65px;margin-bottom:65px;}
+.nhm-cell .hc-top-bar{width:300px;height:10px;background:#FFF;}
+.nhm-cell .hc-ic-bar{width:274px;height:147px;margin:0 auto;text-align:center;border-bottom:1px dashed #dcdcdc;}
+.nhm-cell .hc-ic-bar .hib-icon{display:inline-block;*display:inline;*zoom:1;}
+.hc-ic-bar .hib-icon img{max-width:70px;max-height:70px;border:0;}
+.hc-ic-bar .hc-sp-l{height:22px;line-height:22px;font-size:22px;color:#333;}
+.nhm-cell .hc-tx-bar{width:225px;height:117px;padding:25px 35px 0 35px;line-height:180%;}
+.nhm-cell .hc-m-l{height:18px;line-height:18px;text-align:center;}
+.nhm-cell .hc-m-l a{display:inline-block;*display:inline;*zoom:1;background:url(../images/240.png) right 4px no-repeat;padding-right:15px;color:#999;text-decoration:none;}
+.nhm-cell .hc-m-l a:hover{text-decoration:underline;}
+.nhm-cell:hover{filter:progid:DXImageTransform.Microsoft.Shadow(color=#CCCCCC,direction=120,strength=3);/*ie*/-moz-box-shadow:0px 0px 10px #CCCCCC;/*firefox*/-webkit-box-shadow:0px 0px 10px #CCCCCC;/*safari或chrome*/box-shadow:0px 0px 10px #CCCCCC;/*opera或ie9*/}
+.nhm-cell:hover .hc-top-bar{background:#00ae66;}
+.nhm-cell:hover .hc-m-l a{background:url(../images/240.png) right -15px no-repeat;color:#00ae66;}
+.hc-sp-h14{width:100%;height:14px;}
+.hc-sp-h20{width:100%;height:20px;}

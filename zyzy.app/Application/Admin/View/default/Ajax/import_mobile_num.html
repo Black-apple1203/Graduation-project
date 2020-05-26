@@ -1,0 +1,22 @@
+<div>
+    <form action="{:U('SmsQueue/import_num')}" encType="multipart/form-data" method="post">
+        <table width="100%" border="0" align="center" cellpadding="0" cellspacing="6">
+            <tr>
+                <td width="20" height="30">&nbsp;</td>
+                <td height="30"><strong  style="color:#0066CC; font-size:14px;">选择TXT文件</strong></td>
+            </tr>
+            <tr>
+                <td width="27" height="25">&nbsp;</td>
+                <td>
+                    <input name="number_file" type="file" id="number_file"/></td>
+            </tr>
+
+            <tr>
+                <td height="25">&nbsp;</td>
+                <td>
+                    <input type="submit" name="import_txt" value="确定" class="admin_submit"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>

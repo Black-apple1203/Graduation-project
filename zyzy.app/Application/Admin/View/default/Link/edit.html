@@ -1,0 +1,132 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>图片友情连接请上传LOGO或填写LOGO路径</p>
+</div>
+
+<div class="toptit">修改友情链接</div>
+<form id="form1" action="{:U('edit')}" method="post" enctype="multipart/form-data">
+    <div class="form_main width150">
+        <div class="fl">显示状态:</div>
+        <div class="fr">
+            <div data-code="2,1" class="imgchecked_small <eq name='info.display' value='1'>select</eq>"><input name="display" type="hidden" value="{$info['display']}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">链接名称:</div>
+        <div class="fr">
+            <input name="link_name" type="text" class="input_text_default middle" maxlength="50" value="{$info.link_name}"/>
+        </div>
+        <div class="fl">链接地址:</div>
+        <div class="fr">
+            <input name="link_url" type="text" class="input_text_default middle" maxlength="80" value="{$info.link_url}"/>
+        </div>
+        <div class="fl">添加到:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="alias" type="hidden" value="{$info['alias']}">
+                <volist name="category" id="li">
+                    <div class="radio <eq name='info.alias' value='$li.c_alias'>select</eq>" data="{$li.c_alias}" title="{$li.categoryname}">{$li.categoryname}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">显示顺序:</div>
+        <div class="fr">
+            <input name="show_order" type="text" class="input_text_default small" maxlength="3" value="{$info.show_order}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            <label class="no-fl-note">(数字越大越靠前)</label>
+        </div>
+        <div class="fl">链接LOGO:</div>
+        <div class="fr J-file-input-box link_blue">
+            <if condition="$info['link_logo']">
+                <div class="file-input-src">
+                    <div class="img"><img src="{:attach($info['link_logo'],'link_logo')}?_t={:time()}" align=absmiddle></div>
+                    <div class="del file-input-del" id="J_upload_link_img" name="link_logo">点击更换</div>
+                </div>
+            <else/>
+                <div class="file-input-src hid">
+                    <div class="img"></div>
+                    <div class="del file-input-del" id="" name="pic">点击更换</div>
+                </div>
+                <div class="file-input-block" id="J_upload_link_img" name="link_logo"><span class="o-txt">上传</span>LOGO</div>
+            </if>
+            <input type="hidden" class="file-input-save-name" name="link_logo" value="{$info.link_logo}">
+        </div>
+        <div class="fl">或LOGO地址:</div>
+        <div class="fr link_blue">
+            <input name="attach_file" type="text" class="input_text_default middle" maxlength="80" value="{$info.link_logo}"/>
+            <if condition="$info['link_logo']">
+                <a href="{:attach($info['link_logo'],'link_logo')}" target="_blank" style="margin-left: 15px; font-size: 12px;">[查看logo]</a>
+            </if>
+        </div>
+        <div class="fl">备注:</div>
+        <div class="fr">
+            <textarea name="notes" class="input_text_default middle" style="height: 100px; line-height: 20px;">{$info.notes}</textarea>
+            <div style="color: #999999;margin-top: 10px; font-size: 12px;">(备注不在前台显示，只作为管理员的备忘标记)</div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="link_id" type="hidden" value="{$info.link_id}"/>
+            <input type="button" class="admin_submit" value="保存" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+  var uploadUrl = "{:U('Upload/form_upload')}";
+</script>
+<script src="__ADMINPUBLIC__/js/ajaxfileupload.js"></script>
+<script src="__ADMINPUBLIC__/js/fileupload.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('edit')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存修改').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+      // 上传网站首页Logo
+      $.upload('#J_upload_link_img',{name:'link_logo',dir:'link_logo'},function(result){
+        if(result.error == 1){
+          var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+          $('#J_upload_link_img').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+          $('#J_upload_link_img').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+          if ($('#J_upload_link_img').hasClass('file-input-block')) {
+            $('#J_upload_link_img').closest('.J-file-input-box').find('.file-input-src').removeClass('hid');
+            var $delObj = $('#J_upload_link_img').closest('.J-file-input-box').find('.file-input-del');
+            $('#J_upload_link_img').remove();
+            $delObj.attr('id', "J_upload_link_img_change_btn");
+            $.upload('#J_upload_link_img_change_btn',{name:'link_logo',dir:'link_logo'},function(result){
+              if(result.error == 1){
+                var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+                $('#J_upload_link_img_change_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+                $('#J_upload_link_img_change_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+              } else {
+                disapperTooltip("remind", "上传失败："+result.message);
+              }
+            })
+          }
+        } else {
+          disapperTooltip("remind", "上传失败："+result.message);
+        }
+      });
+    });
+</script>
+</html>

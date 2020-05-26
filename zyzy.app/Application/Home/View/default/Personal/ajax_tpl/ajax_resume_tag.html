@@ -1,0 +1,211 @@
+<div class="guide_service_dialog">
+    <div class="guide_resume_placetop">
+        <div class="guide_service_dialog_head">独树一帜，展现能力，让工作主动来找你！</div>
+        <div class="guide_list_group labs">
+            <div class="guide_list_left">选择标签：</div>
+            <div class="guide_list_right">
+                <volist name="tag_arr" id="vo">
+                <div class="lab tag_tab <if condition="$key eq 0">select</if> J_lablist" data="{$vo['id']}">{$vo['name']}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="guide_list_group for_labs">
+            <div class="guide_list_left">选择时长：</div>
+            <div class="guide_list_right">
+                <volist name="choose_arr" id="vo">
+                <div class="placetop_list">
+                    <div class="list_box duration <if condition="$key eq 0">active</if> J_temp_list" days="{$vo['days']}" points="{$vo['points']}">{$vo['days']}天&nbsp;&nbsp;<span class="yellow_light">{$vo['points']}</span>{:C('qscms_points_byname')}<div class="hook"></div></div>
+                </div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="points_pay_increment">
+            <div class="guide_list_group last">
+                <div class="guide_list_left">所需{:C('qscms_points_byname')}：</div>
+                <div class="guide_list_right">
+                    <span class="yellow_light need_points"></span>&nbsp;&nbsp;&nbsp;&nbsp;您当前拥有 <span class="yellow_light">{$mypoints}</span> {:C('qscms_points_byname')}
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="guide_btn_group">
+                <div class="btn_guide" id="points_pay_submit">立即兑换</div>
+            </div>
+        </div>
+        <div class="cash_pay_increment">
+            <div class="guide_list_group last">
+                <div class="guide_list_left for_input">使用{:C('qscms_points_byname')}：</div>
+                <div class="guide_list_right">
+                    <input class="input_coin" id="J_integralforcash_input" type="text" placeholder="请输入要抵扣的{:C('qscms_points_byname')}数" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">&nbsp;&nbsp;&nbsp;&nbsp;您当前拥有 <span class="yellow_light">{$mypoints}</span> {:C('qscms_points_byname')}
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="guide_list_group last">
+                <div class="guide_list_left">应付金额：</div>
+                <div class="guide_list_right">
+                    <span class="yellow_light" id="pay_cash"></span> 元&nbsp;&nbsp;&nbsp;&nbsp;{:C('qscms_points_byname')}已抵扣 <span class="yellow_light" id="J_integralforcashvalue">0</span> 元
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="cash_btn_group">
+                <div class="cash_btn_cell">
+                    <a href="javascript:;" class="cash_pay_submit" payment="wxpay" form_id="cash_pay_form_increment"  data-action="{:U('CompanyService/increment_add_save')}">
+                        <div class="cell_icon"></div>
+                        <div class="cell_txt">微信扫码支付</div>
+                    </a>
+                </div>
+                <div class="cash_btn_cell">
+                    <a href="javascript:;" class="cash_pay_submit" payment="alipay" form_id="cash_pay_form_increment"  data-action="{:U('CompanyService/increment_add_save')}">
+                        <div class="cell_icon icon2"></div>
+                        <div class="cell_txt">支付宝快捷支付</div>
+                    </a>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <form id="cash_pay_form" method="post" action="{:U('PersonalService/increment_add_save')}">
+    <input type="hidden" id="amount" name="amount" value="">
+    <input type="hidden" name="resume_id" id="resume_id" value="{$resume_id}">
+    <input type="hidden" name="payment_name" id="payment_name" value="">
+    <input type="hidden" name="days" id="days" value="{$choose_arr[0]['days']}">
+    <input type="hidden" name="pay_type" value="cash">
+    <input type="hidden" name="type" value="tag">
+    <input type="hidden" name="need_cash" value="" id="need_cash">
+    <input type="hidden" name="is_deductible" id="is_deductible" value="0"><!-- 是否选中使用积分抵现 -->
+    <input type="hidden" name="deductible" id="deductible" value=""><!-- 抵现积分 -->
+    <input type="hidden" name="tagid" id="tagid" value="{$tag_arr[0]['id']}">
+    <input type="hidden" id="points" name="points" value="{$choose_arr[0]['points']}">
+    <input type="hidden" id="mypoints" value="{$mypoints}">
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".tag_tab").click(function(){
+            $(".tag_tab").removeClass('select');
+            $(this).addClass('select');
+            $("#tagid").val($(this).attr("data"));
+        });
+         function select_pay_type(){
+            var mypoints = parseInt($("#mypoints").val());
+            var current_points = parseInt($("#points").val());
+            if(mypoints<current_points){
+                $('#J_integralforcash_input').val(mypoints);
+                $('#deductible').val(mypoints);
+                $(".points_pay_increment").hide();
+                $(".cash_pay_increment").show();
+            }else{
+                $('#J_integralforcash_input').val(current_points);
+                $('#deductible').val(current_points);
+                $(".points_pay_increment").show();
+                $(".cash_pay_increment").hide();
+            }
+            if($('#J_integralforcash_input').val()>0){
+                $("#is_deductible").val(1);
+            }else{
+                $("#is_deductible").val(0);
+            }
+            $(".need_points").html(current_points);
+            var need_cash = current_points/parseInt("{$payment_rate}");
+            $("#need_cash").val(need_cash.toFixed(2));
+            $("#amount").val(need_cash.toFixed(2));
+            $('#J_integralforcashvalue').text(($('#J_integralforcash_input').val()/parseInt("{$payment_rate}")).toFixed(2));
+            $("#pay_cash").text((parseFloat($('#need_cash').val())-parseFloat($('#J_integralforcashvalue').text())).toFixed(2));
+            $('#amount').val((parseFloat($('#need_cash').val())-parseFloat($('#J_integralforcashvalue').text())).toFixed(2));
+        }
+        select_pay_type();
+        $(".duration").click(function(){
+            $(".duration").removeClass('active');
+            $(this).addClass('active');
+            $("#days").val($(this).attr('days'));
+            $("#points").val($(this).attr('points'));
+            select_pay_type();
+        });
+        $('#J_integralforcash_input').keyup(function() {
+            var mypoints = parseInt($("#mypoints").val());
+            var current_points = parseInt($("#points").val());
+            var minpointsValue = mypoints >= current_points ? current_points : mypoints;
+            var thisvalue = $(this).val();
+            if (thisvalue > minpointsValue) {
+                $('#J_integralforcash_input').val(minpointsValue);
+            };
+            if($('#J_integralforcash_input').val()>0){
+                $("#is_deductible").val(1);
+            }else{
+                $("#is_deductible").val(0);
+            }
+            $('#J_integralforcashvalue').text(($('#J_integralforcash_input').val()/parseInt("{$payment_rate}")).toFixed(2));
+            $('#deductible').val($('#J_integralforcash_input').val());
+            $("#pay_cash").text((parseFloat($('#need_cash').val())-parseFloat($('#J_integralforcashvalue').text())).toFixed(2));
+            $('#amount').val((parseFloat($('#need_cash').val())-parseFloat($('#J_integralforcashvalue').text())).toFixed(2));
+        });
+       
+        
+        $("#points_pay_submit").click(function(){
+            ajax_pay('tag','points');
+        });
+        $(".pays").click(function(){
+            $(this).siblings().removeClass('select');
+            $(this).addClass('select');
+            $("#payment_name").val($(this).attr("typename"));
+        });
+        $(".cash_pay_submit").click(function(){
+            $("#payment_name").val($(this).attr('payment'));
+            if($("#payment_name").val()=='wxpay'){
+                var qsDialog = $(this).dialog({
+                    title: '微信支付',
+                    loading: true,
+                    showFooter: false
+                });
+                $.ajax({
+                    cache: true,
+                    type: "POST",
+                    url:"{:U('PersonalService/increment_add_save')}",
+                    data:$('#cash_pay_form').serialize(),
+                    dataType:"json",
+                    success: function(result) {
+                        if(result.status==1){
+                            qsDialog.setContent("<img src='"+result.data+"' alt='扫描二维码' width='250' height='250' />");
+                            window.setInterval(run, 5000);
+                        }else{
+                            qsDialog.setContent(result.msg);
+                            return false;
+                        }
+                    }
+                });
+            }else{
+                $("#cash_pay_form").submit();
+            }
+        });
+
+    });
+    
+    function run(){
+        $.getJSON("{:U('PersonalService/check_weixinpay_notify')}",function(result){
+            if(result.status==1){
+               location.href=result.data;
+            }
+        });
+    }
+    function ajax_pay(type,pay_type){
+        var days = $("#days").val();
+        var resume_id = $("#resume_id").val();
+        var tagid = $("#tagid").val();
+        var payment_name = "points";
+        $.post("{:U('PersonalService/increment_add_save')}",{tagid:tagid,pay_type:pay_type,type:type,days:days,resume_id:resume_id,payment_name:payment_name},function(result){
+            if(result.status==1){
+                disapperTooltip("success", "兑换成功！");
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+            }else{
+                disapperTooltip("remind", result.msg);
+                return false;
+            }
+        },'json');
+    }
+</script>

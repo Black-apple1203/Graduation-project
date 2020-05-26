@@ -1,0 +1,172 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">统计：</div>
+    <p>
+        <volist name="setmeal_arr" id="vo">
+            {$vo['name']}：{$vo['count']}&nbsp;&nbsp;&nbsp;
+        </volist>        
+    </p>
+    <p>已到期：{$count1}&nbsp;&nbsp;&nbsp;未到期：{$count2}</p>
+</div>
+<div class="seltpye_y">
+    <div class="tit">套餐类型</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.setmeal_id' value=''>select</neq>">{$Think.get.setmeal_cn|default='不限'}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('setmeal_id'=>'','setmeal_cn'=>'不限'))}">不限</li>
+        <volist name="setmeal" id="vo">
+            <li url="{:P(array('setmeal_id'=>$key,'setmeal_cn'=>$vo))}">{$vo}</li>
+        </volist>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">套餐到期</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.overtime' value=''>select</neq>">{$Think.get.overtime_cn|default='不限'}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('overtime'=>'','overtime_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('overtime'=>'3','overtime_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('overtime'=>'7','overtime_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('overtime'=>'30','overtime_cn'=>'一月内'))}">一月内</li>
+        <li url="{:P(array('overtime'=>'180','overtime_cn'=>'半年内'))}">半年内</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">排序</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.sortby' value=''>select</neq>">{$Think.get.sortby_cn|default='添加时间'}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('sortby'=>'starttime','sortby_cn'=>'添加时间'))}">添加时间</li>
+        <li url="{:P(array('sortby'=>'endtime','sortby_cn'=>'到期时间'))}">到期时间</li>
+        <li url="{:P(array('sortby'=>'setmeal_id','sortby_cn'=>'套餐类型'))}">套餐类型</li>
+    </div>
+</div>
+<div class="clear"></div>
+
+    <div class="list_th">
+        <div class="td" style=" width:10%;">
+            <label id="chkAll" class="left_padding">
+                套餐名称
+            </label>
+        </div>
+        <div class="td center" style=" width:25%;">公司名称</div>
+        <div class="td center" style=" width:10%;">用户名</div>
+        <div class="td center" style=" width:15%;">开始时间</div>
+        <div class="td center" style=" width:10%;">结束时间</div>
+        <div class="td center" style=" width:10%;">剩余天数</div>
+        <div class="td" style=" width:15%;">操作</div>
+        <div class="clear"></div>
+    </div>
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:10%;">
+                <div class="left_padding striking">
+                    <if condition="$vo['setmeal_name']">
+                    <span <if condition="$vo['setmeal_id'] neq '1'">style="color: #FF6600"</if>>{$vo['setmeal_name']}</span>
+                    <else />
+                    <span style="color:#FF3300">无套餐</span>
+                </if>
+                <span class="view setmeal_detail" title="套餐详情" parameter="uid={$vo['uid']}">&nbsp;&nbsp;&nbsp;</span>
+                </div>
+            </div>
+            <div class="td center" style=" width:25%;"><a href="{$vo['company_url']}" target="_blank">{$vo['companyname']}</a> </div>
+            <div class="td center" style=" width:10%;">{$vo['username']|default='此会员已删除'}</div>
+            <div class="td center" style=" width:15%;"><if condition="$vo['starttime']">{:date('Y-m-d',$vo['starttime'])}<else />-</if></div>
+            <div class="td center" style=" width:10%;"><eq name="vo['endtime']" value="0">无限期<else />{:date('Y-m-d',$vo['endtime'])}</eq></div>
+            <div class="td center" style=" width:10%;">{$vo['leave_days']}</div>
+            <div class="td edit" style=" width:15%;">
+                <a href="javascript:;" class="J_setmeal_log blue" parameter="uid={$vo['uid']}">套餐日志</a>
+                <a href="{:U('edit',array('uid'=>$vo['uid'],'_k_v'=>$vo['id']))}">编辑</a>
+                <a href="javascript:;" class="J_message" parameter="uid={$vo['uid']}">发消息</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='公司名'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='公司名'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="公司名">公司名</li>
+                        <li id="2" title="公司ID">公司ID</li>
+                        <li id="3" title="会员名">会员名</li>
+                        <li id="4" title="会员ID">会员ID</li>
+                        <li id="5" title="地址">地址</li>
+                        <li id="6" title="电话">电话</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".J_message").click(function () {
+            $('.modal_backdrop').remove();
+            $('.modal').remove();
+            var qsDialog = $(this).dialog({
+                title: '发消息',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/ajax_message')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //审核日志
+        $(".J_setmeal_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '套餐日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/setmeal_log')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //套餐详情
+        $(".setmeal_detail").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '套餐详情',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/setmeal_detail')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+    });
+</script>
+</html>

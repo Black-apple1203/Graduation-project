@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta"/>
+    <link href="../public/css/company/common.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/company/company_rpo.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="Company:index_header"/>
+<div class="user_main">
+    <div class="mleft">
+        <include file="Company:left_service"/>
+    </div>
+    <div class="mright">
+        <div class="user_pagetitle">
+            <div class="pat_l">招聘外包</div>
+            <div class="clear"></div>
+        </div>
+        <div class="user_tab rpo_tab">
+            <a href="{:U('Home/CompanyService/rpo')}"
+               class="tabli <eq name='ACTION_NAME' value='rpo'>select</eq>">服务说明</a>
+            <a href="{:U('Home/CompanyService/rpo_list')}"
+               class="tabli <eq name='ACTION_NAME' value='rpo_list'>select</eq>">申请记录</a>
+            <div class="clear"></div>
+        </div>
+        <div class="rpo_service">
+            <p class="protit">招聘外包服务流程</p>
+            <ul class="process_list">
+                <li>
+                    <i class="step"></i>
+                    <div class="line"><i class="circle"></i></div>
+                    <span class="p_desc">了解企业需求，填写岗位说明书</span>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <i class="step i2"></i>
+                    <div class="line"><i class="circle i2"></i></div>
+                    <span class="p_desc">和企业洽谈招聘岗位及服务类型</span>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <i class="step i3"></i>
+                    <div class="line"><i class="circle i3"></i></div>
+                    <span class="p_desc">签订协议，成立项目组，确定招聘方案</span>
+                    <div class="clear"></div>
+                </li>
+                <li>
+                    <i class="step i4"></i>
+                    <div class="line"><i class="circle i4"></i></div>
+                    <span class="p_desc">执行招聘方案，筛选、组织面试、协助办理入职</span>
+                    <div class="clear"></div>
+                </li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+        <div class="rpo_service">
+            <div class="protit"><hr class="hr_line"/><span style="margin: 0 15px;">我们提供以下岗位的招聘外包服务</span><hr class="hr_line"/></div>
+            <ul class="service_job">
+                <volist name="cateJobList" id="vo">
+                    <li>
+                        <img src="{:attach($vo['cid'].'.png','rpo')}"/>
+                        <div class="s_name">{$vo['title']}</div>
+                        <div class="s_desc">{$vo['desc']}</div>
+                    </li>
+                </volist>
+                <div class="clear"></div>
+            </ul>
+        </div>
+
+        <div class="rpo_service">
+            <div class="protit">
+                <hr class="hr_line"/><span style="margin: 0 15px;">我们提供以下阶段的招聘外包服务</span><hr class="hr_line"/>
+            </div>
+            <ul class="service_type">
+                <volist name="cateStageList" id="vo">
+                    <li>
+                        <div class="img"><img src="{:attach($vo['cid'].'.png','rpo')}"/></div>
+                        <div class="content">
+                            <div class="s_name">{$vo['title']}</div>
+                            <div class="s_desc">{$vo['desc']}</div>
+                        </div>
+                    </li>
+                </volist>
+                <div class="clear"></div>
+            </ul>
+        </div>
+
+        <div class="rpo_service">
+            <div class="rpo_btn J_hoverbut"><a href="javascript:;" class="apply_rpo_btn J_hoverbut">申请服务</a></div>
+        </div>
+    </div>
+</div>
+<include file="Company:index_footer"/>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".apply_rpo_btn").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '申请RPO服务',
+                loading: true,
+                yes: function() {
+                    $('.J_btnyes').val('申请中...');
+                    $.post("{:U('Home/CompanyService/apply_rpo')}",$('#J_rpoWrap').serialize(),function(result){
+                        if(result.status == 1){
+                            qsDialog.hide();
+                            disapperTooltip('success',result.msg);
+                            setTimeout(function () {
+                                location.href = "{:U('Home/CompanyService/rpo_list')}";
+                            }, 2000);
+                        } else {
+                            $('.J_btnyes').val('确定');
+                            disapperTooltip('remind',result.msg);
+                        }
+                    },'json');
+                }
+            });
+            qsDialog.setCloseDialog(false);
+            var url = "{:U('CompanyService/apply_rpo')}";
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.msg);
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<notempty name="table_data">
+<volist name="table_data" id="vo">
+<div class="list_td">
+    <div class="td1 link_blue"><a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$vo['id']))}">{$vo['fullname']}</a></div>
+    <div class="td2">{$vo['sex_cn']} | {$vo['age']}岁 | {$vo['education_cn']} | {$vo['experience_cn']}</div>
+    <div class="td3">{$vo['intention_jobs']}</div>
+    <div class="td4">
+	    <switch name="view_time['source'][$mark][$vo['uid']]">
+		    <case value="1" break="1">PC端</case>
+		    <case value="2" break="1">触屏端</case>
+		    <case value="3" break="1">移动端</case>
+		    <default />PC端
+	    </switch> 
+    </div>
+    <div class="td5">{:fdate($view_time['time'][$mark][$vo['uid']])}</div>
+    <div class="clear"></div>
+</div>
+</volist>
+<div class="qspage">{$page}</div>
+<else />
+<div class="res_empty">
+	没有找到相应的信息！
+</div>
+</notempty>

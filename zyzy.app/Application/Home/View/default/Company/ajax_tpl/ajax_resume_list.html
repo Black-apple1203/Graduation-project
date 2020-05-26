@@ -1,0 +1,25 @@
+<notempty name="resume_list">
+<volist name="resume_list" id="resume">
+	<div class="li">
+		<div class="bg J_hoverbut">
+		 	<div class="photobox">
+		 		<a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$resume['id']))}">
+		 			<img  border="0" src="{$resume['photosrc']}" />
+		 		</a>
+		 	</div>
+			<div class="info">
+				  <div class="name link_blue"><a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$resume['id']))}">{$resume.fullname}</a></div>
+				  <div class="time">{:date('Y-m-d',$resume['refreshtime'])}</div>
+				  <div class="clear"></div>
+			      <div class="txt">{$resume['sex_cn']} | {$resume['age']}岁 | {$resume['education_cn']} | {$resume['experience_cn']} <br /><div class="substring">{$resume['intention_jobs']}</div> </div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+</volist>
+<else />
+<div class="res_empty link_blue">
+	抱歉，没有找到相关简历，请<a href="{:U('jobs_add')}">发布职位</a>让求职者主动投递简历。
+</div>
+</notempty>
+<div class="clear"></div>

@@ -1,0 +1,41 @@
+﻿/*收藏和关注*/
+@charset "utf-8";
+/*职位收藏夹*/
+.favorites{ margin-left:30px; border-bottom:1px #EDEDED solid; height:20px;  padding-top:20px; padding-bottom:20px; font-size:14px; width:890px; font-size:13px;}
+.favorites.hover{background-color:#F6F6F6}
+.favorites .td1{ width:202px; padding:0 15px; }
+.favorites .td1.overnowrap{white-space:nowrap;_white-space:normal;_height:20px;overflow:hidden;text-overflow:ellipsis;-o-text-overflow:ellipsis;_background:transparent;}
+.favorites .td2{ width:207px;padding-right: 15px;}
+.favorites .td3{ width:172px; }
+.favorites .td4{ width:142px;color:#FF6600}
+.favorites .td5{ width:92px;}
+.favorites .td5 .but1{ width:20px; height:20px; float:left; margin-right:15px;background:url(../../images/37.png) no-repeat 2px 2px;text-decoration:none; display:block; margin-top:2px; }
+.favorites .td5 .but1.hover{ background:url(../../images/37.png) no-repeat 2px -26px; }
+.favorites .td5 .but2{ width:20px; height:20px; float:left; background:url(../../images/37.png) no-repeat 2px -54px;text-decoration:none; display:block;margin-top:2px;}
+.favorites .td5 .but2.hover{ background:url(../../images/37.png) no-repeat 2px -84px;}
+
+.favorites_th{ margin-left:30px; margin-top:15px; font-size:14px; width:890px;background-color:#F7F7F7; height:36px ; padding-top:6px;font-size:13px; }
+.favorites_th .th1{float:left; width:194px; padding-left:38px; padding-top:5px;}
+.favorites_th .th2{float:left; width:222px;padding-top:5px;}
+.favorites_th .th3{float:left; width:172px;padding-top:5px;}
+.favorites_th .th4{float:left; width:132px;padding-top:5px;}
+.favorites_th .th5{float:left; width:92px;}
+
+.favorites_list_but{ margin-top:15px; padding-left:30px;}
+.favorites_list_but .td1{ width:23px; padding-left:15px; padding-top:12px;}
+.favorites_list_but .td2{ width:90px;}
+.favorites_list_but .td3{ width:90px;}
+
+/*关注的企业*/
+.concern{ padding-left:30px;}
+.concern .list{ margin-right:22px; border:2px #EFEFEF solid;  width:430px; _width:426px;height:150px; float:left; background-color:#F8F8F8; position:relative; margin-bottom:25px;}
+.concern .list.hover{border:2px #5F8DC9 solid; }
+.concern .list .comlogo{ height:100px; width:100px; padding:1px; border: 1px #E4E4E4 solid; margin: 22px 0 22px 22px; float: left;}
+.concern .list .com{float: left; margin: 22px 0 22px 15px;width: 267px;height: 104px;}
+.concern .list .com .comname{ width: 267px; height:35px; font-size:16px;}
+.concern .list .com .jobs_count{ height:25px; font-size:12px;}
+.concern .list .com .jobs{ width:167px; font-size:13px; line-height:220%; float: left;}
+.concern .list .com .salary{ width:100px; font-size:13px; line-height:220%; float: left; text-align: right; color:#ff6600;}
+.concern .list .com .more{ height:18px; font-size:12px; margin-top:15px;}
+.concern .list .del{ background:url(../../images/39.png) no-repeat 0px 0px; width:34px; height:34px; right:0px; bottom:0px; position:absolute; display:none;}
+.concern .list.hover .del{ display:block; cursor:pointer}

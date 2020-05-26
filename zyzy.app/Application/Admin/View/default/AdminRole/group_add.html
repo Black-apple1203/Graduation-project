@@ -1,0 +1,66 @@
+<include file="public:header" />
+    <div class="toptip">
+        <h2>提示：</h2>
+        <p>通过管理员角色设置，您可以进行编辑管理员角色权限以及删除管理员角色等操作；</p>
+    </div>
+    <div class="toptit">新增管理员角色组</div>
+    <form id="form1" name="form1" method="post" action="{:U('AdminRole/group_add')}">
+        <table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF"  >
+            <tr>
+                <td width="120" height="30" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">所属权限组：</td>
+                <td bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">
+                    <select name="mid">
+                        <volist name="menus['parent']" id="parent">
+                            <option value="{$parent.id}" <if condition="$Think.get.pid eq $parent['id']">selected="selected"</if>>{$parent.name}</option>
+                        </volist>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td width="120" height="30" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">角色组名称：</td>
+                <td bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">
+                    <input name="name" type="text" class="input_text_200" id="name" maxlength="25" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td width="120" height="30" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">角色组权限：</td>
+                <td bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">
+                    <input name="mids" type="text" class="input_text_200" id="J_mids" disabled="true" value=""/>
+                    <input id="J_auth" type="button" class="admin_submit" value="选择权限"/>
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">角色组描述：</td>
+                <td bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed" >
+                    <textarea name="remark" id="remark" cols="70" rows="3" style="font-size:12px;"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td width="120" align="right">排序:</td>
+                <td>
+                    <input name="ordid" type="text" class="input_text_200" value="0"/>
+                </td>
+            </tr>
+            <tr>
+                <td height="30" align="right" bgcolor="#FFFFFF" >&nbsp;</td>
+                <td height="50" bgcolor="#FFFFFF" > 
+                    <input type="submit" class="admin_submit" value="添加"/>
+                    <input type="button" class="admin_submit" value="返回" onclick="window.location='{:U('AdminRole/group')}'"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $("#J_auth").QSdialog({
+        DialogTitle:"权限选择",
+        DialogContentType:"url",
+        DialogContent:"{:U('AdminRole/ajax_auth')}&"
+    });
+    function set_auth_input(a){
+        $('#J_mids').val(a)
+    }
+</script>
+</body>
+</html>

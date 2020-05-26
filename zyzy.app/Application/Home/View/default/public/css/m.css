@@ -1,0 +1,135 @@
+﻿/***
+***网站首页手机频道
+***/
+
+/*CSS reset*/
+body{margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:8px;font-size:14px;color:#666666;font-family:"microsoft yahei","宋体";background-color:#FFFFFF;}
+h1,h2,h3,h4,h5,form,p,ul{margin:0px;padding:0px;font-weight:normal;}
+ul,ol{list-style:none;}
+input,textarea{font-family:Arial,"宋体",sans-serif;font-size:14px;color:#666666;outline:none;border:0;margin:0;padding:0;}
+li{padding:0px;margin:0px;list-style-type:none;}
+a{text-decoration:none;}
+img{border:0;}
+.clearfix:after{content:"";display:block;clear:both;}
+.clearfix{zoom:1;}
+.f-left{float:left;}
+.f-right{float:right;}
+label{cursor:pointer;}
+textarea{border:0;resize:none;overflow:auto;}
+input.checkbox{position:relative;top:2px;margin-right:7px;}
+input.radio{position:relative;top:2px;margin-right:5px;}
+.container{width:1000px;margin:0 auto;}
+
+/*头部*/
+#mobile-header{width:100%;height:100px;background-color:#fff;}
+#mobile-header .container{height:100%;}
+#mobile-header .m-logo{padding-top:15px;overflow:hidden;height:70px;}
+#mobile-header .back-index{width:48px;height:18px;background:url(../images/161.png) no-repeat 0px 0px;margin-left:10px;margin-top:15px;}
+#mobile-header .mobile-nav{font-size:16px;padding-top:40px;}
+#mobile-header .mobile-nav li{float:left;width:125px;text-align:center;border-right:1px solid #ccc;line-height:20px;}
+#mobile-header .mobile-nav li.last{border-right:0;}
+#mobile-header .mobile-nav li a{color:#333;}
+#mobile-header .mobile-nav li a:hover,#mobile-header .mobile-nav li.active a{color:#0180cf;}
+
+/*banner*/
+
+/*android*/
+#banner-block{width:100%;height:470px;overflow:hidden;background-color:#fff;}
+#banner-block .banner-wrap{width:100%;height:470px;}
+#banner-block .banner-wrap .container{position:relative;}
+#banner-block .banner-wrap.android{background:url(../images/165.jpg) no-repeat top center #9ad874;}
+#banner-block .android .a-text-wrap{position:absolute;left:450px;top:110px;}
+#banner-block .android .a-text-wrap h1,#banner-block .android .a-text-wrap h3{color:#fff;}
+#banner-block .android .a-text-wrap h1{font-size:40px;margin-bottom:20px;}
+#banner-block .android .a-text-wrap h3{font-size:24px;}
+#banner-block .android .a-text-wrap .down-code{padding-top:30px;}
+#banner-block .android .a-text-wrap .down-code .android-download{width:245px;height:70px;margin:20px 45px 0 0;background:url(../images/163.png) no-repeat 0px 0px;}
+#banner-block .android .a-text-wrap .down-code .down-code-box{width:135px;text-align:center;font-family:"SimSun";font-size:12px;color:#333;}
+#banner-block .android .a-text-wrap .down-code .down-code-box p{margin-top:10px;}
+
+/*iOS*/
+#banner-block .banner-wrap.ios{background:url(../images/166.jpg) no-repeat top center #44aaf9;}
+#banner-block .ios .a-text-wrap{position:absolute;top:96px;left:450px;color:#fff;}
+#banner-block .ios .a-text-wrap h2,#banner-block .ios .a-text-wrap h3{font-size:40px;line-height:60px;font-weight:normal;}
+#banner-block .ios .a-text-wrap h3{text-indent:2em;}
+#banner-block .ios .a-text-wrap p{margin-top:10px;font-size:18px;margin-bottom:40px;}
+#banner-block .ios .a-text-wrap .ios-download{display:block;width:245px;height:70px;margin:20px 45px 0 0;background:url(../images/169.png) no-repeat 0px 0px;}
+#banner-block .ios .a-text-wrap .down-code .down-code-box{width:135px;text-align:center;font-family:"SimSun";font-size:12px;color:#333;}
+#banner-block .ios .a-text-wrap .down-code .down-code-box p{margin-top:10px;font-size:12px;}
+
+/*wap*/
+#banner-block .banner-wrap.wap{background:url(../images/167.jpg) no-repeat top center #ffad43;}
+#banner-block .wap .wpage-img{position:absolute;top:158px;left:138px;}
+#banner-block .wap .a-text-wrap{position:absolute;top:100px;left:450px;color:#fff;}
+#banner-block .wap .a-text-wrap h1{font-size:38px;margin-bottom:10px;}
+#banner-block .wap .a-text-wrap h2{font-size:24px;margin-bottom:25px;}
+#banner-block .wap .a-text-wrap .wap-input{width:400px;height:40px;line-height:40px;background:url(../images/174.jpg) no-repeat 0px 0px;font-size:16px;color:#333;padding-left:20px;}
+#banner-block .wap .a-text-wrap .wap-code{margin-left:290px;margin-top:35px;text-align:center;width:140px;}
+#banner-block .wap .a-text-wrap .wap-code p{color:#fff;font-size:16px;margin-top:8px;}
+
+/*微信*/
+#banner-block .banner-wrap.wechat{background:url(../images/168.jpg) no-repeat top center #22ac38;}
+#banner-block .wechat .chatpage-img{position:absolute;top:164px;left:127px;}
+#banner-block .wechat .a-text-wrap{position:absolute;left:487px;top:90px;color:#fff;width:398px;}
+#banner-block .wechat .a-text-wrap .weimg-box{}
+#banner-block .wechat .a-text-wrap .weimg-box .wechat-icon{width:125px;height:105px;background:url(../images/173.png) no-repeat 0px 0px;}
+#banner-block .wechat .a-text-wrap .weimg-box .wechat-code-box{background:url(../images/176.png) no-repeat 0px 0px;width:184px;height:132px;}
+#banner-block .wechat .a-text-wrap .weimg-box .wechat-code-box img{margin:8px 0 0 76px;}
+#banner-block .wechat .a-text-wrap h4{font-size:20px;margin-bottom:25px;}
+#banner-block .wechat .a-text-wrap .wechat-sreach{padding-left:72px;width:325px;height:56px;line-height:56px;font-size:16px;background:url(../images/178.png) no-repeat 0px 0px;margin-bottom:32px;}
+#banner-block .wechat .a-text-wrap p{font-size:14px;line-height:20px;}
+
+/*android-iOS通用*/
+.mobile-app-sp{height:368px;}
+.mobile-app-sp .mobile-app-item{width:250px;text-align:center;padding-top:50px;}
+.mobile-app-sp .mobile-app-item .ma-icon{width:120px;height:120px;margin:0 auto 30px auto;background:url(../images/162.png) no-repeat;}
+.mobile-app-sp .mobile-app-item .ma-icon.icon-one{background-position:0px 0px;}
+.mobile-app-sp .mobile-app-item .ma-icon.icon-two{background-position:-152px 0px;}
+.mobile-app-sp .mobile-app-item .ma-icon.icon-three{background-position:-302px 0px;}
+.mobile-app-sp .mobile-app-item .ma-icon.icon-four{background-position:-452px 0px;}
+.mobile-app-sp .mobile-app-item h4{font-size:24px;color:#333;font-weight:normal;margin-bottom:10px;}
+.mobile-app-sp .mobile-app-item p{font-size:16px;color:#666;line-height:28px;}
+
+/*android-main*/
+.m-main{width:100%;}
+.m-main .m-row{width:100%;height:370px;overflow:hidden;background-color:#fff;}
+.m-main .m-row.odd{background-color:#eeeeee;}
+.m-main .m-row .row-left-text{padding-left:98px;padding-top:125px;}
+.m-main .m-row .row-left-text h2,.m-main .m-row .row-right-text h2{font-size:36px;color:#333;margin-bottom:12px;}
+.m-main .m-row .row-left-text p,.m-main .m-row .row-right-text p{font-size:18px;color:#333;line-height:26px;}
+.m-main .m-row .row-right-box{position:relative;width:330px;height:370px;}
+.m-main .m-row .row-right-box .phone-block{position:absolute;left:0;bottom:0;}
+.m-main .m-row .row-right-box .phone-block.android-phone{width:175px;height:270px;background:url(../images/164.png) no-repeat 0px 0px;z-index:5;}
+.m-main .m-row .row-right-box .phone-block.android-phone .app-img{margin-top:41px;margin-left:5px;}
+.m-main .m-row .row-right-box .phone-block.ios-phone{width:192px;height:290px;background:url(../images/170.png) no-repeat 0px 0px;}
+.m-main .m-row .row-right-box .phone-block.ios-phone .app-img{margin-top:60px;margin-left:16px;}
+.m-main .m-row .row-right-box .enlarge-block{width:194px;height:194px;background:url(../images/172.png) no-repeat center center;position:absolute;top:43px;left:-135px;z-index:6;}
+.m-main .m-row .row-left-img{padding-top:50px;padding-left:98px;}
+.m-main .m-row .row-right-text{width:450px;padding-top:125px;}
+
+/*wap*/
+.m-main .m-row.wap .row-left-text{padding-left:103px;}
+.m-main .m-row.wap .row-right-box .more-phone{margin-top:91px;margin-left:-50px;}
+.m-main .m-row.wap .wap-phone-block{margin-left:139px;margin-top:80px;width:192px;height:290px;background:url(../images/170.png) no-repeat 0px 0px;position:relative;}
+.m-main .m-row.wap .wap-phone-block img{margin-top:60px;margin-left:16px;}
+.m-main .m-row.wap .wap-phone-block .wap-sp-block{position:absolute;top:16px;left:-72px;width:322px;height:225px;background:url(../images/175.png) no-repeat 0px 0px;}
+
+/*微信*/
+.wechat-top-title{width:100%;margin-top:45px;height:60px;border-top:1px solid #ccc;}
+.wechat-top-title h2{padding:0 45px 0 20px;font-size:20px;color:#333;margin-top:-14px;float:left;background:url(../images/171.jpg) no-repeat 223px center #fff;}
+.m-main .m-row.weixin .wechat-left-text{padding:115px 0 0 110px;}
+.m-main .m-row.weixin .wechat-right-text{width:457px;padding-top:95px;}
+.m-main .m-row.weixin .wechat-left-text h3,.m-main .m-row.weixin .wechat-right-text h3{font-size:72px;padding-right:20px;border-bottom:1px solid #ccc;color:#333;font-weight:normal;display:inline-block;margin-bottom:15px;font-family:Arial;}
+.m-main .m-row.weixin .wechat-left-text p,.m-main .m-row.weixin .wechat-right-text p{font-size:18px;color:#333;line-height:26px;}
+.m-main .m-row.weixin .wechat-right-img{width:335px;height:370px;position:relative;}
+.m-main .m-row.weixin .wechat-right-img .wechat-phone{position:absolute;left:0;bottom:0;width:192px;height:290px;background:url(../images/170.png) no-repeat 0px 0px;}
+.m-main .m-row.weixin .wechat-right-img .wechat-phone img{margin:60px 0 0 16px;}
+.m-main .m-row.weixin .wechat-right-img .wechat-enlarge,.m-main .m-row.weixin .wechat-left-img .wechat-enlarge{position:absolute;width:206px;height:206px;background:url(../images/177.png) no-repeat;}
+.m-main .m-row.weixin .wechat-right-img .wechat-enlarge.enlarge1{background-position:0px 0px;top:60px;left:90px;}
+.m-main .m-row.weixin .wechat-right-img .wechat-enlarge.enlarge3{background-position:0px -463px;top:60px;left:-120px;}
+.m-main .m-row.weixin .wechat-left-img{margin-left:140px;position:relative;height:370px;}
+.m-main .m-row.weixin .wechat-left-img .wechat-phone{position:absolute;left:0;bottom:0;width:192px;height:290px;background:url(../images/170.png) no-repeat 0px 0px;}
+.m-main .m-row.weixin .wechat-left-img .wechat-phone img{margin:60px 0 0 16px;}
+.m-main .m-row.weixin .wechat-left-img .wechat-enlarge.enlarge2{background-position:0px -231px;top:60px;left:90px;}
+.footer_min{margin:0 auto;width:1200px;margin-top:40px;margin-bottom:50px;font-size:12px;}
+.footer_min .txt{line-height:180%;text-align:center;padding-top:20px;}

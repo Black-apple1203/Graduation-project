@@ -1,0 +1,62 @@
+<if condition="$utype eq 1">
+<div class="admin_business link_blue">
+        <div style="height:30px;">公司名称 <strong style="color:#FF6600">{$company_profile['companyname']}</strong>&nbsp;&nbsp;
+            <a target="_blank" href="{$manage_url}">进入会员中心>></a><br/>
+        </div>
+        <div style="height:30px;">用户名 <strong style="color:#FF6600">{$userinfo['username']}</strong>(uid：{$userinfo['uid']})&nbsp;&nbsp;招聘顾问：&nbsp;&nbsp;{$consultant['name']}<br/>
+        </div>
+ 
+        <div class="manitem active" url="{:U('AjaxBusiness/setmeal',array('uid'=>$userinfo['uid']))}">套餐</div>
+        <div class="manitem" url="{:U('AjaxBusiness/points',array('uid'=>$userinfo['uid']))}">{:C('qscms_points_byname')}</div>
+        <div class="manitem" url="{:U('AjaxBusiness/order',array('uid'=>$userinfo['uid']))}">订单</div>
+        <div class="manitem" url="{:U('AjaxBusiness/promotion',array('uid'=>$userinfo['uid']))}">推广</div>
+        <div class="manitem" url="{:U('AjaxBusiness/increment',array('uid'=>$userinfo['uid']))}">增值服务</div>
+        <div class="manitem" url="{:U('AjaxBusiness/tpl',array('uid'=>$userinfo['uid']))}">模板</div>
+        <div class="manitem" url="{:U('AjaxBusiness/img',array('uid'=>$userinfo['uid']))}">风采</div>
+        <br />
+        <div class="manitem" url="{:U('AjaxBusiness/download_resume',array('uid'=>$userinfo['uid']))}">下载的简历</div>
+        <div class="manitem" url="{:U('AjaxBusiness/apply',array('uid'=>$userinfo['uid']))}">收到的简历</div>
+        <div class="manitem" url="{:U('AjaxBusiness/interview',array('uid'=>$userinfo['uid']))}">面试邀请</div>
+        <div class="manitem" url="{:U('AjaxBusiness/certificate',array('uid'=>$userinfo['uid']))}">营业执照</div>
+        <if condition="$apply['Report']">
+        <div class="manitem" url="{:U('Report/Admin/report',array('uid'=>$userinfo['uid']))}">实地认证</div>
+        </if>
+        <div class="clear"></div>
+        <div class="show_box" style="margin-top:10px;"></div>
+</div>
+<else />
+<div class="admin_business link_blue">
+        <div style="height:30px;">用户名 <strong style="color:#FF6600">{$userinfo['username']}</strong>(uid：{$userinfo['uid']}) &nbsp;&nbsp;&nbsp;&nbsp;
+            <a target="_blank" href="{$manage_url}">进入会员中心>></a><br/>
+        </div>
+        <div class="manitem active" url="{:U('AjaxBusiness/points',array('uid'=>$userinfo['uid']))}">{:C('qscms_points_byname')}</div>
+        <div class="manitem" url="{:U('AjaxBusiness/order',array('uid'=>$userinfo['uid']))}">订单</div>
+        <div class="manitem" url="{:U('AjaxBusiness/promotion_per',array('uid'=>$userinfo['uid']))}">推广</div>
+        <div class="manitem" url="{:U('AjaxBusiness/apply_per',array('uid'=>$userinfo['uid']))}">申请职位</div>
+        <div class="manitem" url="{:U('AjaxBusiness/interview_per',array('uid'=>$userinfo['uid']))}">面试邀请</div>
+        <div class="manitem" url="{:U('AjaxBusiness/perfected_allowance',array('uid'=>$userinfo['uid']))}">随机红包</div>
+        <div class="clear"></div>
+        <div class="show_box" style="margin-top:10px;"></div>
+</div>
+</if>
+<script type="text/javascript">
+<if condition="$utype eq 1">
+    $.getJSON("{:U('AjaxBusiness/setmeal',array('uid'=>$userinfo['uid']))}", function (result) {
+        $('.show_box').html(result.data);
+        afreshDialogPosition();
+    });
+<else />
+$.getJSON("{:U('AjaxBusiness/points',array('uid'=>$userinfo['uid']))}", function (result) {
+        $('.show_box').html(result.data);
+        afreshDialogPosition();
+    });
+</if>
+    $(".manitem").click(function () {
+        $('.manitem').removeClass('active');
+        $(this).addClass('active');
+        var url = $(this).attr('url');
+        $.getJSON(url, function (result) {
+            $('.show_box').html(result.data);
+        });
+    });
+</script>

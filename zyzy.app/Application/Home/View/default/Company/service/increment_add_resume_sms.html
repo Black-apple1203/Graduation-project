@@ -1,0 +1,476 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="Company:left_service" />
+			</div>
+			<div class="mright">
+				<form target="_blank" id="cash_pay_form" method="post" action="{:U('increment_add_save')}">
+				<div class="user_pagetitle">
+					<div class="pat_l">增值服务</div>
+					<div class="clear"></div>
+				</div>
+				<div class="order_info_group first">
+					<div class="info_float_line1">
+						<div class="user_tip">
+							<div class="tiptit">小提示</div>
+							<div class="tiptxt link_blue">
+								增值资源包有效期与您的套餐到期时间一致，在购买后请尽快使用。当前套餐到期时间：<if condition="$my_setmeal['endtime'] eq '0'">无期限<else />{:date('Y-m-d',$my_setmeal['endtime'])}</if>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="order_info_group">
+					<div class="info_float_line1">
+						<div class="left_line">服务名称：</div>
+						<div class="right_line"><span class="service_title">{$cate_arr[$cat]}</span></div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				
+				<div class="order_info_group">
+					<div class="info_float_line1">
+						<div class="left_line">选择套餐：</div>
+						<div class="right_line">
+							<if condition="$is_free eq '1'">
+							<div class="service_list_group J_radioitme_parent">
+								<div class="service_list_line first">
+									<div class="service_list fortitle">
+										<div class="service_list_title service_list_title1">套餐内容</div>
+									</div>
+									<div class="service_list dark fortitle">
+										<div class="service_list_title service_list_title2">免费会员</div>
+									</div>
+									<div class="service_list fortitle">
+										<div class="service_list_title service_list_title3">VIP会员</div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<volist name="increment_arr" id="vo">
+								<div class="service_list_line <if condition="$key eq '0'">selected</if> <if condition="$key eq count($increment_arr)-1">last</if>">
+									<div class="service_list">
+										<div class="radio_list">
+											<div project_id="{$vo['id']}" class="rli J_radioitme_order <if condition="$key eq '0'">checked</if>" my_price="{$vo['my_price']}" need_points="{$vo['need_points']}">{$vo['name']}</div>
+											<div class="clear"></div>
+										</div>
+									</div>
+									<div class="service_list dark"><span class="orange">{$vo['my_price']}元</span>（每{$unit_arr[$vo['cat']]}{$vo['my_unit_price']}元）</div>
+									<div class="service_list"><span class="orange">{$vo['vip_price']}元</span>（每{$unit_arr[$vo['cat']]}{$vo['vip_unit_price']}元）</div>
+									<div class="clear"></div>
+								</div>
+								</volist>
+							</div>
+							<else />
+							<div class="service_list_group J_radioitme_parent">
+								<volist name="increment_arr" id="vo">
+								<div class="service_list_line <if condition="$key eq '0'">selected</if> <if condition="$key eq count($increment_arr)-1">last</if>">
+									<div class="service_list">
+										<div class="radio_list">
+											<div class="rli J_radioitme_order <if condition="$key eq '0'">checked</if>"  my_price="{$vo['my_price']}" need_points="{$vo['need_points']}" project_id="{$vo['id']}">{$vo['name']}</div>
+											<div class="clear"></div>
+										</div>
+									</div>
+									<div class="service_list"><span class="orange">{$vo['my_price']} 元</span><span class="small">（<span class="orange">{$vo['my_discount']}折</span>，仅{$vo['my_unit_price']}元/{$unit_arr[$vo['cat']]}）</span></div>
+									<div class="service_list">省 <span class="orange">{$vo['my_saved_price']}</span> 元 </div>
+									<div class="clear"></div>
+								</div>
+								</volist>
+							</div>
+							</if>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				
+				<div class="order_info_group">
+					<div class="info_float_line1">
+						<div class="left_line">支付方式：</div>
+						<div class="right_line">
+							<if condition="$setmeal_increment_pay_points_rule[$cat] eq 1">
+							<div class="thtab pay_select">
+								<div class="li J_hoverbut select points_tab">{:C('qscms_points_byname')}兑换</div>
+								<div class="li J_hoverbut cash_tab">现金支付</div>
+							  	<div class="clear"></div>
+							</div>
+							</if>
+							<div class="rights J_forpaycash">
+								<!--默认是不做任何选择 没有select -->
+								<volist name="payment" id="vo">
+								<div typename="{$vo['typename']}" class="pays J_hoverbut"><img src="../public/images/pay_{$vo['typename']}.png"   border="0"/><div class="hook"></div></div>
+								</volist>
+								<div class="clear"></div>	
+						  	</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="order_info_group forpay" id="points_wrap" style="display:block">
+					<div class="enough">
+						<div class="info_float_line1">
+							<div class="left_line">所需{:C('qscms_points_byname')}：</div>
+							<div class="right_line link_blue"><span class="service_title"><span class="orange need_points"></span></span> {:C('qscms_points_byname')}&nbsp;&nbsp;&nbsp;&nbsp;当前拥有 <span class="orange">{$mypoints}</span> {:C('qscms_points_byname')}，<a href="{:U('points')}">做任务</a> 还可以获得更多{:C('qscms_points_byname')}哦！</div>
+							<div class="clear"></div>
+						</div>
+						<div class="order_info_group">
+							<div class="info_float_line1">
+								<div class="btn_yellow J_hoverbut btn_115_38" id="points_pay_submit">立即兑换</div>
+							</div>
+						</div>
+					</div>
+					<div class="notenough" style="display:none">
+						<div class="info_float_line1">
+							<div class="left_line">所需{:C('qscms_points_byname')}：</div>
+							<div class="right_line link_blue"><span class="service_title"><span class="orange need_points"></span></span> {:C('qscms_points_byname')}&nbsp;&nbsp;&nbsp;&nbsp;当前拥有 <span class="orange">{$mypoints}</span> {:C('qscms_points_byname')}，不足以兑换次服务，建议您 <a href="{:U('points')}">做任务</a> 获得更多{:C('qscms_points_byname')}！</div>
+							<div class="clear"></div>
+						</div>
+						<div class="order_info_group">
+							<div class="info_float_line1">
+								<div class="btn_yellow J_hoverbut btn_115_38 btn_disabled">立即兑换</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="forpay" id="cash_wrap" style="display:none">
+					<if condition="$setmeal_increment_pay_points_rule[$cat] eq 1">
+					<div class="order_info_group">
+						<div class="info_float_line1">
+							<div class="left_line">订单价格：</div>
+							<div class="right_line link_blue">
+								<div><span class="service_title"><span class="orange" id="need_cash"></span></span> 元</div>
+								<if condition="C('qscms_mobile_setmeal_increment_discount_value') gt 0">
+								<div class="small small_notice">
+									<div class="qrtxt">使用手机下订单仅需 <span class="orange">￥<span id="mobile_amount"></span></span> ，立即扫码穿越到手机></div>
+                                    <div class="qrtrigger"><img src="{:U('Home/Qrcode/index',array('url'=>C('qscms_mobile_discount_qrcode_url')),'','',true)}"></div>
+                                    <div class="clear"></div>
+									<input type="hidden" id="mobile_amount_type" value="{:C('qscms_mobile_setmeal_increment_discount_type')}">
+									<input type="hidden" id="mobile_amount_val" value="{:C('qscms_mobile_setmeal_increment_discount_value')}">
+								</div>
+								</if>
+								<div>
+									<label><input type="checkbox" id="J_integralforcash"/> 使用{:C('qscms_points_byname')}抵现</label><span class="small">（当前拥有<span class="orange">{$mypoints}</span>{:C('qscms_points_byname')}）</span><input name="" type="text" class="input_110_34" id="J_integralforcash_input" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" value=""><span class="small">{:C('qscms_points_byname')}</span> <span class="orange">&nbsp;&nbsp;-<span id="J_integralforcashvalue"></span></span> 元
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					</if>
+					<div class="order_info_group">
+						<div class="info_float_line1">
+							<div class="left_line">应付金额：</div>
+							<div class="right_line link_blue">
+								<div><span class="service_title"><span class="orange" id="pay_cash"></span></span> 元</div>
+								<if condition="C('qscms_mobile_setmeal_increment_discount_value') gt 0">
+								<div class="small small_notice">
+									<div class="qrtxt">使用手机下订单仅需 <span class="orange">￥<span id="mobile_amount"></span></span> ，立即扫码穿越到手机></div>
+                                    <div class="qrtrigger"><img width='160' height='160' src="{:U('Home/Qrcode/index',array('url'=>C('qscms_mobile_discount_qrcode_url')),'','',true)}"></div>
+                                    <div class="clear"></div>
+									<input type="hidden" id="mobile_amount_type" value="{:C('qscms_mobile_setmeal_increment_discount_type')}">
+									<input type="hidden" id="mobile_amount_val" value="{:C('qscms_mobile_setmeal_increment_discount_value')}">
+								</div>
+								</if>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<div class="order_info_group">
+						<div class="info_float_line1">
+							<div class="btn_yellow J_hoverbut btn_115_38" id="cash_pay_submit">立即兑换</div>
+						</div>
+					</div>
+				</div>
+				<!--支付方式名称-->
+				<input type="hidden" name="payment_name" id="payment_name" value="">
+				<!--支付方式-->
+				<input type="hidden" name="pay_type" value="cash">
+				<!--增值服务类型唯一标识-->
+				<input type="hidden" name="service_type" value="{$cat}">
+				<!--服务id-->
+				<input type="hidden" id="project_id" name="project_id" value="{$increment_arr[0]['id']}">
+				<!--需要支付的现金-->
+				<input type="hidden" id="amount" name="amount" value="">
+				<!--不抵扣的情况下需要支付的积分-->
+				<input type="hidden" id="total_points" name="total_points" value="{$increment_arr[0]['need_points']}">
+				<!--我的积分数-->
+				<input type="hidden" id="mypoints" value="{$mypoints}">
+				<!--是否抵扣-->
+				<input type="hidden" name="is_deductible" id="is_deductible" value="0">
+				<!-- 抵现积分数-->
+				<input type="hidden" name="deductible" id="deductible" value="">
+			</form>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+		<script type="text/javascript">
+		$(document).ready(function(){
+			var setmeal_by_points = "{$setmeal_increment_pay_points_rule[$cat]}";
+			if(setmeal_by_points == 1){
+				select_pay_type(0);
+			} else {
+				select_pay_cash();
+			}
+			//支付方式切换（积分还是现金）
+			$('.thtab .li').click(function(event) {
+				$(this).addClass('select').siblings().removeClass('select');
+				var positionValue = $('.thtab .li').index(this);
+				$('.forpay').eq(positionValue).show().siblings('.forpay').hide();
+				$('.J_forpaycash').hide();
+				if (positionValue > 0) {
+					$('.J_forpaycash').show();
+				};
+			});
+			//选择payment
+			$(".pays").click(function(){
+				$(this).siblings().removeClass('select');
+				$(this).addClass('select');
+				$("#payment_name").val($(this).attr("typename"));
+			});
+			// 套餐列表点击
+		    var $radiobj = $('.J_radioitme_order');
+		    $radiobj.live('click', function(event) {
+		    	var $thisParent = $(this).closest('.J_radioitme_parent');
+		    	$thisParent.find('.J_radioitme_order').removeClass("checked");
+		    	$thisParent.find('.service_list_line').removeClass("selected");
+		    	$(this).addClass("checked");
+		    	$(this).closest('.service_list_line').addClass("selected");
+		    	$("#project_id").val($(this).attr("project_id"));
+				$("#total_points").val($(this).attr("need_points"));
+				select_pay_type(1);
+		    });
+			//积分支付提交
+			$("#points_pay_submit").click(function(){
+				var confirmDialog = $(this).dialog({
+	        		title: '温馨提示',
+					loading: true,
+					showFooter: false,
+					yes: function () {
+	                    ajax_pay('{$cat}','points');
+	                }
+				});
+				$.getJSON("{:U('confirm_pay_increment')}",function(result){
+					confirmDialog.showFooter(true);
+					confirmDialog.setBtns(['继续购买', '取消']);
+					confirmDialog.setContent(result.data.html);
+				});
+			});
+			//现金支付提交
+		    $("#cash_pay_submit").click(function(){
+				if(!$("#project_id").val()){
+					disapperTooltip("remind","请选择套餐！");
+					return false;
+				}
+				if(!$("#payment_name").val() && parseFloat($("#amount").val())>0){
+					disapperTooltip("remind","请选择支付方式！");
+					return false;
+				}
+				if(parseFloat($("#amount").val())==0.0){
+					var confirmDialog = $(this).dialog({
+		        		title: '温馨提示',
+						loading: true,
+						showFooter: false,
+						yes: function () {
+		                    ajax_pay('{$cat}','points');
+		                }
+					});
+					$.getJSON("{:U('confirm_pay_increment')}",function(result){
+						confirmDialog.showFooter(true);
+						confirmDialog.setBtns(['继续购买', '取消']);
+						confirmDialog.setContent(result.data.html);
+					});
+				}else{
+					var confirmDialog = $(this).dialog({
+		        		title: '温馨提示',
+						loading: true,
+						showFooter: false,
+						yes: function () {
+		                    if($("#payment_name").val()=='wxpay'){
+								var qsDialog = $(this).dialog({
+					        		title: '微信支付',
+									loading: true,
+									showFooter: false
+								});
+								$.ajax({
+					                cache: true,
+					                type: "POST",
+					                url:"{:U('increment_add_save')}",
+					                data:$('#cash_pay_form').serialize(),
+					                dataType:"json",
+					                success: function(result) {
+					                    if(result.status==1){
+					                    	qsDialog.setContent("<img src='"+result.data+"' alt='扫描二维码' width='250' height='250' />");
+											window.setInterval(run, 5000);
+					                    }else{
+					                    	qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+											return false;
+					                    }
+					                }
+					            });
+							}else{
+								if($("#payment_name").val()=='remittance'){
+					        		$("#cash_pay_form").removeAttr('target');
+					        	}else{
+									var url = "{:U('CompanyService/confirm_pay_status')}";
+									var qsDialog=$(this).dialog({
+										title: '确认支付',
+										loading: true,
+										border: false,
+										yes: function() {
+											window.location.href="{:U('CompanyService/order_list')}";
+										},
+										cancel:function(){
+											window.location.href="{:U('CompanyService/order_list')}";
+										}
+									});
+									$.getJSON(url,function(result){
+						        		if(result.status == 1){
+						        			qsDialog.setContent(result.data.html);
+						        			qsDialog.setBtns(['支付完成', '遇到问题']);
+						        		}else{
+						        			disapperTooltip('remind',result.msg);
+						        		}
+						        	});
+						        }
+								$("#cash_pay_form").submit();
+							}
+		                }
+					});
+					$.getJSON("{:U('confirm_pay_increment')}",function(result){
+						confirmDialog.showFooter(true);
+						confirmDialog.setBtns(['继续购买', '取消']);
+						confirmDialog.setContent(result.data.html);
+					});
+				}
+			});
+			$('#J_integralforcash_input').keyup(function() {
+				var mypoints = parseInt($("#mypoints").val());
+				var current_points = parseInt($("#total_points").val());
+				var minpointsValue = mypoints >= current_points ? current_points : mypoints;
+				var thisvalue = $(this).val();
+				if (thisvalue > minpointsValue) {
+					$('#J_integralforcash_input').val(minpointsValue);
+				};
+				$('#J_integralforcashvalue').text(($('#J_integralforcash_input').val()/parseInt("{$payment_rate}")).toFixed(2));
+				$('#deductible').val($('#J_integralforcash_input').val());
+				if($('#J_integralforcash').is(':checked')){
+					$("#pay_cash").text((parseFloat($('#need_cash').text())-parseFloat($('#J_integralforcashvalue').text())).toFixed(2));
+					$('#amount').val((parseFloat($('#need_cash').text())-parseFloat($('#J_integralforcashvalue').text())).toFixed(2));
+				}
+			});
+			$('#J_integralforcash').click(function() {
+				if ($('#J_integralforcash').is(':checked')) {
+					$("#pay_cash").text((parseFloat($('#need_cash').text())-parseFloat($('#J_integralforcashvalue').text())).toFixed(2));
+					$('#amount').val((parseFloat($('#need_cash').text())-parseFloat($('#J_integralforcashvalue').text())).toFixed(2));
+					$('#is_deductible').val('1');
+				} else {
+					$("#pay_cash").html(parseFloat($('#need_cash').text()).toFixed(2));
+					$('#amount').val(parseFloat($('#need_cash').text()).toFixed(2));
+					$('#is_deductible').val('0');
+				}
+			});
+			// 购买增值服务不允许使用积分抵现
+			function select_pay_cash(){
+				$("#points_wrap").hide();
+				$("#cash_wrap").show();
+				$(".J_forpaycash").show();
+				var current_points = parseInt($("#total_points").val());
+				var need_cash = current_points/parseInt("{$payment_rate}");
+				$("#amount").val(need_cash.toFixed(2));
+				$("#pay_cash").html(need_cash.toFixed(2));
+				if($("#mobile_amount").length>0){
+					if($('#mobile_amount_type').val()==0){
+						$("#mobile_amount").text((parseFloat($('#pay_cash').text())-$('#mobile_amount_val').val()).toFixed(2));
+					}else{
+						$("#mobile_amount").text(((parseFloat($('#pay_cash').text()))/100*$('#mobile_amount_val').val()).toFixed(2));
+					}
+					if(eval($("#mobile_amount").text())<0){
+						$("#mobile_amount").text(0.00);
+					}
+				}
+			}
+			function select_pay_type(no_change_tab){
+				var mypoints = parseInt($("#mypoints").val());
+				var current_points = parseInt($("#total_points").val());
+				if(mypoints<current_points){
+					if(no_change_tab==0){
+						$(".pay_select .li").removeClass('select');
+						$(".cash_tab").addClass('select');
+						$("#points_wrap").hide();
+						$("#cash_wrap").show();
+						$(".J_forpaycash").show();
+					}
+					$('#J_integralforcash_input').val(mypoints);
+					$('#deductible').val(mypoints);
+					$(".enough").hide();
+					$(".notenough").show();
+				}else{
+					if(no_change_tab==0){
+						$(".pay_select .li").removeClass('select');
+						$(".points_tab").addClass('select');
+						$("#cash_wrap").hide();
+						$(".J_forpaycash").hide();
+						$("#points_wrap").show();
+					}
+					$('#J_integralforcash_input').val(current_points);
+					$('#deductible').val(current_points);
+					$(".enough").show();
+					$(".notenough").hide();
+				}
+				$(".need_points").html(current_points);
+				var need_cash = current_points/parseInt("{$payment_rate}");
+				$("#need_cash").html(need_cash.toFixed(2));
+				$("#amount").val(need_cash.toFixed(2));
+				$('#J_integralforcashvalue').text(($('#J_integralforcash_input').val()/parseInt("{$payment_rate}")).toFixed(2));
+				if ($('#J_integralforcash').is(':checked')) {
+					$("#pay_cash").text((parseFloat($('#need_cash').text())-parseFloat($('#J_integralforcashvalue').text())).toFixed(2));
+					$('#amount').val((parseFloat($('#need_cash').text())-parseFloat($('#J_integralforcashvalue').text())).toFixed(2));
+				} else {
+					$("#pay_cash").html(need_cash.toFixed(2));
+					$('#amount').val(need_cash.toFixed(2));
+				}
+				if($("#mobile_amount").length>0){
+					var reckon = $('#need_cash').length>0?$('#need_cash').text():$('#pay_cash').text();
+					if($('#mobile_amount_type').val()==0){
+						$("#mobile_amount").text((parseFloat(reckon)-$('#mobile_amount_val').val()).toFixed(2));
+					}else{
+						$("#mobile_amount").text(((parseFloat(reckon))/100*$('#mobile_amount_val').val()).toFixed(2));
+					}
+					if(eval($("#mobile_amount").text())<0){
+						$("#mobile_amount").text(0.00);
+					}
+				}
+			}
+		    function run(){
+	            $.getJSON("{:U('check_weixinpay_notify')}",function(result){
+	                if(result.status==1){
+	                   location.href=result.data;
+	                }
+	            });
+	        }
+	        function ajax_pay(type,pay_type){
+				var project_id = $("#project_id").val();
+				var payment_name = "points";
+				$.post("{:U('increment_add_save')}",{pay_type:pay_type,service_type:type,project_id:project_id,payment_name:payment_name},function(result){
+					if(result.status==1){
+						disapperTooltip("success", "兑换成功！");
+						setTimeout(function () {
+	                        location.href=qscms.root+'?m=Home&c=CompanyService&a=order_pay_finish&order_id='+result.data;
+	                    }, 2000);
+					}else{
+						disapperTooltip("remind", result.msg);
+						return false;
+					}
+				},'json');
+	        }
+	    });
+		</script>
+	</body>
+</html>

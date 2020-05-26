@@ -1,0 +1,17 @@
+[ 2020-04-28T10:17:01+08:00 ] 127.0.0.1 /index.php?m=admin&c=personal&a=index&menuid=171&child=1
+INFO: Cron:ClearPromotion Runat 2020-04-28 10:17:01 Use 0.039004 s 
+Cron:AutoRefreshResume Runat 2020-04-28 10:17:01 Use -0.000071 s 
+Cron:AutoRefreshJobs Runat 2020-04-28 10:17:01 Use -0.002343 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-28 10:17:01 Use -0.004341 s 
+Cron:ClearOrder Runat 2020-04-28 10:17:01 Use -0.020866 s 
+Cron:ClearShareAllowance Runat 2020-04-28 10:17:01 Use -0.030972 s 
+
+[ 2020-04-28T11:06:09+08:00 ] 127.0.0.1 /index.php?m=&c=ajax_common&a=ajax_login
+INFO: Cron:ClearPromotion Runat 2020-04-28 11:06:09 Use 0.010834 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-28 11:06:09 Use -0.000068 s 
+Cron:ClearShareAllowance Runat 2020-04-28 11:06:09 Use -0.001442 s 
+
+[ 2020-04-28T11:11:32+08:00 ] 127.0.0.1 /index.php?m=&c=personal&a=user_avatar
+INFO: Cron:AutoRefreshResume Runat 2020-04-28 11:11:32 Use 0.018288 s 
+Cron:AutoRefreshJobs Runat 2020-04-28 11:11:32 Use -0.000071 s 
+

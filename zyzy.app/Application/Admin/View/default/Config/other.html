@@ -1,0 +1,116 @@
+<include file="public:header" />
+<form id="form1">
+    <div class="toptit">搜索设置</div>
+    <div class="form_main width200">
+        <div class="fl">开启关键词URL编码：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_key_urlencode') eq 1">select</if>"><input name="key_urlencode" type="hidden" value="{:C('qscms_key_urlencode')}" /></div>
+            <div class="note">（当关键词搜索出现乱码时，请开启此项）</div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit1" type="button" id="J_submit1" class="admin_submit" value="保存修改"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<form id="form2">
+    <div class="toptit">薪资单位设置</div>
+    <div class="form_main width200">
+        <div class="fl">薪资单位：</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="wage_unit" type="hidden" value="{:C('qscms_wage_unit')}">
+                <div class="radio <if condition="C('qscms_wage_unit') eq 1">select</if>" data="1" title="K">K</div>
+            <div class="radio <if condition="C('qscms_wage_unit') eq 2">select</if>" data="2" title="千">千</div>
+        <label class="note-radio">（如：1.5K~3K ，8千5~1万）</label>
+        <div class="clear"></div>
+    </div>
+    </div>
+    <div class="fl"></div>
+    <div class="fr">
+        <input name="submit2" type="button" id="J_submit2" class="admin_submit" value="保存修改"/>
+    </div>
+    <div class="clear"></div>
+    </div>
+</form>
+<form id="form3">
+    <div class="toptit">信息有效期设置</div>
+        <div class="form_main width200">
+            <div class="fl">信息有效期</div>
+            <div class="fr">
+                <input name="term_of_validity" type="text" class="input_text_default small" value="{:C('qscms_term_of_validity')}"/>
+                <label class="no-fl-note">天(填写数字，0为不限制，如设置为3，则更新时间+3天后，信息失效，前台列表隐藏)</label>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+                <input name="submit3" type="button" id="J_submit3" class="admin_submit" value="保存修改"/>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $('#J_submit1').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('edit')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+    $('#J_submit2').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('edit')}",$('#form2').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+    $('#J_submit3').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('edit')}",$('#form3').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

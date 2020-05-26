@@ -1,0 +1,23 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/members/common.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/members/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+	<include file="header" />
+	<div class="confirm_email_group">
+		<div class="confirm_title">注册邮件已成功发送至邮箱：<span class="confirm_email">{$user.email}</span></div>
+		<div class="confirm_time">请在24小时内登录邮箱激活会员账号</div>
+		<div class="confirm_btn"><input name="" type="button" value="登录邮箱激活" class="btn_reg J_hoverbut" onclick="window.location='http://mail.{:ltrim(strstr($user['email'],'@'),'@')}'" /></div>
+	</div>
+	<!--下方阴影 -->
+	<div class="find_pwd_bg_confirm">
+		<div class="bl"></div>
+		<div class="br"></div>
+		<div class="clear"></div>
+	</div>
+<include file="public:footer_min" />
+</body>
+</html>

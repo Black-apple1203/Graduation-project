@@ -1,0 +1,43 @@
+<include file="public:header" />
+<div class="seltpye_y">
+    <div class="tit">记录时间</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.settr'>select</notempty>">{$Think.get.settr_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('settr'=>'','settr_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('settr'=>'3','settr_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('settr'=>'7','settr_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('settr'=>'30','settr_cn'=>'一月内'))}">一月内</li>
+    </div>
+</div>
+<div class="clear"></div>
+<div class="list_th">
+    <div class="td" style="width:25%;"><label class="left_padding">操作人</label></div>
+    <div class="td" style="width:35%;">链接地址</div>
+    <div class="td" style="width:25%;">创建时间</div>
+    <div class="td" style="width:15%;">IP</div>
+    <div class="clear"></div>
+</div>
+<volist name="list" id="list">
+    <div class="list_tr link_black">
+        <div class="td" style="width:25%;"><label class="left_padding">{$list.operater}</label></div>
+        <div class="td" style="width:35%;">{$list.log_url}</div>
+        <div class="td" style="width:25%;">{:date("Y-m-d H:i:s",$list['log_addtime'])}</div>
+        <div class="td" style="width:15%;">{$list.log_ip}</div>
+        <div class="clear"></div>
+    </div>
+</volist>
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="list_foot">
+    <div class="btnbox">
+        <input name="ButADD" id="ButADD" type="button" class="admin_submit" value="返回" onclick="window.location='{:U('Admin/index')}'"/>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

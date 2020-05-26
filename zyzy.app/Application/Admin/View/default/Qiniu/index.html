@@ -1,0 +1,47 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>七牛云对象存储服务，是高可靠、强安全、低成本、可扩展的分布式对象存储服务。</p>
+    <p>成功集成七牛云后，可将系统中的图片、文档等自动上传至您的七牛云空间服务器，节省您的服务器资源。</p>
+    <p><font color="red">目前只支持公有空间，暂不支持私有空间。</font></p>
+    <p class="link_green_line">如需使用，请先登录七牛云获取相应的参数。<a href="https://www.qiniu.com" target="_blank">马上申请</a></p>
+</div>
+<div class="toptit">基本配置</div>
+<form action="{:U('config/edit')}" method="post" enctype="multipart/form-data" name="form1" id="form1">
+	<div class="form_main width150">
+		<div class="fl">是否开启：</div>
+		<div class="fr">
+			<div data-code="0,1" class="imgchecked_small <if condition="C('qscms_qiniu_open') eq 1">select</if>"><input name="qiniu_open" type="hidden" value="{:C('qscms_qiniu_open')}" /></div>
+            <div class="clear"></div>
+		</div>
+		<div class="fl">存储空间名：</div>
+		<div class="fr">
+			<input name="qiniu_bucket" type="text" maxlength="40" class="input_text_default middle" value="{:C('qscms_qiniu_bucket')}"/>
+			<label class="no-fl-note">创建空间时设置的名称</label>
+		</div>
+		<div class="fl">accessKey：</div>
+		<div class="fr">
+			<input name="qiniu_accessKey" type="text" maxlength="40" class="input_text_default middle" value="{:C('qscms_qiniu_accessKey')}"/>
+			<label class="no-fl-note">在七牛云管理平台【个人面板-密钥管理】获取</label>
+		</div>
+		<div class="fl">secretKey：</div>
+		<div class="fr">
+			<input name="qiniu_secretKey" type="password" maxlength="50" class="input_text_default middle" value="{:C('qscms_qiniu_secretKey')}"/>
+			<label class="no-fl-note">在七牛云管理平台【个人面板-密钥管理】获取</label>
+		</div>
+		<div class="fl">外链域名：</div>
+		<div class="fr">
+			<input name="qiniu_domain" type="text" maxlength="40" class="input_text_default middle" value="{:C('qscms_qiniu_domain')}"/>
+			<label class="no-fl-note">资源访问域名，请到七牛云管理平台设置</label>
+		</div>
+		<div class="fl"></div>
+		<div class="fr">
+			<input name="submit" type="submit" class="admin_submit"    value="保存修改"/>
+		</div>
+		<div class="clear"></div>
+	</div>
+</form>
+</div>
+<include file="public:footer" />
+</body>
+</html>

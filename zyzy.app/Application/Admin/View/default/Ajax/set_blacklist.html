@@ -1,0 +1,26 @@
+<div style="max-height:400px; overflow:auto">
+<div class="note" style="padding:10px;background-color:#FFF8DC;color:#ff9300;">
+    加入黑名单后该会员将失去领取红包资格<br />
+  </div>
+  <form id="form3" name="form3" method="post" action="{:U('set_blacklist')}">
+  <input type="hidden" name="uid" value="{$uid}">
+<table width="100%" border="0" cellspacing="10" cellpadding="0">
+    <tr>
+      <td width="50">
+        备注：
+      </td>
+      <td>
+        <textarea name="note" class="input_text_default" style="width:390px;height:90px;"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td width="50">
+        &nbsp;
+      </td>
+      <td>
+        <input type="submit" name="" value="确定" class="admin_submit set_blacklist_save"/>
+      </td>
+    </tr>
+  </table>
+  </form>
+</div>

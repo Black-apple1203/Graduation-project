@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/whb_vocation.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_jobs" /> 
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">微海报</div>
+					<div class="clear"></div>
+				</div>
+				<div class="cutoff_line"></div>
+					<!-- 微海报选职位开始 -->
+					<div class="whb_vocation">
+						<div class="whb_vocation_top">
+							<div class="whb_vocation_top_left">选择要展示的职位</div>
+							<div class="whb_vocation_top_right">最多可选8个职位</div>
+						</div>
+						<notempty name="jobs_list['list']">
+						<form id="form1" name="form1" action="{:U('microposte_list')}" class="J_allListBox" method="post">
+						<div class="whb_vocation_bottom">
+							<ul>
+								<volist name="jobs_list['list']" id="jobs">
+									<li>
+										<div class="whb_vocation_checkbox">
+											<input name="y_id[]" class="selStatus J_allList" type="checkbox" value="{$jobs['id']}">
+										</div>
+										<div class="whb_vocation_name">
+											<a href="{$jobs.jobs_url}">{$jobs['jobs_name']}</a>
+										</div>
+										<div class="whb_vocation_experience">
+											{$jobs['education_cn']}/{$jobs['experience_cn']}/<if condition="$jobs['amount'] eq 0">人数不限<else/>{$jobs['amount']}人</if>
+										</div>
+										<div class="whb_vocation_wages">
+											{$jobs['wage_cn']}
+										</div>
+										<div class="whb_vocation_time">
+											{:date('Y-m-d H:i',$jobs['refreshtime'])}
+										</div>
+									</li>
+								</volist>	
+							</ul>
+						</div>
+						<div class="whb_button">
+							<input name="" class="allSel J_allSelected" type="checkbox">
+							<!-- <div class="btn_blue J_hoverbut btn_inline" id="choose_next">下一步</div> -->
+							<button class="btn_blue J_hoverbut btn_inline" style="padding:0" id="choose_next">下一步</button>
+						</div>
+						</form>
+						<else/>
+							<div class="jobsWrap">
+								<div class="res_empty">
+									亲爱的HR，您还没有显示中的职位，若已发布，请您查看审核中的职位<br>
+									想要快速找到合适的人才，就赶紧发布职位招揽人才吧~
+								</div>
+								<div class="res_empty_addbox">
+									<div class="btn_blue J_hoverbut btn_115_38" onclick="window.location='{:U('jobs_add')}'">发布职位>></div>
+								</div>
+							</div>
+						</notempty>
+						
+					</div>
+				<!-- 微海报选职位结束 -->
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+		<script>
+			$("#choose_next").click(function(){
+				var listCheckedArray = $('.J_allListBox .J_allList:checked');
+					if (!listCheckedArray.length) {
+						disapperTooltip("remind",'请选择职位');
+						return false;
+					}
+					if(listCheckedArray.length>8){
+						disapperTooltip("remind",'最多能选择8个职位');
+						return false;
+					}
+					$("form[name=form1]").submit();	
+			})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="PhpIncludePathManager">
+    <include_path>
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/phpmyadmin/shapefile" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/phpmyadmin/sql-parser" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/tecnickcom/tcpdf" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/psr/container" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/twig/extensions" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/bacon/bacon-qr-code" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/google/recaptcha" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/samyoul/u2f-php-server" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/symfony/expression-language" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/symfony/polyfill-ctype" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/symfony/polyfill-mbstring" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/symfony/polyfill-php56" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/symfony/polyfill-util" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/composer" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/pragmarx/google2fa" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/paragonie/constant_time_encoding" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/paragonie/random_compat" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/phpmyadmin/motranslator" />
+    </include_path>
+  </component>
+  <component name="PhpProjectSharedConfiguration" php_language_level="5.5.0" />
+  <component name="PhpUnit">
+    <phpunit_settings>
+      <PhpUnitSettings custom_loader_path="$PROJECT_DIR$/phpMyAdmin4.8.5/vendor/autoload.php" />
+    </phpunit_settings>
+  </component>
+</project>

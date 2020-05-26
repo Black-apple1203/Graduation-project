@@ -1,0 +1,67 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>确认收款后系统将会自动为会员充值{:C('qscms_points_byname')}或开通服务，此操作无法撤销。</p>
+</div>
+<div class="toptit">设置订单</div>
+<div class="form_main width120">
+    <form action="{:U('order_set_per')}" method="post" name="FormData" id="FormData">
+        <div class="fl">付款状态:</div>
+        <div class="fr txt">
+            <if condition="$info['is_paid'] eq 1">
+                <span style="color: #FF6600">待付款</span>
+            </if>
+            <if condition="$info['is_paid'] eq 2">
+                <span style="color: #009900">已完成</span>
+            </if>
+            <if condition="$info['is_paid'] eq 3">
+                <span style="color: #999">已取消</span>
+            </if>
+        </div>
+        <div class="fl">申请充值会员:</div>
+        <div class="fr txt">{$info['userinfo']['username']}</div>
+        <div class="fl">订单金额:</div>
+        <div class="fr txt">￥<span style="color:#0033CC; font-size:18px;">{$info['amount']}</span> 元</div>
+        <div class="fl">应付金额:</div>
+        <div class="fr txt">
+            <if condition="$info['pay_type'] eq 1">
+                <span style="color:#0033CC; font-size:18px;">{$info['pay_points']}</span> {:C('qscms_points_byname')}
+                <elseif condition="$info['pay_type'] eq 2" />
+                ￥<span style="color:#0033CC; font-size:18px;">{$info['pay_amount']}</span> 元
+                <else />
+                ￥<span style="color:#0033CC; font-size:18px;">{$info['pay_amount']}</span> 元 + <span style="color:#0033CC; font-size:18px;">{$info['pay_points']}</span> {:C('qscms_points_byname')}
+            </if>
+        </div>
+        <div class="fl">订单描述:</div>
+        <div class="fr txt">{$info['description']}</div>
+        <div class="fl">支付方式:</div>
+        <div class="fr txt">{$info['payment_cn']}</div>
+        <div class="fl">订单号:</div>
+        <div class="fr txt">
+            {$info['oid']}<input type="hidden" name="oid"  value="{$info['oid']}" />
+        </div>
+        <div class="fl">申请时间:</div>
+        <div class="fr txt">{$info['addtime']|date="Y-m-d H:i:s",###}</div>
+        <div class="fl">添加备注:</div>
+        <div class="fr">
+            <textarea name="notes" class="input_text_default middle" style="height: 80px; line-height: 20px;">{$info['notes']}</textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id" value="{$info['id']}" />
+            <input type="submit" class="admin_submit" value="确认收款"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+            <span style="color: #999999;">(确认收到款后，系统将会自动为会员充值)</span>
+        </div>
+        <div class="clear"></div>
+    </form>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+</script>
+</html>

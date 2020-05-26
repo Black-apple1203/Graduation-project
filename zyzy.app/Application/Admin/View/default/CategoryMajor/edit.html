@@ -1,0 +1,68 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>正式使用后删除分类会导致与此分类关联的信息类别丢失，修改不会受影响。</p>
+</div>
+
+<div class="toptit">修改专业分类</div>
+<form action="{:U('edit')}" method="post" name="FormData">
+    <div class="form_main width120">
+        <div class="fl">所属分类:</div>
+        <div class="fr">
+            <div class="select_input_new w400 J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">选择分类</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme <eq name='info.parentid' value='0'>list_sel</eq>" href="javascript:;" data-code="0">顶级分类</a></li>
+                            <volist name="cate[0]" id="parent">
+                                <li><a class="J_listitme <eq name='info.parentid' value='$parent.id'>list_sel</eq>" href="javascript:;" data-code="{$parent.id}">{$parent.categoryname}</a></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="parentid" id="parentid" type="hidden" value="" />
+            </div>
+            <!-- <select name="parentid" id="parentid">
+                <option value="0" <eq name='info.parentid' value='0'>selected="selected"</eq>>顶级分类</option>
+                <volist name="cate[0]" id="parent">
+                    <option value="{$parent.id}" <eq name='info.parentid' value='$parent.id'>selected="selected"</eq>>{$parent.categoryname}</option>
+                </volist>
+            </select> -->
+        </div>
+        <div class="fl">名称:</div>
+        <div class="fr">
+            <input name="categoryname" type="text" class="input_text_default middle" maxlength="20" value="{$info.categoryname}"/>
+        </div>
+        <div class="fl">排序:</div>
+        <div class="fr">
+            <input name="category_order" type="text" class="input_text_default middle" maxlength="3" value="{$info.category_order}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" placeholder="数字越大越靠前，默认是0"/>
+            <label class="no-fl-note">(数字越大越靠前)</label>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="id" type="hidden" value="{$info.id}" />
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($('.J_listitme.list_sel').length) {
+            var $recoverList = $('.J_listitme.list_sel').eq($('.J_listitme.list_sel').length-1);
+            var listSelCn = $.trim($recoverList.text());
+            var listSelCode = $recoverList.data('code');
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_text').text(listSelCn);
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_code').val(listSelCode);
+        }
+    });
+</script>
+</html>

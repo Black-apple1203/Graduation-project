@@ -1,0 +1,12 @@
+<include file="Home@default/public/header_min" />
+<div id="mobile-header">
+    <div class="container clearfix">
+        <div class="m-logo f-left"><a class="f-left" href="__ROOT__/"><img src="<if condition="C('qscms_logo_home')">{:attach(C('qscms_logo_home'),'resource')}<else/>{:C('TPL_PUBLIC_DIR')}/images/logo.gif</if>" border="0"></a><a href="__ROOT__/" class="back-index f-left"></a></div>
+        <ul class="mobile-nav f-right">
+            <li <if condition="$type eq 'android' || $type eq ''">class="active"</if>><a href="{:url_rewrite('QS_m')}">安卓版</a></li>
+            <li <if condition="$type eq 'ios'">class="active"</if>><a href="{:url_rewrite('QS_m',array('type'=>'ios'))}">苹果版</a></li>
+            <li <if condition="$type eq 'touch'">class="active"</if>><a href="{:url_rewrite('QS_m',array('type'=>'touch'))}">触屏版</a></li>
+            <li class="last <if condition="$type eq 'weixin'">active</if>"><a href="{:url_rewrite('QS_m',array('type'=>'weixin'))}">微信版</a></li>
+        </ul>
+    </div>
+</div>

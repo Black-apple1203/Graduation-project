@@ -1,0 +1,176 @@
+<include file="Admin@default/public/header" />
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>网站接入微信公众平台后，用户只需要使用微信扫描二维码就可登录，简化用户登录注册流程，更有效率的提高转化用户流量；</p>
+        <p class="link_green_line">设置微信公众平台前，网站需首先进行申请，获得对应的AppToken、AppId、AppSecret，以保证后续流程中可正确对网站与用户进行验证与授权。现在就去<a href="https://mp.weixin.qq.com/" target="_blank">申请</a></p>
+        <p>创建自定义菜单后，由于微信客户端缓存，需要24小时微信客户端才会展现出来。建议测试时可以尝试取消关注公众账号后再次关注，则可以看到创建后的效果。</p>
+		<p><span style="color:red">*&nbsp;&nbsp;选择服务号，请确保微信公众平台公众号设置中网页授权域名中有移动端域名</span></p>
+		<p><span style="color:red">*&nbsp;&nbsp;选择订阅号，则微信访问无法获取用户信息</span></p>
+    </div>
+    <div class="toptit">微信公众平台设置</div>
+  <form id="form1">
+        <div class="form_main width200">
+            <div class="fl">开启微信公众平台：</div>
+            <div class="fr">
+                <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_weixin_apiopen') eq 1">select</if>"><input name="weixin_apiopen" type="hidden" value="{:C('qscms_weixin_apiopen')}" /></div>
+                <div class="clear"></div>
+            </div>
+			<div class="fl">微信公众号类型：</div>
+            <div class="fr">
+                <div class="imgradio">
+                <input name="weixin_public_type" type="hidden" value="{:C('qscms_weixin_public_type')}">
+                <div class="radio <if condition="1 eq C('qscms_weixin_public_type')">select</if>" data="1">服务号</div>
+                <div class="radio <if condition="2 eq C('qscms_weixin_public_type')">select</if>" data="2">订阅号</div>
+                <div class="clear"></div>
+            </div>
+            </div>
+            <div class="fl">AppToken：</div>
+            <div class="fr">
+                <input name="weixin_apptoken" type="text" class="input_text_default" value="{:C('qscms_weixin_apptoken')}"/>
+            </div>
+            <div class="fl">AppId：</div>
+            <div class="fr">
+                <input name="weixin_appid" type="text" class="input_text_default" value="{:C('qscms_weixin_appid')}"/>
+            </div>
+            <div class="fl">AppSecret：</div>
+            <div class="fr">
+                <input name="weixin_appsecret" type="text" class="input_text_default" value="{:C('qscms_weixin_appsecret')}"/>
+            </div>
+            <div class="fl">EncodingAESKey：</div>
+            <div class="fr">
+                <input name="weixin_encoding_aes_key" type="text" class="input_text_default middle" value="{:C('qscms_weixin_encoding_aes_key')}"/>
+                <label class="no-fl-note">(消息加解密密钥)</label>
+            </div>
+            <div class="fl">公众号名称：</div>
+            <div class="fr">
+                <input name="weixin_mpname" type="text" class="input_text_default" value="{:C('qscms_weixin_mpname')}"/>
+            </div>
+            <div class="fl">微信号：</div>
+            <div class="fr">
+                <input name="weixin_mpnumber" type="text" class="input_text_default" value="{:C('qscms_weixin_mpnumber')}"/>
+            </div>
+            <div class="fl">微信二维码图片：</div>
+            <div class="fr J-file-input-box">
+                <if condition="C('qscms_weixin_img')">
+                    <div class="file-input-src">
+                        <div class="img"><img src="{:attach(C('qscms_weixin_img'),'resource')}?_t={:time()}" align=absmiddle></div>
+                        <div class="del file-input-del" id="J_upload_weixin_img_btn" name="weixin_img">点击更换</div>
+                    </div>
+                <else/>
+                    <div class="file-input-src hid">
+                        <div class="img"></div>
+                        <div class="del file-input-del" id="" name="weixin_img">点击更换</div>
+                    </div>
+                    <div class="file-input-block" id="J_upload_weixin_img_btn" name="weixin_img"><span class="o-txt">上传</span>微信二维码图片</div>
+                </if>
+                <input type="hidden" class="file-input-save-name" name="weixin_img" value="{:C('qscms_weixin_img')}">
+            </div>
+            <div class="fl">微信头条信息大图：</div>
+            <div class="fr J-file-input-box">
+                <if condition="C('qscms_weixin_first_pic')">
+                    <div class="file-input-src">
+                        <div class="img"><img src="{:attach(C('qscms_weixin_first_pic'),'resource')}?_t={:time()}" align=absmiddle></div>
+                        <div class="del file-input-del" id="J_upload_weixin_first_pic_btn" name="weixin_first_pic">点击更换</div>
+                        <div class="r-note">(建议尺寸360 x 200)</div>
+                    </div>
+                <else/>
+                    <div class="file-input-src hid">
+                        <div class="img"></div>
+                        <div class="del file-input-del" id="" name="weixin_first_pic">点击更换</div>
+                        <div class="r-note">(建议尺寸360 x 200)</div>
+                    </div>
+                    <div class="file-input-block" id="J_upload_weixin_first_pic_btn" name="weixin_first_pic" ><span class="o-txt">上传</span>微信头条信息大图<span class="re-txt">(建议尺寸360 x 200)</span></div>
+                </if>
+                <input type="hidden" class="file-input-save-name" name="weixin_first_pic" value="{:C('qscms_weixin_first_pic')}">
+            </div>
+            <div class="fl">被关注回复：</div>
+            <div class="fr">
+              <textarea name="weixin_focus_tip" class="input_text_default" style="height: 100px; line-height: 180%;">{:C('qscms_weixin_focus_tip')}</textarea>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+                <input type="button" id="J_submit" class="admin_submit" value="保存"/>
+            </div>
+            <div class="clear"></div>
+        </div>
+  </form>
+</div>
+<include file="Admin@default/public/footer" />
+<script type="text/javascript">
+  var uploadUrl = "{:U('Upload/form_upload')}";
+</script>
+<script src="__ADMINPUBLIC__/js/ajaxfileupload.js"></script>
+<script src="__ADMINPUBLIC__/js/fileupload.js"></script>
+<script>
+  // 微信二维码图片
+  $.upload('#J_upload_weixin_img_btn',{name:'weixin_img',dir:'resource'},function(result){
+    if(result.error == 1){
+      var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+      $('#J_upload_weixin_img_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+      $('#J_upload_weixin_img_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+      if ($('#J_upload_weixin_img_btn').hasClass('file-input-block')) {
+        $('#J_upload_weixin_img_btn').closest('.J-file-input-box').find('.file-input-src').removeClass('hid');
+        var $delObj = $('#J_upload_weixin_img_btn').closest('.J-file-input-box').find('.file-input-del');
+        $('#J_upload_weixin_img_btn').remove();
+        $delObj.attr('id', "J_upload_weixin_img_change_btn");
+        $.upload('#J_upload_weixin_img_change_btn',{name:'weixin_img',dir:'resource'},function(result){
+          if(result.error == 1){
+            var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+            $('#J_upload_weixin_img_change_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+            $('#J_upload_weixin_img_change_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+          } else {
+            disapperTooltip("remind", "上传失败："+result.message);
+          }
+        })
+      }
+    } else {
+      disapperTooltip("remind", "上传失败："+result.message);
+    }
+  })
+  // 微信头条信息大图
+  $.upload('#J_upload_weixin_first_pic_btn',{name:'weixin_first_pic',dir:'resource'},function(result){
+    if(result.error == 1){
+      var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+      $('#J_upload_weixin_first_pic_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+      $('#J_upload_weixin_first_pic_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+      if ($('#J_upload_weixin_first_pic_btn').hasClass('file-input-block')) {
+        $('#J_upload_weixin_first_pic_btn').closest('.J-file-input-box').find('.file-input-src').removeClass('hid');
+        var $delObj = $('#J_upload_weixin_first_pic_btn').closest('.J-file-input-box').find('.file-input-del');
+        $('#J_upload_weixin_first_pic_btn').remove();
+        $delObj.attr('id', "J_upload_weixin_first_pic_change_btn");
+        $.upload('#J_upload_weixin_first_pic_change_btn',{name:'weixin_first_pic',dir:'resource'},function(result){
+          if(result.error == 1){
+            var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+            $('#J_upload_weixin_first_pic_change_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+            $('#J_upload_weixin_first_pic_change_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+          } else {
+            disapperTooltip("remind", "上传失败："+result.message);
+          }
+        })
+      }
+    } else {
+      disapperTooltip("remind", "上传失败："+result.message);
+    }
+  });
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('weixin/index')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

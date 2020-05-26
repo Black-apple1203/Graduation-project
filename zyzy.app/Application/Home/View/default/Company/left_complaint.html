@@ -1,0 +1,51 @@
+<link href="../public/css/common_ajax_dialog.css" rel="stylesheet" type="text/css" />
+<notempty name="consultant">
+<div class="service">
+	<div class="tit"><strong>专属客服</strong></div>
+	<div class="photo"><img src="{:attach($consultant['pic'],'consultant')}"  width="70"  height="70"   border="0"/></div>
+	<div class="name">{$consultant.name}</div>
+	<div class="qq"><a target="blank" href="tencent://message/?uin={$consultant.qq}&Site=menu&Menu=yes"><img border="0" SRC=http://wpa.qq.com/pa?p=1:{$consultant.qq}:1 alt="点击这里给我发消息"></a></div>
+	<if condition="$consultant['mobile'] || $consultant['tel']">
+	<div class="tel">
+		<if condition="$consultant['mobile']">
+		{$consultant.mobile}<br />
+		</if>
+		<if condition="$consultant['tel']">
+		{$consultant.tel}
+		</if>
+	</div>
+	</if>
+	<div class="btnbox">
+	  <div class="btn_complaint J_hoverbut ">投诉TA</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$(".btn_complaint").click(function(){
+    	var url = "{:U('Company/complaint_consultant')}";
+        var qsDialog = $(this).dialog({
+            title: '投诉客服',
+            loading: true,
+            border: false,
+            yes: function () {
+            	var notes = $("#notes").val();
+                $.post(url, {notes:notes},function (result) {
+	                if (result.status == 1) {
+	                	disapperTooltip('success', result.msg);
+	                    qsDialog.setCloseDialog(true);
+	                } else {
+	                    disapperTooltip('remind', result.msg);
+	                    qsDialog.setCloseDialog(false);
+	                }
+	            },'json');
+            }
+        });
+        $.getJSON(url, function (result) {
+            if (result.status == 1) {
+                qsDialog.setContent(result.data);
+            } else {
+                disapperTooltip('remind', result.msg);
+            }
+        });
+    });
+</script>
+</notempty>

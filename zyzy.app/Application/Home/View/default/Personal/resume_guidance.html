@@ -1,0 +1,397 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta" />
+    <link href="../public/css/personal/common.css" rel="stylesheet" type="text/css" />
+    <link href="../public/css/personal/personal_resume.css?v={:strtotime('today')}" rel="stylesheet" type="text/css" />
+    <link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css" />
+    <script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+    <include file="public:header_other" />
+    <div class="res_add_title font_blue">简历是求职的利器，好的简历才能更快找到好工作！</div>
+    <div class="res_addbox">
+        <form id="resume_add" class="" action="{:U('personal/resume_save')}" parent="post">
+            <div class="addmain J_focus no_border_top">
+                <div class="txt_title">教育经历</div>
+                <table width="200" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="w1"><span>&nbsp;</span>学校名称：</td>
+                        <td>
+                            <div class="reg-form-content">
+                                <input name="school" id="school" type="text" value="" class="input_245_34 inputElem"/>
+                            </div>
+                        </td>
+                        <td class="w1"><span>&nbsp;</span>专业名称：</td>
+                        <td>
+                            <div class="reg-form-content">
+                                <input name="speciality" id="speciality" type="text" value="" class="input_245_34 inputElem"/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w1"><span>&nbsp;</span>取得学历：</td>
+                        <td>
+                            <div class="input_245_34_div J_hoverinput J_dropdown J_listitme_parent">
+                                <span class="J_listitme_text">{$userprofile.education_cn|default='请选择'}</span>
+                                <div class="dropdowbox4 J_dropdown_menu">
+                                    <div class="dropdow_inner4">
+                                        <ul class="nav_box">
+                                            <volist name="education" id="education">
+                                                <li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$education}</a></li>
+                                            </volist>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input class="J_listitme_code" name="education1" id="education1" type="hidden" value="" />
+                            </div>
+                        </td>
+                        <td class="w1"><span>&nbsp;</span>入学时间：</td>
+                        <td>
+                            <div class="reg-form-content">
+                                <div class="input_100_34_div fl_l J_hoverinput J_dropdown J_listitme_parent">
+                                    <span class="J_listitme_text">年份</span>
+                                    <div class="dropdowbox9 J_dropdown_menu">
+                                        <div class="dropdow_inner9">
+                                            <ul class="nav_box J_birthdy_exp">
+                                                <div class="J_birthday_box_exp active"></div>
+                                                <div class="J_birthday_box_exp"></div>
+                                                <div class="J_birthday_box_exp"></div>
+                                            </ul>
+                                            <a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+                                            <a href="javascript:;" class="next J_birthday_next_exp"></a>
+                                        </div>
+                                    </div>
+                                    <input class="J_listitme_code" type="hidden" name="startyearEdu" id="startyearEdu" value="">
+                                </div>
+                                <div class="input_md_sp fl_l">-</div>
+                                <div class="input_100_34_div fl_l J_hoverinput J_dropdown J_listitme_parent">
+                                    <span class="J_listitme_text">月份</span>
+                                    <div class="dropdowbox11 J_dropdown_menu">
+                                        <div class="dropdow_inner11">
+                                            <ul class="nav_box J_month">
+                                                <div class="J_month_box active"></div>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <input class="J_listitme_code" type="hidden" name="startmonthEdu" id="startmonthEdu" value="">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="w1"><span>&nbsp;</span>毕业时间：</td>
+                        <td class="J_itemsmenu">
+                            <div class="input_100_34_div fl_l J_hoverinput J_dropdown J_listitme_parent J_fortonow">
+                                <span class="J_listitme_text">年份</span>
+                                <div class="dropdowbox9 J_dropdown_menu">
+                                    <div class="dropdow_inner9">
+                                        <ul class="nav_box J_birthdy_exp">
+                                            <div class="J_birthday_box_exp active"></div>
+                                            <div class="J_birthday_box_exp"></div>
+                                            <div class="J_birthday_box_exp"></div>
+                                        </ul>
+                                        <a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+                                        <a href="javascript:;" class="next J_birthday_next_exp"></a>
+                                    </div>
+                                </div>
+                                <input class="J_listitme_code" type="hidden" name="endyearEdu" id="endyearEdu" value="">
+                            </div>
+                            <div class="input_md_sp fl_l J_fortonow">-</div>
+                            <div class="input_100_34_div fl_l J_hoverinput J_dropdown J_listitme_parent J_fortonow">
+                                <span class="J_listitme_text">月份</span>
+                                <div class="dropdowbox11 J_dropdown_menu">
+                                    <div class="dropdow_inner11">
+                                        <ul class="nav_box J_month">
+                                            <div class="J_month_box active"></div>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <input class="J_listitme_code" type="hidden" name="endmonthEdu" id="endmonthEdu" value="">
+                            </div>
+                            <div class="for_chb_box">
+                                <label><input class="for_chb J_tonow" name="tonowEdu" id="tonowEdu" type="checkbox" value="0">至今</label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="J_add_work_hand">
+                        <td class="w1"></td>
+                        <td>
+                            <div class="add_work_for_btn" id="J_add_work_handler">添加工作经历</div>
+                        </td>
+                    </tr>
+                </table>
+                <div id="J_work_add_box" style="display: none">
+                    <div class="txt_title">工作经历 <div class="right_ico" id="J_close_add_work"></div></div>
+                    <table width="200" border="0" align="center" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="w1"><span>&nbsp;</span>公司名称：</td>
+                            <td>
+                                <div class="reg-form-content">
+                                    <input name="companyname" id="companyname" type="text" value="" class="input_245_34 inputElem"/>
+                                </div>
+                            </td>
+                            <td class="w1"><span>&nbsp;</span>职位名称：</td>
+                            <td>
+                                <div class="reg-form-content">
+                                    <input name="jobs" id="experienceJobname" type="text" value="" class="input_245_34 inputElem"/>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w1"><span>&nbsp;</span>入职时间：</td>
+                            <td>
+                                <div class="reg-form-content">
+                                    <div class="input_100_34_div fl_l J_hoverinput J_dropdown J_listitme_parent">
+                                        <span class="J_listitme_text">年份</span>
+                                        <div class="dropdowbox9 J_dropdown_menu">
+                                            <div class="dropdow_inner9">
+                                                <ul class="nav_box J_birthdy_exp">
+                                                    <div class="J_birthday_box_exp active"></div>
+                                                    <div class="J_birthday_box_exp"></div>
+                                                    <div class="J_birthday_box_exp"></div>
+                                                </ul>
+                                                <a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+                                                <a href="javascript:;" class="next J_birthday_next_exp"></a>
+                                            </div>
+                                        </div>
+                                        <input class="J_listitme_code" type="hidden" name="startyearExp" id="startyearExp" value="">
+                                    </div>
+                                    <div class="input_md_sp fl_l">-</div>
+                                    <div class="input_100_34_div fl_l J_hoverinput J_dropdown J_listitme_parent">
+                                        <span class="J_listitme_text">月份</span>
+                                        <div class="dropdowbox11 J_dropdown_menu">
+                                            <div class="dropdow_inner11">
+                                                <ul class="nav_box J_month">
+                                                    <div class="J_month_box active"></div>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <input class="J_listitme_code" type="hidden" name="startmonthExp" id="startmonthExp" value="">
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="w1"><span>&nbsp;</span>离职时间：</td>
+                            <td>
+                                <div class="reg-form-content J_itemsmenu">
+                                    <div class="input_100_34_div fl_l J_hoverinput J_dropdown J_listitme_parent J_fortonow">
+                                        <span class="J_listitme_text">年份</span>
+                                        <div class="dropdowbox9 J_dropdown_menu">
+                                            <div class="dropdow_inner9">
+                                                <ul class="nav_box J_birthdy_exp">
+                                                    <div class="J_birthday_box_exp active"></div>
+                                                    <div class="J_birthday_box_exp"></div>
+                                                    <div class="J_birthday_box_exp"></div>
+                                                </ul>
+                                                <a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+                                                <a href="javascript:;" class="next J_birthday_next_exp"></a>
+                                            </div>
+                                        </div>
+                                        <input class="J_listitme_code" type="hidden" name="endyearExp" id="endyearExp" value="">
+                                    </div>
+                                    <div class="input_md_sp fl_l J_fortonow">-</div>
+                                    <div class="input_100_34_div fl_l J_hoverinput J_dropdown J_listitme_parent J_fortonow">
+                                        <span class="J_listitme_text">月份</span>
+                                        <div class="dropdowbox11 J_dropdown_menu">
+                                            <div class="dropdow_inner11">
+                                                <ul class="nav_box J_month">
+                                                    <div class="J_month_box active"></div>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <input class="J_listitme_code" type="hidden" name="endmonthExp" id="endmonthExp" value="">
+                                    </div>
+                                    <div class="for_chb_box">
+                                        <label><input class="for_chb J_tonow" name="tonowExp" id="tonowExp" type="checkbox" value="0">至今</label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w1"><span>&nbsp;</span>工作职责：</td>
+                            <td colspan="3">
+                                <textarea name="jobrespons" id="jobrespons" class="textarea_638_80"></textarea>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="res_add_but">
+                    <div class="butlist w180">
+                        <input type="hidden" id="J_verify_work" value="0">
+                        <input type="hidden" class="pid" name="pid" id="J_pid" value="{$resume['id']}">
+                        <input type="button" id="J_saveresume"  class="but_blue_180 J_hoverbut" value="完成" />
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <include file="index_footer" />
+    <script type="text/javascript">
+        // 至今
+        $('.J_tonow').click(function(e) {
+            if ($(this).is(':checked')) {
+                $(this).val('1');
+            } else {
+                $(this).val('0');
+            }
+            $(this).closest('.J_itemsmenu').find('.J_fortonow').addClass('disabled');
+        });
+
+        // 添加工作经历
+        $('#J_add_work_handler').click(function() {
+            $('#J_work_add_box').show();
+            $('#J_add_work_hand').hide();
+            $('#J_verify_work').val('1');
+        });
+
+        // 关闭工作经历
+        $('#J_close_add_work').click(function() {
+            $('#J_work_add_box').hide();
+            $('#J_add_work_hand').show();
+            $('#J_verify_work').val('0');
+        });
+
+        // 验证表单并提交
+        var regularMobile = qscms.regularMobile; // 验证手机号正则
+        $('#J_saveresume').die().live('click', function() {
+            var pidValue = $('#J_pid').val();
+            var isVerifyWork = eval($('#J_verify_work').val());
+            var schoolValue = $.trim($('#school').val());
+            var specialityValue = $.trim($('#speciality').val());
+            var education1Value = $.trim($('#education1').val());
+            var startyearEduValue = $.trim($('#startyearEdu').val());
+            var startmonthEduValue = $.trim($('#startmonthEdu').val());
+            var endyearEduValue = $.trim($('#endyearEdu').val());
+            var endmonthEduValue = $.trim($('#endmonthEdu').val());
+            var todateEduValue = $.trim($('#tonowEdu').val());
+            var listidValue = $.trim($('[data-waitsome="education"]').find('.J_listid').val());
+            if (schoolValue == "") {
+                disapperTooltip("remind", "请填写学校名称");
+                return false;
+            }
+            if (specialityValue == "") {
+                disapperTooltip("remind", "请填写专业名称");
+                return false;
+            }
+            if (education1Value == "") {
+                disapperTooltip("remind", "请选择学历");
+                return false;
+            }
+            if (startyearEduValue == "") {
+                disapperTooltip("remind", "请选择入学时间");
+                return false;
+            }
+            if (startmonthEduValue == "") {
+                disapperTooltip("remind", "请选择入学月份");
+                return false;
+            }
+            if (!parseInt(todateEduValue)) { // 不选择至今才验证结束时间
+                if (endyearEduValue == "") {
+                    disapperTooltip("remind", "请选择毕业时间");
+                    return false;
+                }
+                if (endmonthEduValue == "") {
+                    disapperTooltip("remind", "请选择毕业月份");
+                    return false;
+                }
+                if (wrongTime(startyearEduValue, startmonthEduValue, endyearEduValue, endmonthEduValue)) {
+                    disapperTooltip("remind", "毕业时间应大于入学时间");
+                    return false;
+                }
+            }
+            var eduData = { school: schoolValue, speciality: specialityValue, education: education1Value, startyear: startyearEduValue, startmonth: startmonthEduValue,
+                endyear: endyearEduValue, endmonth: endmonthEduValue, todate: todateEduValue };
+            var expData = {};
+            if (isVerifyWork) {
+                // 添加工作经历验证
+                var companynameValue = $.trim($('#companyname').val());
+                var experiencenameValue = $.trim($('#experienceJobname').val());
+                var startyearExpValue = $.trim($('#startyearExp').val());
+                var startmonthExpValue = $.trim($('#startmonthExp').val());
+                var endyearExpValue = $.trim($('#endyearExp').val());
+                var endmonthExpValue = $.trim($('#endmonthExp').val());
+                var todateExpValue = $.trim($('#tonowExp').val());
+                var jobresponsValue = $.trim($('#jobrespons').val());
+                var listidValue = $.trim($('[data-waitsome="experience"]').find('.J_listid').val());
+                if (companynameValue == "") {
+                    disapperTooltip("remind", "请填写公司名称");
+                    return false;
+                }
+                if (experiencenameValue == "") {
+                    disapperTooltip("remind", "请填写职位名称");
+                    return false;
+                }
+                if (startyearExpValue == "") {
+                    disapperTooltip("remind", "请选择入职时间");
+                    return false;
+                }
+                if (startmonthExpValue == "") {
+                    disapperTooltip("remind", "请选择入职月份");
+                    return false;
+                }
+                if (!parseInt(todateExpValue)) {
+                    if (endyearExpValue == "") {
+                        disapperTooltip("remind", "请选择离职时间");
+                        return false;
+                    }
+                    if (endmonthExpValue == "") {
+                        disapperTooltip("remind", "请选择离职月份");
+                        return false;
+                    }
+                    if (wrongTime(startyearExpValue, startmonthExpValue, endyearExpValue, endmonthExpValue)) {
+                        disapperTooltip("remind", "离职时间应大于入职时间");
+                        return false;
+                    }
+                }
+                if (jobresponsValue == "") {
+                    disapperTooltip("remind", "请填写工作职责");
+                    return false;
+                }
+                expData = { companyname: companynameValue, jobs: experiencenameValue, startyear: startyearExpValue, startmonth: startmonthExpValue, endyear: endyearExpValue,
+                    endmonth: endmonthExpValue, todate: todateExpValue, achievements: jobresponsValue };
+            }
+            $('#J_saveresume').val('保存中...').addClass('btn_disabled').prop('disabled', !0);
+            // 提交表单
+            $.ajax({
+                url: "",
+                type: 'POST',
+                dataType: 'json',
+                data: { pid: pidValue, education: eduData, experience: expData }
+            })
+            .done(function(data) {
+                if (parseInt(data.status)) {
+                    window.location.href = data.data.url;
+                } else {
+                    if(data.data == 1){
+                        auth_mobile();
+                    }else{
+                        disapperTooltip("remind", data.msg);
+                    }
+                    $('#J_saveresume').val('保存').removeClass('btn_disabled').prop('disabled', 0);
+                }
+            })
+            .fail(function(result) {
+                $('#J_saveresume').val('保存').removeClass('btn_disabled').prop('disabled', 0);
+                disapperTooltip("remind", result.msg);
+            });
+        });
+        // 判断结束时间是否大于开始时间
+        function wrongTime(sYear, sMonth, eYear, eMonth) {
+            if (parseInt(sYear) > parseInt(eYear)) {
+                return true;
+            } else {
+                if (parseInt(sYear) == parseInt(eYear)) {
+                    if (parseInt(sMonth) >= parseInt(eMonth)) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

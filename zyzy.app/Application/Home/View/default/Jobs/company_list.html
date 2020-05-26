@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta" />
+    <link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="{:C('TPL_PUBLIC_DIR')}/css/common_ajax_dialog.css" rel="stylesheet" type="text/css" />
+    <link href="{:C('TPL_PUBLIC_DIR')}/css/jobs.css" rel="stylesheet" type="text/css" />
+    <script src="{:C('TPL_PUBLIC_DIR')}/js/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="com-se-group">
+    <div class="com-se-main">
+        <div class="main-sty">
+            <if condition="C('qscms_jobsearch_key_first_choice') eq 1">
+                <div class="sty-cell J_sli_jc" data-type="jobs">搜职位<div class="sty-aow"></div></div>
+            <elseif condition="C('qscms_jobsearch_type') neq 0"/>
+                <div class="sty-cell J_sli_jc" data-type="full">全文<div class="sty-aow"></div></div>
+            </if>
+            <if condition="C('qscms_jobsearch_key_first_choice') eq 0 && C('qscms_jobsearch_type') eq 0">
+                <div class="sty-cell J_sli_jc" data-type="jobs">搜职位<div class="sty-aow"></div></div>
+            </if>
+            <div class="sty-cell J_sli_jc select" data-type="company">搜企业<div class="sty-aow"></div></div>
+            <if condition="C('qscms_jobsearch_type') neq 0 && C('qscms_jobsearch_key_first_choice') eq 1">
+                <div class="sty-cell J_sli_jc" data-type="full">全文<div class="sty-aow"></div></div>
+            </if>
+            <div class="clear"></div>
+        </div>
+        <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_companylist'))}" method="get">
+            <div class="ip-group">
+                <div class="ip-box"><input type="text" id="autoKeyInput" name="key" data-original="{$Think.get.key|urldecode|urldecode}" id="" value="{$Think.get.key|urldecode|urldecode}" placeholder="请输入企业名称" /></div>
+                <div class="ip-btn"><input type="submit" class="sobut J_hoverbut" value="搜企业" /></div>
+                <div class="clear"></div>
+                <input type="hidden" name="search_type" value="{$Think.get.search_type}" />
+            </div>
+        </form>
+    </div>
+</div>
+<div class="com-se-filter">
+    <div class="com-se-line">
+        <div class="csl-left">企业性质</div>
+        <div class="csl-right">
+            <qscms:classify 列表名="nature_list" 类型="QS_company_type" 显示数目="100"/>
+            <div onclick="javascript:location.href='{:url_rewrite('QS_companylist',array(\'nature\'=>'',\'trade\'=>$_GET['trade'],\'key\'=>$_GET['key']))}'" data-code="0" title="不限" class="csl-cell <if condition="$Think.get.nature eq ''">select</if>">不限</div>
+            <volist name="nature_list" id="nature">
+                <div onclick="javascript:location.href='{:url_rewrite('QS_companylist',array(\'nature\'=>$key,\'trade\'=>$_GET['trade'],\'key\'=>$_GET['key']))}'" data-code="{$key}" title="{$nature}" class="csl-cell <if condition="$Think.get.nature eq $key">select</if>">{$nature}</div>
+            </volist>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="com-se-line J_trade">
+        <div class="csl-left">行业类别</div>
+        <div class="csl-right">
+            <qscms:classify 列表名="trade_list" 类型="QS_trade" 显示数目="100"/>
+            <div onclick="javascript:location.href='{:url_rewrite('QS_companylist',array(\'nature\'=>$_GET['nature'],\'trade\'=>'',\'key\'=>$_GET['key']))}'" data-code="0" title="不限"  class="csl-cell <if condition="$Think.get.trade eq ''">select</if>">不限</div>
+            <volist name="trade_list" id="trade">
+                <div onclick="javascript:location.href='{:url_rewrite('QS_companylist',array(\'nature\'=>$_GET['nature'],\'trade\'=>$key,\'key\'=>$_GET['key']))}'" data-code="{$key}" title="{$trade}" class="csl-cell <if condition="$Think.get.trade eq $key">select</if>">{$trade}</div>
+            </volist>
+            <div class="clear"></div>
+        </div>
+        <div class="more">
+        <div class="J_showTrade mbtn close">展开</div>
+            <script type="text/javascript">
+              $('.J_trade .csl-cell').each(function(index, el) {
+                if (index > 15) {
+                  $(this).addClass('for_up');
+                }
+              })
+              var selectIndex = $('.J_trade .csl-cell').index($('.J_trade .csl-cell.select'));
+              if (selectIndex > 15) {
+                $('.J_showTrade').removeClass('close');
+                $('.J_showTrade').text('收起');
+                $('.for_up').show();
+              }
+              $('.J_showTrade').die().live('click', function(event) {
+                if ($(this).hasClass('close')) {
+                  $(this).removeClass('close');
+                  $(this).text('收起');
+                  $('.for_up').show();
+                } else {
+                  $(this).addClass('close');
+                  $(this).text('展开');
+                  $('.for_up').hide();
+                }
+              })
+            </script>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<div class="com-res-group">
+    <if condition="$_GET">
+        <div class="selected J_selected">
+            <div class="stit">已选条件</div>
+            <div class="sc">
+                <notempty name="Think.get.key">
+                    <div class="slist" <if condition="$Think.get.sort eq 'score'">onclick="window.location='{:url_rewrite('QS_companylist',array(\'nature\'=>$_GET['nature'],\'trade\'=>$_GET['trade'],\'key\'=>''))}';"<else/>onclick="window.location='{:url_rewrite('QS_companylist',array(\'nature\'=>$_GET['nature'],\'trade\'=>$_GET['trade'],\'key\'=>''))}';"</if>><span>关键字：</span>{$Think.get.key|urldecode|urldecode}</div>
+                </notempty>
+                <if condition="$Think.get.nature neq ''">
+                    <div class="slist" onclick="window.location='{:url_rewrite('QS_companylist',array(\'nature\'=>'',\'trade\'=>$_GET['trade'],\'key\'=>$_GET['key']))}';">
+                        <span>企业性质：</span>
+                        {$nature_list[$_GET['nature']]}
+                    </div>
+                </if>
+                <if condition="$Think.get.trade neq ''">
+                    <div class="slist" onclick="window.location='{:url_rewrite('QS_companylist',array(\'nature\'=>$_GET['nature'],\'trade\'=>'',\'key\'=>$_GET['key']))}';">
+                        <span>行业类别：</span>
+                        {$trade_list[$_GET['trade']]}
+                    </div>
+                </if>
+            </div>
+            <div class="sr">
+                <div class="empty" onclick="window.location='{:url_rewrite('QS_companylist')}';">清空</div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </if>
+</div>
+<qscms:company_list 列表名="companylist" 显示数目="20" 分页显示="1" 关键字="$_GET['key']" 行业="$_GET['trade']" 企业性质="$_GET['nature']" 描述长度="130" 填补字符="..."/>
+<div class="com-sel-group">
+    <notempty name="companylist['list']">
+    <volist name="companylist['list']" id="vo">
+    <div class="com-sel-line J_comList">
+        <div class="csl-left"><img src="{$vo['logo']}"></div>
+        <div class="csl-right">
+            <div class="csl-line">
+                <div class="csr-left"><a href="{$vo['url']}">{$vo['companyname']}</a></div>
+                <div class="csr-right">{$vo['refreshtime_cn']}</div>
+                <div class="clear"></div>
+            </div>
+            <div class="csl-line">
+                {$vo['district_cn']}&nbsp;&nbsp;&nbsp;&nbsp;{$vo['nature_cn']}&nbsp;&nbsp;&nbsp;&nbsp;{$vo['category_cn']}&nbsp;&nbsp;&nbsp;&nbsp;{$vo['scale_cn']}&nbsp;&nbsp;&nbsp;&nbsp;<a href="{$vo['comjobs_url']}" class="n">在招职位（{$vo['jobs_count']}）</a>
+            </div>
+            <div class="csl-des">
+                {$vo['briefly']}
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+        <div class="clear"></div>
+    </volist>
+    <div class="qspage">{$companylist.page}</div>
+    <else />
+    <div class="list_empty_group">
+        <div class="list_empty">
+            <div class="list_empty_left"></div>
+            <div class="list_empty_right">
+                <div class="sorry_box">对不起，没有找到符合您条件的企业！</div>
+                <div class="stips_box">放宽您的查找条件也许有更多合适您的企业哦~</div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    </notempty>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.jobslist.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.highlight-3.js"></script>
+<script type="text/javascript">
+  // // 搜索类型切换
+  $('.J_sli_jc').click(function() {
+    $(this).addClass('select').siblings().removeClass('select');
+    var indexValue = $('.J_sli_com').index(this);
+    var typeValue = $.trim($(this).data('type'));
+    if (typeValue == 'company') {
+      $('#ajax_search_location').attr('action', "{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_companylist'))}");
+    } else {
+      $('#ajax_search_location').attr('action', "{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}");
+    }
+    $('input[name="search_type"]').val(typeValue);
+  });
+  // 关键字高亮
+  var keyWords = $('input[name="key"]').val();
+  if (keyWords.length) {
+    $('.J_comList').highlight(keyWords);
+  }
+  $('.com-sel-line').eq($('.com-sel-line').length-1).addClass('last');
+  if ($('.J_selected .slist').length) {
+        $('.J_selected').show();
+    }
+</script>
+</body>
+</html>

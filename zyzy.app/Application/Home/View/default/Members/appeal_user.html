@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/members/common.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/members/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="header" />
+<div class="appeal_user">
+	<div class="titbg">
+	    <div class="ltit">
+	     	<div class="t font_blue">申诉提示</div>
+	   	</div>
+	   	<div class="rtit">
+	     	<div class="t"> 申诉后，我们客服人员将尽快联系您<br />
+	       	申诉联系电话 <span class="font_blue">{:C('qscms_bootom_tel')}</span><br />
+	       	申诉成功后，我们将把帐号密码重置并提供给您</div>
+	   	</div>
+	   	<div class="clear"></div>
+	</div>
+ 	<div class="rl J_focus">
+ 		<form id="appealForm" action="{:U('appeal_user')}" method="post">
+	 		<div id="form">
+	 			<div class="J_validate_group">
+				 	<div class="td1">
+						<input class="input_295_34" id="realname" name="realname" type="text" placeholder="请输入您的真实姓名"/>
+					</div>
+					<div class="td2 J_showtip_box"></div>
+					<div class="clear"></div>
+				</div>
+				<div class="J_validate_group">
+					<div class="td1">
+						<input class="input_295_34" id="mobile" name="mobile" type="text" placeholder="请输入手机号码"/>
+					</div>
+					<div class="td2 J_showtip_box"></div>
+					<div class="clear"></div>
+				</div>
+				<div class="appeal_tip">请填写当前您正在使用的电话号码，便于客服人员联系您</div>
+				<div class="J_validate_group">
+					<div class="td1">
+						<input class="input_295_34" id="email" name="email" type="text" placeholder="请输入您的常用邮箱"/>
+					</div>
+					<div class="td2 J_showtip_box"></div>
+				 	<div class="clear"></div>
+			 	</div>
+			 	<div class="J_validate_group">
+					<div class="td1 h" >
+						<textarea id="description" name="description" cols="" rows="" placeholder="账号申诉描述" class="textarea_438_80"  ></textarea>
+					</div>
+					<div class="td2 J_showtip_box"></div>
+					<div class="clear"></div>
+				</div>
+				<div class="btnbox">
+					<input id="btnAppealRegister" type="button" value="提交" class="btn_reg J_hoverbut" />
+				</div>
+			</div>
+		</form>
+		<div class="appeal_ok" style="display:none;">
+			<h3>提交成功！</h3>
+			客服人员将会尽快联系你，请保持电话畅通！
+		</div>
+	</div>
+</div>
+<!--下方阴影 -->
+<div class="appeal_user_bg">
+  	<div class="bl"></div>
+  	<div class="br"></div>
+  	<div class="clear"></div>
+</div>
+<include file="public:footer_min" />
+<script type="text/javascript" src="../public/js/jquery.form.js"></script>
+<script type="text/javascript" src="../public/js/jquery.validate.js"></script>
+<script type="text/javascript" src="../public/js/members/jquery.validate.appeal.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		function check_input(objid){
+			if($.trim($(objid).val())==''){
+				$(objid+"_tip").show();
+				return false;
+			}else{
+				$(objid+"_tip").hide();
+			}
+		}
+		$("input,textarea").keyup(function(){
+			check_input('#'+$(this).attr('id'));
+		});
+	});
+</script>
+</body>
+</html>

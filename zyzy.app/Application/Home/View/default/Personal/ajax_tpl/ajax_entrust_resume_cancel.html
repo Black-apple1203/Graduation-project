@@ -1,0 +1,17 @@
+<div class="entrust_resume_dialog">
+	<div class="tip">
+		设置委托投递后，求职顾问将根据您简历的求职意向为您筛选投递适合的职位。
+	</div>
+	<div class="content">
+		<div class="td1">简历名称：</div>
+		<div class="td2">
+			{$resume.title}
+		</div>
+		<div class="clear"></div>
+		<div class="td1">委托期限：</div>
+		<div class="td2">
+			{:date('Y-m-d',$entrust_info['entrust_start'])} 至 {:date('Y-m-d',$entrust_info['entrust_end'])}
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>

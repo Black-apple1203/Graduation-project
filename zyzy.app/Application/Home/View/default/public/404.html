@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="renderer" content="webkit">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>{$page_seo.title}</title>
+		<meta name="keywords" content="{$page_seo.keywords}"/>
+		<meta name="description" content="{$page_seo.description}"/>
+		<meta name="author" content="骑士CMS"/>
+		<meta name="copyright" content="74cms.com"/>
+		<link rel="shortcut icon" href="{:C('qscms_site_dir')}favicon.ico"/>
+		<style type="text/css">
+			body{margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:8px;font-size:14px;color:#666666;font-family:"microsoft yahei","宋体";background-color:#FFFFFF;}
+			.no_page_group{padding:100px 0;text-align:center;background:#fff;}
+			.no_page_group .no_page{display:inline-block;*display:inline;*zoom:1;}
+			.no_page_group .no_page .no_page_left{width:390px;height:380px;background:url({:C('TPL_HOME_PUBLIC_DIR')}/images/139.png) no-repeat;float:left;}
+			.no_page_group .no_page .no_page_right{padding-left:30px;text-align:left;float:left;}
+			.no_page_group .no_page .no_page_right .num_box{padding-top:50px;font-size:80px;color:#Fd8000;font-weight:bold;}
+			.no_page_group .no_page .no_page_right .sorry_box{padding-top:25px;color:#Fd8000;font-size:30px;font-weight:bold;}
+			.no_page_group .no_page .no_page_right .btn_box{padding-top:50px;font-size:16px;}
+			.btn_inline{display:inline;margin-right:18px;}
+			.no_page_group .no_page .no_page_right .btn_box .btn_inline{cursor:pointer;padding:8px 15px;background:#ff6600;color:#fff;text-decoration: none;}
+			.no_page_group .no_page .no_page_right .btn_box .btn_inline:hover{background-color:#E68A13}
+			.no_page_head{margin:0 auto;width:1200px;height:110px;}
+			.no_page_head .logobox{width:370px;float:left;padding-top:20px;overflow:hidden}
+			.no_page_bg{border-top:2px #FF5A00 solid;}
+			.foottxt{margin:0 auto;width:1200px;padding-bottom:20px;text-align:center;font-size:14px;margin-top:20px;line-height:200%;color: #999999;}
+		</style>
+	</head>
+	<body>
+		<div class="no_page_head">
+			<div class="logobox"><a href="__ROOT__/"><img src="<if condition="C('qscms_logo_home')">{:attach(C('qscms_logo_home'),'resource')}<else/>{:C('TPL_HOME_PUBLIC_DIR')}/images/logo.gif</if>" border="0"/></a></div>
+			<div class="clear"></div>
+		</div>
+		<div class="no_page_bg"></div>
+		<div class="no_page_group">
+			<div class="no_page">
+				<div class="no_page_left"></div>
+				<div class="no_page_right">
+					<div class="num_box">404</div>
+					<div class="sorry_box">抱歉，没有找到您要找的页面！</div>
+					<div class="btn_box">
+							<!--<div class="btn_inline" onclick="javascript:history.go(-1);">返回上一页</div>-->
+						<a href="__ROOT__/" class="btn_inline">返回首页</a>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="no_page_footer">
+			<div class="foottxt">Copyright @ 2015 74cms.com All Right Reserved </div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,59 @@
+﻿/*帮助首页*/
+.help_banner{ width:100%; height:165px;  background-image:url(../banner/help.jpg); background-repeat:no-repeat; background-position:center center;}
+.help{margin:0 auto; width:1200px; margin-top:25px;}
+.help .l{ float:left; width:260px;}
+.help .l .catbox{ width:232px; border:1px #EEEEEE solid; padding-bottom:20px; padding-top:10px;}
+.help .l .catbox .titl{ font-size:22px; color:#333333; padding-left:40px;  margin:10px 0px;background:url(../images/151.png) no-repeat 18px 8px;cursor: pointer;}
+.help .l .catbox .help_category .help_category_list{display: none;}
+.help .l .catbox .help_category.open .help_category_list{display: block;}
+.help .l .catbox .help_category.open .titl{background-position: 18px -17px;}
+.help .l .catbox li{background-image:url(../images/123.png);background-repeat:no-repeat; background-position:10px -16px; width:180px; margin-left:35px; height:28px; line-height:28px; padding-left:20px;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;}
+.help .l .catbox li a.select {color: #Fd8000;}
+.help .r{ float:left; width:940px;}
+.help .r .main{width:938px; border:1px #EEEEEE solid;}
+.help .r .main .topso{width:938px; background-color:#FCFAF3; border-bottom:1px #EEEEEE solid}
+.help .r .main .topso .t{ font-size:22px; color:#333333; padding-left:30px; padding-top:15px; padding-bottom:15px;}
+.help .r .main .topso .lso{ width: 510px; padding-left:30px; float:left;margin-bottom:25px;}
+.help .r .main .topso .lso .sobg{ width:480px; height:36px; border:2px #FF6600 solid;  background-color:#FFFFFF; position:relative; }
+.help .r .main .topso .lso .sobg .sinput{ width:425px; border:0px; background-color:#FFFFFF; padding-left:15px; height:34px; line-height:34px;}
+.help .r .main .topso .lso .sobg .btn{ width:40px; height:40px; position:absolute; right:-2px; top:-2px;background-image:url(../images/133.png); background-repeat:no-repeat; background-position:10px 10px; background-color:#FF6600; border:0px; cursor:pointer}
+.help .r .main .topso .lso .sobg .btn:hover{ background-color:#FB3C04}
+.help .r .main .topso .rhot{ width: 368px; float:left; padding-top:7px;}
+.help .r .main .topso .rhot a{ margin-right:15px;}
+.help .r .main .lbox{ float:left; width:469px; height:310px; border-bottom:1px #EEEEEE solid}
+.help .r .main .lbox .tit{ padding-left:30px;font-size:18px; color: #000000; padding-top:15px; padding-bottom:5px; }
+.help .r .main .lbox li{background-image:url(../images/123.png);background-repeat:no-repeat; background-position:15px 15px; width:400px; margin-left:20px; height:28px; line-height:28px; padding-left:25px;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;}
+.help .r .main .lbox .more{ text-align: right; padding-right:30px; padding-top:10px;}
+
+
+/*帮助列表*/
+ 
+.helplist{margin:0 auto; width:1200px; margin-top:25px;}
+.helplist .l{ float:left; width:260px;}
+.helplist .l .catbox{ width:232px; border:1px #EEEEEE solid; padding-bottom:20px; padding-top:10px;}
+.helplist .l .catbox .titl{ font-size:22px; color:#333333; padding-left:40px;  margin:10px 0px;background:url(../images/151.png) no-repeat 18px 8px;cursor: pointer;}
+.helplist .l .catbox .help_category .help_category_list{display: none;}
+.helplist .l .catbox .help_category.open .help_category_list{display: block;}
+.helplist .l .catbox .help_category.open .titl{background-position: 18px -17px;}
+.helplist .l .catbox li{background-image:url(../images/123.png);background-repeat:no-repeat; background-position:10px -16px; width:180px; margin-left:35px; height:28px; line-height:28px; padding-left:20px;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;}
+.helplist .l .catbox li a.select {color: #Fd8000;}
+.helplist .r{ float:left; width:940px;}
+.helplist .r .main{width:938px; border:1px #EEEEEE solid; padding-top:15px; padding-bottom:20px; min-height:500px;}
+.helplist .r .main .titl{ font-size:22px; color:#333333; padding-left:20px;  margin-bottom:10px;}
+.helplist .r .main .list{width:938px;}
+.helplist .r .main .list .tit{background-image:url(../images/123.png);background-repeat:no-repeat; background-position:15px 15px; width:630px; margin-left:20px;  padding-left:25px;overflow:hidden;white-space: nowrap;text-overflow: ellipsis; float:left; height:32px; line-height:32px;}
+.helplist .r .main .list .time{float:left; width:260px; color:#999999}
+/*帮助详细页*/
+.helpshow{margin:0 auto; width:1200px; margin-top:25px;}
+.helpshow .l{ float:left; width:260px;}
+.helpshow .l .catbox{ width:232px; border:1px #EEEEEE solid; padding-bottom:20px; padding-top:20px;}
+.helpshow .l .catbox .titl{ font-size:22px; color:#333333; padding-left:20px;  margin-bottom:10px;}
+.helpshow .l .catbox li{background-image:url(../images/123.png);background-repeat:no-repeat; background-position:10px -16px; width:180px; margin-left:20px; height:28px; line-height:28px; padding-left:20px;overflow:hidden;white-space: nowrap;text-overflow: ellipsis;}
+.helpshow .r{ float:left; width:940px;}
+.helpshow .r .main{width:938px; border:1px #EEEEEE solid; padding-top:25px; padding-bottom:20px; min-height:500px;}
+.helpshow .r .main .titl{ font-size:22px; color:#333333; padding-left:20px; line-height:180%;  margin-bottom:10px; text-align:center;}
+.helpshow .r .main .txt{ padding:40px; line-height:200%;}
+
+ 
+
+ 

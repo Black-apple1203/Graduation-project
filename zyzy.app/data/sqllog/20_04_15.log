@@ -1,0 +1,6 @@
+[ 2020-04-15T10:15:28+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair_stat
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=ajax&a=affair_stat','127.0.0.1:50347','本机地址','1586916927','1','admin','0') [RunTime:0.2079s] [IP:127.0.0.1:50347] [AddTime:1586916928] [qscms]
+[ 2020-04-15T10:15:38+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT COUNT(did) AS tp_count FROM `qs_company_down_resume` WHERE `down_addtime` >= 1586880000    LIMIT 1  [RunTime:0.2643s] [IP:127.0.0.1:50407] [AddTime:1586916938] [qscms]
+[ 2020-04-15T10:15:38+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT `utype`,count(uid) as num FROM `qs_members` WHERE `reg_time` BETWEEN 1586793600 AND 1586880000 GROUP BY utype    [RunTime:0.2189s] [IP:127.0.0.1:50407] [AddTime:1586916938] [qscms]

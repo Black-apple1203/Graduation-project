@@ -1,0 +1,85 @@
+<include file="public:header" />
+    <script type="text/javascript">
+    $(document).ready(function()
+    {
+        $("#selectAll").click(function()
+        {   
+            $("form :checkbox").attr("checked",true);
+            setbg();
+        });
+        $("#uncheckAll").click(function()
+        {   
+            $("form :checkbox").attr("checked",false);
+            setbg();
+        });
+        $("#opposite").click(function()
+        {   
+            $("form :checkbox").each(function()
+            {
+            $(this).attr("checked")?$(this).attr("checked",false):$(this).attr("checked",true);
+            });
+            setbg();
+        }); 
+    });
+    </script>
+    <div class="toptit">修改管理员角色
+    <span style="color: #FF3300">({$role.name})</span>
+          &nbsp;&nbsp;&nbsp;
+          <span id="selectAll" style="color:#0066CC; cursor:pointer">[全选]</span>
+          &nbsp;&nbsp;&nbsp;
+          <span id="uncheckAll" style="color:#0066CC; cursor:pointer">[全不选]</span>
+          &nbsp;&nbsp;&nbsp;
+          <span id="opposite" style="color:#0066CC; cursor:pointer">[反选]</span>
+    </div>
+    <form id="form1" name="form1" method="post" action="{:U('AdminRole/auth')}">
+        <if condition="$Think.get.id neq 1">
+            <volist name="menus" id="parent">
+                <table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF" style="padding-left: 20px;padding-right: 20px;">
+                    <tr>
+                        <td height="25" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed; padding-left:20px;"><strong>{$parent.name}：</strong></td>
+                    </tr>
+                    <tr>
+                        <td  bgcolor="#FFFFFF" style="  padding-left:14px;">
+                            <ul style="margin:0px; padding:3px; list-style:none">       
+                                <volist name="auth_group[$parent['id']]" id="group">
+                                    <li  class="user_box_li user_box_li_new_length">
+                                        <label>
+                                            <if condition="$group['msid'] eq 0">
+                                                <input name="group_id[]" type="checkbox"  value="{$group.id}" <if condition="in_array($group['id'],$role['groups'])">checked="checked"</if>/>{$group.name}
+                                            <else/>
+                                                <input name="group_msid[]" type="checkbox"  value="{$group.msid}" <if condition="in_array($group['msid'],$role['mids'])">checked="checked"</if>/>{$group.name}
+                                            </if>
+                                        </label>
+                                    </li>
+                                </volist>
+                                <li class="clear" style="list-style:none; display:none"></li>
+                            </ul>   
+                        </td>
+                    </tr>
+                </table>
+            </volist>
+            <table width="100%" border="0" cellspacing="10"  class="admin_list_btm">
+                <tr>
+                    <td>
+                        <input type="hidden" name="id" value="{$role.id}"></input>
+                        <input name="ButSave" type="submit" class="admin_submit" id="ButSave" value="提交"/>
+                        <input name="ButADD" type="button" class="admin_submit" id="ButADD" value="返回" <if condition="$Think.get.url neq ''">onclick="window.location='{$Think.get.url|htmlspecialchars_decode}'"<else/>onclick="window.location='{:U('AdminRole/index')}'"</if>/>
+                    </td>
+                    <td width="305" align="right"></td>
+                </tr>
+            </table>
+        <else/>
+            <div  style="color:#009900; padding:24px;">系统超级管理员权限不允许修改！</div>
+            <table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF"  >
+                <tr>
+                    <td bgcolor="#FFFFFF"  style="padding-left:24px;" > 
+                        <input name="ButADD" type="button" class="admin_submit" id="ButADD" value="返回" <if condition="$Think.get.url neq ''">onclick="window.location='{$Think.get.url|htmlspecialchars_decode}'"<else/>onclick="window.location='{:U('AdminRole/index')}'"</if>/>
+                    </td>
+                </tr>
+            </table>
+        </if>
+    </form>
+</div>
+<include file="public:footer"/>
+</body>
+</html>

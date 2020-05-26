@@ -1,0 +1,261 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>个人完成任务后通过审核进行红包的发放，若单次任务审核不通过，任务将重新发布;</p>
+    <p>单次任务完成且审核通过后发放红包，如果分享人被拉黑则无法参与红包任务。</p>
+</div>
+<div class="seltpye_y">
+    <div class="tit">任务状态</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.status'>select</notempty>">{$Think.get.status_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('status'=>'','status_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('status'=>'1','status_cn'=>'已完成'))}">已完成</li>
+        <li url="{:P(array('status'=>'0','status_cn'=>'未完成'))}">未完成</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">审核状态</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.audit'>select</notempty>">{$Think.get.audit_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('audit'=>'','audit_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('audit'=>'2','audit_cn'=>'等待审核'))}">等待审核</li>
+        <li url="{:P(array('audit'=>'1','audit_cn'=>'审核通过'))}">审核通过</li>
+        <li url="{:P(array('audit'=>'3','audit_cn'=>'审核未通过'))}" title="审核未通过">审核未通过</li>
+        <li url="{:P(array('audit'=>'0','audit_cn'=>'未审核'))}" title="未审核">未审核</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">发放状态</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.pay_status'>select</notempty>">{$Think.get.pay_status_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('pay_status'=>'','pay_status_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('pay_status'=>'1','pay_status_cn'=>'已发放'))}">已发放</li>
+        <li url="{:P(array('pay_status'=>'2','pay_status_cn'=>'发放失败'))}">发放失败</li>
+        <li url="{:P(array('pay_status'=>'3','pay_status_cn'=>'已发完'))}">已发完</li>
+        <li url="{:P(array('pay_status'=>'0','pay_status_cn'=>'未发放'))}">未发放</li>
+    </div>
+</div>
+<div class="clear"></div>
+
+<form id="form1" name="form1" method="post" action="">
+    <div class="list_th">
+        <div class="td" style=" width:17%;">
+            <label id="chkAll" class="left_padding">分享人</label>
+        </div>
+        <div class="td" style=" width:24%;">分享职位</div>
+        <div class="td" style=" width:8%;">分享时间</div>
+        <div class="td center" style=" width:10%;">有效查看数/任务要求数</div>
+        <div class="td center" style=" width:5%;">红包金额</div>
+        <div class="td center" style=" width:8%;">任务状态</div>
+        <div class="td center" style=" width:8%;">审核状态</div>
+        <div class="td center" style=" width:8%;">发放状态</div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:17%;">
+                <div class="left_padding striking">
+                    {$vo['username']}
+                    <if condition="$vo['avatars'] neq ''">
+                        &nbsp;<span class="vtip" title="<img src='{:attach($vo['avatars'],'avatar')}' border=0 align=absmiddle width=120 height=120>">
+                            <img class="avatar small" src="{:attach($vo['avatars'],'avatar')}" align="absmiddle">
+                        </span>
+                    </if>
+                </div>
+            </div>
+            <div class="td" style=" width:24%;">{$vo.jobs_name}</div>
+            <div class="td" style=" width:8%;">{:date('Y-m-d',$vo['addtime'])}</div>
+            <div class="td center" style=" width:10%;">{$vo.views}/{$vo.task_views}<a class="J_view_log" href="javascript:;" style="color: #53BAEB" parameter="id={$vo['id']}">[日志]</a></div>
+            <div class="td center" style=" width:5%;">￥{$vo.amount}元</div>
+            <div class="td center" style=" width:8%;">
+                <if condition="$vo['status'] eq 1">
+                    <span style="color: #009900">已完成</span>
+                <elseif condition="$vo['status'] eq 2"/>
+                    <span style="color:#666">已停止</span>
+                <elseif condition="$vo['status'] eq 0"/>
+                    <span style="color:#666">未完成</span>
+                </if>
+            </div>
+            <div class="td center" style=" width:8%;">
+                <if condition="$vo['audit'] eq 1">
+                    <span style="color: #009900">审核通过</span>
+                <elseif condition="$vo['audit'] eq 2"/>
+                    <span style="color:#FF6600">等待审核</span>
+                <elseif condition="$vo['audit'] eq 3"/>
+                    <span style="color:#666666">审核未通过</span>
+                <else/>
+                    <span style="color:#666666">未审核</span>
+                </if>
+            </div>
+            <div class="td center" style=" width:8%;">
+                <if condition="$vo['pay_status'] eq 1">
+                    <span style="color: #009900">已发放</span>
+                <elseif condition="$vo['pay_status'] eq 2"/>
+                    <span style="color:#FF6600">发放失败</span>
+                    <span class="view resume_audit_log" title="失败原因：{$vo.note}">&nbsp;&nbsp;&nbsp;</span>
+                <elseif condition="$vo['pay_status'] eq 3"/>
+                    <span style="color:#666666">已发完</span>
+                <else/>
+                    <span style="color:#666666">未发放</span>
+                </if>
+            </div>
+            <div class="td edit" style=" width:10%;">
+                <if condition="$vo['black'] eq 1">
+                    <a href="javascript:;" class="gray">拉黑</a>
+                <else/>
+                    <a href="javascript:;" class="J_black business" data-uid="{$vo['uid']}">拉黑</a>
+                </if>
+                <if condition="$vo['audit'] eq 2 or $vo['audit'] eq 0">
+                    <a href="javascript:;" class="J_audit blue" data-id="{$vo['id']}">审核</a>
+                <elseif condition="$vo['audit'] eq 3"/>
+                    <a href="javascript:;" class="gray">审核</a>
+                <elseif condition="$vo['pay_status'] eq 0 or $vo['pay_status'] eq 2"/>
+                    <a href="javascript:;" class="J_pay orange" data-id="{$vo['id']}">发放</a>
+                <else/>
+                    <a href="javascript:;" class="gray">发放</a>
+                </if>
+                <if condition="$vo['status'] eq 0">
+                    <a href="javascript:;" class="J_stop" data-id="{$vo['id']}">停止</a>
+                <else/>
+                    <a href="javascript:;" class="gray">停止</a>
+                </if>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+    </div>
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='职位'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='职位'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="职位">职位</li>
+                        <li id="2" title="用户UID">用户UID</li>
+                        <li id="3" title="职位ID">职位ID</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.entrustinfotip-min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".J_view_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '查看日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('ShareAllowance/ajax_view_list')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data.html);
+            });
+        });
+        //审核
+        $(".J_audit").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '审核红包',
+                loading: true,
+                footer : false
+            });
+            var id = $(this).data('id');
+            $.post("{:U('ShareAllowance/ajax_partake_audit')}", {id:id}, function (result) {
+                if(result.status == 1){
+                    qsDialog.setContent(result.data);
+                } else {
+                    qsDialog.hide();
+                    disapperTooltip('remind',result.msg);
+                }
+            });
+        });
+        $('.J_pay').click(function(){
+            var id = $(this).data('id');
+            layer.confirm('您确定发放该红包？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                $.post("{:U('ShareAllowance/ajax_partake_pay')}", {id:id}, function (result) {
+                    if(result.status == 1){
+                        layer.msg(result.msg, {icon: 1});
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        layer.msg(result.msg, {icon: 0});
+                    }
+                });
+            }, function(){
+            });
+        });
+        //拉黑
+        $(".J_black").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '加入黑名单',
+                loading: true,
+                footer : false
+            });
+            var uid = $(this).data('uid');
+            $.post("{:U('ShareAllowance/ajax_blacklist_add')}", {uid:uid}, function (result) {
+                if(result.status == 1){
+                    qsDialog.setContent(result.data);
+                } else {
+                    qsDialog.hide();
+                    disapperTooltip('remind',result.msg);
+                }
+            });
+        });
+        //停止
+        $('.J_stop').click(function () {
+            var id = $(this).data('id');
+            layer.confirm('您确定停止该任务？', {
+                btn: ['确定','取消'] //按钮
+            }, function(){
+                $.post("{:U('ShareAllowance/ajax_status')}", {id:id}, function (result) {
+                    if(result.status == 1){
+                        layer.msg(result.msg, {icon: 1});
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        layer.msg(result.msg, {icon: 0});
+                    }
+                });
+            }, function(){
+            });
+        });
+    });
+</script>
+</html>

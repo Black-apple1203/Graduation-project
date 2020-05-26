@@ -1,0 +1,61 @@
+<div class="dialog_box">
+    <form action="{:U('CompanyMigration/store')}" method="post" name="form" id="form">
+        <input type="hidden" name="from_uid" value="{$uid}">
+        <table width="100%" border="0" cellspacing="10" cellpadding="1" style=" margin-bottom:3px;">
+            <tr>
+                <td width="120" align="right">
+                    <span class="font_red">*</span> 接收人手机号：
+                </td>
+                <td>
+                    <input name="receive_mobile" type="text" class="input_text_default small" value=""/>
+                </td>
+            </tr>
+            <tr>
+                <td width="120" align="right">&nbsp;</td>
+                <td>
+                    <span style="color: #999999;">
+                        请仔细核对接收人手机号，如果对方不满足接收条件，无法完成账号迁移<br/>
+                        <span class="font_red">注意：点击“立即迁移”后，此操作将不可逆！</span>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td align="right">&nbsp;</td>
+                <td>
+                    <input name="submit" type="button" class="admin_submit" id="submit" value="立即迁移"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#submit').click(function(){
+            var that = $(this);
+            var mobile = $("input[name='receive_mobile']").val();
+            if (!mobile) {
+                disapperTooltip("remind", '请填写接收人手机号！');
+                return false;
+            }
+            if (confirm('你确定要迁移吗？')) {
+                if(that.hasClass('disabled')){
+                    return false;
+                }
+                that.val('正在保存...').addClass('disabled');
+                $.post("{:U('CompanyMigration/store')}",$('#form').serialize(),function(result){
+                    if(result.status==1){
+                        disapperTooltip("success", result.msg,function(){
+                            location.reload();
+                        });
+                    }else{
+                        disapperTooltip("remind", result.msg,function(){
+                            that.val('立即迁移').removeClass('disabled');
+                        });
+                        return false;
+                    }
+                },'json');
+            }
+        });
+    });
+</script>

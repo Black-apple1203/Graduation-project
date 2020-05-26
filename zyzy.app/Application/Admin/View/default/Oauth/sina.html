@@ -1,0 +1,54 @@
+<include file="public:header" />
+<div class="toptip"  >
+    <div class="toptit">提示：</div>
+ <p>网站接入新浪微博帐号登录后，用户只需要使用微博账号密码就可登录，简化用户注册流程，更有效率的提高转化用户流量</p>
+  <p class="link_green_line">接入新浪微博登录前，网站需首先进行申请，获得对应的AppKey与AppSecret，以保证后续流程中可正确对网站与用户进行验证与授权。 
+现在就去<a href="http://open.weibo.com/" target="_blank">申请</a></p>
+</div>
+<div class="toptit">新浪微博帐号登录设置</div>
+<form action="{:U('oauth/sina')}" method="post" name="form1" id="form1">
+    <div class="form_main width150">
+	  <div class="fl">开启微博帐号登录：</div>
+        <div class="fr">
+          <div data-code="0,1" class="imgchecked_small <if condition="$info['status'] eq 1">select</if>"><input name="status" type="hidden" value="{$info.status}" /></div>
+          <div class="clear"></div>
+        </div>
+        <div class="fl">AppKey：</div>
+        <div class="fr">
+            <input name="config[app_key]" type="text" maxlength="40" class="input_text_default middle" value="{$info['config']['app_key']}"/>
+        </div>
+        <div class="fl">AppSecret：</div>
+        <div class="fr">
+            <input name="config[app_secret]" type="text" maxlength="40" class="input_text_default middle" value="{$info['config']['app_secret']}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id" value="{$info['id']}">
+            <input name="submit" type="submit" class="admin_submit" value="保存"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </form>
+<!-- 	<div class="toptit">APP新浪微博帐号登录设置</div>
+<form action="{:U('oauth/sina')}" method="post" name="form1" id="form1">
+    <div class="form_main width150">
+        <div class="fl">AppKey：</div>
+        <div class="fr">
+            <input name="app_config[app_key]" type="text" maxlength="40" class="input_text_default middle" value="{$info['app_config']['app_key']}"/>
+        </div>
+        <div class="fl">AppSecret：</div>
+        <div class="fr">
+            <input name="app_config[app_secret]" type="text" maxlength="40" class="input_text_default middle" value="{$info['app_config']['app_secret']}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id" value="{$info['id']}">
+            <input name="submit" type="submit" class="admin_submit" value="保存"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </form> -->
+</div>
+<include file="public:footer" />
+</body>
+</html>

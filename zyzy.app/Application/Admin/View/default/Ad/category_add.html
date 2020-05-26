@@ -1,0 +1,108 @@
+<include file="public:header"/>
+    <div class="toptip">
+    <div class="toptit">提示：</div>
+        <p>系统内置广告位不能编辑</p>
+        <p>自定义广告位调用名不可以以 “QS_”开头</p>
+    </div>
+
+<div class="toptit">新增广告位</div>
+<form id="form1" action="{:U('category_add')}" method="post">
+    <div class="form_main width150">
+        <div class="fl">广告位名称:</div>
+        <div class="fr">
+            <input name="categoryname" type="text" class="input_text_default middle" maxlength="50" value=""/>
+        </div>
+        <div class="fl">调用名称:</div>
+        <div class="fr">
+            <input name="alias" type="text" class="input_text_default middle" maxlength="50" value=""/>
+            <label class="no-fl-note">(自定义广告位调用名不可以以 “QS_”开头)</label>
+        </div>
+        <div class="fl">所属类型:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="type_id" type="hidden" value="2">
+                <div class="radio" data="1" title="文字">文字</div>
+                <div class="radio select" data="2" title="图片">图片</div>
+                <div class="radio" data="3" title="代码">代码</div>
+                <div class="radio" data="4" title="FLASH">FLASH</div>
+                <div class="radio" data="5" title="视频">视频</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">是否浮动:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small is_float"><input name="float" type="hidden" value="0" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="J_float" style="display: none;">
+            <div class="fl">左距(选填):</div>
+            <div class="fr">
+                <input name="floating_left" type="text" class="input_text_default small" maxlength="10" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> px
+                <label class="no-fl-note">(左距与右距选填一个，如设置为100，则将在距离浏览器左侧100像素处浮动。)</label>
+            </div>
+            <div class="fl">右距(选填):</div>
+            <div class="fr">
+                <input name="floating_right" type="text" class="input_text_default small" maxlength="10" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> px
+                <label class="no-fl-note">(左距与右距选填一个，如设置为100，则将在距离浏览器右侧100像素处浮动。)</label>
+            </div>
+            <div class="fl">顶距(选填):</div>
+            <div class="fr">
+                <input name="floating_top" type="text" class="input_text_default small" maxlength="10" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> px
+                <label class="no-fl-note">(浮动距离浏览器顶端的距离，如有多个浮动，请设置不同的顶距，以免被遮盖。)</label>
+            </div>
+        </div>
+        <div class="fl">宽度:</div>
+        <div class="fr">
+            <input name="width" type="text" class="input_text_default middle" maxlength="10" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> px
+        </div>
+        <div class="fl">高度:</div>
+        <div class="fr">
+            <input name="height" type="text" class="input_text_default middle" maxlength="10" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> px
+        </div>
+        <div class="fl">广告数量:</div>
+        <div class="fr">
+            <input name="ad_num" type="text" class="input_text_default middle" maxlength="10" value="1" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('category')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.is_float').live('click',function(){
+            if ($(this).hasClass('select')) {
+              $('.J_float').show();
+            } else {
+              $('.J_float').hide();
+            }
+        });
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('category_add')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("category")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存修改').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,176 @@
+ 
+<link href="__ADMINPUBLIC__/css/layui.css" rel="stylesheet" type="text/css">
+<div class="suggest_main">
+    <div class="suggest_list_group">
+        <div class="suggest_list_cell">
+            <div class="list_cell_left">反馈类型</div>
+            <div class="list_cell_right">
+                <div class="suggest_type_cell"><div class="suggest_type selected" data-code="1">BUG</div></div>
+                <div class="suggest_type_cell"><div class="suggest_type" data-code="2">意见</div></div>
+                <div class="suggest_type_cell"><div class="suggest_type" data-code="3">建议</div></div>
+                <div class="clear"></div>
+                <input type="hidden" name="infotype" value="1"  />
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="suggest_list_cell">
+            <div class="list_cell_left">反馈内容</div>
+            <div class="list_cell_right">
+                <textarea class="suggest_area" id="suggest_feedback" name="feedback" placeholder="请详细描述您遇到的问题，有助于我们快速定位并解决问题"></textarea>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="suggest_list_cell">
+            <div class="list_cell_left">&nbsp;&nbsp;</div>
+            <div class="list_cell_right">
+                <div class="imgli-group"></div>
+                <div class="J_add_img imgadd"><input type="file" id="browseFile" name="img" class="browseFile"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="suggest_list_cell">
+            <div class="list_cell_left"></div>
+            <div class="list_cell_right">
+                <input type="button" class="btn_yellow suggest_btn" id="J_suggest_submit" value="提 交" />
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+  var uploadUrl = 'https://www.74cms.com/plus/feedback_imgupload';
+</script>
+<script src="__ADMINPUBLIC__/js/ajaxfileupload.js"></script>
+<script src="__ADMINPUBLIC__/js/fileupload.js"></script>
+<script type="text/javascript">
+    //JavaScript代码区域
+    layui.use(['form', 'element','upload'], function(){
+        var element = layui.element;
+        var form = layui.form;
+        var layer = layui.layer;
+        var $ = layui.jquery;
+        var upload = layui.upload;
+        var loading = layer.load(0, {shade: [0.3,'#fff'],time:500});
+        // 意见类型切换
+        $('.suggest_type').click(function(event) {
+            $('.suggest_type').each(function(index, el) {
+                $(this).removeClass('selected');
+            });
+            $(this).addClass('selected');
+            $('input[name="infotype"]').val($(this).data('code'));
+        });
+        // 提交验证
+        $('#J_suggest_submit').click(function(event) {
+            var typeValue = $.trim($('input[name="infotype"]').val());
+            var feedbackValue = $.trim($('#suggest_feedback').val());
+            if (typeValue == "") {
+                layer.msg('请选择反馈类型',{icon:0,time: 2000});
+                return false;
+            }
+            if (feedbackValue == "") {
+                layer.msg('请填写反馈内容',{icon:0,time: 2000});
+                return false;
+            }
+            $('#J_suggest_submit').val('提 交 中...').addClass('btn_disabled').prop('disabled', !0);
+            var typeValue = $.trim($('input[name="infotype"]').val());
+            var feedbackValue = $.trim($('#suggest_feedback').val());
+            var imgs = $('.imgli img').map(function(){
+                return $(this).attr('src');
+            }).get();
+            // 提交表单
+            $.ajax({
+                url: "{:U('Suggest/add')}",
+                type: 'POST',
+                dataType: 'json',
+                data: {infotype: typeValue,feedback: feedbackValue,imgs:imgs}
+            })
+            .done(function(data) {
+                if (parseInt(data.status)) {
+                    layer.msg(data.msg, {
+                        icon: 1,
+                        time: 2000 //2秒关闭（如果不配置，默认是3秒）
+                    }, function(){
+                        layer.closeAll();
+                    });
+                } else {
+                    $('#J_suggest_submit').val('提 交').removeClass('btn_disabled').prop('disabled', 0);
+                    layer.msg(data.msg,{icon:0,time: 2000});
+                }
+            })
+            .fail(function(result) {
+                $('#J_suggest_submit').val('提 交').removeClass('btn_disabled').prop('disabled', 0);
+                layer.msg(result.msg,{icon:0,time: 2000});
+            });
+        });
+        $('#browseFile').live('click',function(){
+            if($('.imgli-group').children().length >= 3){
+                layer.msg('最多可以上传3张图片！',{icon:1,time: 2000});
+                return false;
+            }
+        });
+        function run(input_file, get_data) {  
+            /*input_file：文件按钮对象*/  
+            /*get_data: 转换成功后执行的方法*/  
+            if (typeof (FileReader) === 'undefined') {  
+                alert("抱歉，你的浏览器不支持 FileReader，不能将图片转换为Base64，请使用现代浏览器操作！");  
+            } else {  
+                try {  
+                    /*图片转Base64 核心代码*/  
+                    var file = input_file.files[0];  
+                    //这里我们判断下类型如果不是图片就返回 去掉就可以上传任意文件  
+                    if (!/image\/\w+/.test(file.type)) {  
+                        alert("请确保文件为图像类型");  
+                        return false;  
+                    }  
+                    var reader = new FileReader();  
+                    reader.onload = function () {  
+                        get_data(this.result);  
+                    }  
+                    reader.readAsDataURL(file);  
+                } catch (e) {  
+                    alert('图片转Base64出错啦！' + e.toString())  
+                }  
+            }  
+        } 
+        $('.browseFile').change(function(){
+            var obj = $(this);
+            run(this, function (data) {  
+                uploadImage(obj,data);
+            });  
+        });
+        function uploadImage(obj,imagefile) {
+            //判断是否有选择上传文件
+            var imgPath = obj.val();
+            if (imgPath == "") {
+                alert("请选择上传图片！");
+                return;
+            }
+            //判断上传文件的后缀名
+            var strExtension = imgPath.substr(imgPath.lastIndexOf('.') + 1);
+            if (strExtension != 'jpg' && strExtension != 'gif'
+            && strExtension != 'png' && strExtension != 'bmp') {
+                alert("请选择图片文件");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: uploadUrl,
+                data: {img: imagefile.substr(imagefile.indexOf(',') + 1)},
+                dataType:"json",
+                success: function(result){
+                    if(result.status == 1){
+                        var html = '<div class="imgli"><img src="'+result.data+'" width="70" height="70"><input type="hidden" name="imgs[]" value="' + result.data + '"></div>';
+                        $('.imgli-group').append(html);
+                    }else{
+                        disapperTooltip("remind", "上传失败："+result.msg);
+                    }
+                }, 
+                complete :function(XMLHttpRequest, textStatus){},
+                error:function(XMLHttpRequest, textStatus, errorThrown){ //上传失败 
+                    // disapperTooltip("remind", "上传失败");
+                    alert('上传失败');
+                }
+            }); 
+        }
+    });
+</script>

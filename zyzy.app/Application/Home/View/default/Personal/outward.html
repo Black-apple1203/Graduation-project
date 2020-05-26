@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta"/>
+    <link href="../public/css/personal/common.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_resume.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="index_header"/>
+<div class="user_main">
+    <include file="index_left_nav"/>
+    <div class="mainbox">
+        <!--职位切换卡 -->
+        <div class="tab">
+            <a class="li J_hoverbut" href="{:U('resume_list')}">我的简历</a>
+            <a class="li select">简历外发</a>
+            <a class="li J_hoverbut" href="{:U('resume_privacy')}">隐私设置</a>
+            <div class="clear"></div>
+        </div>
+        <!--切换卡结束 -->
+
+        <div class="resume_outward_select">
+            <div class="td1">选择简历：</div>
+            <div class="td2">
+                <div class="input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+                    <span class="J_listitme_text"><if condition="$resume_id gt 0">{$resume_list[$resume_id]}<else/>全部简历</if></span>
+                    <div class="dropdowbox6 J_dropdown_menu">
+                        <div class="dropdow_inner6">
+                            <ul class="nav_box">
+                                <li><a class="J_listitme" href="{:P(array('resume_id'=>''))}">全部简历</a></li>
+                                <volist name="resume_list" id="vo">
+                                    <li><a class="J_listitme" href="{:P(array('resume_id'=>$key))}">{$vo}</a></li>
+                                </volist>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="resume_outward_list_th">
+            <div class="th1">申请的职位</div>
+            <div class="th2">公司名称</div>
+            <div class="th3">接收人邮箱地址</div>
+            <div class="th4">
+                <div class="input_100_30_div J_hoverinput J_dropdown J_listitme_parent">
+                    <span class="J_listitme_text"><if condition="$Think.get.settr eq 0">发送时间<else/>{$Think.get.settr}天内</if></span>
+                    <div class="dropdowbox7 J_dropdown_menu">
+                        <div class="dropdow_inner7">
+                            <ul class="nav_box">
+                                <li><a class="J_listitme" href="{:P(array('settr'=>0))}">全部</a></li>
+                                <li><a class="J_listitme" href="{:P(array('settr'=>3))}">3天内</a></li>
+                                <li><a class="J_listitme" href="{:P(array('settr'=>7))}">7天内</a></li>
+                                <li><a class="J_listitme" href="{:P(array('settr'=>15))}">15天内</a></li>
+                                <li><a class="J_listitme" href="{:P(array('settr'=>30))}">30天内</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="th5">操作</div>
+            <div class="clear"></div>
+        </div>
+        <notempty name="outward['list']">
+            <form id="form1" action="{:U('del_outward')}" method="post" class="J_allListBox">
+                <volist name="outward['list']" id="vo">
+                    <div class="resume_outward_list J_hoverbut">
+                        <div class="td1 link_blue"><input class="J_allList" name="y_id[]" type="checkbox"
+                                                          value="{$vo['id']}"/> &nbsp;{$vo['jobs_name']}
+                        </div>
+                        <div class="td2 link_gray6">{$vo['companyname']}</div>
+                        <div class="td3">{$vo['email']}</div>
+                        <div class="td4">{:date('Y-m-d',$vo['addtime'])}</div>
+                        <div class="td5">
+                            <a href="javascript:;" url="{:U('personal/del_outward',array('y_id'=>$vo['id']))}"
+                               class="but2 J_hoverbut delete"></a>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </volist>
+                <div class="resume_outward_list_but">
+                    <div class="td1">
+                        <input class="J_allSelected" type="checkbox"/>
+                    </div>
+                    <div class="td2">
+                        <div class="but_gray_80_32 J_hoverbut delall">删除</div>
+                    </div>
+                    <div class="td2">
+                        <div class="but_blue_80_32 J_hoverbut"
+                             onclick="javascript:location.href='{:U('personal/resume_outward')}'">简历外发
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </form>
+            <div class="qspage">{$outward['page']}</div>
+            <else/>
+            <div class="res_empty link_blue">
+                你还没有外发过简历，建议你主动出击找职位！<br/>海量高薪职位任你选 立即 <a href="{:url_rewrite('QS_jobs')}" target="_blank">搜索职位</a>
+            </div>
+        </notempty>
+    </div>
+    <div class="clear"></div>
+</div>
+<include file="index_footer"/>
+<script type="text/javascript" src="../public/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="../public/js/jquery.dropdown.js"></script>
+<script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+<script type="text/javascript" src="../public/js/jquery.modal.dialog.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 全部删除
+        $('.delall').live('click', function () {
+            var listCheckedArray = $('.J_allListBox .J_allList:checked');
+            if (listCheckedArray.length) {
+                var url = "{:U('del_outward')}";
+                var qsDialog = $(this).dialog({
+                    title: '删除外发记录',
+                    loading: true,
+                    border: false,
+                    yes: function () {
+                        $("#form1").submit();
+                    }
+                });
+                $.getJSON(url, function (result) {
+                    if (result.status == 1) {
+                        qsDialog.setContent(result.data.html);
+                    } else {
+                        disapperTooltip('remind', result.msg);
+                    }
+                });
+            } else {
+                disapperTooltip("remind", "请选择要删除的外发记录");
+            }
+        });
+        $('.delete').live('click', function () {
+            var url = $(this).attr('url');
+            var qsDialog = $(this).dialog({
+                title: '删除外发记录',
+                loading: true,
+                border: false,
+                yes: function () {
+                    window.location.href = url;
+                }
+            });
+            $.getJSON(url, function (result) {
+                if (result.status == 1) {
+                    qsDialog.setContent(result.data.html);
+                } else {
+                    disapperTooltip('remind', result.msg);
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

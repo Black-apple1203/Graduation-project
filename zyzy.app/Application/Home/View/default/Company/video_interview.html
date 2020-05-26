@@ -1,0 +1,231 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link
+			href="../public/css/company/common.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="../public/css/company/company_resumes.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="../public/css/company/company_ajax_dialog.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<script
+			src="../public/js/company/jquery.common.js"
+			type="text/javascript"
+			language="javascript"
+		></script>
+	</head>
+	<body>
+		<include file="index_header" />
+		<textarea id="copy" style="display:none;"></textarea>
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_resumes" />
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">我发起的视频面试邀请</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tip w880">
+					<div class="tiptxt link_blue" style="padding-top:12px;">
+						为提高视频面试效率，建议您在面试前提前检查您的设备是否能够正常连通
+						<a class="link_blue" target="_blank" href="{:U('vi/test')}"
+							>点击立即检测>></a
+						>
+						<br /><span class="font_yellow"
+							>视频面试房间仅在面试当天开启，在面试时间15天之后自动关闭</span
+						>
+					</div>
+				</div>
+				<div class="video_interview_th">
+					<div class="th1">姓名</div>
+					<div class="th2">基本信息</div>
+					<div class="th3">面试职位</div>
+					<div class="th4">面试时间</div>
+					<div class="th5">操作</div>
+					<div class="clear"></div>
+				</div>
+				<notempty name="list">
+					<volist name="list" id="vo">
+						<if condition="$vo['fullname']">
+							<div class="video_interview">
+								<div class="td1 link_blue substring">
+									<a
+										href="{:url_rewrite('QS_resumeshow',array('id'=>$vo['resumeid']))}"
+										target="_blank"
+										title="{$vo['fullname']}"
+										>{$vo['fullname']}</a
+									>
+								</div>
+								<div class="td2">
+									{$vo['age']}岁/{$vo['sex_cn']}/{$vo['education_cn']}/{$vo['experience_cn']}
+								</div>
+								<div class="td3">{$vo['jobs_name']}</div>
+								<div class="td4">
+									{:date('Y-m-d H:i',$vo['interview_time'])}
+								</div>
+								<div class="td5 link_blue">
+									<a
+										href="javascript:;"
+										class="J_interviewDetails info"
+										did="{$vo['id']}"
+										data-fullname="{$vo['fullname']}"
+										>面试详情</a
+									>&nbsp;&nbsp;
+									<if condition="$vo['room_status']=='opened'">
+										<a target="_blank" href="{$vo['link_url']}">进入房间</a
+										>&nbsp;&nbsp;
+										<a
+											href="javascript:;"
+											data-url="{$vo['link_url']}"
+											class="J_copy"
+											>复制链接</a
+										>&nbsp;&nbsp;
+										<a
+											href="javascript:;"
+											class="J_notice"
+											data-id="{$vo['id']}"
+											>提醒上线</a
+										>
+									</if>
+									<if condition="$vo['room_status']=='overtime'">
+										<a style="color:#999;">房间已关闭</a>
+									</if>
+									<if condition="$vo['room_status']=='nostart'">
+										<a style="color:#999;">房间未开启</a>
+									</if>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<else />
+							<div class="video_interview">
+								<div class="td6">
+									该简历不存在或已被删除
+								</div>
+								<div class="td7 link_blue">
+									<a
+										href="javascript:;"
+										data-url="{:U('del_video_interview')}"
+										data-id="{$vo['id']}"
+										class="del"
+										>删除</a
+									>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</if>
+					</volist>
+					<div class="qspage">{$pager}</div>
+					<else />
+					<div class="res_empty link_blue">
+						您还没有对个人发起过视频面试邀请，建议您主动出击找人才！<br />
+						海量优质简历任您选，快速招人不再难。立即
+						<a href="{:url_rewrite('QS_resume')}" target="_blank">搜人才</a>
+					</div>
+				</notempty>
+			</div>
+		</div>
+		<include file="index_footer" />
+		<script src="../public/js/layer/layer.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				function copyText(str) {
+					$("#copy")
+						.text(str)
+						.show();
+					var ele = document.getElementById("copy");
+					ele.select();
+					document.execCommand("copy", false, null);
+					$("#copy").hide();
+				}
+				$(".J_notice").click(function() {
+					var id = $(this).data("id");
+					layer.confirm(
+						"确定提醒求职者吗？",
+						function() {
+							$.getJSON(
+								"{:U('company/video_interview_notice')}",
+								{ id: id },
+								function(res) {
+									if (res.status == 1) {
+										disapperTooltip("success", "已成功提醒求职者");
+									} else {
+										disapperTooltip("remind", res.msg);
+									}
+								}
+							);
+							layer.closeAll("dialog");
+						},
+						function() {}
+					);
+				});
+				$(".J_copy").click(function() {
+					var url = $(this).data("url");
+					copyText(url);
+					disapperTooltip("success", "已成功复制到剪贴板");
+				});
+				$(".del").click(function() {
+					var url = $(this).data("url");
+					var id = $(this).data("id");
+					var qsDialog = $(this).dialog({
+						title: "删除面试邀请",
+						loading: true,
+						border: false,
+						yes: function() {
+							$.post(
+								url,
+								{ id: id },
+								function(res) {
+									disapperTooltip("success", res.msg);
+									setTimeout(function() {
+										location.href = res.data;
+									}, 1500);
+								},
+								"json"
+							);
+						}
+					});
+					$.getJSON(url, function(result) {
+						if (result.status == 1) {
+							qsDialog.setContent(result.data.html);
+						} else {
+							disapperTooltip("remind", result.msg);
+						}
+					});
+				});
+				$(".J_interviewDetails").click(function() {
+					var id = $(this).attr("did");
+					var fullname = $(this).data("fullname");
+					var qsDialog = $(this).dialog({
+						title: "面试详情",
+						loading: true,
+						showFooter: false
+					});
+					$.getJSON(
+						"{:U('company/video_interview_details')}",
+						{ id: id, fullname: fullname },
+						function(result) {
+							if (result.status == 1) {
+								qsDialog.setContent(result.data);
+								qsDialog.showFooter(true);
+							} else {
+								qsDialog.setContent(
+									'<div class="confirm">' + result.msg + "</div>"
+								);
+							}
+						}
+					);
+				});
+			});
+		</script>
+	</body>
+</html>

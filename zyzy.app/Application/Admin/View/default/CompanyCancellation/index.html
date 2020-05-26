@@ -1,0 +1,145 @@
+<include file="public:header"/>
+<div class="seltpye_x">
+    <div class="left">申请时间</div>
+    <div class="right">
+        <a href="{:P(array('settr'=>''))}" <eq name='Think.get.settr' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('settr'=>'3'))}" <eq name='Think.get.settr' value='3'>class="select"</eq>>三天内</a>
+        <a href="{:P(array('settr'=>'7'))}" <eq name='Think.get.settr' value='7'>class="select"</eq>>一周内</a>
+        <a href="{:P(array('settr'=>'30'))}" <eq name='Think.get.settr' value='30'>class="select"</eq>>一月内</a>
+        <a href="{:P(array('settr'=>'180'))}" <eq name='Think.get.settr' value='180'>class="select"</eq>>半年内</a>
+        <a href="{:P(array('settr'=>'360'))}" <eq name='Think.get.settr' value='360'>class="select"</eq>>一年内</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="seltpye_x">
+    <div class="left">处理状态</div>
+    <div class="right">
+        <a href="{:P(array('status'=>''))}" <eq name='Think.get.status' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('status'=>'1'))}" <eq name='Think.get.status' value='1'>class="select"</eq>>已处理</a>
+        <a href="{:P(array('status'=>'0'))}" <eq name='Think.get.status' value='0'>class="select"</eq>>未处理</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<form id="form1" name="form1" method="post" action="{:U('delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:27%;">
+            <label id="chkAll" class="left_padding">申请人</label>
+        </div>
+        <div class="td" style=" width:15%;">企业信息</div>
+        <div class="td center" style=" width:10%;">手机</div>
+        <div class="td center" style=" width:10%;">处理状态</div>
+        <div class="td center" style=" width:8%;">申请时间</div>
+        <div class="td center" style=" width:10%;">处理时间</div>
+        <div class="td" style=" width:20%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:27%;">
+                <div class="left_padding striking">
+                    {$vo['username']}<span style="color: #999999">(uid:{$vo['uid']})</span>
+                </div>
+            </div>
+            <div class="td" style=" width:15%;">
+                <a href="{:url_rewrite('QS_companyshow',array('id'=>$vo['company_id']))}" target="_blank"><if condition="$vo['companyname']">{:cut_str($vo['companyname'],15,0,'..')}<else/>未完善企业资料</if></a>
+            </div>
+            <div class="td center" style=" width:10%;">
+                <span>{$vo['mobile']|default="未填写"}</span>
+            </div>
+            <div class="td center" style=" width: 10%;">
+                <eq name="vo.status" value="1">
+                    <span style="color:#009900">已处理</span>
+                <else/>
+                    <span style="color:#FF0000">未处理</span>
+                </eq>
+            </div>
+            <div class="td center" style=" width:8%;">{:admin_date($vo['addtime'])}</div>
+            <div class="td center" style=" width:10%;">
+                <if condition="$vo['finishtime']">
+                    {:admin_date($vo['finishtime'])}<else /> --
+                </if>
+            </div>
+            <div class="td edit" style=" width:20%;">
+                <eq name="vo.status" value="0">
+                    <a href="javascript:void(0);" class="J_handle" data-url="{:U('handle', array('id'=>$vo['id']))}" hideFocus="true">处理</a>
+                </eq>
+                <a href="javascript:void(0);" class="gray J_del" data-url="{:U('del', array('id'=>$vo['id']))}">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox"></div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='用户名'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='用户名'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="用户名">用户名</li>
+                        <li id="2" title="UID">UID</li>
+                        <li id="3" title="公司名">公司名</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 处理
+        $(".J_handle").click(function () {
+            if (confirm('你确定要注销账号吗？')) {
+                var url = $(this).data('url');
+                $.getJSON(url, function (result) {
+                    if (result.status == 1) {
+                        disapperTooltip('success',result.msg,function () {
+                            location.reload();
+                        });
+                    } else {
+                        disapperTooltip('remind',result.msg);
+                    }
+                });
+            }
+        });
+        // 删除
+        $(".J_del").click(function () {
+            if (confirm('你确定要删除吗？')) {
+                var url = $(this).data('url');
+                $.getJSON(url, function (result) {
+                    if (result.status == 1) {
+                        disapperTooltip('success',result.msg,function () {
+                            location.reload();
+                        });
+                    } else {
+                        disapperTooltip('remind',result.msg);
+                    }
+                });
+            }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,55 @@
+/* 招聘外包RPO */
+
+/* 标题 */
+.rpo_service { width: 740px; margin: 0 auto; font-family: "微软雅黑"; }
+.protit { font-size: 20px; color: #333; margin: 30px 0; text-align: center; }
+.protit .hr_line { vertical-align: middle; display: inline-block; width: 90px; }
+/* 服务流程 */
+.process_list { padding: 0 30px; }
+.process_list li { width: 170px; float: left; text-align: center; }
+.process_list li .step { display: inline-block; *display: inline; *zoom: 1; width: 55px; height: 67px; background: url("../../images/rpo_step.png") no-repeat; background-position: 0 0; }
+.process_list li .step.i2 { background-position: 0 -87px; }
+.process_list li .step.i3 { background-position: 0 -174px; }
+.process_list li .step.i4 { background-position: 0 -261px; }
+.process_list li .line { height: 2px; background-color: #E2E2E2; margin: 10px 0; position: relative; }
+.process_list li .line .circle { width: 10px; height: 10px; background: url("../../images/rpo_circle.png") no-repeat; background-position: 0 0; position: absolute; left: 80px; top: -4px; }
+.process_list li .line .circle.i2 { background-position: 0 -20px; }
+.process_list li .line .circle.i3 { background-position: 0 -40px; }
+.process_list li .line .circle.i4 { background-position: 0 -60px; }
+.process_list li .p_desc { font-size: 14px; color: #666666; width: 150px; float: right; line-height: 150%; padding: 0 10px; }
+/* 服务岗位 */
+.service_job { padding: 0 40px; }
+.service_job li { width: 220px; float: left; text-align: center; background: url("../../images/rpo_bg.png"); padding: 25px 0; color: #333333; }
+.service_job li img { width: 70px; height: 70px; }
+.service_job li .s_name { font-size: 18px; margin-top: 5px; }
+.service_job li .s_desc { font-size: 14px; line-height: 150%; padding: 5px 15px; }
+/* 服务类型 */
+.service_type { padding-left: 40px; padding-right: 25px; }
+.service_type li { width: 210px; float: left; text-align: center; margin-right: 15px; }
+.service_type li .img { padding-top: 25px; background-color: #b5d5ff; }
+.service_type li img { width: 70px; height: 70px; }
+.service_type li .content { background-color: #a5ccfc; color: #333333; padding-bottom: 25px;}
+.service_type li .content .s_name { font-size: 18px; padding-top: 5px;}
+.service_type li .content .s_desc { font-size: 14px; line-height: 150%; padding: 5px 15px; }
+/* 申请按钮 */
+.rpo_btn { width: 200px; height: 56px; border-radius: 5px; background: #E1790B; margin: 30px auto 0;}
+.rpo_btn.hover { background: #D56E02;}
+.rpo_btn .apply_rpo_btn { display: block; width: 200px; line-height: 52px; border-radius: 5px; font-size: 24px; color: #fff; text-align: center; text-decoration: none; background: #FC901F;}
+.rpo_btn .apply_rpo_btn.hover { background-color: #F28615; }
+/*申请列表*/
+.rpo_tab { margin-top: 14px; }
+.rpo_th { margin-left: 30px; background-color: #F7F7F7; line-height: 40px; margin-top: 14px; width: 936px; border-radius: 2px; }
+.rpo_th .th1 { margin-left: 14px; width: 200px; }
+.rpo_th .th2 { width: 160px; }
+.rpo_th .th3 { width: 140px; }
+.rpo_th .th4 { width: 280px; }
+.rpo_th .th5 { width: 140px; text-align: center; }
+.rpo_th .select_input { margin-top: 4px; height: 30px; line-height: 30px; background-position: right -2px; }
+.rpo_td { margin-left: 30px; padding: 12px 0; border-bottom: 1px solid #F7F7F7; width: 936px; line-height: 24px; }
+.rpo_td .line { padding-left: 14px; }
+.rpo_td .line.notes { padding-top: 5px; color: #999999;word-break: break-all; }
+.rpo_td .line .td1 { width: 200px; }
+.rpo_td .line .td2 { width: 160px; }
+.rpo_td .line .td3 { width: 140px; }
+.rpo_td .line .td4 { width: 280px; }
+.rpo_td .line .td5 { width: 140px; text-align: center; }

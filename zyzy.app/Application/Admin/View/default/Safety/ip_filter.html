@@ -1,0 +1,44 @@
+<include file="public:header" />
+<form id="form1">
+    <div class="toptit">禁止访问IP</div>
+    <div class="form_main width200">
+        <div class="fl">ip地址：<br />(请用“|”隔开多个ip地址)</div>
+        <div class="fr">
+            <textarea name="filter_ip" class="input_text_default" style="height:100px;" id="agreement">{:C('qscms_filter_ip')}</textarea>
+        </div>
+        <div class="fl">出错提示：</div>
+        <div class="fr">
+            <input name="filter_ip_tips" type="text" class="input_text_default" maxlength="150" value="{:C('qscms_filter_ip_tips')}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit" type="button" id="J_submit" class="admin_submit" value="保存修改"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('safety/ip_filter')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+@charset "UTF-8";
+/* 首页 @Author: XuZhu @Date: 2019-11-16 */
+.suj_group { padding-left: 30px; }
+.suj_group .g_item { position: relative; width: 660px; height: 170px; border-bottom: 1px dashed #f0f0f0; padding: 30px 0 0 280px; }
+.suj_group .g_item .face_img { position: absolute; left: 0; top: 20px; width: 255px; height: 160px; border: 0; }
+.suj_group .g_item .g_name { display: block; width: 630px; height: 30px; line-height: 30px; font-size: 24px; color: #333333; text-decoration: none; }
+.suj_group .g_item .g_date { line-height: 1; height: 14px; color: #333333; padding: 20px 0; }
+.suj_group .g_item .g_ot { margin-bottom: 20px; }
+.suj_group .g_item .g_ot .gb { float: left; width: 125px; height: 18px; line-height: 18px; padding-left: 25px; background: url("../../images/291.png") 0 center no-repeat; }
+.suj_group .g_item .g_ot .gb.bl { background: url("../../images/292.png") 0 center no-repeat; }
+.suj_group .g_item .g_tip { position: relative; height: 16px; line-height: 16px; font-size: 14px; color: #999999; width: 152px; }
+.suj_group .g_item .g_tip .g_tip_right { position: absolute; right: 0; top: 0; width: 16px; height: 16px; cursor: pointer; background: url("../../images/290.png") 0 center no-repeat; }
+.suj_group .g_item .g_btn { position: absolute; right: 17px; bottom: 20px; width: 140px; height: 42px; line-height: 42px; text-align: center; font-size: 18px; color: #FFFFFF; border-radius: 42px; cursor: pointer; background: #1787fb; }
+.suj_group .g_item .g_btn:hover { background: #157fed; }
+.suj_group .g_item .g_status { position: absolute; right: 50px; bottom: 33px; line-height: 1; font-size: 18px; }
+.suj_group .g_item .g_status.g1 { color: #00b770; }
+.suj_group .g_item .g_status.g2 { color: #fc8484; }
+.suj_group .g_item .g_status.g3 { color: #666666; }
+
+p#vtip { display: none; position: absolute; padding: 10px; left: 5px; font-size: 12px; background-color: white; border: 2px solid #a6c9e2; -moz-border-radius: 5px; -webkit-border-radius: 5px; z-index: 9999; line-height: 180%; word-break: break-all; word-wrap: break-word; margin-right: 20px; margin-bottom: 20px; }
+
+/*# sourceMappingURL=subject_new.css.map */

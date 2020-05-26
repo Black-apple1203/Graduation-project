@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_jobs.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+    <include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_jobs" /> 
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">管理职位</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tab mt15">
+					<a href="{:U('company/jobs_list',array('type'=>1))}" class="tabli <if condition="$Think.get.type eq 1">select</if>">发布中的职位</a>
+					<a href="{:U('company/jobs_list',array('type'=>2))}" class="tabli <if condition="$Think.get.type eq 2">select</if>">未显示的职位</a>
+					<a href="{:U('company/jobs_list')}" class="tabli <if condition="$Think.get.type eq ''">select</if>">全部职位</a>
+					<div class="clear"></div>
+					<div class="btnbox"><div class="btn_yellow J_hoverbut btn_add" onclick="window.location='{:U('jobs_add')}'">发布职位</div></div>
+				</div>
+				<div class="user_tip w880">
+					<div class="tiptit">小提示</div>
+					<div class="tiptxt link_blue">
+						亲爱的HR，您的帐号可同时发布 {$setmeal.jobs_meanwhile} 个职位，现已发布 {$total} 个职位。
+						<notempty name="apply['Rpo']">
+							<br>招聘外包服务（RPO），为您提供从职位发布、筛选简历、组织面试直至入职的一站式服务。<div class="btn_blue J_hoverbut btn_inline" onclick="window.location='{:U('Home/CompanyService/rpo')}'">申请招聘外包</div>
+						</notempty>
+					</div>
+				</div>
+				<notempty name="jobs_list['list']">
+				<form id="form1" action="{:U('jobs_delete')}" class="J_allListBox" method="post">
+					<div class="jobsWrap">
+						<volist name="jobs_list['list']" id="jobs">
+							<div class="jobsList">
+								<div class="selWrap">
+									<input name="y_id" class="selStatus J_allList" type="checkbox" value="{$jobs['id']}">
+								</div>
+								<div class="jobs fl">
+									<div class="title">
+										<a target="_blank" href="{$jobs.jobs_url}" class="">{$jobs.jobs_name}</a>
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$jobs.district_cn}
+									</div>
+									<div class="update">
+										待处理简历：
+										<a href="{:U('company/jobs_apply',array('jobs_id'=>$jobs['id'],'stop'=>1))}" class="">{$jobs.applys}</a>
+										&nbsp;&nbsp; | &nbsp;&nbsp;更新时间：{:date('Y-m-d H:i',$jobs['refreshtime'])}
+									</div>
+								</div>
+								<div class="s-t-box fl">
+                                    <if condition="$jobs['_audit'] eq 2">
+										<div class="status fl font_yellow">审核中</div>
+									<elseif condition="$jobs['_audit'] eq 3" />
+										<div class="status fl font_red">审核未通过</div>
+									<else />
+										<div class="status fl font_red">已关闭</div>
+									</if>
+                    			</div>
+								<div class="edit link_blue fl">
+									<if condition="$jobs['_audit'] eq 1 && $jobs['display'] eq 2">
+									<a href="javascript:;" url="{:U('jobs_display',array('y_id'=>$jobs['id'],'list_type'=>$_GET['type']))}" class="jobs_display">恢复</a>
+									</if>
+									<a href="javascript:;" url="{:U('jobs_delete',array('y_id'=>$jobs['id'],'list_type'=>$_GET['type']))}" class="delete">删除</a>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</volist>
+					</div>
+					<div class="jobsWrap">
+						<div class="allSelWrap">
+							<input name="" class="allSel J_allSelected" type="checkbox">
+						</div>
+						<div class="btn_lightgray J_hoverbut btn_inline btn_border" id="delete_all">删除职位</div>
+						<div class="qspage">{$jobs_list.page}</div>
+						<div class="clear"></div>
+					</div>
+				</form>
+				<else/>
+					<div class="jobsWrap">
+						<div class="res_empty">
+							亲爱的HR，您暂时没有未显示的职位
+							<br>
+							想要快速找到合适的人才，就赶紧发布职位招揽人才吧~
+						</div>
+					</div>
+				</notempty>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+		<script type="text/javascript">
+			$("#delete_all").click(function(){
+				var url = "{:U('jobs_delete')}";
+	            var qsDialog = $(this).dialog({
+	                title: '删除职位',
+	                loading: true,
+	                border: false,
+	                yes: function () {
+						$("#form1").submit();
+	                }
+	            });
+	            $.getJSON(url, $("#form1").serialize(),function (result) {
+	                if (result.status == 1) {
+	                    qsDialog.setContent(result.data.html);
+	                } else {
+	                    disapperTooltip('remind', result.msg);
+	                }
+	            });
+			});
+			$(".delete").click(function(){
+				var url = $(this).attr('url');
+	            var qsDialog = $(this).dialog({
+	                title: '删除职位',
+	                loading: true,
+	                border: false,
+	                yes: function () {
+	                    $.post(url, function (result) {
+			                if (result.status == 1) {
+			                	disapperTooltip("success",result.msg);
+			                    setTimeout(function () {
+			                        location.href=result.data;
+			                    }, 2000);
+			                } else {
+			                    disapperTooltip('remind', result.msg);
+			                }
+			            },'json');
+	                }
+	            });
+	            $.getJSON(url, function (result) {
+	                if (result.status == 1) {
+	                    qsDialog.setContent(result.data.html);
+	                } else {
+	                    disapperTooltip('remind', result.msg);
+	                }
+	            });
+			});
+			$(".jobs_display").click(function(){
+				var url = $(this).attr('url');
+	            var qsDialog = $(this).dialog({
+	                title: '恢复职位',
+	                loading: true,
+	                border: false,
+	                yes: function () {
+	                    $.post(url, function (result) {
+			                if (result.status == 1) {
+			                	disapperTooltip("success",result.msg);
+			                    setTimeout(function () {
+			                        location.href=result.data;
+			                    }, 2000);
+			                } else {
+			                    disapperTooltip('remind', result.msg);
+			                }
+			            },'json');
+	                }
+	            });
+	            $.getJSON(url, function (result) {
+	                if (result.status == 1) {
+	                    qsDialog.setContent(result.data.html);
+	                } else {
+	                    disapperTooltip('remind', result.msg);
+	                }
+	            });
+			});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,73 @@
+<link href="__ADMINPUBLIC__/css/layui.css" rel="stylesheet" type="text/css">
+<div class="dialog_box log" style="width:750px;;max-height:600px;padding:6px;">
+    <notempty name="list">
+        <div class="work_reply log">
+            <volist name="list" id="vo">
+                <div class="list"> 
+                    <div class="suggestL">
+                        <switch name="vo['infotype']">
+                            <case value="1">
+                                【BUG提交】
+                            </case>
+                            <case value="2">
+                                【意见】
+                            </case>
+                            <case value="3">
+                                【建议】
+                            </case>
+                        </switch>
+                        <span class="date" style="color:#999">{$vo.addtime}</span>
+                        <if condition="$vo['read'] eq 1">
+                            <span class="read">已阅读</span>
+                        <else/>
+                            <span class="noread">未阅读</span>
+                        </if>
+                        <if condition="$vo['audit'] eq 1">
+                            <span class="audit">已处理</span>
+                        <else/>
+                            <span class="noaudit">未处理</span>
+                        </if>
+                    </div>
+                    <div class="suggestR <if condition="$vo['unfold']">is_unfold</if>">
+                        <div class="unfoldTxt">
+                            {$vo._feedback}
+                            <a class="J_unfold unfold" href="javascript:;">>>展开全部</a>
+                        </div>
+                        <div class="txt">{$vo.feedback}</div>
+                        <if condition="$vo['imgs']">
+                            <div class="imgs">
+                                附件 ：
+                                <volist name="vo['imgs']" id="img">
+                                    <a href="{$img}" target="_blank">[图{$i}]</a>
+                                </volist>
+                            </div>
+                        </if>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </volist>      
+        </div>
+    <else />
+        <div class="log_empty">没有任何信息！</div>
+    </notempty>
+    <div class="clear"></div>
+    <div class="pages ajax-page" style="margin-left:35px;">{$page_html}</div>
+</div>
+<script type="text/javascript">
+    layui.use(['form', 'element'], function(){
+      var element = layui.element;
+      var form = layui.form;
+      var layer = layui.layer;
+      var $ = layui.jquery;
+        $('.ajax-page a').click(function(){
+            var url = $(this).attr('href');
+            $.getJSON(url,function (result) {
+                $('.layui-layer-content').html(result.data);
+            });
+            return false;
+        });
+        $('.J_unfold').click(function(){
+            $(this).closest('.suggestR').removeClass('is_unfold');
+        });
+    });
+</script>

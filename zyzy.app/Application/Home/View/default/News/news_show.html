@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<qscms:news_show 列表名="info" 资讯id="$_GET['id']" />
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/news.css" rel="stylesheet" type="text/css" />
+	<script src="{:C('TPL_PUBLIC_DIR')}/js/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="new-se-group">
+    <div class="new-se-main">
+        <form id="form" action="{:url_rewrite('QS_newslist')}">
+            <div class="ip-group">
+                <div class="ip-box"><input type="text" name="key" id="" value="" placeholder="请输入关键字" /></div>
+                <div class="ip-btn"><input type="button" id="so_btn" class="sobut J_hoverbut" value="搜资讯" /></div>
+                <div class="clear"></div>
+                <input type="hidden" class="f-seach-page" value="?m=Home&c=News&a=news_list&">
+            </div>
+        </form>
+    </div>
+</div>
+<div class="newsshow">
+  <div class="l">
+	<div class="main">
+	  <div class="ntitle">{$info['title']}</div>
+	  <div class="time">
+	  		<if condition="$info['author']">
+	    	<span>作者：{$info['author']}</span>
+	    	</if>
+	    	<if condition="$info['source']">
+	    	<span>来源：{$info['source']}</span>
+	    	</if>
+	    	<span>日期：{:date('Y-m-d',$info['addtime'])}</span>
+			<span>浏览 <a class="click"></a> 次</span>
+	  </div>
+	  <div class="txt">{$info['content']}</div>
+	<div class="next link_gray6">
+	  <div class="nextl substring">
+	  上一条：
+	  <if condition="$info['prev'] eq 1">
+	  <a href="{$info['prev_url']}">{$info['prev_title']}</a>
+	  <else />
+	  <a>没有了</a>
+	  </if>
+	  </div>
+	  <div class="nextr substring">
+	  下一条：
+	   <if condition="$info['next'] eq 1">
+	  <a href="{$info['next_url']}">{$info['next_title']}</a>
+	  <else />
+	  <a>没有了</a>
+	  </if>
+	  </div>
+	  <div class="clear"></div>
+    </div>
+	</div>
+  </div>
+  <div class="r">
+	<qscms:news_category 列表名="category" 显示数目="8" 资讯大类="1" />
+	    <div class="cat">
+			<ul class="link_gray6">
+		  	<volist name="category" id="vo">
+			<li class="<if condition="$key%2 eq 0">odd</if> <if condition="$info['type_id'] eq $vo['id']">select</if>"><a href="{$vo['url']}">{$vo['title_']}</a></li>
+			</volist>
+			</ul>
+			<div class="clear"></div>
+	</div>
+	
+    <qscms:news_list 列表名="hot_list" 显示数目="5" 属性="3"/>
+    <notempty name="hot_list['list']">
+	    <div class="listbox">
+			<div class="ntit"><div class="tlh">热门资讯</div></div>
+			<ul class="link_gray6">
+			<volist name="hot_list['list']" id="vo">
+			<li><a target="_blank" href="{$vo['url']}">{$vo['title']}</a></li>
+			</volist>
+			</ul>
+		</div>
+	</notempty>
+	
+    <qscms:ad 列表名="ad" 广告位名称="QS_news_right" 广告数量="2"/>
+	<volist name="ad['list']" id="ad_info">
+	    <div class="ad313_165">
+	    	<a href="{$ad_info.href}" title="{$ad_info.title}">
+				<img src="{:attach($ad_info['content'],'attach_img')}" border="0">
+			</a>
+		</div>
+	</volist>
+	
+    <qscms:news_list 列表名="recommend_list" 显示数目="5" 属性="4"/>
+    <notempty name="recommend_list['list']">
+	    <div class="listbox">
+			<div class="ntit"><div class="tlh">推荐资讯</div></div>
+			<ul class="link_gray6">
+			<volist name="recommend_list['list']" id="vo">
+			<li><a target="_blank" href="{$vo['url']}">{$vo['title']}</a></li>
+			</volist>
+			</ul>
+		</div>
+	</notempty>
+	
+  </div>
+  
+  <div class="clear"></div>
+</div>
+
+<include file="public:footer_min" />
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.getJSON("{:U('ajaxCommon/news_click')}",{id:"{$info['id']}"},function(result){
+			if(result.status==1){
+				$(".click").html(result.data);
+			}
+		});
+		$('#so_btn').click(function(){
+			$('input[name="key"]').val(htmlspecialchars($('input[name="key"]').val()));
+			var data = $('#form').serialize();
+			if(qscms.keyUrlencode==1){
+				data = encodeURI(data);
+			}
+			window.location.href = qscms.root + $('.f-seach-page').val() + data;
+		});
+	});
+</script>
+</body>
+</html>

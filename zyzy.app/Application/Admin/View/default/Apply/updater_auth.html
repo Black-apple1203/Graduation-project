@@ -1,0 +1,92 @@
+<include file="public:header" />
+	<div class="toptip link_g">
+   		<div class="toptit">提示：</div>
+		<p>
+	      <font color="red">在线升级仅适用于原版程序，二次开发过的程序升级会出现不可预估的错误，请谨慎操作。</font>
+	    </p>
+	    <p>
+	      <font color="red">
+	      对于非原版程序升级造成的所有问题我们无法提供错误修正服务。
+	      </font>
+	    </p>
+	    <p>
+	      <font color="red">
+	      大版本文件升级可能会出现等待时间较长，页面假死现象，请耐心等待，不要关闭页面。中断升级会出现严重错误。</font>
+	    </p>
+	    <p>
+	      <font color="red">
+	      升级成功后请退出后台重新登录，如遇页面样式错乱请按Ctrl+F5强制刷新页面即可恢复。
+	      </font>
+	    </p>
+	</div>
+	<div id="auth_list">
+		<table width="100%"  border="0" cellpadding="0" cellspacing="0"  class="link_lan" style="margin-bottom:15px;" >
+			<tr>
+				<td class="admin_list_tit admin_list_first">目录权限检测</td>
+				<td width="150" align="center" class="admin_list_tit">读取权限</td>
+				<td width="150" align="center" class="admin_list_tit">写入权限</td>
+			</tr>
+			<volist name="checked_dirs" id="vo">
+			<tr>
+				<td class="admin_list admin_list_first">{$vo.dir}</td>
+				<td width="150" align="center" class="admin_list">{$vo.read}</td>
+				<td width="150" align="center" class="admin_list">{$vo.write}</td>
+			</tr>
+			</volist>
+		</table>
+	</div>
+	<form id="J_install_form" action="{:U('apply/updater_auth')}" method="post" style="display:none">
+		<div class="toptit">升级进程</div>
+		<div id="J_process" style="padding:20px; padding-top:10px; height:160px;overflow:auto;margin-bottom: 10px;"></div>
+		<input name="time" value="{$time}" type="hidden">
+		<iframe src="about:blank" style="width:500px; height:300px;display:none;" name="post_target"></iframe>
+	</form>
+	<if condition="$auth eq 1">
+		<div class="toptit"><font color="red">升级文件或路径必须具备‘读写权限’，请手动将列表内文件或路径设置‘读写权限’</font></div>
+	</if>
+	<table width="100%" border="0" cellspacing="10"  class="admin_list_btm">
+		<tr id="J_run">
+			<td>
+				<input name="ButADD" type="button" class="admin_submit" id="UpdaterBtn" value="继续升级" onclick="updater();" <if condition="$auth eq 1">style="display:none"</if>/>
+				<input type="button" class="admin_submit" id="CheckedBtn" value="重新检测" onclick="install_updater_auth();" <if condition="$auth eq 0">style="display:none"</if>/>
+				<input name="ButADD" type="button" class="admin_submit" id="ButADD" value="返回"  onclick="window.location='{:U('apply/index')}'"/>
+			</td>
+		</tr>
+		<tr id="J_end" style="display:none">
+			<td>
+				<input name="ButADD" type="button" class="admin_submit" id="ButADD" value="升级完成"  onclick="window.location='{:U('apply/index')}'"/>
+			</td>
+		</tr>
+	</table>
+</div>
+<include file="public:footer" />
+<script>
+	function updater(){
+		$('#J_process').empty();
+		$('#J_install_form').show().attr('target','post_target');
+	    $('#J_install_form').submit();
+	    $('#auth_list,#J_run').hide();
+	}
+	function show_process(html){
+	    $('#J_process').html($('#J_process').html() + html);
+	    var _t = $('#J_process').get(0);
+	    _t.scrollTop = _t.scrollHeight;
+	}
+	function install_failure(a){
+		if(a == 1){
+			$('#UpdaterBtn,#CheckedBtn').hide();
+		}else if(a == 2){
+			$('#UpdaterBtn').hide();
+			$('#CheckedBtn').show();
+		}
+	    $('#J_run').show();
+	}
+	function install_successed(){
+	    $('#J_end').show();
+	}
+	function install_updater_auth(){
+		window.location.href="{:U('apply/updater_auth',array('time'=>$time))}";
+	}
+</script>
+</body>
+</html>

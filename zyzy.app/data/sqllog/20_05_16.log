@@ -1,0 +1,10 @@
+[ 2020-05-16T09:08:14+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+SQL: UPDATE `qs_config` SET `value`='3' WHERE `name` = 'category_district_level' [RunTime:0.3685s] [IP:127.0.0.1:42045] [AddTime:1589591294] [qscms]
+[ 2020-05-16T09:08:36+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+SQL: SELECT `id` FROM qs_jobs_search j WHERE MATCH (`key`) AGAINST ("+eme1" IN BOOLEAN MODE)   ORDER BY stime desc  LIMIT 0,15  [RunTime:0.2394s] [IP:127.0.0.1:42093] [AddTime:1589591316] [qscms]
+[ 2020-05-16T09:14:51+08:00 ] 127.0.0.1 /index.php?m=Admin&c=index&a=login
+SQL: DELETE FROM `qs_admin_log` WHERE `log_addtime` < 1581815690 [RunTime:0.2342s] [IP:127.0.0.1:42893] [AddTime:1589591691] [qscms]
+[ 2020-05-16T21:57:57+08:00 ] 127.0.0.1 /index.php?m=Admin&c=index&a=login
+SQL: DELETE FROM `qs_admin_log` WHERE `log_addtime` < 1581861477 [RunTime:0.3053s] [IP:127.0.0.1:14815] [AddTime:1589637477] [qscms]
+[ 2020-05-16T21:57:59+08:00 ] 127.0.0.1 /index.php?m=Admin&c=index&a=total
+SQL: SHOW COLUMNS FROM `qs_report` [RunTime:0.2279s] [IP:127.0.0.1:14815] [AddTime:1589637479] [qscms]

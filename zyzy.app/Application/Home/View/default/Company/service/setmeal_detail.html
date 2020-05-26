@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="Company:left_service" />
+			</div>
+			<div class="mright">
+				<div class="gold_top_gold">
+					<div class="gold h125">
+						<div class="rightbox">
+							<div class="txt">
+								<a class="name">{$company_profile['companyname']}</a>
+								<div class="imgbox">
+									<eq name="$company_profile['audit']" value="1">
+									<div class="company_v"></div>
+									</eq>
+									<if condition="$my_setmeal['setmeal_id'] gt 1">
+									<div class="company_vip"><img src="{:attach($my_setmeal['setmeal_id'].'.png','resource')}" alt="{$my_setmeal['setmeal_name']}" /></div>
+									</if>
+									<eq name="$company_profile['famous']" value="1">
+									<div class="company_bao"><img src="<if condition="C('qscms_famous_company_img') eq ''">{:attach('famous.png','resource')}<else />{:attach(C('qscms_famous_company_img'),'images')}</if>" alt="" /></div>
+									</eq>
+									<div class="clear"></div>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="txt link_blue"><span class="gray">我的套餐：</span><strong>{$my_setmeal['setmeal_name']}</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U('index')}">升级会员套餐</a></div>
+							<div class="txt nomt link_blue"><span class="gray">服务期限：</span>{:date('Y-m-d',$my_setmeal['starttime'])} — <if condition="$my_setmeal['endtime'] eq 0">永久<else />{:date('Y-m-d',$my_setmeal['endtime'])}</if></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="package_head h125">
+						<div class="head_txt link_yellow"><a href="{:U('explain')}" target="_blank">VIP会员享受更多招聘特权</a></div>
+						<div class="head_block_group">
+							<div class="head_block">
+								<div class="block icon1">职位数：<strong>{$my_setmeal['surplus_jobs']}</strong></div>
+							</div>
+							<div class="head_block">
+								<div class="block icon2">简历点数：<strong>{$my_setmeal['download_resume']}</strong></div>
+							</div>
+							<if condition="C('qscms_company_sms') eq 1">
+							<div class="head_block">
+								<div class="block icon3">短信数：<strong>{$my_userinfo['sms_num']}</strong></div>
+							</div>
+							</if>
+							<div class="head_block">
+								<div class="block icon4">剩余天数：<span class="number">{$leave_days}</span></div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_pagetitle package">
+					<div class="pat_l">套餐使用明细</div>
+					<div>
+						<form id="form" action="{:U('Home/CompanyService/setmeal_detail')}" method="post">
+						<div class="filtrate_bar">
+							<div class="txt">时间范围：</div>
+							<div class="select_input_date select_130_34 nopl w124">
+								<input name="starttime" type="text" class="input_205_34 for_date" id="startDate" value="{:date('Y-m-d',$starttime)}">
+							</div>
+							<div class="line">-</div>
+							<div class="select_input_date select_130_34 nopl w124">
+								<input name="endtime" type="text" class="input_205_34 for_date" id="endDate" value="{:date('Y-m-d',$endtime)}">
+							</div>
+							<div class="btn_group"><div class="btn_blue J_hoverbut" id="submit">查询</div></div>
+							<div class="clear"></div>
+						</div>
+						</form>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="package_th">
+					<div class="th1">操作类型</div>
+					<div class="th3">操作时间</div>
+					<div class="clear"></div>
+				</div>
+				<div class="tabshow" style="display:block;">
+				<notempty name="log">
+					<volist name="log" id="vo">
+					<div class="packagelist J_hoverbut">
+						<div class="td1" title="{$vo['log_value']}"> {$vo['log_value']}</div>
+						<div class="td3">{:date('Y-m-d H:i:s',$vo['log_addtime'])}</div>
+						<div class="clear"></div>
+					</div>
+					</volist>
+					<div class="qspage">{$log_page}</div>
+				<else />
+					<div class="res_empty">
+						抱歉，没有找到相应记录
+					</div>
+				</notempty>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+		<script type="text/javascript" src="../public/js/laydate/laydate.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#submit").click(function(){
+					var startDate = $("#startDate").val();
+					var endDate = $("#endDate").val();
+					var compare = comptime(startDate,endDate);
+					if(!compare){
+						disapperTooltip('remind', '开始时间不能大于结束时间');return false;
+					}
+					$("#form").submit();
+				});
+
+				laydate.render({
+				   elem: '#startDate'
+				})
+				laydate.render({
+				   elem: '#endDate'
+				})
+			});
+			function comptime(beginTime,endTime) {
+			    var beginTimes = beginTime.substring(0, 10).split('-');
+			    var endTimes = endTime.substring(0, 10).split('-');
+
+			    beginTime = beginTimes[1] + '-' + beginTimes[2] + '-' + beginTimes[0] + ' ' + beginTime.substring(10, 19);
+			    endTime = endTimes[1] + '-' + endTimes[2] + '-' + endTimes[0] + ' ' + endTime.substring(10, 19);
+
+			    var a = (Date.parse(endTime) - Date.parse(beginTime)) / 3600 / 1000;
+			    if (a < 0) {
+			        return false;
+			    }
+			    return true;
+			}
+		</script>
+	</body>
+</html>

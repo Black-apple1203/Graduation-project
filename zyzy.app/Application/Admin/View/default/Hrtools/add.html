@@ -1,0 +1,83 @@
+<include file="public:header"/>
+
+<div class="toptit">添加文档</div>
+<form action="{:U('add')}" method="post" name="FormData" enctype="multipart/form-data">
+    <div class="form_main width150">
+        <div class="fl">文档名称:</div>
+        <div class="fr">
+            <div style="float: left"><input name="h_filename" type="text" class="input_text_default middle" maxlength="45" value=""/></div>
+            <div class="n-form" style="padding-left:10px;float: left">
+                <div class="color_layer" style="display: inline-block;">
+                    <div id="color_box" onclick="color_box_display()"></div>
+                    <input type="hidden" name="h_color" id="tit_color" value="">
+                    <include file="public:select_color" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">所属分类:</div>
+        <div class="fr">
+            <div class="select_input_new w400 J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">选择分类</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <volist name="category" id="category">
+                                <li><a class="J_listitme <eq name='i' value='1'>list_sel</eq>" href="javascript:;" data-code="{$key}">{$category}</a></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="h_typeid" id="h_typeid" type="hidden" value="" />
+            </div>
+            <!-- <select name="h_typeid" id="h_typeid">
+                <volist name="category" id="category">
+                    <option value="{$key}" <eq name='i' value='1'>selected="selected"</eq>>{$category}</option>
+                </volist>
+            </select> -->
+        </div>
+        <div class="fl">加粗:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small"><input name="h_strong" type="hidden" value="0" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">上传文件:</div>
+        <div class="fr txt">
+            <input name="upfile" type="file" style="width:200px; height:22px; border:1px #DFDFDF solid; font-size:12px;" onKeyDown="alert('请点击右侧“浏览”选择您电脑上的图片！');return false"/>
+            <label class="no-fl-note">(只能上传doc/ppt/xls/rtf文件)</label>
+        </div>
+        <div class="fl">或填写文件路径:</div>
+        <div class="fr">
+            <input name="url" type="text" class="input_text_default middle" maxlength="80" value=""/>
+            <label class="no-fl-note">(如:http://www.74cms.com/123.doc)</label>
+        </div>
+        <div class="fl">排序:</div>
+        <div class="fr">
+            <input name="h_order" type="text" class="input_text_default middle" id="h_order" maxlength="3" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" placeholder="数字越大越靠前，默认是0"/>
+            <label class="no-fl-note">(数字越大越靠前)</label>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        if ($('.J_listitme.list_sel').length) {
+            var listSelCn = $.trim($('.J_listitme.list_sel').text());
+            var listSelCode = $('.J_listitme.list_sel').data('code');
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_text').text(listSelCn);
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_code').val(listSelCode);
+        }
+    });
+</script>
+</html>

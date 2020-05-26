@@ -1,0 +1,57 @@
+<include file="public:header" />
+<div class="toptip"  >
+    <div class="toptit">提示：</div>
+<p class="link_green_line">视频面试集成了腾讯云trtc技术，该服务是收费的，费用由腾讯云收取。现在就去<a href="https://cloud.tencent.com/product/trtc" target="_blank">[申请]</a></p>
+<p class="link_green_line">为保证视频面试的流畅性和可用性，建议您提前配置https，并引导客户使用谷歌内核浏览器参与视频面试</p>
+<p class="link_green_line">视频专区模块建议您添加广告位引导，广告位链接：<a href="{:C('qscms_site_domain')}{:C('qscms_site_dir')}vi" target="_blank">{:C('qscms_site_domain')}{:C('qscms_site_dir')}vi</a>；广告位图片参考<a href="https://www.lanzous.com/ia2yu2d" target="_blank">下载</a></p>
+</div>
+<div class="toptit">视频面试</div>
+<form action="{:U('config')}" method="post" name="form1" id="form1">
+    <div class="form_main width150">
+        <div class="fl">开启：</div>
+        <div class="fr">
+          <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_video_interview_open') eq 1">select</if>"><input name="video_interview_open" type="hidden" value="{$info['video_interview_open']}" /></div>
+          <div class="clear"></div>
+        </div>
+        <div class="fl">腾讯云appid：</div>
+        <div class="fr">
+            <input name="trtc_appid" type="text" class="input_text_default" maxlength="100" value="{$info['trtc_appid']}"/>
+        </div>
+        <div class="fl">腾讯云appsecret：</div>
+        <div class="fr">
+            <input name="trtc_appsecret" type="text" class="input_text_default" maxlength="100" value="{$info['trtc_appsecret']}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit" type="button" class="admin_submit" id="J_submit" value="保存"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('config')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</body>
+</html>

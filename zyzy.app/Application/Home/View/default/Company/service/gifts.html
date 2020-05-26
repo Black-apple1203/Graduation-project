@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/gifts.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		
+		
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="Company:left_service" />
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">优惠券</div>
+					<div class="clear"></div>
+				</div>
+				<div class="point_title_group">
+					<div class="title_left">优惠券类型</div>
+					<div class="clear"></div>
+				</div>
+				<div class="service_pack_group">
+					<div class="yhj_main">
+						<notempty name="gift_issue">
+						<volist name="gift_issue" id="vo">
+						<div class="yhj_li fl">
+							<div class="yhj_li_top <if condition="$vo['gift_type'] eq 2">yellow<else /></if>">
+								<p class="li_price">&yen;{$vo['gift_info']['price']}</p>
+								<p class="li_name">									
+									<if condition="$vo['gift_type'] eq 1">
+									专享优惠券
+									<elseif condition="$vo['gift_type'] eq 2" />
+									新用户专享
+									<else />
+									活动专享
+									</if>
+								</p>
+								<p class="li_time">{$vo['addtime']|date="Y.m.d",###}-{$vo['deadtime']|date="Y.m.d",###}</p>
+								<!-- <a href="" class="li_close"></a> -->
+							</div>
+							<div class="yhj_li_bottom">
+								<p><span style="color:#666">限条件：</span><span>仅限购买{$vo['gift_info']['setmeal_name']}套餐</span></p>
+								<p><span style="color:#666">券编号：</span><span>{$vo['issue_num']}</span></p>
+								<if condition="($vo['is_used'] neq 1) and ($vo['is_used'] neq 3)">
+									<if condition="C('qscms_open_give_gift') eq 1">
+									<a href="{:U('CompanyService/setmeal_add',array('id'=>$vo['gift_setmeal_id'],'gift_id'=>$vo['id']))}" class="bottom_btn <if condition="$vo['gift_type'] eq 3">hui<elseif condition="$vo['gift_type'] eq 2" />yellow<else /></if>">立即使用</a>
+									<else />
+									<a href="javascript:;" class="usebtn bottom_btn <if condition="$vo['gift_type'] eq 3">hui<elseif condition="$vo['gift_type'] eq 2" />yellow<else /></if>">立即使用</a>
+									</if>
+								</if>
+								<if condition="($vo['is_expire'] eq 1) && ($vo['is_used'] eq 2)"><span class="jjdq"></span></if>
+								<if condition="$vo['is_used'] eq 1"><span class="ysyw"></span></if>
+								<if condition="$vo['is_used'] eq 3"><span class="ygqw"></span></if>
+							</div>
+						</div>
+						</volist>
+						<else/>
+						<div class="jobsWrap">
+							<div class="res_empty">
+								很遗憾，您暂时没有可使用优惠券哦！
+							</div>
+						</div>
+						</notempty>
+					</div>
+					<script type="text/javascript">
+						$(".yhj_li").each(function(index){
+							if((index+1)%3==0){
+								$(this).css("margin-right","0px")
+							}
+						})
+					</script>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+		<script type="text/javascript">
+			$(document).ready(function(){				
+				$(".usebtn").click(function(){
+					disapperTooltip("remind", "优惠券功能已关闭，请联系管理员开启后使用!");
+				});
+				$(".change_tpl").click(function(){
+					var url = "{:U('company/company_tpl')}";
+					var tpl = $(this).attr('data');
+					$.getJSON(url,{tpl:tpl},function(result){
+						if(result.status==1){
+							disapperTooltip("success", result.msg);
+                			setTimeout(function () {
+		                        window.location.reload();
+		                    }, 2000);
+						}else{
+							disapperTooltip("remind", result.msg);
+                			return false;
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

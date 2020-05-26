@@ -1,0 +1,99 @@
+<div class="index-left">
+    <div class="ph-28"></div>
+    <div class="left-logo"><a href="{:U('personal/user_avatar')}"><img src="{$visitor['avatars']}?{:time()}" /></a></div>
+    <div class="ph-30"></div>
+    <div class="left-line link_gray6"><a target="_blank" href="{:U('personal/index',array('uid'=>$visitor['uid']))}">{$visitor['fullname']}</a></div>
+    <div class="ph-25"></div>
+    <div class="left-line">简历完整度：{$visitor['complete_percent']}% <if condition="$visitor['level'] eq 3"><span class="green-txt">(优)</span><elseif condition="$visitor['level'] eq 1" /><span class="red-txt">(差)</span><else /><span class="yellow-txt">(良)</span></if></div>
+    <div class="ph-20"></div>
+    <div class="per-box"><div class="gre-box" style="width: {$visitor['complete_percent']}%"></div></div>
+    <div class="ph-20"></div>
+    <div class="sign-box">
+        <div class="sign-left">{:C('qscms_points_byname')}：<span class="J_points_num">{$visitor['points']|default=0}</span></div>
+        <div class="sign-right <if condition="$visitor['issign']">gr<else />bl</if>" id="J_sign_in"><if condition="$visitor['issign']">已签到<else />未签到</if></div>
+    <div class="clear"></div>
+</div>
+<div class="ph-20"></div>
+<div class="left-nav-box">
+    <a href="{:U('personal/index',array('uid'=>$visitor['uid']))}" class="li-nav <if condition="$personal_nav eq 'index'">select</if>">
+    <div class="nav-ic index"></div>
+    <div class="nav-name">我的简历</div>
+    <div class="clear"></div>
+    </a>
+    <a href="{:U('personal/jobs_interview')}" class="li-nav <if condition="$personal_nav eq 'apply'">select</if>">
+    <div class="nav-ic job"></div>
+    <div class="nav-name">求职管理</div>
+    <div class="clear"></div>
+    </a>
+    <a href="{:U('personal/jobs_favorites')}" class="li-nav <if condition="$personal_nav eq 'jobs_favorites'">select</if>">
+    <div class="nav-ic att"></div>
+    <div class="nav-name">收藏&关注</div>
+    <div class="clear"></div>
+    </a>
+    <a href="{:U('personalService/index')}" class="li-nav <if condition="$personal_nav eq 'service'">select</if>">
+    <div class="nav-ic ser"></div>
+    <div class="nav-name">会员服务</div>
+    <div class="clear"></div>
+    </a>
+    <if condition="C('apply.Allowance')">
+        <a href="{:U('personal/allowance')}" class="li-nav <if condition="$personal_nav eq 'allowance'">select</if>">
+    <div class="nav-ic all"></div>
+    <div class="nav-name">我的红包</div>
+    <div class="clear"></div>
+    </a>
+	<!-- <a href="{:U('AdvPersonal/adv_resume')}" class="li-nav <if condition="$personal_nav eq 'adv_resume' || $personal_nav eq 'adv_index'">select</if>">
+        <div class="nav-ic adv"></div>
+        <div class="nav-name">高级简历</div>
+        <div class="clear"></div>
+        </a> -->
+    </if>
+    <if condition="C('qscms_share_allowance_open') || C('qscms_inviter_perfected_resume_allowance_open')">
+        <a href="{$url}" class="li-nav <if condition="$personal_nav eq 'share_allowance_partake' || $personal_nav eq 'invite_friend'">select</if>">
+        <div class="nav-ic share"></div>
+        <div class="nav-name">分享赚钱</div>
+        <div class="clear"></div>
+        </a>
+    </if>
+    <a href="{:U('personal/user_safety')}" class="li-nav <if condition="$personal_nav eq 'user_info'">select</if>">
+    <div class="nav-ic user"></div>
+    <div class="nav-name">账号管理</div>
+    <div class="clear"></div>
+    </a>
+</div>
+</div>
+<script>
+    // 搜索
+    $('#ajax_search_location').submit(function(){
+        var nowKeyValue = $.trim($('input[name="key"]').val());
+        var orgKeyValue = $.trim($('input[name="key"]').data('original'));
+        if(nowKeyValue.length && nowKeyValue.length<2){
+            disapperTooltip("remind",'关健字长度需大于2个字！');
+            return !1;
+        }
+        if (!(nowKeyValue == orgKeyValue)) {
+            $('.J_forclear').val('');
+        }
+        $('input[name="key"]').val(htmlspecialchars($('input[name="key"]').val()));
+        var post_data = $('#ajax_search_location').serialize();
+        if(qscms.keyUrlencode==1){
+            post_data = encodeURI(post_data);
+        }
+        $.post($('#ajax_search_location').attr('action'),post_data,function(result){
+            window.location=result.data;
+        },'json');
+        return false;
+    });
+    // 签到
+    $('#J_sign_in').click(function(){
+        var f = $(this);
+        $.getJSON("{:U('Members/sign_in')}",function(result){
+            if(result.status == 1){
+                disapperTooltip("goldremind", '每天签到增加'+result.data+'{:C("qscms_points_byname")}<span class="point">+'+result.data+'</span>');
+                f.addClass('gr').text('已签到');
+                $(".J_points_num").html(parseInt($(".J_points_num").html())+parseInt(result.data));
+            }else{
+                disapperTooltip('remind',result.msg);
+            }
+        });
+    });
+</script>

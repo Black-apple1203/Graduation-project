@@ -1,0 +1,40 @@
+[ 2020-04-09T10:08:45+08:00 ] 127.0.0.1 /index.php?m=admin&c=jobs&a=index&menu_id=194&sub_menu_id=195
+SQL: SELECT * FROM `qs_jobs`   ORDER BY field(audit,2,1,3),addtime desc, id desc  LIMIT 0,10  [RunTime:1.1408s] [IP:127.0.0.1:31331] [AddTime:1586398125] [qscms]
+[ 2020-04-09T17:23:44+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+SQL: SELECT `id`,`type_id`,`title`,`content`,`url`,`text_color`,`uid` FROM `qs_ad` WHERE `alias` = 'QS_indextopimg' AND `starttime` <= 1586424224 AND ( `deadline` >= 1586424224 OR `deadline` = 0 ) AND `is_display` = 1   ORDER BY show_order desc  LIMIT 3  [RunTime:0.2166s] [IP:127.0.0.1:57099] [AddTime:1586424224] [qscms]
+[ 2020-04-09T21:00:14+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=index
+SQL: SELECT * FROM `qs_promotion` WHERE `cp_endtime` < 1586437213    [RunTime:0.2639s] [IP:127.0.0.1:5964] [AddTime:1586437214] [qscms]
+[ 2020-04-09T21:00:15+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=index
+SQL: SELECT * FROM `qs_personal_service_stick_log` WHERE `endtime` < 1586437214    [RunTime:0.9273s] [IP:127.0.0.1:5964] [AddTime:1586437215] [qscms]
+[ 2020-04-09T21:00:24+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=left_menu
+SQL: SELECT `spid` FROM `qs_menu` WHERE `id` = 0    LIMIT 1  [RunTime:0.2038s] [IP:127.0.0.1:5994] [AddTime:1586437224] [qscms]
+[ 2020-04-09T21:00:28+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT `utype`,count(id) as num FROM `qs_order` WHERE `addtime` >= 1586361600 GROUP BY utype    [RunTime:0.4254s] [IP:127.0.0.1:5994] [AddTime:1586437228] [qscms]
+[ 2020-04-09T21:00:28+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT COUNT(did) AS tp_count FROM `qs_company_interview` WHERE `interview_addtime` >= 1586361600    LIMIT 1  [RunTime:0.2046s] [IP:127.0.0.1:5994] [AddTime:1586437228] [qscms]
+[ 2020-04-09T21:00:29+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT COUNT(id) AS tp_count FROM `qs_company_profile` WHERE `audit` = 2    LIMIT 1  [RunTime:0.2073s] [IP:127.0.0.1:5994] [AddTime:1586437229] [qscms]
+[ 2020-04-09T21:00:29+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT COUNT(id) AS tp_count FROM `qs_feedback` WHERE `audit` = 1    LIMIT 1  [RunTime:0.3681s] [IP:127.0.0.1:5994] [AddTime:1586437229] [qscms]
+[ 2020-04-09T21:00:30+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT COUNT(id) AS tp_count FROM `qs_report` WHERE `audit` = 1    LIMIT 1  [RunTime:0.2091s] [IP:127.0.0.1:5994] [AddTime:1586437230] [qscms]
+[ 2020-04-09T21:00:31+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_order_invoice` WHERE `audit` = 2    LIMIT 1  [RunTime:0.2374s] [IP:127.0.0.1:6008] [AddTime:1586437231] [qscms]
+[ 2020-04-09T21:00:31+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_order` WHERE `payment` = 'remittance' AND `is_paid` = 1    LIMIT 1  [RunTime:0.2918s] [IP:127.0.0.1:6008] [AddTime:1586437231] [qscms]
+[ 2020-04-09T21:22:50+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=panel
+SQL: SELECT `spid` FROM `qs_menu` WHERE `id` = 0    LIMIT 1  [RunTime:2.866s] [IP:127.0.0.1:7570] [AddTime:1586438570] [qscms]
+[ 2020-04-09T21:22:57+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=panel
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=index&a=panel','127.0.0.1:7570','本机地址','1586438573','1','admin','0') [RunTime:2.9598s] [IP:127.0.0.1:7570] [AddTime:1586438577] [qscms]
+[ 2020-04-09T21:22:59+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=index
+SQL: SELECT `spid` FROM `qs_menu` WHERE `id` = 0    LIMIT 1  [RunTime:0.4402s] [IP:127.0.0.1:7569] [AddTime:1586438579] [qscms]
+[ 2020-04-09T21:23:00+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=index
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=index&a=index','127.0.0.1:7569','本机地址','1586438579','1','admin','0') [RunTime:0.6023s] [IP:127.0.0.1:7569] [AddTime:1586438580] [qscms]
+[ 2020-04-09T21:23:11+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=left_menu
+SQL: SELECT `spid` FROM `qs_menu` WHERE `id` = 0    LIMIT 1  [RunTime:0.6423s] [IP:127.0.0.1:7646] [AddTime:1586438591] [qscms]
+[ 2020-04-09T21:23:12+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=left_menu
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=index&a=left_menu','127.0.0.1:7646','本机地址','1586438591','1','admin','0') [RunTime:1.1463s] [IP:127.0.0.1:7646] [AddTime:1586438592] [qscms]
+[ 2020-04-09T21:23:15+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=top_menu
+SQL: SELECT `spid` FROM `qs_menu` WHERE `id` = 0    LIMIT 1  [RunTime:1.7426s] [IP:127.0.0.1:7644] [AddTime:1586438595] [qscms]
+[ 2020-04-09T21:23:17+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=panel
+SQL: SELECT `spid` FROM `qs_menu` WHERE `id` = 0    LIMIT 1  [RunTime:0.444s] [IP:127.0.0.1:7648] [AddTime:1586438597] [qscms]

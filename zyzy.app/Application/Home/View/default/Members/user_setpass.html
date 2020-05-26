@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/members/common.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/members/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+	<include file="header" />
+	<div class="find_pwd">
+		<div class="step s2"></div>
+		<div class="steptxt">
+			<div class="tli font_blue">1.验证账号信息</div>
+			<div class="tli font_blue">2.设置新密码</div>
+			<div class="tli">3.找回成功</div>
+			<div class="clear"></div>
+		</div>
+		<div class="rl J_focus">
+			<form class="J_passwordalert_group" id="setPassForm" action="{:U('members/user_setpass')}" method="post" onkeydown="if(event.keyCode==13){return false;}">
+				<div class="J_validate_group">
+					<div class="td1">
+						<input class="input_295_34 J_passwordalert" name="password" id="password" type="password" placeholder="请输入新密码" autocomplete="off" />
+					</div>
+					<div class="td2 J_showtip_box"></div>
+					<div class="clear"></div>
+				</div>
+				<div class="safety">
+					<div class="slist t1">危险</div>
+					<div class="slist t2">一般</div>
+					<div class="slist t3">安全</div>
+					<div class="clear"></div>
+				</div>
+				<div class="J_validate_group">
+					<div class="td1">
+						<input class="input_295_34" name="password1" id="password1" type="password" placeholder="请确认新密码" autocomplete="off" />
+					</div>
+					<div class="td2 J_showtip_box"></div>
+					<div class="clear"></div>
+				</div>
+				<div class="btnbox">
+					<input type="hidden" name="token" value="{$token}" />
+					<input name="" type="submit" value="下一步" class="btn_reg J_hoverbut" />
+				</div>
+			</form>
+		</div>
+	</div>
+	<!--下方阴影 -->
+	<div class="find_pwd_bg">
+		<div class="bl"></div>
+		<div class="br"></div>
+		<div class="clear"></div>
+	</div>
+	<include file="public:footer_min" />
+	<script type="text/javascript" src="../public/js/jquery.validate.js"></script>
+	<script type="text/javascript" src="../public/js/members/jquery.pwdalert.js"></script>
+	<script type="text/javascript">
+		$("#setPassForm").validate({
+	        rules: {
+	            password: {
+                        required: true,
+                        rangelength: [6, 16]
+                },
+                password1: {
+                    required: true,
+                    rangelength: [6, 16],
+                    equalTo: "#password"
+                }
+	        },
+	        messages: {
+                password: {
+                    required: '<div class="ftxt">请输入密码</div><div class="fimg"></div>',
+                    rangelength: '<div class="ftxt">密码长度要求为6-16个字符</div><div class="fimg"></div>'
+                },
+                password1: {
+                    required: '<div class="ftxt">请确认新密码</div><div class="fimg"></div>',
+                    rangelength: '<div class="ftxt">密码长度要求为6-16个字符</div><div class="fimg"></div>',
+                    equalTo: '<div class="ftxt">两次输入的密码不一致</div><div class="fimg"></div>'
+                }
+	        },
+	        errorClasses: {
+                password: {
+                    required: 'tip err',
+                    rangelength: 'tip err'
+                },
+                password1: {
+                    required: 'tip err',
+                    rangelength: 'tip err',
+                    equalTo: 'tip err'
+                }
+	        },
+	        tips: {
+	            password: '<div class="ftxt">密码需由6-16个数字、字母和符号组成，区分大小写</div><div class="fimg"></div>',
+                password1: '<div class="ftxt">请确认新密码</div><div class="fimg"></div>'
+	        },
+	        tipClasses: {
+	            password: 'tip',
+               	password1: 'tip'
+	        },
+	        errorElement: 'span',
+	        errorPlacement: function(error, element) {
+	            element.closest('.J_validate_group').find('.J_showtip_box').append(error);
+	        },
+	        success: function(label) {
+	            label.append('<div class="ok"></div>');
+	        }
+	    });
+	</script>
+</body>
+</html>

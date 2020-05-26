@@ -1,0 +1,1087 @@
+<include file="public:header"/>
+<form action="{:U('save_basic_info')}" method="post" name="FormData" id="FormData" >
+    <div class="toptit link_blue">基本资料</div>
+    <div class="form_main width120">
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 姓名:</div>
+        <div class="fr" style="width: 250px;">
+            <input name="fullname" type="text" class="input_205_34_div" maxlength="50" value="{$info['fullname']}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 性别:</div>
+        <div class="fr" style="width: 250px;">
+            <div class="imgradio J_job_sex">
+                <input name="sex" type="hidden" value="{$info['sex']}">
+                <input name="sex_cn"  id="sex_cn" type="hidden" value="{$info.sex_cn}"/>
+                <div class="radio <eq name='info.sex' value='1'>select</eq>" data="1" title="男">男</div>
+                <div class="radio <eq name='info.sex' value='2'>select</eq>" data="2" title="女">女</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 出生年份:</div>
+        <div class="fr" style="width: 250px;">
+            <div class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">{$info['birthdate']}</span>
+                <div class="dropdowbox9 J_dropdown_menu">
+                    <div class="dropdow_inner9">
+                        <ul class="nav_box J_birthdy">
+                            <div class="J_birthday_box active"></div>
+                            <div class="J_birthday_box"></div>
+                            <div class="J_birthday_box"></div>
+                        </ul>
+                        <a href="javascript:;" class="prev J_birthday_prev"></a>
+                        <a href="javascript:;" class="next J_birthday_next"></a>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="birthdate" id="birthdate" type="hidden" value="{$info.birthdate}">
+            </div>
+        </div>
+        <div class="fl">现居住地:</div>
+        <div class="fr" style="width: 250px;">
+            <input name="residence" type="text" class="input_205_34_div" maxlength="50" value="{$info['residence']}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 学历:</div>
+        <div class="fr" style="width: 250px;">
+            <div class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+                    <span class="J_listitme_text for_education">{$info.education_cn|default='请选择'}</span>
+                    <div class="dropdowbox10 J_dropdown_menu">
+                        <div class="dropdow_inner10">
+                            <ul class="nav_box">
+                                <volist name="category['QS_education']" id="education">
+                                    <li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$education}</a></li>
+                                </volist>
+                            </ul>
+                        </div>
+                    </div>
+                    <input class="J_listitme_code" name="education" id="education" type="hidden" value="{$info.education}" />
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 工作经验:</div>
+        <div class="fr" style="width: 250px;">
+            <div class=" input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text"><if condition="$info['experience_cn']">{$info.experience_cn}<else/>选择工作经验</if></span>
+                <div class="dropdowbox10 J_dropdown_menu">
+                    <div class="dropdow_inner10">
+                        <ul class="nav_box">
+                            <volist name="category['QS_experience']" id="vo">
+                                <li><a class="J_listitme <eq name='info.experience' value='$key'>list_sel</eq>" href="javascript:;" data-code="{$key}">{$vo}</a></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="experience" id="experience" type="hidden" value="{$info['experience']}" />
+            </div>
+        </div>
+        <div class="fl"> 所学专业:</div>
+        <div class="fr" style="width: 250px;">
+            <div class="input_205_34_div1 J_hoverinput" id="J_showmodal_major" data-title="请选择所学专业" data-multiple="false" data-maxnum="3" data-width="520">
+                    <span title="" class="for_major result J_resuletitle_major">{$info.major_cn|default='请选择'}</span>
+                    <input class="J_resultcode_major" name="major" id="major" type="hidden" value="{$info.major}" />
+                    <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">身高:</div>
+        <div class="fr" style="width: 250px;">
+            <input name="height" type="text" class="input_205_34_div" maxlength="50" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" value="{$info['height']}"/>&nbsp;&nbsp;CM
+        </div>
+        <div class="fl">籍贯:</div>
+        <div class="fr" style="width: 250px;">
+            <input name="householdaddress" type="text" class="input_205_34_div" maxlength="50" value="{$info['householdaddress']}"/>
+        </div>
+        <div class="fl"> 婚姻状况：</div>
+        <div class="fr" style="width: 250px;">
+             <div class="imgradio J_job_sex">
+                <input name="marriage" type="hidden" value="{$info['marriage']}">
+                <input name="marriage_cn"  id="marriage_cn" type="hidden" value="{$info.marriage_cn}"/>
+                <div class="radio <eq name='info.marriage' value='1'>select</eq>" data="1" title="未婚">未婚</div>
+                <div class="radio <eq name='info.marriage' value='2'>select</eq>" data="2" title="已婚">已婚</div>
+                <div class="radio <eq name='info.marriage' value='3'>select</eq>" data="3" title="保密">保密</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"> QQ:</div>
+        <div class="fr" style="width: 250px;">
+            <input name="qq" type="text" class="input_205_34_div" maxlength="50" value="{$info['qq']}"/>
+        </div>
+        <div class="fl"> 微信号:</div>
+        <div class="fr" style="width: 250px;">
+            <input name="weixin" type="text" class="input_205_34_div" maxlength="50" value="{$info['weixin']}"/>
+        </div>
+        <div class="fl"> 邮箱:</div>
+        <div class="fr" style="width: 250px;">
+            <input name="email" type="text" class="input_205_34_div" maxlength="50" value="{$info['email']}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 手机号码:</div>
+        <div class="fr" style="width: 250px;">
+            <input name="telephone" type="text" class="input_205_34_div" maxlength="11" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" value="{$info['telephone']}"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form_main width120">
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="pid" value="{$info.id}" />
+            <input type="submit" class="admin_submit" value="保存修改"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<div class="toptit link_blue">求职意向</div>
+<form action="{:U('save_basic')}" method="post" name="FormData" id="FormData" >
+    <div class="form_main width120">
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 目前状态:</div>
+        <div class="fr" style="width: 250px;">
+            <div class=" input_205_34_div1 J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text result"><if condition="$info['current_cn']">{$info.current_cn}<else/>选择目前状态</if></span>
+                <div class="dropdowbox10 J_dropdown_menu">
+                    <div class="dropdow_inner10">
+                        <ul class="nav_box">
+                            <volist name="category['QS_current']" id="vo">
+                                <li><a class="J_listitme <eq name='info.current' value='$key'>list_sel</eq>" href="javascript:;" data-code="{$key}">{$vo}</a></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="current" id="current" type="hidden" value="{$info['current']}" />
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 工作性质:</div>
+        <div class="fr" style="width: 250px;">
+            <div class=" input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text"><if condition="$info['nature_cn']">{$info.nature_cn}<else/>选择工作性质</if></span>
+                <div class="dropdowbox10 J_dropdown_menu">
+                    <div class="dropdow_inner10">
+                        <ul class="nav_box">
+                            <volist name="category['QS_jobs_nature']" id="vo">
+                                <li><a class="J_listitme <eq name='info.nature' value='$key'>list_sel</eq>" href="javascript:;" data-code="{$key}">{$vo}</a></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="nature" id="nature" type="hidden" value="{$info['nature']}" />
+            </div>
+        </div>
+        <div class="fl"> 期望行业:</div>
+        <div class="fr" style="width: 250px;">
+            <div class="input_205_34_div1 J_hoverinput" id="J_showmodal_trade" data-title="请选择期望行业" data-multiple="true" data-maxnum="3" data-width="682">
+                <span title="" class="for_trade result J_resuletitle_trade">{$info.trade_cn|default='不限'}</span>
+                <input class="J_resultcode_trade" name="trade" id="trade" type="hidden" value="{$info.trade}" />
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 期望职位:</div>
+        <div class="fr" style="width: 250px;">
+            <div class="input_205_34_div1 J_hoverinput" id="J_showmodal_jobs" data-title="请选择期望职位" data-multiple="true" data-maxnum="5" <if condition="C('qscms_category_jobs_level') gt 2">data-width="667"<else/>data-width="520"</if> data-category="{:C('qscms_category_jobs_level')}">
+                <span title="" class="for_intention_jobs result J_resuletitle_jobs">{$info.intention_jobs|default='请选择'}</span>
+                <input class="J_resultcode_jobs" name="intention_jobs_id" id="intention_jobs_id" type="hidden" value="{$info.intention_jobs_id}" />
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 工作地区:</div>
+        <div class="fr" style="width: 250px;">
+            <div class="input_205_34_div1 J_hoverinput" data-toggle="funCityModal" data-title="请选择工作地区" data-multiple="true" data-maximum="3" data-width="760">
+                    <span title="" class="for_district result J_resuletitle_city">{$info.district_cn|default='请选择'}</span>
+                    <input class="J_resultcode_city" name="district" id="district" type="hidden" value="{$resume_info.district}" keep="{$info.district}" />
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 期望薪资:</div>
+        <div class="fr" style="width: 250px;">
+            <div class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text for_wage">{$info.wage_cn|default='请选择'}</span>
+                <div class="dropdowbox10 J_dropdown_menu">
+                    <div class="dropdow_inner10">
+                        <ul class="nav_box">
+                            <volist name="category['QS_wage']" id="wage">
+                                <li><a class="J_listitme" href="javascript:;" data-code="{$key}" title="{$wage}">{$wage}</a></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="wage" id="wage" type="hidden" value="{$info.wage}">
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id"  value="{$info.id}" />
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">自我描述</div>
+<form action="{:U('save_specialt')}" method="post">
+    <div class="form_main width120">
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 自我描述:</div>
+        <div class="fr">
+            <textarea id="specialty" name="specialty" class="input_text_default" style="line-height:200%; height:150px;">{$info.specialty}</textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id"  value="{$info.id}" />
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<div class="toptit">教育经历</div>
+<div class="form_main" id="edu_list">
+    <div class="detail_wrap">
+            <notempty name="edu_info">
+                <div class="list-th">
+                    <div class="th1">就读时间</div>
+                    <div class="th2 center">学历</div>
+                    <div class="th3 center" style="width: 130px;">学校</div>
+                    <div class="th4 center" style="width: 130px;">专业</div>
+                    <div class="th5 center" style="width: 120px;">操作</div>
+                    <div class="clear"></div>
+                </div>
+            </notempty>    
+                <div class="list-data">  
+                    <notempty name="edu_info">
+                        <volist name="edu_info" id="vo">
+                            <div class="list-td">
+                                <div class="td1">{$vo['startyear']}-{$vo['startmonth']} 至{$vo['endyear']}-{$vo['endmonth']}</div>
+                                <div class="td2 center">
+                                    {$vo['education_cn']}
+                                </div>
+                                <div class="td3 center" style="width: 130px;">{$vo['school']}</div>
+                                <div class="td4 center" style="width: 130px;">{$vo['speciality']}</div>
+                                <div class="td5 center edit" style="width: 120px;"><a class="edit_edu_btn edits" data-id="{$vo.id}" href="javascript:;">修改</a>&nbsp;&nbsp;&nbsp;<a href="{:U('del_education',array('id'=>$vo['id'],'pid'=>$vo['pid']))}" class="gray" onClick="return confirm('你确定要删除该教育经历吗？')">删除</a></div>
+                                <div class="clear"></div>
+                            </div>
+                        </volist>
+                    </notempty>    
+                </div>
+    </div>
+    <div class="fl"></div>
+    <div class="fr">
+    <input type="button" class="admin_submit" style="margin-top: 13px;margin-bottom: -8px;margin-left: 20px;" value="新增" id="add_edu_btn" />
+    </div>
+    <div class="clear"></div>
+</div>
+<form action="{:U('save_education')}" method="post" style="display:none"  id="add_edu_box">
+    <div class="form_main width120">
+        <input type="hidden" class="J_listid" value="" />
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 学校名称:</div>
+        <div class="fr" >
+            <input name="school" id="school" type="text" class="input_205_34_div" maxlength="50" value=""/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 专业名称:</div>
+        <div class="fr">
+            <input name="speciality" id="speciality" type="text" class="input_205_34_div" maxlength="50" value=""/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 学历:</div>
+        <div class="fr">
+            <div name="education" class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+                    <span class="J_listitme_text for_education1">请选择</span>
+                    <div class="dropdowbox10 J_dropdown_menu">
+                        <div class="dropdow_inner10">
+                            <ul class="nav_box">
+                                <volist name="category['QS_education']" id="education">
+                                    <li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$education}</a></li>
+                                </volist>
+                            </ul>
+                        </div>
+                    </div>
+                    <input class="J_listitme_code" name="education1" id="education1" type="hidden" value="" />
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span>就读时间:</div>
+        <div class="fr J_itemsmenus">
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="100" style="padding-left:0px;">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">年份</span>
+                        <div class="dropdowbox9 J_dropdown_menu">
+                            <div class="dropdow_inner9">
+                                <ul class="nav_box J_birthdy_exp">
+                                    <div class="J_birthday_box_exp active"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                </ul>
+                                <a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+                                <a href="javascript:;" class="next J_birthday_next_exp"></a>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="startyearEdu" id="startyearEdu" value="">
+                    </div>
+                  </td>
+                  <td width="100">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">月份</span>
+                        <div class="dropdowbox11 J_dropdown_menu">
+                            <div class="dropdow_inner11">
+                                <ul class="nav_box J_month">
+                                    <div class="J_month_box active"></div>
+                                </ul>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="startmonthEdu" id="startmonthEdu" value="">
+                    </div>
+                  </td>
+                  <td class="J_fortonow" width="30">至</td>
+                  <td class="J_fortonow" width="100">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">年份</span>
+                        <div class="dropdowbox9 J_dropdown_menu">
+                            <div class="dropdow_inner9">
+                                <ul class="nav_box J_birthdy_exp">
+                                    <div class="J_birthday_box_exp active"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                </ul>
+                                <a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+                                <a href="javascript:;" class="next J_birthday_next_exp"></a>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="endyearEdu" id="endyearEdu" value="">
+                    </div>
+                  </td>
+                  <td class="J_fortonow" width="100">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">月份</span>
+                        <div class="dropdowbox11 J_dropdown_menu">
+                            <div class="dropdow_inner11">
+                                <ul class="nav_box J_month">
+                                    <div class="J_month_box active"></div>
+                                </ul>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="endmonthEdu" id="endmonthEdu" value="">
+                    </div>
+                  </td>
+                  <td width="100"><label><input class="J_tonow" name="tonowEdu" id="tonowEdu" type="checkbox" value="" />&nbsp;至今</label>
+                  </td>
+                </tr>
+          </table>
+        </div>  
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id"  value="{$info.id}" />
+            <input type="hidden" name="edu_id" id="edu_id"  value="" />
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" id="edu_cancel" />
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+ <div class="toptit">工作经历</div>
+        <div class="form_main" id="work_list">
+            <div class="detail_wrap">
+                <notempty name="work_info">
+                    <div class="list-th">
+                        <div class="th1">工作时间</div>
+                        <div class="th2 center">公司</div>
+                        <div class="th3 center" style="width: 130px;">职位</div>
+                        <div class="th4 center" style="width: 130px;">职责</div>
+                        <div class="th5 center" style="width: 120px;">操作</div>
+                        <div class="clear"></div>
+                    </div>
+                </notempty>    
+                <div class="list-data">
+                    <notempty name="work_info">
+                        <volist name="work_info" id="vo">
+                            <div class="list-td">
+                                <div class="td1">{$vo['startyear']}-{$vo['startmonth']} 至{$vo['endyear']}-{$vo['endmonth']}</div>
+                                <div class="td2 center">
+                                    {$vo['companyname']}
+                                </div>
+                                <div class="td3 center" style="width: 130px;">{$vo['jobs']}</div>
+                                <div class="td4 center" style="width: 130px;">{:cut_str($vo['achievements'],5,0,'..')}</div>
+                                <div class="td5 center" style="width: 120px;"><a class="edit_work_btn edits" data-id="{$vo.id}" href="javascript:;">修改</a>&nbsp;&nbsp;&nbsp;<a href="{:U('del_work',array('id'=>$vo['id'],'pid'=>$vo['pid']))}" class="gray" onClick="return confirm('你确定要删除该工作经历吗？')">删除</a></div>
+                                <div class="clear"></div>
+                            </div>
+                        </volist>
+                    </notempty>
+
+                </div>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+            <input type="button" class="admin_submit" style="margin-top: 13px;margin-bottom: -8px;margin-left: 20px;" value="新增" id="add_work_btn" />
+            </div>
+            <div class="clear"></div>
+        </div>
+<form action="{:U('save_work')}" method="post" style="display:none" id="add_work_box">
+    <div class="form_main width120">
+        <input type="hidden" class="J_listid" value="" />
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 公司名称:</div>
+        <div class="fr" >
+            <input name="companyname" id="companyname" type="text" class="input_205_34_div" maxlength="50" value="{$info['companyname']}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 职位名称:</div>
+        <div class="fr">
+            <input name="jobs" id="jobs" type="text" class="input_205_34_div" maxlength="50" value="{$info['jobs']}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span>任职时间:</div>
+        <div class="fr J_itemsmenus">
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="100" style="padding-left:0px;">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">年份</span>
+                        <div class="dropdowbox9 J_dropdown_menu">
+                            <div class="dropdow_inner9">
+                                <ul class="nav_box J_birthdy_exp">
+                                    <div class="J_birthday_box_exp active"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                </ul>
+                                <a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+                                <a href="javascript:;" class="next J_birthday_next_exp"></a>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="startyearExp" id="startyearExp" value="">
+                    </div>
+                  </td>
+                  <td width="100">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">月份</span>
+                        <div class="dropdowbox11 J_dropdown_menu">
+                            <div class="dropdow_inner11">
+                                <ul class="nav_box J_month">
+                                    <div class="J_month_box active"></div>
+                                </ul>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="startmonthExp" id="startmonthExp" value="">
+                    </div>
+                  </td>
+                  <td class="J_fortonow" width="30">至</td>
+                  <td class="J_fortonow" width="100">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">年份</span>
+                        <div class="dropdowbox9 J_dropdown_menu">
+                            <div class="dropdow_inner9">
+                                <ul class="nav_box J_birthdy_exp">
+                                    <div class="J_birthday_box_exp active"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                </ul>
+                                <a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+                                <a href="javascript:;" class="next J_birthday_next_exp"></a>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="endyearExp" id="endyearExp" value="">
+                    </div>
+                  </td>
+                  <td class="J_fortonow" width="100">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">月份</span>
+                        <div class="dropdowbox11 J_dropdown_menu">
+                            <div class="dropdow_inner11">
+                                <ul class="nav_box J_month">
+                                    <div class="J_month_box active"></div>
+                                </ul>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="endmonthExp" id="endmonthExp" value="">
+                    </div>
+                  </td>
+                  <td width="100"><label><input class="J_tonow" name="tonowExp" id="tonowExp" type="checkbox" value="" />&nbsp;至今</label>
+                  </td>
+                </tr>
+          </table>
+        </div>  
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 工作职责:</div>
+        <div class="fr">
+            <textarea id="achievements" name="achievements"  class="input_text_default" style="line-height:200%; height:150px;">{$info.achievements}</textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id"  value="{$info.id}" />
+            <input type="hidden" name="work_id"  id="work_id" value="" />
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" id="work_cancel"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">培训经历</div>
+        <div class="form_main" id="tra_list">
+            <div class="detail_wrap">
+                <notempty name="tra_info">
+                    <div class="list-th">
+                        <div class="th1">培训时间</div>
+                        <div class="th2 center">机构</div>
+                        <div class="th3 center" style="width: 130px;">课程</div>
+                        <div class="th4 center" style="width: 130px;">内容</div>
+                        <div class="th5 center" style="width: 120px;">操作</div>
+                        <div class="clear"></div>
+                    </div>
+                </notempty>    
+                <div class="list-data">
+                    <notempty name="tra_info">
+                        <volist name="tra_info" id="vo">
+                            <div class="list-td">
+                                <div class="td1">{$vo['startyear']}-{$vo['startmonth']} 至{$vo['endyear']}-{$vo['endmonth']}</div>
+                                <div class="td2 center">
+                                    {$vo['agency']}
+                                </div>
+                                <div class="td3 center" style="width: 130px;">{:cut_str($vo['course'],15,0,'..')}</div>
+                                <div class="td4 center" style="width: 130px;">{:cut_str($vo['description'],5,0,'..')}</div>
+                                <div class="td5 center" style="width: 120px;"><a class="edit_tra_btn edits" data-id="{$vo.id}" href="javascript:;">修改</a>&nbsp;&nbsp;&nbsp;<a href="{:U('del_training',array('id'=>$vo['id'],'pid'=>$vo['pid']))}" class="gray" onClick="return confirm('你确定要删除该培训经历吗？')">删除</a></div>
+                                <div class="clear"></div>
+                            </div>
+                        </volist>
+                    </notempty>
+                </div>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+            <input type="button" class="admin_submit" style="margin-top: 13px;margin-bottom: -8px;margin-left: 20px;" value="新增" id="add_tra_btn" />
+            </div>
+            <div class="clear"></div>
+        </div>
+<form action="{:U('save_training')}" method="post" style="display:none" id="add_tra_box">
+    <div class="form_main width120">
+        <input type="hidden" class="J_listid" value="" />
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 培训机构:</div>
+        <div class="fr" >
+            <input name="agency" id="agency" type="text" class="input_205_34_div" maxlength="50" value="{$info['agency']}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 培训课程:</div>
+        <div class="fr">
+            <input name="course" id="course" type="text" class="input_205_34_div" maxlength="50" value="{$info['course']}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span>培训时间:</div>
+        <div class="fr J_itemsmenus">
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="100" style="padding-left:0px;">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">年份</span>
+                        <div class="dropdowbox9 J_dropdown_menu">
+                            <div class="dropdow_inner9">
+                                <ul class="nav_box J_birthdy_exp">
+                                    <div class="J_birthday_box_exp active"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                </ul>
+                                <a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+                                <a href="javascript:;" class="next J_birthday_next_exp"></a>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="startyearTra" id="startyearTra" value="">
+                    </div>
+                  </td>
+                  <td width="100">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">月份</span>
+                        <div class="dropdowbox11 J_dropdown_menu">
+                            <div class="dropdow_inner11">
+                                <ul class="nav_box J_month">
+                                    <div class="J_month_box active"></div>
+                                </ul>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="startmonthTra" id="startmonthTra" value="">
+                    </div>
+                  </td>
+                  <td class="J_fortonow" width="30">至</td>
+                  <td class="J_fortonow" width="100">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">年份</span>
+                        <div class="dropdowbox9 J_dropdown_menu">
+                            <div class="dropdow_inner9">
+                                <ul class="nav_box J_birthdy_exp">
+                                    <div class="J_birthday_box_exp active"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                </ul>
+                                <a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+                                <a href="javascript:;" class="next J_birthday_next_exp"></a>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="endyearTra" id="endyearTra" value="">
+                    </div>
+                  </td>
+                  <td class="J_fortonow" width="100">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">月份</span>
+                        <div class="dropdowbox11 J_dropdown_menu">
+                            <div class="dropdow_inner11">
+                                <ul class="nav_box J_month">
+                                    <div class="J_month_box active"></div>
+                                </ul>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="endmonthTra" id="endmonthTra" value="">
+                    </div>
+                  </td>
+                  <td width="100"><label><input class="J_tonow" name="tonowTra" id="tonowTra" type="checkbox" value="" />&nbsp;至今</label>
+                  </td>
+                </tr>
+          </table>
+        </div>  
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 培训内容:</div>
+        <div class="fr">
+            <textarea id="description" name="description" class="input_text_default" style="line-height:200%; height:150px;">{$info.jobrespons}</textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id"  value="{$info.id}" />
+            <input type="hidden" name="tra_id"  id="tra_id" value="" />
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" id="tra_cancel"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<div class="toptit">获得证书</div>
+<div class="form_main" id="cre_list">
+            <div class="detail_wrap">
+              <notempty name="cre_info">
+                <div class="list-th">
+                    <div class="th1" style="width: 292px;">获得时间</div>
+                    <div class="th2 center" style="width: 292px;">证书名称</div>
+                    <div class="th3 center" style="width: 120px;">操作</div>
+                    <div class="clear"></div>
+                </div>
+                </notempty>
+                <div class="list-data">
+                    <notempty name="cre_info">
+                        <volist name="cre_info" id="vo">
+                            <div class="list-td">
+                                <div class="td1" style="width: 292px;">{$vo['year']}-{$vo['month']} </div>
+                                <div class="td2 center" style="width: 292px;">
+                                    {$vo['name']}
+                                </div>
+                                <div class="td3 center" style="width: 120px;">
+                                    <a class="edit_cre_btn edits" data-id="{$vo.id}" href="javascript:;">修改</a>&nbsp;&nbsp;&nbsp;<a href="{:U('del_credent',array('id'=>$vo['id'],'pid'=>$vo['pid']))}" class="gray" onClick="return confirm('你确定要删除该证书吗？')">删除</a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </volist>
+                    </notempty>
+                </div>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+            <input type="button" class="admin_submit" style="margin-top: 13px;margin-bottom: -8px;margin-left: 20px;" value="新增" id="add_cre_btn" />
+            </div>
+            <div class="clear"></div>
+</div>
+<form action="{:U('save_credent')}" method="post" style="display:none" id="add_cre_box">
+    <div class="form_main width120">
+        <input type="hidden" class="J_listid" value="" />
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 证书名称:</div>
+        <div class="fr" >
+            <input name="name" id="name" type="text" class="input_205_34_div" maxlength="50" value="{$info['name']}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span>获得时间:</div>
+        <div class="fr">
+              <table border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td width="100" style="padding-left:0px;">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">年份</span>
+                        <div class="dropdowbox9 J_dropdown_menu">
+                            <div class="dropdow_inner9">
+                                <ul class="nav_box J_birthdy_exp">
+                                    <div class="J_birthday_box_exp active"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                    <div class="J_birthday_box_exp"></div>
+                                </ul>
+                                <a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+                                <a href="javascript:;" class="next J_birthday_next_exp"></a>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="yearCredent" id="yearCredent" value="">
+                    </div>
+                  </td>
+                  <td width="100">
+                    <div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">月份</span>
+                        <div class="dropdowbox11 J_dropdown_menu">
+                            <div class="dropdow_inner11">
+                                <ul class="nav_box J_month">
+                                    <div class="J_month_box active"></div>
+                                </ul>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" type="hidden" name="monthCredent" id="monthCredent" value="">
+                    </div>
+                  </td>
+                </tr>
+          </table>
+        </div>  
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id"  value="{$info.id}" />
+            <input type="hidden" name="cre_id"  id="cre_id" value="" />
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" id="cre_cancel"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<div class="toptit">语言能力</div>
+        <div class="form_main" id="lan_list">
+            <div class="detail_wrap">
+              <notempty name="lan_info">
+                <div class="list-th">
+                    <div class="th1" style="width: 292px;">语言名称</div>
+                    <div class="th2 center" style="width: 292px;">熟练程度</div>
+                    <div class="th3 center" style="width: 120px;">操作</div>
+                    <div class="clear"></div>
+                </div>
+               </notempty> 
+                <div class="list-data">
+                    <notempty name="lan_info">
+                        <volist name="lan_info" id="vo">
+                            <div class="list-td">
+                                <div class="td1" style="width: 292px;">{$vo['language_cn']}</div>
+                                <div class="td2 center" style="width: 292px;">
+                                    {$vo['level_cn']}
+                                </div>
+                                <div class="td3 center" style="width: 120px;">
+                                    <a class="edit_lan_btn edits" data-id="{$vo.id}" href="javascript:;">修改</a>&nbsp;&nbsp;&nbsp;<a href="{:U('del_language',array('id'=>$vo['id'],'pid'=>$vo['pid']))}" class="gray" onClick="return confirm('你确定要删除该语言能力吗？')">删除</a>
+                                </div>
+                                <div class="clear"></div>
+                            </div>
+                        </volist>
+                    </notempty>
+
+                </div>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+            <input type="button" class="admin_submit" style="margin-top: 13px;margin-bottom: -8px;margin-left: 20px;" value="新增" id="add_lan_btn" />
+            </div>
+            <div class="clear"></div>
+        </div>
+<form action="{:U('save_language')}" method="post" style="display:none" id="add_lan_box">
+    <div class="form_main width120">
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 选择语种:</div>
+        <div class="fr" style="width: 250px;">
+            <div name="language" class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+                    <span class="J_listitme_text for_education1">请选择</span>
+                    <div class="dropdowbox10 J_dropdown_menu">
+                        <div class="dropdow_inner10">
+                            <ul class="nav_box">
+                                <volist name="category['QS_language']" id="language">
+                                    <li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$language}</a></li>
+                                </volist>
+                            </ul>
+                        </div>
+                    </div>
+                    <input class="J_listitme_code" name="language1" id="language1" type="hidden" value="" />
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 熟练程度:</div>
+        <div class="fr" style="width: 250px;">
+            <div name="level" class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+                    <span class="J_listitme_text for_education1">请选择</span>
+                    <div class="dropdowbox10 J_dropdown_menu">
+                        <div class="dropdow_inner10">
+                            <ul class="nav_box">
+                                <volist name="category['QS_language_level']" id="level">
+                                    <li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$level}</a></li>
+                                </volist>
+                            </ul>
+                        </div>
+                    </div>
+                    <input class="J_listitme_code" name="level1" id="level1" type="hidden" value="" />
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id"  value="{$info.id}" />
+            <input type="hidden" name="lan_id"  id="lan_id" value="" />
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" id="lan_cancel"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">特长标签</div>
+<form action="{:U('save_tag')}" method="post">
+    <div class="form_main width120">
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 特长标签:</div>
+        <div class="fr">
+             <input name="tag_cn" id="tag_cn" type="text" class="input_text_default arrow J_resuletitle_jobtag" value="{$info['tag_cn']|default='请选择简历特长'}" readonly="readonly" data-title="请选择简历特长" data-multiple="true" data-maxnum="5" data-width="582"/>
+            <input class="J_resultcode_jobtag" name="tag" id="tag" type="hidden" value="{$info.tag}" />
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id"  value="{$info.id}" />
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">照片/作品</div>
+<form action="{:U('edit_member')}" method="post" enctype="multipart/form-data">
+    <div class="form_main width120">
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 照片/作品:</div>
+        <div class="fr J-file-input-box">
+                <div class="file-input-block" id="top_resume_img" name="imgFile"><span class="o-txt">上传</span>照片作品</div>
+                <label class="no-fl-note">（最多可上传 6 张）</label>
+        </div>
+        <div id="J_img" <empty name="img_info">style="display:none;"</empty>>
+                <div class="fl">已上传：</div>
+                <div class="fr link_blue" id="J_img_list">&nbsp;
+                    <volist name="img_info" id="vo">
+                        <div style="float:left; text-align:center; margin-right: 15px; margin-bottom: 5px; border: 1px solid #CCCCCC;" class="img">
+                            <input type="hidden" name="img_item[]" value="{$vo}">
+                            <img src="{$vo['img']}" width="180" height="130" border="1" style="border: #CCCCCC;"/><br/>
+                            <a href="{:U('img_del',array('id'=>$vo['id']))}" onClick="return confirm('你确定要删除该简历作品吗？')" class="delete_img">删除</a>
+                        </div>
+                    </volist>
+                </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+<qscms:load type="category" search="1"/>
+<script type="text/javascript" src="../public/js/jquery.user.city.admin.js"></script>
+<script type="text/javascript" src="../public/js/jquery.modal.userselectlayer.admin.js"></script>
+<script type="text/javascript" src="../public/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="../public/js/jquery.dropdown.js"></script>
+<script type="text/javascript">
+    var uploadUrl = "{:U('Admin/Upload/index')}";
+</script>
+<script src="__ADMINPUBLIC__/js/ajaxfileupload.js"></script>
+<script src="__ADMINPUBLIC__/js/fileupload.js"></script>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //添加教育经历按钮
+        $("#add_edu_btn").click(function(){
+            $("#edu_list").hide();
+            $("#add_edu_box").show();
+        });
+        //添加教育经历返回按钮
+        $("#edu_cancel").click(function(){
+            $("#add_edu_box").hide();
+            $("#edu_list").show();
+        });
+        //教育经历修改
+        $(".edit_edu_btn").click(function(){
+            $("#edu_list").hide();
+            $("#add_edu_box").show();
+            var thisid = $(this).data('id');
+            var pid ="{$info.id}";
+                $.getJSON("{:U('Personal/edit_education')}", {pid: pid, id: thisid}, function(data) {
+                    if (data.status) {
+                        $('#school').val(data.data.school);
+                        $('#edu_id').val(data.data.id);
+                        $('#speciality').val(data.data.speciality);
+                        $('#education1').val(data.data.education);
+                        $('#education1').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.education_cn);
+                        $('#startyearEdu').val(data.data.startyear);
+                        $('#startyearEdu').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startyear);
+                        $('#startmonthEdu').val(data.data.startmonth);
+                        $('#startmonthEdu').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startmonth);
+                        $('#endyearEdu').val(data.data.endyear);
+                        $('#endyearEdu').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endyear);
+                        $('#endmonthEdu').val(data.data.endmonth);
+                        $('#endmonthEdu').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endmonth);
+                        $('[data-waitsome="education"]').find('.J_listid').val(data.data.id);
+                        if (data.data.todate==1) {
+                            $('#tonowEdu').attr('checked', !0);
+                            $('#tonowEdu').val('1');
+                            $('#tonowEdu').closest('.J_itemsmenu').find('.J_fortonow').hide();
+                        };
+                        var $parentDom = $('[data-waitsome="education"]').closest('.J_itemsbox');
+                        
+                        $('.items').show();
+                        $parentDom.find('.items').hide();
+                        $parentDom.find('.J_itemsmenu').show();
+                    };
+                });
+        });
+        //添加工作经历按钮
+        $("#add_work_btn").click(function(){
+            $("#work_list").hide();
+            $("#add_work_box").show();
+        });
+        //添加工作经历返回按钮
+        $("#work_cancel").click(function(){
+            $("#add_work_box").hide();
+            $("#work_list").show();
+        });
+        //工作经历修改
+        $(".edit_work_btn").click(function(){
+            $("#work_list").hide();
+            $("#add_work_box").show();
+            var thisid = $(this).data('id');
+            var pid ="{$info.id}";
+                $.getJSON("{:U('Personal/edit_work')}", {pid: pid, id: thisid}, function(data) {
+                    if (data.status) {
+                        $('#companyname').val(data.data.companyname);
+                        $('#work_id').val(data.data.id);
+                        $('#jobs').val(data.data.jobs);
+                        $('#startyearExp').val(data.data.startyear);
+                        $('#startyearExp').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startyear);
+                        $('#startmonthExp').val(data.data.startmonth);
+                        $('#startmonthExp').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startmonth);
+                        $('#endyearExp').val(data.data.endyear);
+                        $('#endyearExp').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endyear);
+                        $('#endmonthExp').val(data.data.endmonth);
+                        $('#endmonthExp').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endmonth);
+                        $('#achievements').val(data.data.achievements);
+                        $('[data-waitsome="experience"]').find('.J_listid').val(data.data.id);
+                        if (data.data.todate==1) {
+                            $('#tonowExp').attr('checked', !0);
+                            $('#tonowExp').val('1');
+                            $('#tonowExp').closest('.J_itemsmenu').find('.J_fortonow').hide();
+                        };
+                        var $parentDom = $('[data-waitsome="experience"]').closest('.J_itemsbox');
+                        $('.J_itemsmenu').hide();
+                        $('.items').show();
+                        $parentDom.find('.items').hide();
+                        $parentDom.find('.J_itemsmenu').show();
+                    };
+                });
+        });
+        //添加培训经历按钮
+        $("#add_tra_btn").click(function(){
+            $("#tra_list").hide();
+            $("#add_tra_box").show();
+        });
+        //添加培训经历返回按钮
+        $("#tra_cancel").click(function(){
+            $("#add_tra_box").hide();
+            $("#tra_list").show();
+        });
+        //培训经历修改
+        $(".edit_tra_btn").click(function(){
+            $("#tra_list").hide();
+            $("#add_tra_box").show();
+            var thisid = $(this).data('id');
+            var pid ="{$info.id}";
+                $.getJSON("{:U('Personal/edit_training')}", {pid: pid, id: thisid}, function(data) {
+                    if (data.status) {
+                        $('#agency').val(data.data.agency);
+                        $('#tra_id').val(data.data.id);
+                        $('#course').val(data.data.course);
+                        $('#startyearTra').val(data.data.startyear);
+                        $('#startyearTra').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startyear);
+                        $('#startmonthTra').val(data.data.startmonth);
+                        $('#startmonthTra').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startmonth);
+                        $('#endyearTra').val(data.data.endyear);
+                        $('#endyearTra').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endyear);
+                        $('#endmonthTra').val(data.data.endmonth);
+                        $('#endmonthTra').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endmonth);
+                        $('#description').val(data.data.description);
+                        $('[data-waitsome="train"]').find('.J_listid').val(data.data.id);
+                        if (data.data.todate==1) {
+                            $('#tonowTra').attr('checked', !0);
+                            $('#tonowTra').val('1');
+                            $('#tonowTra').closest('.J_itemsmenu').find('.J_fortonow').hide();
+                        };
+                        var $parentDom = $('[data-waitsome="train"]').closest('.J_itemsbox');
+                        $('.J_itemsmenu').hide();
+                        $('.items').show();
+                        $parentDom.find('.items').hide();
+                        $parentDom.find('.J_itemsmenu').show();
+                    };
+                });
+        });
+        //添加证书按钮
+        $("#add_cre_btn").click(function(){
+            $("#cre_list").hide();
+            $("#add_cre_box").show();
+        });
+        //添加证书返回按钮
+        $("#cre_cancel").click(function(){
+            $("#add_cre_box").hide();
+            $("#cre_list").show();
+        });
+        //证书修改
+        $(".edit_cre_btn").click(function(){
+            $("#cre_list").hide();
+            $("#add_cre_box").show();
+            var thisid = $(this).data('id');
+            var pid ="{$info.id}";
+                $.getJSON("{:U('Personal/edit_credent')}", {pid: pid, id: thisid}, function(data) {
+                    if (data.status) {
+                        $('#name').val(data.data.name);
+                        $('#cre_id').val(data.data.id);
+                        $('#yearCredent').val(data.data.year);
+                        $('#yearCredent').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.year);
+                        $('#monthCredent').val(data.data.month);
+                        $('#monthCredent').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.month);
+                        $('[data-waitsome="credent"]').find('.J_listid').val(data.data.id);
+                        var $parentDom = $('[data-waitsome="credent"]').closest('.J_itemsbox');
+                        $('.J_itemsmenu').hide();
+                        $('.items').show();
+                        $parentDom.find('.items').hide();
+                        $parentDom.find('.J_itemsmenu').show();
+                    };
+                });
+        });
+        //添加语言按钮
+        $("#add_lan_btn").click(function(){
+            $("#lan_list").hide();
+            $("#add_lan_box").show();
+        });
+        //添加证书返回按钮
+        $("#lan_cancel").click(function(){
+            $("#add_lan_box").hide();
+            $("#lan_list").show();
+        });
+        //语言修改
+        $(".edit_lan_btn").click(function(){
+            $("#lan_list").hide();
+            $("#add_lan_box").show();
+            var thisid = $(this).data('id');
+            var pid ="{$info.id}";
+                $.getJSON("{:U('Personal/edit_language')}", {pid: pid, id: thisid}, function(data) {
+                    if (data.status) {
+                        $('#lan_id').val(data.data.id);
+                        $('#language1').val(data.data.language);
+                        $('#language1').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.language_cn);
+                        $('#level1').val(data.data.level);
+                        $('#level1').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.level_cn);
+                        $('[data-waitsome="credent"]').find('.J_listid').val(data.data.id);
+                        var $parentDom = $('[data-waitsome="credent"]').closest('.J_itemsbox');
+                        $('.J_itemsmenu').hide();
+                        $('.items').show();
+                        $parentDom.find('.items').hide();
+                        $parentDom.find('.J_itemsmenu').show();
+                    };
+                });
+        });
+        
+    });
+    // 至今
+        $('.J_tonow').live('click', function(e) {
+            if ($(this).is(':checked')) {
+                $(this).val('1');
+            } else {
+                $(this).val('0');
+            }
+            $(this).closest('.J_itemsmenus').find('.J_fortonow').toggle();
+        });
+        // 上传企业照片
+    var pid = '{$info.id}';
+    $.upload('#top_resume_img',{name:'imgFile',dir:'top_resume_img',pid: pid},function(result){
+        if(result.error == 1){
+            var html = '<div style="float:left; text-align:center; margin-right: 15px; margin-bottom: 5px; border: 1px solid #CCCCCC;" class="img">';
+            html += '<input type="hidden" name="img_item[]" value="' + result.url.savename + '">'
+            html += '<img src="' + result.url.path+ '" width="180" height="130"><br/>';
+            html += '<a href="javascript:;" class="delete_img">删除</a>';
+            html += '</div>';
+            $(html).prependTo($("#J_img_list"));
+            var j_img = $('#J_img');
+            if(j_img.is(":hidden")){
+                j_img.show();
+            }
+        } else {
+            disapperTooltip("remind", "上传失败："+result.message);
+        }
+    });
+    
+</script>
+</html>

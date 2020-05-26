@@ -1,0 +1,24 @@
+<!-- <div class="si_ava"><a href="{:url_rewrite('QS_resumeshow',array('id'=>$resume['id']))}" target="_blank"><if condition="$resume['photo_img']"><img src="{:attach($resume['photo_img'],'avatar')}" alt=""><else /><if condition="$resume['sex'] eq 1"><img src="{:attach('no_photo_male.png','resource')}" alt=""><else /><img src="{:attach('no_photo_female.png','resource')}" alt=""></if></if></a></div>
+<div class="si_txt"><a class="name" href="{:url_rewrite('QS_resumeshow',array('id'=>$resume['id']))}" target="_blank">{$resume.fullname}</a>，{$am_pm}</div>
+<div class="si_txt"><a href="{:U('personal/index')}" target="_blank">更新简历</a>修改推荐职位</div> -->
+<notempty name="resume">
+	<div class="si_ava"><a href="{:url_rewrite('QS_resumeshow',array('id'=>$resume['id']))}" target="_blank"><if condition="$resume['photo_img']"><img src="{:attach($resume['photo_img'],'avatar')}" alt=""><else /><if condition="$resume['sex'] eq 1"><img src="{:attach('no_photo_male.png','resource')}" alt=""><else /><img src="{:attach('no_photo_female.png','resource')}" alt=""></if></if></a></div>
+	<div class="si_txt"><a class="name" href="{:url_rewrite('QS_resumeshow',array('id'=>$resume['id']))}" target="_blank">{$resume.fullname}</a>，{$am_pm}</div>
+<else />
+	<div class="si_ava"><a href="{:U('personal/index')}" target="_blank"><img src="{:C('TPL_PUBLIC_DIR')}/images/index/no_avatar.png" alt=""></a></div>
+	<div class="si_txt"><a class="name" href="{:U('personal/index')}" target="_blank">hi</a>，{$am_pm}</div>
+</notempty>
+<div class="si_txt"><a href="{:U('personal/index')}" target="_blank">更新简历</a>修改推荐职位</div>
+<div class="clear"></div>
+<div class="si_t">
+	<div class="t_li"></div><div class="t_tx">为你精选的职位</div>
+</div>
+<notempty name="info">
+<volist name="info" id="list">
+	<div class="si_sl">
+	<div class="si_sll substring"><span>【推荐】</span><a href="{$list.jobs_url}" target="_blank">{$list.jobs_name}</a></div>
+	<div class="si_slr">{$list.wage_cn}</div>
+	<div class="clear"></div>
+</div>
+</volist>
+</notempty>

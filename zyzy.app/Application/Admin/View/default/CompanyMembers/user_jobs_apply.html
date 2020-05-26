@@ -1,0 +1,66 @@
+<include file="public:header"/>
+
+<div class="seltpye_x">
+    <div class="left">时间范围</div>
+    <div class="right">
+        <a href="{:P(array('settr'=>''))}" <if condition="$Think.get.settr eq ''">class="select"</if>>不限</a>
+        <a href="{:P(array('settr'=>'3'))}" <if condition="$Think.get.settr eq '3'">class="select"</if>>三天内</a>
+        <a href="{:P(array('settr'=>'7'))}" <if condition="$Think.get.settr eq '7'">class="select"</if>>一周内</a>
+        <a href="{:P(array('settr'=>'30'))}" <if condition="$Think.get.settr eq '30'">class="select"</if>>一月内</a>
+        <a href="{:P(array('settr'=>'180'))}" <if condition="$Think.get.settr eq '180'">class="select"</if>>半年内</a>
+        <a href="{:P(array('settr'=>'360'))}" <if condition="$Think.get.settr eq '360'">class="select"</if>>一年内</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div class="list_th">
+    <div class="td" style=" width:15%;">
+        <div class="left_padding">姓名</div>
+    </div>
+    <div class="td center" style=" width:10%;">年龄</div>
+    <div class="td center" style=" width:10%;">性别</div>
+    <div class="td center" style=" width:15%;">学历</div>
+    <div class="td center" style=" width:15%;">工作经验</div>
+    <div class="td center" style=" width:20%;">应聘职位</div>
+    <div class="td center" style=" width:15%;">应聘时间</div>
+    <div class="clear"></div>
+</div>
+
+<volist name="apply_list['list']" id="vo">
+    <div class="list_tr link_blue">
+        <if condition="$vo['fullname']">
+            <div class="td" style=" width:15%;">
+                <div class="left_padding striking">
+                    <a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$vo['resume_id'],'jobs_id'=>$vo['jobs_id']))}">{$vo['fullname']}</a>
+                </div>
+            </div>
+            <div class="td center" style=" width:10%;">{$vo['age']}岁</div>
+            <div class="td center" style=" width:10%;">{$vo['sex_cn']}</div>
+            <div class="td center" style=" width: 15%;">{$vo['education_cn']}</div>
+            <div class="td center" style=" width:15%;">{$vo['experience_cn']}</div>
+            <div class="td center" style=" width:20%;"><a target="_blank" href="{$vo['jobs_url']}">{$vo['jobs_name']}</a></div>
+            <div class="td center" style=" width:15%;">{:admin_date($vo['apply_addtime'])}</div>
+        <else/>
+            <div class="td" style=" width:15%;">
+                <div class="left_padding">该简历不存在或已被删除</div>
+            </div>
+        </if>
+        <div class="clear"></div>
+    </div>
+</volist>
+
+<empty name="apply_list['list']">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="pages">{$apply_list['page']}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+</script>
+</html>

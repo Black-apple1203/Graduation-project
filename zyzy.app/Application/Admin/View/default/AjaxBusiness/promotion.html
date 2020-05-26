@@ -1,0 +1,27 @@
+<div class="mantit" style="margin-top:15px; margin-bottom: 8px;"><strong>企业推广</strong></div>
+<div style="max-height:200px;overflow-y:auto">
+    <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#DFDFDF" class="link_lan">
+        <tr>
+            <td width="120" bgcolor="#FFFFFF" align="center">职位名称</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">推广类型</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">开始时间</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">结束时间</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">推广天数</td>
+        </tr>
+        <if condition="$list">
+            <volist name="list" id="vo">
+                <tr>
+                    <td bgcolor="#FFFFFF" align="center">{$vo['jobs_name']}</td>
+                    <td bgcolor="#FFFFFF" align="center"><eq name="vo['cp_ptype']" value="stick">置顶<else />紧急</eq></td>
+                    <td bgcolor="#FFFFFF" align="center">{:admin_date($vo['cp_starttime'])}</td>
+                    <td bgcolor="#FFFFFF" align="center">{:admin_date($vo['cp_endtime'])}</td>
+                    <td bgcolor="#FFFFFF" align="center">{$vo['cp_days']}</td>
+                </tr>
+            </volist>
+        <else/>
+            <tr>
+                <td colspan="5" bgcolor="#FFFFFF">没有任何信息！</td>
+            </tr>
+        </if>
+    </table>
+</div>

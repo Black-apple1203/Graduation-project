@@ -1,0 +1,52 @@
+[ 2020-04-26T00:11:21+08:00 ] 127.0.0.1 /index.php?m=admin&c=admin&a=index
+INFO: Cron:ClearPromotion Runat 2020-04-26 00:11:21 Use 1.373163 s 
+Cron:AutoRefreshResume Runat 2020-04-26 00:11:21 Use -0.014404 s 
+Cron:AutoRefreshJobs Runat 2020-04-26 00:11:21 Use -0.045431 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-26 00:11:21 Use -0.046736 s 
+Cron:ClearShareAllowance Runat 2020-04-26 00:11:21 Use -0.118898 s 
+
+[ 2020-04-26T10:14:54+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+INFO: Cron:ClearPromotion Runat 2020-04-26 10:14:54 Use 1.499034 s 
+Cron:AutoRefreshResume Runat 2020-04-26 10:14:54 Use -0.008631 s 
+Cron:AutoRefreshJobs Runat 2020-04-26 10:14:54 Use -0.073707 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-26 10:14:54 Use -0.074960 s 
+Cron:ClearOrder Runat 2020-04-26 10:14:54 Use -0.203091 s 
+Cron:ClearShareAllowance Runat 2020-04-26 10:14:54 Use -0.413960 s 
+
+[ 2020-04-26T11:02:57+08:00 ] 127.0.0.1 /index.php?m=&c=company_service&a=points
+INFO: Cron:ClearPromotion Runat 2020-04-26 11:02:57 Use 0.110521 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-26 11:02:57 Use -0.000082 s 
+Cron:ClearShareAllowance Runat 2020-04-26 11:02:57 Use -0.003271 s 
+
+[ 2020-04-26T11:13:01+08:00 ] 127.0.0.1 /index.php?m=&c=company&a=jobs_interview
+INFO: Cron:AutoRefreshResume Runat 2020-04-26 11:13:01 Use 0.059451 s 
+Cron:AutoRefreshJobs Runat 2020-04-26 11:13:01 Use -0.000138 s 
+
+[ 2020-04-26T13:07:13+08:00 ] 127.0.0.1 /index.php?m=&c=members&a=logout
+INFO: Cron:ClearPromotion Runat 2020-04-26 13:07:13 Use 0.026619 s 
+Cron:AutoRefreshResume Runat 2020-04-26 13:07:13 Use -0.000132 s 
+Cron:AutoRefreshJobs Runat 2020-04-26 13:07:13 Use -0.002045 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-26 13:07:13 Use -0.002935 s 
+Cron:ClearShareAllowance Runat 2020-04-26 13:07:13 Use -0.004772 s 
+
+[ 2020-04-26T14:04:33+08:00 ] 127.0.0.1 /index.php?m=&c=personal&a=attention_com
+INFO: Cron:ClearPromotion Runat 2020-04-26 14:04:33 Use 0.042334 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-26 14:04:33 Use -0.000141 s 
+Cron:ClearShareAllowance Runat 2020-04-26 14:04:33 Use -0.001879 s 
+
+[ 2020-04-26T14:13:23+08:00 ] 127.0.0.1 /index.php?m=admin&c=beidiao&a=index
+INFO: Cron:AutoRefreshResume Runat 2020-04-26 14:13:23 Use 0.017342 s 
+Cron:AutoRefreshJobs Runat 2020-04-26 14:13:23 Use -0.000084 s 
+
+[ 2020-04-26T15:03:14+08:00 ] 127.0.0.1 /index.php?m=admin&c=config&a=index&menuid=1&child=1
+INFO: Cron:ClearPromotion Runat 2020-04-26 15:03:14 Use 0.020110 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-26 15:03:14 Use -0.000075 s 
+Cron:ClearShareAllowance Runat 2020-04-26 15:03:14 Use -0.001927 s 
+
+[ 2020-04-26T17:33:03+08:00 ] 127.0.0.1 /index.php?m=&c=personal&a=index&uid=1
+INFO: Cron:ClearPromotion Runat 2020-04-26 17:33:03 Use 0.052589 s 
+Cron:AutoRefreshResume Runat 2020-04-26 17:33:03 Use -0.000074 s 
+Cron:AutoRefreshJobs Runat 2020-04-26 17:33:03 Use -0.002955 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-26 17:33:03 Use -0.004642 s 
+Cron:ClearShareAllowance Runat 2020-04-26 17:33:03 Use -0.022694 s 
+

@@ -1,0 +1,106 @@
+<include file="public:header"/>
+
+<div class="seltpye_y">
+    <div class="tit">分类选择</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.h_typeid'>select</notempty>">{$Think.get.h_typecn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('h_typeid'=>'','h_typecn'=>'不限'))}">不限</li>
+        <volist name="category" id="category">
+            <li url="{:P(array('parentid'=>$key,'h_typecn'=>$category))}">{$category}</li>
+        </volist>
+    </div>
+</div>
+<div class="clear"></div>
+
+<form id="form1" name="form1" method="post" action="{:U('delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:30%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>文档名称
+            </label>
+        </div>
+        <div class="td" style=" width:40%;">文档路径</div>
+        <div class="td" style=" width:10%;">所属分类</div>
+        <div class="td center" style=" width:10%;">排序</div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_blue">
+            <div class="td" style=" width:30%;">
+                <div class="left_padding striking">
+                    <input name="h_id[]" type="checkbox" id="id" value="{$vo['h_id']}"/>
+                    <a href="{:U('edit',array('h_id'=>$vo['h_id']))}" <if condition="$vo['h_color']">style="color:{$vo.h_color}"</if>>{$vo.h_filename}</a>
+                </div>
+            </div>
+            <div class="td" style=" width:40%;">
+                <a href="{:attach($vo['h_fileurl'],'hrtools')}" target="_blank">{$vo.h_fileurl}</a>
+            </div>
+            <div class="td" style=" width:10%;">
+                <a href="{:U('index',array('h_typeid'=>$vo['category']['c_id']))}" >{$vo.category.c_name}</a>
+            </div>
+            <div class="td center" style=" width:10%;">{$vo.h_order|default='0'}</div>
+            <div class="td edit" style=" width:10%;">
+                <a href="{:U('edit',array('h_id'=>$vo['h_id']))}">修改</a>
+                <a href="{:U('delete',array('h_id'=>$vo['h_id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAdd" value="添加" onclick="window.location='{:U('add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除所选"/>
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='名称'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='名称'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="名称">名称</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //点击批量删除
+        $("#ButDel").click(function () {
+            var ids = $("input[name='h_id[]']:checked");
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择文档！');
+            } else {
+                if(confirm('确定删除吗？')){
+                    $("form[name=form1]").submit();
+                }
+            }
+        });
+    });
+</script>
+</html>

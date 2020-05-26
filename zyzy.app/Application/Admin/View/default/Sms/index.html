@@ -1,0 +1,52 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>通过短信接口设置，您可以自行配置第三方短信接口；</p>
+    <p>短信发送生效需要在对应服务商的模版配置中单独设置对应模版的模板报备ID（模板报备ID在短信服务商处获取）</p>
+    <p><font color="red">阿里大于的短信暂时不能正常发送招聘类信息，使用前请先向阿里大于官方核实，谨慎使用！</font></p>
+</div>
+<div class="list_th">
+    <div class="td" style="width:15%;"><label class="left_padding">接口名称</label></div>
+    <div class="td" style="width:10%;">接口标识</div>
+    <div class="td center" style="width:8%;">排序</div>
+    <div class="td center" style="width:8%;">是否启用</div>
+    <div class="td" style="width:25%;">接口描述</div>
+    <div class="td center" style="width:15%;">更新时间</div>
+    <div class="td" style="width:17%;">操作</div>
+    <div class="clear"></div>
+</div>
+<volist name="list" id="list">
+	<div class="list_tr link_black">
+		<div class="td" style="width:15%;"><label class="left_padding">{$list.name}</label></div>
+	    <div class="td" style="width:10%;">{$list.alias}&nbsp;</div>
+	    <div class="td center" style="width:8%;">{$list.ordid}&nbsp;</div>
+	    <div class="td center" style="width:8%;"><img src="__ADMINPUBLIC__/images/toggle_<if condition="$list.status eq 0">disabled<else/>enabled</if>.gif" /></div>
+	    <div class="td" style="width:25%;">{$list.remark}&nbsp;</div>
+	    <div class="td center" style="width:15%;">{:admin_date($list['update_time'])}&nbsp;</div>
+	    <div class="td edit" style="width:17%;">
+	    	<a href="{:U('sms/edit',array('id'=>$list['id']))}" >编辑</a>
+			&nbsp;&nbsp;
+			<if condition="$list['status']">
+				<a href="{:U('sms/unload',array('id'=>$list['id']))}" onclick="return confirm('确定要卸载吗？')">卸载</a>
+				&nbsp;&nbsp;
+				<a href="{:U('Sms/tpl',array('type'=>$list['alias']))}" >模板配置</a>
+			<else/>
+				<a href="{:U('sms/setup',array('id'=>$list['id']))}">安装</a>
+			</if>
+	    </div>
+	    <div class="clear"></div>
+	</div>
+</volist>
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="list_foot">
+    <div class="btnbox">
+        <include file="public:sub_menu_btn"/>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

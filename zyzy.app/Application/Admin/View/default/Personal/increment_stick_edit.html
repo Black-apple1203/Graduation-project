@@ -1,0 +1,55 @@
+<include file="public:header"/>
+
+<div class="toptit">修改简历置顶推广</div>
+<form id="form1" action="{:U('increment_stick_edit')}" method="post">
+    <div class="form_main width150">
+        <div class="fl">置顶时间:</div>
+        <div class="fr">
+            <input name="days" type="text" class="input_text_default middle" maxlength="10" value="{$info['days']}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 天
+        </div>
+        <div class="fl">所需{:C('qscms_points_byname')}:</div>
+        <div class="fr">
+            <input name="points" type="text" class="input_text_default middle" maxlength="10" value="{$info['points']}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> {:C('qscms_points_quantifier')}
+        </div>
+        <div class="fl">排序:</div>
+        <div class="fr">
+            <input name="sort" type="text" class="input_text_default middle" maxlength="3" value="{$info['sort']}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            <label class="no-fl-note">(数字越大越靠前)</label>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id" value="{$info['id']}">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('increment_stick_edit')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("increment")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

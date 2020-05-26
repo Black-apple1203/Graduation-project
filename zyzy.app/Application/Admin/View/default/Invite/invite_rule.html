@@ -1,0 +1,80 @@
+<include file="Admin@default/public/header" />
+  <form action="{:U('invite/invite_rule')}" method="post"   name="form1" id="form1">
+        <div class="toptit link_green_line">短信通知规则（如需开启短信通知，请先到<a href="{:U('Admin/Sms/config_edit')}">系统-短信设置</a>中配置短信参数。）</div>
+        <div class="form_main width320">
+            <div class="fl">推广人成功邀请并领取红包:</div>
+            <div class="fr">
+              <div class="imgradio">
+                  <input name="set_invite_allowance" type="hidden" value="{$smsConfig['set_invite_allowance']}">
+                  <div class="radio <if condition="$smsConfig['set_invite_allowance'] eq 1">select</if>" data="1" title="通知">通知</div>
+                  <div class="radio <if condition="$smsConfig['set_invite_allowance'] eq 0">select</if>" data="0" title="不通知">不通知</div>
+                  <div class="note-radio">（企业添加打赏职位 - 通知企业）</div>
+                  <div class="clear"></div>
+              </div>
+            </div>
+            <div class="fl">推广人加入黑名单:</div>
+            <div class="fr">
+              <div class="imgradio">
+                  <input name="set_invite_blacklist" type="hidden" value="{$smsConfig['set_invite_blacklist']}">
+                  <div class="radio <if condition="$smsConfig['set_invite_blacklist'] eq 1">select</if>" data="1" title="通知">通知</div>
+                  <div class="radio <if condition="$smsConfig['set_invite_blacklist'] eq 0">select</if>" data="0" title="不通知">不通知</div>
+                  <div class="note-radio">（企业添加打赏职位 - 通知企业）</div>
+                  <div class="clear"></div>
+              </div>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+                <input type="submit" class="admin_submit" value="保存修改"/>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </form>
+    <if condition="C('apply.Weixin')">
+  <div class="toptit link_green_line">微信通知规则（如需开启微信通知，请先到<a href="{:U('Admin/Weixin/index')}">系统-微信公众平台</a>中配置微信参数。）</div>
+    <form action="{:U('invite/weixin_rule')}" method="post" enctype="multipart/form-data" name="form3" id="form3">
+      <div class="list_th">
+        <div class="td" style=" width:25%;"><div class="left_padding">通知事件</div></div>
+        <div class="td" style=" width:15%;">状态</div>
+        <div class="td center" style=" width:10%;">模板名称</div>
+        <div class="td center" style=" width:15%;">所属行业</div>
+        <div class="td center" style=" width:15%;">模板编号</div>
+        <div class="td center" style=" width:20%;">模板ID</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="weixin_config_list" id="list">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:25%;">
+                <div class="left_padding striking link_blue vtip"  title="{$list.name}">
+                    <input name="alias[]" type="hidden" value="{$list.alias}"/>
+                    {$list.name}
+                </div>
+            </div>
+            <div class="td" style=" width:15%;">
+              <div class="imgradio">
+                  <input name="{$list.alias}_value" type="hidden" value="{$list['value']}">
+                  <div class="radio <if condition="$list['value'] eq 1">select</if>" data="1" title="开启">开启</div>
+                  <div class="radio <if condition="$list['value'] eq 0">select</if>" data="0" title="关闭">关闭</div>
+                  <div class="clear"></div>
+              </div>
+            </div>
+            <div class="td center" style=" width:10%;">{$list.template_title}</div>
+            <div class="td center" style=" width: 15%;">{$list.template_trade}</div>
+            <div class="td center" style=" width:15%;">{$list.template_no}</div>
+            <div class="td center" style=" width:20%;">
+              <input type="text" class="input_text_default small" name="template_id[]" value="{$list['template_id']}">
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+    <div class="list_foot">
+        <div class="btnbox">
+            <input type="submit" name="" value="保存" class="admin_submit"/>
+        </div>
+    </div>
+  </form>
+  </if>
+</div>
+<include file="Admin@default/public/footer" />
+</body>
+</html>

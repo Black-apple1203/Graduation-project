@@ -1,0 +1,42 @@
+<div style="width:550px;">
+    <form action="{:U('SmsQueue/totalsend')}" method="post" name="form" id="form">
+    <volist name="ids" id="vo">
+        <input name="id[]" type="hidden" value="{$vo}"/>
+    </volist>
+    <div class="form_main width120">
+        <div class="fl">发送选择：</div>
+        <div class="fr">
+          <div class="imgradio">
+              <input name="sendtype" type="hidden" value="1">
+              <div class="radio select" data="1" title="已选项目">已选项目</div>
+              <div class="radio" data="2" title="所有等待发送的">所有等待发送的</div>
+              <div class="radio" data="3" title="所有发送失败的">所有发送失败的</div>
+              <div class="clear"></div>
+          </div>
+        </div>
+        <div class="fl">发送间隔时间：</div>
+        <div class="fr">
+            <input name="intervaltime" type="text" maxlength="3" class="input_text_default small" value="3"/> &nbsp;秒
+        </div>
+        <div class="fl">最大发送数量：</div>
+        <div class="fr">
+            <input name="sendmax" type="text" maxlength="3" class="input_text_default small" value="100"/> &nbsp;0为不限制
+        </div>
+        <div class="fl">发送失败时：</div>
+        <div class="fr">
+          <div class="imgradio">
+              <input name="senderr" type="hidden" value="">
+              <div class="radio select" data="1" title="跳过继续">跳过继续</div>
+              <div class="radio" data="2" title="停止发送">停止发送</div>
+              <div class="clear"></div>
+          </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="submit" name="submitdel"  value="确定" class="admin_submit submitsend"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </form>
+</div>
+

@@ -1,0 +1,129 @@
+<div class="user_foot font_gray9" id="footer">{:C('qscms_bottom_other')}</div>
+<div class="floatmenu">
+<eq name="show_backtop" value="1">
+  <div class="item mobile">
+    <a class="blk"></a>
+    <eq name="show_backtop_app" value="1">
+    <div class="popover <if condition="$show_backtop_weixin eq 1">popover1</if>">
+      <div class="popover-bd">
+        <label>手机APP</label>
+        <span class="img-qrcode img-qrcode-mobile"><img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(C('qscms_site_domain').U('Mobile/Index/app_download'))}" alt=""></span>
+      </div>
+    </div>
+    </eq>
+    <eq name="show_backtop_weixin" value="1">
+    <div class="popover">
+      <div class="popover-bd">
+        <label class="wx">企业微信</label>
+        <span class="img-qrcode img-qrcode-wechat"><img src="{:attach(C('qscms_weixin_img'),'resource')}" alt=""></span>
+      </div>
+      <div class="popover-arr"></div>
+    </div>
+    </eq>
+  </div>
+  </eq>
+  <div class="item ask">
+    <a class="blk" target="_blank" href="{:url_rewrite('QS_suggest')}"></a>
+  </div>
+  <div id="backtop" class="item backtop" style="display: none;"><a class="blk"></a></div>
+</div>
+<script type="text/javascript" src="../public/js/jquery.modal.dialog.js"></script>
+<script type="text/javascript" src="../public/js/jquery.tooltip.js"></script>
+<script type="text/javascript" src="../public/js/jquery.disappear.tooltip.js"></script>
+<script type="text/javascript" src="../public/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="../public/js/jquery.dropdown.js"></script>
+<!--[if lt IE 9]>
+	<script type="text/javascript" src="../public/js/PIE.js"></script>
+  <script type="text/javascript">
+    (function($){
+        $.pie = function(name, v){
+            // 如果没有加载 PIE 则直接终止
+            if (! PIE) return false;
+            // 是否 jQuery 对象或者选择器名称
+            var obj = typeof name == 'object' ? name : $(name);
+            // 指定运行插件的 IE 浏览器版本
+            var version = 9;
+            // 未指定则默认使用 ie10 以下全兼容模式
+            if (typeof v != 'number' && v < 9) {
+                version = v;
+            }
+            // 可对指定的多个 jQuery 对象进行样式兼容
+            if ($.browser.msie && obj.size() > 0) {
+                if ($.browser.version*1 <= version*1) {
+                    obj.each(function(){
+                        PIE.attach(this);
+                    });
+                }
+            }
+        }
+    })(jQuery);
+    if ($.browser.msie) {
+      $.pie('.pie_about');
+    };
+  </script>
+<![endif]-->
+<script type="text/javascript">
+	var global = {
+    h:$(window).height(),
+    st: $(window).scrollTop(),
+    backTop:function(){
+      global.st > (global.h*0.5) ? $("#backtop").show() : $("#backtop").hide();
+    }
+  }
+  $('#backtop').on('click',function(){
+    $("html,body").animate({"scrollTop":0},500);
+  });
+  global.backTop();
+  $(window).scroll(function(){
+      global.h = $(window).height();
+      global.st = $(window).scrollTop();
+      global.backTop();
+  });
+  $(window).resize(function(){
+      global.h = $(window).height();
+      global.st = $(window).scrollTop();
+      global.backTop();
+  })
+  // 强制手机认证
+  <if condition="$visitor['utype'] eq 2 and $visitor['mobile'] eq ''">
+    var authMobileDialog = $(this).dialog({
+        title: '认证手机',
+        loading: true,
+        showFooter: false,
+        showClose: false,
+        btnOne: true,
+        btns: ['确定'],
+        yes: function() {
+            var verifycode  = $.trim($('#J_mobileWrap input[name="verifycode"]').val());
+            if(!verifycode){
+                disapperTooltip("remind", "请填写验证码！");
+                return !1;
+            }
+            $.post("{:U('Members/verify_mobile_code')}",{verifycode:verifycode},function(result){
+                if(result.status == 1){
+                    $('#mobileWap').html(result.data.mobile);
+                    if(result.data.points){
+                        disapperTooltip("goldremind", '验证手机号增加'+result.data.points+'{:C('qscms_points_byname')}<span class="point">+'+result.data.points+'</span>');
+                    }else{
+                        disapperTooltip('success',result.msg);
+                    }
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+                }else{
+                    disapperTooltip('remind',result.msg);
+                }
+            },'json');
+        }
+    });
+    authMobileDialog.setCloseDialog(false);
+    $.getJSON("{:U('Members/user_mobile')}",function(result){
+        if(result.status == 1){
+            authMobileDialog.setContent(result.data);
+            authMobileDialog.showFooter(true);
+        }else{
+            authMobileDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+        }
+    });
+  </if>
+</script>

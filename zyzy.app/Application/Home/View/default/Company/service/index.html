@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="Company:left_service" />
+			</div>
+			<div class="mright">
+				<div class="gold_top_gold">
+					<div class="gold h125">
+						<div class="rightbox">
+							<div class="txt">
+								<a class="name">{$company_profile['companyname']}</a>
+								<div class="imgbox">
+									<eq name="$company_profile['audit']" value="1">
+									<div class="company_v"></div>
+									</eq>
+									<if condition="$my_setmeal['setmeal_id'] gt 1">
+									<div class="company_vip"><img src="{:attach($my_setmeal['setmeal_id'].'.png','setmeal_img')}" alt="{$my_setmeal['setmeal_name']}" /></div>
+									</if>
+									<eq name="$company_profile['famous']" value="1">
+									<div class="company_bao"><img src="<if condition="C('qscms_famous_company_img') eq ''">{:attach('famous.png','resource')}<else />{:attach(C('qscms_famous_company_img'),'images')}</if>" alt="" /></div>
+									</eq>
+									<div class="clear"></div>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="txt link_blue"><span class="gray">我的套餐：</span><strong>{$my_setmeal['setmeal_name']}</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U('setmeal_detail')}">套餐使用明细</a></div>
+                            <div class="txt nomt link_blue"><span class="gray">服务期限：
+                            </span>{:date('Y-m-d',$my_setmeal['starttime'])} — <if condition="$my_setmeal['endtime'] eq 0">永久<else />{:date('Y-m-d',$my_setmeal['endtime'])}</if></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="package_head h125">
+						<div class="head_txt link_yellow"><a href="{:U('explain')}" target="_blank">VIP会员享受更多招聘特权</a></div>
+						<div class="head_block_group">
+							<div class="head_block">
+								<div class="block icon1">职位数：<strong>{$my_setmeal['surplus_jobs']}</strong></div>
+							</div>
+							<div class="head_block">
+								<div class="block icon2">简历点数：<strong>{$my_setmeal['download_resume']}</strong></div>
+							</div>
+							<if condition="C('qscms_company_sms') eq 1">
+							<div class="head_block">
+								<div class="block icon3">短信数：<strong>{$my_userinfo['sms_num']}</strong></div>
+							</div>
+							</if>
+							<div class="head_block">
+								<div class="block icon4">剩余天数：<span class="number">{$leave_days}</span></div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="service_pack_group package">
+					<volist name="setmeal_list" id="vo">
+					<div class="service_pack_list">
+						<div class="list_box J_hoverbut">
+							<div class="list_box_package_type"><div class="package_icon"><img src="{:attach($vo['id'].'.png','setmeal_img')}" alt="{$vo['setmeal_name']}" /><span class="meal_name">{$vo['setmeal_name']}</span></div></div>
+							<div class="list_box_contents"><div class="price"><span class="num">{$vo['expense']}</span><div class="month">{$vo['long']}</div></div></div>
+							<div class="package_list_group">
+								<div class="package_line odd">
+									<div class="line_left">发布职位数</div>
+									<div class="line_right">{$vo['jobs_meanwhile']}</div>
+									<div class="clear"></div>
+								</div>
+								<div class="package_line">
+									<div class="line_left">下载简历点数</div>
+									<div class="line_right">{$vo['download_resume']}</div>
+									<div class="clear"></div>
+								</div>
+								<div class="package_line odd">
+									<div class="line_left">赠送{:C('qscms_points_byname')}</div>
+									<div class="line_right">{$vo['set_points']}</div>
+									<div class="clear"></div>
+								</div>
+								<div class="package_line for_hoverbox">
+									<div class="line_left">增值服务专享折扣</div>
+									<div class="line_right highlight">{$vo['discount']} 折</div>
+                                    <div class="hoverbox">
+                                        <div class="des_box">
+                                            <div class="desarrow"></div>
+                                            <div class="box_list_group">
+                                                <div class="box_list">
+                                                    <div class="b_left">下载简历点数</div>
+                                                    <div class="b_right"><if condition="$vo['discount_download_resume'] gt 0">{$vo.discount_download_resume} 折<else/>无</if></div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="box_list">
+                                                    <div class="b_left">短信增值包</div>
+                                                    <div class="b_right"><if condition="$vo['discount_sms'] gt 0">{$vo.discount_sms} 折<else/>无</if></div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="box_list">
+                                                    <div class="b_left">职位置顶</div>
+                                                    <div class="b_right"><if condition="$vo['discount_stick'] gt 0">{$vo.discount_stick} 折<else/>无</if></div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="box_list">
+                                                    <div class="b_left">职位紧急</div>
+                                                    <div class="b_right"><if condition="$vo['discount_emergency'] gt 0">{$vo.discount_emergency} 折<else/>无</if></div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="box_list">
+                                                    <div class="b_left">企业模板</div>
+                                                    <div class="b_right"><if condition="$vo['discount_tpl'] gt 0">{$vo.discount_tpl} 折<else/>无</if></div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                                <div class="box_list">
+                                                    <div class="b_left">职位预约刷新</div>
+                                                    <div class="b_right"><if condition="$vo['discount_auto_refresh_jobs'] gt 0">{$vo.discount_auto_refresh_jobs} 折<else/>无</if></div>
+                                                    <div class="clear"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+									<div class="clear"></div>
+								</div>
+								<if condition="C('qscms_company_sms') eq 1">
+								<div class="package_line odd">
+									<div class="line_left">短信条数</div>
+									<div class="line_right">{$vo['set_sms']}</div>
+									<div class="clear"></div>
+								</div>
+								</if>
+							</div>
+							<div class="btn_yellow J_hoverbut btn_190_38" onclick="javascript:location.href='{:U('setmeal_add',array('id'=>$vo['id']))}'">立即购买</div>
+						</div>
+					</div>
+					</volist>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+	</body>
+</html>

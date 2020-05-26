@@ -1,0 +1,115 @@
+<include file="Home@default/public/header_min" />
+<div class="other_top_nav">
+    <div class="ot_nav_box">
+        <div class="ot_nav_logo"><a href="__ROOT__/">
+		<if condition="C('qscms_subsite_open') eq 1 && C('subsite_info.s_id') gt 0">
+			<img src="<if condition="C('subsite_info.s_pc_logo')">{:attach(C('subsite_info.s_pc_logo'),'subsite')}<else/>{:C('TPL_HOME_PUBLIC_DIR')}/images/logo.gif</if>" alt="">
+		<else/>
+		<img src="<if condition="C('qscms_logo_home')">{:attach(C('qscms_logo_home'),'resource')}<else/>{:C('TPL_HOME_PUBLIC_DIR')}/images/logo.gif</if>" border="0"/></if></a></div>
+		
+        <div class="ot_nav_sub">
+            <notempty name="sitegroup">
+                <div class="ot_sub_group" id="J-choose-subcity">
+                    <div class="ot_sub_icon"></div>
+                    <div class="ot_sub_txt">{$sitegroup_org.name}</div>
+                    <div class="clear"></div>
+                </div>
+            </notempty>
+        </div>
+        <div class="ot_nav_link <if condition="$sitegroup">has_sub</if>">
+            <ul class="link_gray6 nowrap">
+                <qscms:nav 列表名="nav" 调用名称="QS_top" 显示数目="8"/>
+                <volist name="nav" id="nav">
+                    <li class="on_li J_hoverbut <if condition="MODULE_NAME eq C('DEFAULT_MODULE')"><if condition="$nav['tag'] eq strtolower(CONTROLLER_NAME)">select</if><else/><if condition="$nav['tag'] eq strtolower(MODULE_NAME)">select</if></if>"><a href="{$nav['url']}" target="{$nav.target}">{$nav.title}</a></li>
+                </volist>
+            </ul>
+            <div class="clear"></div>
+        </div>
+        <div class="ot_nav_more">
+            <span>更多服务</span>
+            <div class="nmb_for"></div>
+            <div class="nav_more_box">
+                <notempty name="apply['School']">
+                <div class="nmb_cell"><a href="{:url_rewrite('QS_school_index')}" target="_blank">校园招聘</a></div>
+                </notempty>
+                <notempty name="apply['Parttime']">
+                <div class="nmb_cell"><a href="{:url_rewrite('QS_parttime')}" target="_blank">兼职招聘</a></div>
+                </notempty>
+                <notempty name="apply['Store']">
+                <div class="nmb_cell"><a href="{:url_rewrite('QS_store')}" target="_blank">门店招聘</a></div>
+                </notempty>
+                <notempty name="apply['Allowance']">
+                <div class="nmb_cell"><a href="{:url_rewrite('QS_jobslist',array('search_cont'=>'allowance'))}" target="_blank">红包职位</a></div>
+                </notempty>
+                <notempty name="apply['House']">
+                <div class="nmb_cell"><a href="{:url_rewrite('QS_house_rent')}" target="_blank">附近租房</a></div>
+                </notempty>
+                <notempty name="apply['Gworker']">
+                <div class="nmb_cell"><a href="{:url_rewrite('QS_gworker')}" target="_blank">普工招聘</a></div>
+                </notempty>
+                <notempty name="apply['Mall']">
+                <div class="nmb_cell"><a href="{:url_rewrite('QS_mall_index')}" target="_blank">积分商城</a></div>
+                </notempty>
+                <notempty name="apply['Interview']">
+                <div class="nmb_cell"><a href="{:url_rewrite('QS_interview_list')}" target="_blank">企业专访</a></div>
+                </notempty>
+                <notempty name="apply['Career']">
+                <div class="nmb_cell"><a href="{:url_rewrite('QS_career_list')}" target="_blank">直通招考</a></div>
+                </notempty>
+                <notempty name="apply['Jobfair']">
+                <div class="nmb_cell"><a href="{:url_rewrite('QS_jobfairlist')}" target="_blank">现场招聘会</a></div>
+                </notempty>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<script type="text/javascript" src="{:C('TPL_HOME_PUBLIC_DIR')}/js/jquery.modal.dialog.js"></script>
+<notempty name="sitegroup">
+    <script id="J-sub-dialog-content" type="text/html">
+        <div class="sub-dialog-group">
+            <div class="sdg-title">亲爱的用户您好：</div>
+            <div class="sdg-split-20"></div>
+            <div class="sdg-h-tips">请您切换到对应的分站，让我们为您提供更准确的职位信息。</div>
+            <div class="sdg-split-30"></div>
+            <div class="sdg-h-line"></div>
+            <div class="sdg-split-20"></div>
+            <div class="sdg-master-group">
+                <div class="sdg-txt-right">切换到以下城市</div>
+                <div class="clear"></div>
+            </div>
+            <div class="sdg-split-20"></div>
+            <div class="sdg-sub-city-group">
+                <volist name="sitegroup" id="dis" offset="0" length="10">
+                    <a href="{$dis.domain}" class="sdg-sub-city">{$dis.name}</a>
+                </volist>
+                <if condition="count($sitegroup) gt 11">
+                    <a href="{:U('Home/Subsite/index')}" class="sdg-sub-city more">更多分站</a>
+                </if>
+                <div class="clear"></div>
+            </div>
+            <div class="sdg-split-16"></div>
+            <div class="sdg-bottom-tips">如果您在使用中遇到任何问题，请随时联系 <if condition="C('qscms_top_tel')">{:C('qscms_top_tel')}<else/>{:C('qscms_bootom_tel')}</if> 寻求帮助</div>
+            <div class="sdg-split-11"></div>
+        </div>
+    </script>
+    <script type="text/javascript">
+      $('#J-choose-subcity').click(function () {
+        showSubDialog();
+      });
+      function showSubDialog() {
+        var qsDialog = $(this).dialog({
+          title: '切换地区',
+          showFooter: false,
+          border: false
+        });
+        qsDialog.setContent($('#J-sub-dialog-content').html());
+        $('.sdg-sub-city').each(function (index, value) {
+          if ((index + 1) % 4 == 0) {
+            $(this).addClass('no-mr');
+          }
+        });
+      }
+    </script>
+</notempty>

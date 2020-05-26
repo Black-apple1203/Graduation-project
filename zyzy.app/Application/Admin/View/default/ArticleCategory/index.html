@@ -1,0 +1,125 @@
+<include file="public:header"/>
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>系统默认分类不能删除！</p>
+        <p>删除顶级级分类将会自动删除此分类下的子分类。</p>
+    </div>
+
+<form id="form1" name="form1" method="post" action="{:U('allSave')}">
+    <div class="list_th">
+        <div class="td" style=" width:40%;">
+            <div class="left_padding">分类名称</div>
+        </div>
+        <div class="td" style=" width:20%;">类型</div>
+        <div class="td" style=" width:20%;">排序</div>
+        <div class="td" style=" width:20%;">
+            <div class="list_right">操作</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_bk">
+            <div class="td" style=" width:40%;">
+                <div class="category_img J_show show" pid="{$vo.id}"></div>
+                <div class="category_input">
+                    <input name="id[]" type="hidden" value="{$vo.id}"/>
+                    <input name="pid[]" type="hidden" value="{$vo.pid}"/>
+                    <!--<input name="categoryname[]" type="text" class="input_text_default small" maxlength="10"
+                           value="{$vo.categoryname}" style=" width: 120px;"/>-->
+                    {$vo.categoryname}
+                    <span style="color:#999999; margin-left: 5px; font-size: 13px;">(id:{$vo.id})</span>
+                </div>
+            </div>
+            <div class="td" style=" width:20%;">
+                <eq name="vo.admin_set" value="1">系统分类<else/>自定义分类</eq>
+            </div>
+            <div class="td" style=" width:20%;">{$vo.category_order|default='0'}
+                <!--<input name="category_order[]" type="text" class="input_text_default small" maxlength="3"
+                       value="{$vo.category_order}" style="width:50px;"/>-->
+            </div>
+            <div class="td edit" style=" width:20%;">
+                <div class="list_right btn">
+                    <a href="{:U('add',array('pid'=>$vo['id']))}">此类下添加子类</a>
+                    <a href="{:U('edit',array('id'=>$vo['id']))}">修改</a>
+                    <neq name="vo.admin_set" value="1">
+                        <a href="{:U('delete',array('id'=>$vo['id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+                    </neq>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <notempty name="vo['sub']">
+            <div class="J_cat_show">
+                <volist name="vo['sub']" id="sub" key="k">
+                    <div class="list_tr link_bk">
+                        <div class="td" style=" width:40%;">
+                            <div class="category_sub_img <if condition="$k egt count($vo['sub'])">last</if>">&nbsp;</div>
+                            <div class="category_input">
+                                <input name="pid[]" type="hidden" value="{$sub.pid}"/>
+                                <input name="id[]" type="hidden" value="{$sub.id}"/>
+                                {$sub.categoryname}
+                                <!--<input name="categoryname[]" type="text" class="input_text_default small" maxlength="10"
+                                       value="{$sub.categoryname}" style=" width: 120px;"/>-->
+                                <span style="color:#999999; margin-left: 5px; font-size: 13px;">(id:{$sub.id})</span>
+                            </div>
+                        </div>
+                        <div class="td" style=" width:20%;">
+                            <eq name="sub.admin_set" value="1">系统分类<else/>自定义分类</eq>
+                        </div>
+                        <div class="td" style=" width:20%;">{$sub.category_order|default='0'}
+                            <!--<input name="category_order[]" type="text" class="input_text_default small" maxlength="3"
+                                   value="{$sub.category_order}" style="width:50px;"/>-->
+                        </div>
+                        <div class="td edit" style=" width:20%;">
+                            <div class="list_right btn">
+                                <a href="{:U('edit',array('id'=>$sub['id']))}">修改</a>
+                                <neq name="sub.admin_set" value="1">
+                                    <a href="{:U('delete',array('id'=>$sub['id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+                                </neq>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </volist>
+            </div>
+        </notempty>
+    </volist>
+
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <!--<input type="submit" class="admin_submit" id="ButSave" value="保存分类"/>-->
+        <input type="button" class="admin_submit" id="ButAdd" value="添加分类" onclick="window.location='{:U('add')}'"/>
+    </div>
+    <div class="footso"></div>
+</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //打开子分类
+        $(".J_show").click(function () {
+            var infobox = $(this).parent().parent().next('.J_cat_show');
+            if (infobox.html() == '')//第一次加载并且显示
+            {
+                $(this).toggleClass('show');
+                infobox.find(".category_sub_img").last().addClass('last');
+            }
+            else {
+                infobox.toggle();
+                infobox.find(".category_sub_img").last().addClass('last');
+                $(this).toggleClass('show');
+            }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_jobs.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+        <link href="../public/css/jobmoney.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+    <include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_talk" />
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">编辑信息</div>
+					<div class="pat_r">(注：带&nbsp;<span class="asterisk"></span> 号为必填项)</div>
+					<div class="clear"></div>
+				</div>
+				<div class="modTitle">基本信息</div>
+				<form id="jobs_form" method="post">
+					<div class="mod J_focus">
+						<div class="mb16">
+							<div class="modKey"><span></span>宣讲院校：</div>
+							<div class="modVal">
+								<div class="select_input w518 fl mr10 J_hoverinput J_dropdown J_listitme_parent">
+									<span class="J_listitme_text">{$school.name}</span>
+									<div class="dropdowbox518 J_dropdown_menu">
+										<div class="dropdow_inner518">
+											<ul class="nav_box">
+												<volist name="school_list" id="vo">
+													<li><a class="J_listitme" href="javascript:;" data-code="{$vo.id}">{$vo.name}</a></li>
+												</volist>
+											</ul>
+										</div>
+									</div>
+									<input class="J_listitme_code" name="school_id" id="school_id" type="hidden" value="{$school.id}" />
+								</div>
+
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="mb16">
+							<div class="modKey"><span></span>宣讲主题：</div>
+							<div class="modVal">
+								<div class="fl">
+									<input name="subject" id="subject" type="text" class="input_518_34 fl" value="{$info.subject}">
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="mb16">
+							<div class="modKey"><span></span>宣讲地址：</div>
+							<div class="modVal">
+								<div class="fl">
+									<input name="address" id="address" type="text" class="input_518_34 fl" value="{$info.address}">
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="mb16">
+							<div class="modKey"><span></span>开始时间：</div>
+							<div class="modVal">
+								<div class="fl">
+									<input name="starttime" id="starttime" type="text" class="input_518_34 fl" value="{:date('Y-m-d H:i:s', $info['starttime'])}">
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="mb16">
+							<div class="modKey"><span></span>简介：</div>
+							<div class="modVal">
+								<textarea name="introduction" id="introduction" cols="" rows="" class="textarea_638_80 w680">{$info.introduction}</textarea>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="mb16">
+							<div class="modKey">&nbsp;</div>
+							<div class="modVal">
+								<input type="hidden" name="id" id="id" value="{$info.id}">
+								<input type="button" id="J_release" class="btn_blue J_hoverbut btn_80_38 w140" data-title="提交中···" value="保 存">
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+	<link rel="stylesheet" href="__ADMINPUBLIC__/js/kindeditor/themes/default/default.css"/>
+	<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/lang/zh_CN.js"></script>
+	<script src="../public/js/laydate/laydate.js"></script>
+	<script>
+		$(function () {
+			var editor;
+			KindEditor.ready(function(K) {
+				editor = K.create('textarea[name="introduction"]', {
+					items: ['undo', 'redo', '|', 'cut', 'copy', 'paste', '|', 'justifyleft', 'justifycenter', 'justifyright',
+						'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'clearhtml', 'selectall', '|', 'fullscreen', '/',
+						'formatblock', 'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold',
+						'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'table', 'hr', 'emoticons', 'baidumap',
+						'anchor', 'link', 'unlink'
+					],
+					height: '300px'
+				});
+
+				$('#J_release').click(function(){
+					editor.sync();
+					$('#J_release').addClass('btn_disabled').prop('disabled', !0);
+					var id = $.trim($('#id').val());
+					var school_id = $.trim($('#school_id').val());
+					var subject = $.trim($('#subject').val());
+					var address = $.trim($('#address').val());
+					var starttime = $.trim($('#starttime').val());
+					var introduction = $.trim($('#introduction').val());
+
+					if (school_id == "") {
+						disapperTooltip("remind", "请选择宣讲院校");
+						$('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+						return false;
+					}
+					if (subject == "") {
+						disapperTooltip("remind", "请填写宣讲主题");
+						$('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+						return false;
+					}
+					if (address == "") {
+						disapperTooltip("remind", "请填写宣讲地址");
+						$('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+						return false;
+					}
+					if (starttime == "") {
+						disapperTooltip("remind", "请选择开始时间");
+						$('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+						return false;
+					}
+					if (introduction == "") {
+						disapperTooltip("remind", "请填写简介");
+						$('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+						return false;
+					}
+
+					$('#J_release').val('保存中...').addClass('btn_disabled').prop('disabled', !0);
+					$.ajax({
+						url: "{:U('home/school/talk_edit')}",
+						type: 'POST',
+						dataType: 'json',
+						data: {id:id,school_id:school_id,subject:subject,address:address,starttime:starttime,introduction:introduction}
+					}).done(function(data) {
+						if (parseInt(data.status)) {
+							disapperTooltip('success',data.msg);
+							setTimeout(function() {
+								location.href="{:U('Home/School/talk_list')}";
+							},2000);
+						} else {
+							$('#J_release').val($('#J_release').data('title')).removeClass('btn_disabled').prop('disabled', 0);
+							disapperTooltip("remind", data.msg);
+						}
+					}).fail(function(result) {
+						$('#J_release').val($('#J_release').data('title')).removeClass('btn_disabled').prop('disabled', 0);
+						disapperTooltip("remind", result.msg);
+					});
+				});
+			});
+
+			laydate.render({
+				elem: '#starttime' //指定元素
+				,type: 'datetime'
+			});
+		});
+
+	</script>
+	</body>
+</html>

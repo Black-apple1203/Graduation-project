@@ -1,0 +1,113 @@
+<include file="public:header"/>
+<script type="text/javascript" src="../public/js/fusioncharts/fusioncharts.js"></script>
+<script type="text/javascript" src="../public/js/fusioncharts/fusioncharts.theme.fint.js"></script>
+<div class="toptit link_blue">
+    微信招聘 - <span style="color:#0066CC">{$info.companyname}</span>
+</div>
+<div class="form_main">
+    <div class="detail_wrap" style="border: 1px solid #EFEFEF;">
+        <div class="list-th" style="margin-top: 0;">
+            <div class="th1">&nbsp;</div>
+            <div class="th2 center">浏览次数</div>
+            <div class="th3 center">分享次数</div>
+            <div class="th4 center">点赞次数</div>
+            <div class="th5">独立IP</div>
+            <div class="clear"></div>
+        </div>
+        <div class="list-data">
+            <div class="list-td J_hoverbut">
+                <div class="td1">昨天</div>
+                <div class="td2 center">{:intval($data['yesterday'][1])}</div>
+                <div class="td3 center">{:intval($data['yesterday'][2])}</div>
+                <div class="td4 center">{:intval($data['yesterday'][3])}</div>
+                <div class="td5">{:intval($data['yesterday'][4])}</div>
+                <div class="clear"></div>
+            </div>
+            <div class="list-td J_hoverbut">
+                <div class="td1">本周</div>
+                <div class="td2 center">{:intval($data['week'][1])}</div>
+                <div class="td3 center">{:intval($data['week'][2])}</div>
+                <div class="td4 center">{:intval($data['week'][3])}</div>
+                <div class="td5">{:intval($data['week'][4])}</div>
+                <div class="clear"></div>
+            </div>
+            <div class="list-td J_hoverbut">
+                <div class="td1">上周</div>
+                <div class="td2 center">{:intval($data['last_week'][1])}</div>
+                <div class="td3 center">{:intval($data['last_week'][2])}</div>
+                <div class="td4 center">{:intval($data['last_week'][3])}</div>
+                <div class="td5">{:intval($data['last_week'][4])}</div>
+                <div class="clear"></div>
+            </div>
+            <div class="list-td J_hoverbut">
+                <div class="td1">本月</div>
+                <div class="td2 center">{:intval($data['month'][1])}</div>
+                <div class="td3 center">{:intval($data['month'][2])}</div>
+                <div class="td4 center">{:intval($data['month'][3])}</div>
+                <div class="td5">{:intval($data['month'][4])}</div>
+                <div class="clear"></div>
+            </div>
+            <div class="list-td J_hoverbut">
+                <div class="td1">上月</div>
+                <div class="td2 center">{:intval($data['last_month'][1])}</div>
+                <div class="td3 center">{:intval($data['last_month'][2])}</div>
+                <div class="td4 center">{:intval($data['last_month'][3])}</div>
+                <div class="td5">{:intval($data['last_month'][4])}</div>
+                <div class="clear"></div>
+            </div>
+            <div class="list-td J_hoverbut" style="border-bottom: none;">
+                <div class="td1">历史累计</div>
+                <div class="td2 center">{:intval($data['total'][1])}</div>
+                <div class="td3 center">{:intval($data['total'][2])}</div>
+                <div class="td4 center">{:intval($data['total'][3])}</div>
+                <div class="td5">{:intval($data['total'][4])}</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <div class="line_wrap">
+        <div class="line_top">
+            <div class="select_input input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">最近{$settr}天</span>
+                <div class="dropdowbox10 J_dropdown_menu">
+                    <div class="dropdow_inner10">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme" href="{:P(array('settr'=>'7'))}" >最近7天</a></li>
+                            <li><a class="J_listitme" href="{:P(array('settr'=>'15'))}" >最近15天</a></li>
+                            <li><a class="J_listitme" href="{:P(array('settr'=>'30'))}" >最近30天</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="line_main">
+            <div id="line_box" style="margin:20px 0 0 10px;"></div>
+            <script type="text/javascript">
+                FusionCharts.ready(function(){
+                    var revenueChart = new FusionCharts({
+                        "type": "msline",
+                        "height":"280px",
+                        "renderAt": "line_box",
+                        "width":"99%",
+                        "dataFormat": "xml",
+                        "showLegend":"1",
+                        "dataSource": '{$line_xml}',
+                    });
+                    revenueChart.render();
+                });
+            </script>
+        </div>
+    </div>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript" src="../public/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="../public/js/jquery.dropdown.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+</script>
+</html>

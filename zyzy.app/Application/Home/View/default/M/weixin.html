@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/m.css" rel="stylesheet" type="text/css" />
+	<qscms:load type="category"/>
+</head>
+<body>
+<include file="public:header_m" />
+<div id="banner-block">
+    <div class="banner-wrap wechat">
+        <div class="container">
+            <div class="chatpage-img"><img src="{:C('TPL_PUBLIC_DIR')}/images/190.jpg" alt="" /></div>
+            <div class="a-text-wrap">
+                <div class="weimg-box clearfix">
+                    <div class="wechat-icon f-left"></div>
+                    <div class="wechat-code-box f-right"><img src="{:attach(C('qscms_weixin_img'),'resource')}" alt="二维码" width="100" height="100" /></div>
+                </div>
+                <h4>微信 “扫一扫” 工作 “码” 上找</h4>
+                <div class="wechat-sreach substring" title="{:C('qscms_weixin_mpname')} 或 {:C('qscms_weixin_mpnumber')}">查找公众号：<b>{:C('qscms_weixin_mpname')}</b> 或 <b>{:C('qscms_weixin_mpnumber')}</b></div>
+                <p>最新职位、紧急招聘、一键刷简历、即时收面试通知……<br />从此不再错过任何工作机会</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="m-main">
+    <div class="wechat-top-title">
+        <div class="container clearfix">
+            <h2>如何绑定微信公众号</h2>
+        </div>
+    </div>
+    <div class="m-row weixin odd">
+        <div class="container clearfix">
+            <div class="wechat-left-text f-left">
+                <h3>01</h3>
+                <p>扫描二维码并点击关注，轻松求职。海量<br />职位，随时随地任您搜！</p>
+            </div>
+            <div class="wechat-right-img f-right">
+                <div class="wechat-phone"><img src="{:C('TPL_PUBLIC_DIR')}/images/191.jpg" alt="" /></div>
+                <div class="wechat-enlarge enlarge1"></div>
+            </div>
+        </div>
+    </div>
+    <div class="m-row weixin">
+        <div class="container clearfix">
+            <div class="wechat-left-img f-left">
+                <div class="wechat-phone"><img src="{:C('TPL_PUBLIC_DIR')}/images/192.jpg" alt="" /></div>
+                <div class="wechat-enlarge enlarge2"></div>
+            </div>
+            <div class="wechat-right-text f-right">
+                <h3>02</h3>
+                <p>关注后会自动弹出立即绑定的消息，点击<br />绑定账号。</p>
+            </div>
+        </div>
+    </div>
+    <div class="m-row weixin odd">
+        <div class="container clearfix">
+            <div class="wechat-left-text f-left">
+                <h3>03</h3>
+                <p>输入您的平台账号和密码，再也不用担<br />心错过任何求职动态了！</p>
+            </div>
+            <div class="wechat-right-img f-right">
+                <div class="wechat-phone"><img src="{:C('TPL_PUBLIC_DIR')}/images/193.jpg" alt="" /></div>
+                <div class="wechat-enlarge enlarge3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer_min" />
+</body>
+</html>

@@ -1,0 +1,55 @@
+<include file="public:header" />
+<div class="toptip">
+  <h2>提示：</h2>
+  <p>
+计划任务中可设置定期生成资源文档。<br />
+您可以通过修改配置信息来调整生成结果。<br />
+</p>
+</div>
+ <form id="form1" name="form1" method="post" action="{:U('delete')}">
+  <table width="100%" border="0" cellpadding="0" cellspacing="0"  id="list" class="link_lan">
+    <tr>
+      <td width="15%" class="admin_list_tit admin_list_first" >
+    <label id="chkAll"><input type="checkbox" name="chkAll"  id="chk" title="全选/反选" />类型</label></td>
+         
+            <td class="admin_list_tit">文档路径</td>
+        <td width="180" align="center"  class="admin_list_tit">生成时间</td>
+        <td width="160" align="center"   class="admin_list_tit">文档大小<em  style="font-size:10px;">MB</em></td>
+  
+      </tr>
+   <volist name="list" id="vo">
+   <tr> 
+      <td  class="admin_list admin_list_first">
+      <input name="file_name[]" type="checkbox" id="file_name" value="{$vo.file_name}" />
+  {$vo.file_type}</a>
+          
+        <td  class="admin_list"><a href="{$vo.file_url}" target="_blank">{$vo.file_url}</a></td>
+      <td align="center"  class="admin_list">
+      {$vo.file_time|date="Y-m-d H:i:s",###}
+      </td>
+        <td align="center"  class="admin_list">
+    {$vo.file_size}<em  style="font-size:10px;">MB</em>
+    </td>
+  
+      </tr>
+   </volist>
+  </table>
+    <if condition="!$list">
+<div class="admin_list_no_info">没有任何信息！</div>
+</if>
+<table width="100%" border="0" cellspacing="10" cellpadding="0" class="admin_list_btm">
+      <tr>
+        <td>
+      <input name="But" type="button" class="admin_submit" id="But" value="生成文档"  onclick="window.location='{:U('make')}'"/>
+<input name="del" type="submit" class="admin_submit" id="ButDel" value="删除所选" onclick="return confirm('你确定要删除吗？')"/>
+    </td>
+        <td width="305" align="right">    
+      </td>
+      </tr>
+  </table>
+  </form>
+<div class="qspage">{$page}</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

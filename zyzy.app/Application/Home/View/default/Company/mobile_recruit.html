@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_jobs" /> 
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">微信招聘</div>
+					<div class="clear"></div>
+				</div>
+				<div class="cutoff_line"></div>
+				<div class="wx_jobbox">
+					<div class="title">什么是微信招聘？</div>
+					<div class="describe">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;微信招聘是通过调取您的职位信息和企业资料一键生成手机端招聘页面，您可通过分享朋友圈等途径让更多人了解关注，快速提高企业职位浏览量以获得更出色的招聘体验。</div>
+					<div class="describe_wxbox">
+						<div class="wxbox_left">
+							<div class="wx_text">
+								<div class="wx_text_line highlight">您的移动招聘主页已生成</div>
+								<div class="wx_text_line">请扫描二维码关注“<if condition="C('qscms_weixin_mpname')">{:C('qscms_weixin_mpname')}<else />{:C('qscms_site_name')}</if>”公众号，</div>
+								<div class="wx_text_line">绑定企业账号，</div>
+								<div class="wx_text_line">查看您的专属企业移动招聘主页，</div>
+								<div class="wx_text_line">立即分享，让数万用户为你传播，马上行动吧</div>
+							</div>
+							<div class="wx_img">
+								<div class="img"><img src="{:attach(C('qscms_weixin_img'),'resource')}"></div>
+								<div class="img_txt">
+									<div>微信扫一扫  关注公众号</div>
+									<div>一键生成移动招聘主页！</div>
+								</div>
+							</div>
+						</div>
+						<div class="wxbox_right">
+							<div id="slide" class="slide">
+								<ul>
+									<li><img src="{:attach('1.jpg','mobilerecruit')}"></li>
+									<li><img src="{:attach('2.jpg','mobilerecruit')}"></li>
+									<li><img src="{:attach('3.jpg','mobilerecruit')}"></li>
+									<li><img src="{:attach('4.jpg','mobilerecruit')}"></li>
+									<li><img src="{:attach('5.jpg','mobilerecruit')}"></li>
+									<li><img src="{:attach('6.jpg','mobilerecruit')}"></li>
+								</ul>
+							</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="wx_introduce">
+					<div class="wx_introduce_group">
+						<div class="wx_introduce_list">
+							<div class="iconbox icon1"></div>
+							<div class="txtbox"><div>企业模版</div><div class="down">H5模版任意切换</div></div>
+							<div class="clear"></div>
+						</div>
+						<div class="wx_introduce_list">
+							<div class="iconbox icon2"></div>
+							<div class="txtbox"><div>企业头像</div><div class="down">上传企业形象LOGO</div></div>
+							<div class="clear"></div>
+						</div>
+						<div class="wx_introduce_list">
+							<div class="iconbox icon3"></div>
+							<div class="txtbox"><div>公司福利</div><div class="down">编辑企业福利与基本资料同步</div></div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="wx_introduce_group">
+						<div class="wx_introduce_list">
+							<div class="iconbox icon4"></div>
+							<div class="txtbox"><div>微信招聘简历</div><div class="down">微信招聘收到的简历</div></div>
+							<div class="clear"></div>
+						</div>
+						<div class="wx_introduce_list">
+							<div class="iconbox icon5"></div>
+							<div class="txtbox"><div>发红包悬赏</div><div class="down">全面提高人才库储备</div></div>
+							<div class="clear"></div>
+						</div>
+						<div class="wx_introduce_list">
+							<div class="iconbox icon6"></div>
+							<div class="txtbox"><div>悬赏明细</div><div class="down">认真记录每位职位推广员</div></div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="wx_introduce_group">
+						<div class="wx_introduce_list">
+							<div class="iconbox icon7"></div>
+							<div class="txtbox"><div>留言反馈</div><div class="down">反馈您遇到的任何问题</div></div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="wx_tongji">
+					<div class="title">
+						<div class="tlist">昨日访问： <span class="highlight">{$click}</span></div>
+						<div class="tlist">昨日获得点赞： <span class="highlight">{$praise}</span></div>
+						<div class="tlist link_blue"><a href="{:U('mobile_recruit_statistics')}">查看效果数据</a></div>
+						<div class="clear"></div>
+					</div>
+					<notempty name="apply['Mobile']">
+						<div class="share_link">
+							<div class="share_left">分享链接：</div>
+							<div class="share_right qshowaBoxD"><input type="text" value="{$w_url}" class="w_url" id="textareaIdText"/></div>
+                            <div class="share_btn_box"><div class="btn_verficode copyBtn" textareaid="textareaIdText">点击复制链接</div></div>
+							<div class="clear"></div>
+						</div>
+						<div class="share_btn link_blue">
+							<div class="btn_left"></div>
+							<div class="btn_right"><a href="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode($w_url)}&download=1">下载企业主页二维码</a></div>
+							<div class="clear"></div>
+						</div>
+					</notempty>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script src="../public/js/company/ZeroClipboard.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+                $('div.copyBtn').on({
+                    'click': function(){
+                        var textareaId = $(this).attr('textareaId');
+                        if ($.browser.msie){
+                            var strMsg = document.getElementById(textareaId).value;
+                            window.clipboardData.setData('text', strMsg);
+                            disapperTooltip("success", "复制成功！");
+                        } else{
+                            disapperTooltip("remind", "您的浏览器不支持此功能，请手工复制文本框中内容！");
+                            var textareaEl = $('#' + textareaId);
+                            setCaretPosition(textareaEl[0], [0, textareaEl.val().length])
+                        }
+                    },
+                    'mouseover': function(){
+                        var textareaId = $(this).attr('textareaId');
+                        if ($.browser.msie){
+                            var strMsg = $('#' + textareaId).val();
+                            var clip = new ZeroClipboard.Client();
+                            ZeroClipboard.setMoviePath('../public/js/company/ZeroClipboard.swf');
+                            clip.setText(strMsg);
+                            clip.addEventListener('complete', function(client, text) {
+                                alert("复制成功!");
+                            });
+                            clip.glue($(this).attr('id'));
+                        }
+                    }
+                })
+                $('#textareaIdText').on('focus', function () {
+                    var textareaEl = $('#textareaIdText');
+                    setCaretPosition(textareaEl[0], [0, textareaEl.val().length])
+                })
+                function setCaretPosition(ctrl,pos){
+                    if(ctrl.setSelectionRange){
+                        ctrl.focus();
+                        ctrl.setSelectionRange(pos[0],pos[1]);
+                    }else if (ctrl.createTextRange) {
+                        var range = ctrl.createTextRange();
+                        range.collapse(true);
+                        range.moveEnd('character', pos[1]);
+                        range.moveStart('character', pos[0]);
+                        range.select();
+                    }
+                }
+
+				// 自动滚动
+				var _scrolling = setInterval("AutoScroll()", 3000);
+				$("#slide>ul").hover(function() {
+					//鼠标移动DIV上停止
+					clearInterval(_scrolling);
+				}, function() {
+					//离开继续调用
+					_scrolling = setInterval("AutoScroll()", 3000);
+				});
+			});
+			function AutoScroll() {
+				var _scroll = $("#slide>ul");
+				//ul往左边移动300px
+				_scroll.animate({
+					marginLeft : "-208px"
+				}, 1000, function() {
+					//把第一个li丢最后面去
+					_scroll.css({
+						marginLeft : 0
+					}).find("li:first").appendTo(_scroll);
+				});
+			}
+		</script>
+	</body>
+</html>

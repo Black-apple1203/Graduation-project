@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/jobs.css" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak={:C('qscms_map_ak')}"></script>
+	<script type="text/javascript" src="https://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+	<link rel="stylesheet" href="https://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.css" />
+	<!--加载检索信息窗口-->
+	<script type="text/javascript" src="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.js"></script>
+	<link rel="stylesheet" href="http://api.map.baidu.com/library/SearchInfoWindow/1.4/src/SearchInfoWindow_min.css" />
+
+</head>
+<body>
+<include file="public:header" />
+<!--搜索 -->
+<div class="map_box">
+	<div class="conbox" id="map_container"></div>
+</div>
+<qscms:jobs_list 列表名="jobslist" 列表页="QS_map" 搜索内容="$_GET['search_cont']" 显示数目="20" 分页显示="1" 营业执照="$_GET['license']" 过滤已投递="$_GET['deliver']" 排序="$_GET['sort']" 合并="$_COOKIE['com_list']" 描述长度="100" 经度="$_GET['lng']" 纬度="$_GET['lat']" 半径="$_GET['wa']"/>
+<div class="plist">
+	<div class="pl">	
+		<div class="toptitle">
+			<div class="ltype">
+				<div class="typeli <if condition="$Think.get.search_cont eq ''">select</if>" onclick="window.location='{:P(array('search_cont'=>''))}';">所有职位</div>
+				<div class="typeli <if condition="$Think.get.search_cont eq 'company'">select</if>" onclick="window.location='{:P(array('search_cont'=>'company'))}';">名企招聘</div>
+				<if condition="C('apply.Sincerity')">
+				<div class="typeli <if condition="$Think.get.search_cont eq 'famous'">select</if>" onclick="window.location='{:P(array('search_cont'=>'famous'))}';">诚聘通</div>
+				</if>
+				<div class="clear"></div>
+			</div>
+			<div class="ts">
+		  		<div class="l1"></div>
+				<div class="l2 <if condition="$Think.get.deliver eq 1">select</if>">
+					<if condition="$visitor['utype'] eq 2">
+						<div class="radio_group" <if condition="$Think.get.deliver eq 1">onclick="window.location='{:P(array('deliver'=>''))}';"<else/>onclick="window.location='{:P(array('deliver'=>1))}';"</if>>
+							<div class="radiobox"></div>
+							<div class="radiotxt">过滤已投递</div>
+							<div class="clear"></div>
+						</div>
+					</if>
+				</div>
+				<div class="l2 <if condition="$Think.get.license eq 1">select</if>" <if condition="$Think.get.license eq 1">onclick="window.location='{:P(array('license'=>''))}';"<else/>onclick="window.location='{:P(array('license'=>1))}';"</if>>
+					<div class="radiobox"></div>
+					<div class="radiotxt">营业执照已认证</div>
+					<div class="clear"></div>
+				</div>
+
+				<div class="J_detailList l3 <if condition="$Think.cookie.jobs_show_type eq ''">select</if>" title="切换到详细列表"></div>
+				<div class="J_detailList l4 <if condition="$Think.cookie.jobs_show_type eq 1">select</if>" title="切换到简易列表" show_type="1"></div>
+				<div class="l5">
+					<if condition="$jobslist['page_params']['nowPage'] gt 1">
+				  		<div class="prev" title="上一页" onclick="window.location='{:P(array('p'=>$jobslist['page_params']['nowPage']-1))}';"><</div>
+				  	</if>
+				  	<if condition="$jobslist['page_params']['nowPage'] lt $jobslist['page_params']['totalPages']">
+						<div class="next"  title="下一页" onclick="window.location='{:P(array('p'=>$jobslist['page_params']['nowPage']+1))}';">></div>
+					</if>
+					<if condition="$jobslist['page_params']['totalRows'] gt 0">
+						<span>{$jobslist.page_params.nowPage}</span>/{$jobslist.page_params.totalPages}页
+					</if>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="sort">
+				<div class="sl1">排序方式：</div>
+				<a class="sl2 <if condition="$Think.get.sort eq ''">select</if>" href="{:P(array('sort'=>''))}">综合排序</a>
+				<a class="sl2 <if condition="$Think.get.sort eq 'rtime'">select</if>" href="{:P(array('sort'=>'rtime'))}">更新时间</a>
+				<if condition="$search_type eq 'full'">
+					<a class="sl2 <if condition="$Think.get.sort eq 'score'">select</if>" href="{:P(array('sort'=>'score'))}">相关度</a>
+				</if>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<!--列表 -->
+		<div class="listb J_allListBox">
+			<notempty name="jobslist['list']">
+			<volist name="jobslist['list']" id="jobs">
+				<div class="J_jobsList yli" data-jid="{$jobs.id}">
+					<div class="td1"><div class="J_allList radiobox"></div></div>
+					<div class="td2 link_blue"><a class="line_substring" href="{$jobs.jobs_url}" target="_blank">{$jobs.jobs_name}</a><if condition="$jobs['emergency'] eq 1">&nbsp;<img src="{:C('TPL_PUBLIC_DIR')}/images/emergency.png"></if></div>
+					<div class="td3 link_gray6">
+						<a class="line_substring" href="{$jobs.company_url}" target="_blank">{$jobs.companyname}</a>
+						<if condition="$jobs['company_audit'] eq 1"><img src="{:attach('auth.png','resource')}" title="认证企业"></if>
+						<if condition="$jobs['setmeal_id'] gt 1"><img src="{:attach($jobs['setmeal_id'].'.png','setmeal_img')}" title="{$jobs.setmeal_name}"></if>
+						<if condition="$jobs['famous'] eq 1">
+							<img src="<if condition="C('qscms_famous_company_img') eq ''">{:attach('famous.png','resource')}<else/>{:attach(C('qscms_famous_company_img'),'images')}</if>" title="诚聘通企业"/>
+						</if>
+						<eq name='jobs.com_report' value='1'>
+							<a href="{:url_rewrite('QS_company_report',array('id'=>$jobs['company_id']))}" target="_blank"><img src="{:attach('report.png','resource')}" title="实地认证企业"/></a>
+						</eq>
+						<div class="clear"></div>
+					</div>
+					<div class="td4">{$jobs.wage_cn}</div>
+					<div class="td5">{:fdate($jobs['refreshtime'])}</div>
+					<div class="td6"><div class="J_jobsStatus hide <if condition="$Think.cookie.jobs_show_type eq 1">show</if>"></div> </div>
+					<div class="clear"></div>
+					<div class="detail" <if condition="$Think.cookie.jobs_show_type eq 1">style="display:none"</if>>
+					  	<div class="ltx">
+							<div class="txt font_gray6">学历：{$jobs.education_cn}<span>|</span>经验：{$jobs.experience_cn}<span>|</span>职位性质：{$jobs.nature_cn}<span>|</span>人数：{$jobs.amount}人<span>|</span>地点：{$jobs.district_cn}</div>
+							<div class="dlabs">
+								<empty name="jobs['tag_cn']">
+									{$jobs.briefly}
+								<else/>
+									<volist name="jobs['tag_cn']" id="tag">
+										<div class="dl">{$tag}</div>
+									</volist>
+								</empty>
+								<div class="clear"></div>
+							</div>
+					  	</div>
+						<div class="rbtn">
+						  		<div class="deliver J_applyForJob" data-batch="false" data-url="{:U('AjaxPersonal/resume_apply')}">投递简历</div>
+								<div class="favorites J_collectForJob" data-batch="false" data-url="{:U('AjaxPersonal/jobs_favorites')}">收藏</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</volist>
+			<!--投递按钮 -->
+			<div class="listbtn">
+				<div class="td1"><div class="radiobox J_allSelected"></div></div>
+				<div class="td2">
+					<div class="lbts J_applyForJob" data-batch="true" data-url="{:U('AjaxPersonal/resume_apply')}">申请职位</div>
+					<div class="lbts J_collectForJob" data-batch="true" data-url="{:U('AjaxPersonal/jobs_favorites')}">收藏职位</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="qspage">{$jobslist.page}</div>
+			<else />
+			<div class="list_empty_group">
+				<div class="list_empty">
+					<div class="list_empty_left"></div>
+					<div class="list_empty_right">
+						<div class="sorry_box">对不起，没有找到符合您条件的职位！</div>
+						<div class="stips_box">建议您修改搜索条件后再进行搜索</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+			</div>
+			</notempty>
+		</div>
+		<if condition="$Think.get.citycategory neq ''">
+			<div class="bot_info link_gray6">
+				<div class="topnavbg">
+					<div class="topnav">
+						<if condition="$_GET['key'] neq '' or $_GET['category'] neq ''">
+							<div class="tl J_job_hotnear select">周边职位</div>
+						</if>
+						<div class="tl J_job_hotnear">热门职位</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<if condition="$_GET['key'] neq ''">
+					<div class="showbotinfo J_job_hotnear_show show">
+			        	<volist name="city['list']" id="district" offset="0" length="21">
+			        		<div class="ili"><a href="{:P(array('citycategory'=>$district['citycategory'],'key'=>$_GET['key']))}">{$district.categoryname}{$Think.get.key|urldecode|urldecode}</a></div>
+						</volist>
+						<div class="clear"></div>
+					</div>
+				<elseif condition="$_GET['category'] neq ''"/>
+					<div class="showbotinfo J_job_hotnear_show show">
+			        	<volist name="city['list']" id="district" offset="0" length="21">
+			        		<div class="ili"><a href="{:P(array('citycategory'=>$district['citycategory'],'category'=>$_GET['category']))}">{$district.categoryname}{$jobs_cate_info[$_GET['category']]['categoryname']}</a></div>
+						</volist>
+						<div class="clear"></div>
+					</div>
+				</if>
+				<div class="showbotinfo J_job_hotnear_show">
+					<qscms:hotword 列表名="hotword_list" 显示数目="22"/>
+					<volist name="hotword_list" id="hotword">
+						<if condition="C('qscms_key_urlencode') eq 1">
+						<div class="ili"><a href="{:P(array('citycategory'=>$city['citycategory'],'key'=>urlencode($hotword['w_word_code'])))}">{$city['categoryname']}{$hotword.w_word}</a></div>
+						<else />
+						<div class="ili"><a href="{:P(array('citycategory'=>$city['citycategory'],'key'=>$hotword['w_word_code']))}">{$city['categoryname']}{$hotword.w_word}</a></div>
+						</if>
+					</volist>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</if>
+	</div>
+	<div class="pr">
+		<div class="lisbox">
+			<div class="t">推荐职位</div>
+			<if condition="$a eq 'a'">
+				<qscms:jobs_list 列表名="recommend_jobs" 排序="rtime" 显示数目="5"/>
+			<else/>
+				<qscms:jobs_list 列表名="recommend_jobs" 关键字="$_GET['key']" 职位分类="$_GET['category']" 推荐="1" 显示数目="5"/>
+				<empty name="recommend_jobs['list']">
+					<qscms:jobs_list 列表名="recommend_jobs" 排序="hot" 显示数目="5"/>
+				</empty>
+			</if>
+			<empty name="recommend_jobs['list']">
+				<div class="empty">暂无相关职位！</div>
+			<else/>
+				<volist name="recommend_jobs['list']" id="jobs">
+					<div class="yl">
+						<div class="pic"><a target="_blank" href="{$jobs.company_url}"><img src="{$jobs['logo']}" border="0"/></a></div>
+						<div class="txts link_gray6">
+						<div class="t1 substring"><a target="_blank" href="{$jobs.jobs_url}" title="{$jobs.jobs_name}">{$jobs.jobs_name}</a></div>
+						<div class="t2 substring"><a target="_blank" href="{$jobs.company_url}" title="{$jobs.companyname}">{$jobs.companyname}</a></div>
+						{$jobs.wage_cn}
+						</div>
+						<div class="clear"></div>
+					</div>
+				</volist>
+			</empty>
+		</div>
+		<!--紧急招聘 -->
+		<div class="lisbox link_gray6">
+			<div class="t">紧急招聘</div>
+				<qscms:jobs_list 列表名="emergency_jobs" 紧急招聘="1" 显示数目="5"/>
+				<empty name="emergency_jobs['list']">
+					<div class="empty">暂无相关职位！</div>
+				<else/>
+					<volist name="emergency_jobs['list']" id="jobs">
+						<div class="eyl">
+							<div class="jname substring"><a target="_blank" href="{$jobs.jobs_url}">{$jobs.jobs_name}</a></div>
+							<div class="city substring">{$jobs['district_cn']}</div>	
+							<div class="clear"></div>
+							<div class="etxt substring"><a target="_blank" href="{$jobs.company_url}">{$jobs.companyname}</a></div>
+							<div class="etxt substring">{$jobs.wage_cn}</div>
+						</div>
+					</volist>
+				</empty>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.jobslist.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.modal.dialog.js"></script>
+<script type="text/javascript">
+	// 百度地图API功能
+	var m_zoom = "{:C('qscms_map_zoom')}";
+	var map_center_x = "<if condition="$Think.get.lng eq ''">{:C('qscms_map_center_x')}<else/>{$Think.get.lng}</if>";
+	var map_center_y = "<if condition="$Think.get.lat eq ''">{:C('qscms_map_center_y')}<else/>{$Think.get.lat}</if>";
+	var map = new BMap.Map("map_container");
+	var point = new BMap.Point(map_center_x,map_center_y);
+	map.centerAndZoom(point,m_zoom);
+	var qs_marker = new BMap.Marker(point);        // 创建标注  
+	map.setCenter(point); 
+	map.addControl(new BMap.NavigationControl());//添加鱼骨
+	map.enableScrollWheelZoom();//启用滚轮放大缩小，默认禁用。
+	var overlays = [];
+	var url = "{:P(array('lng'=>'lngval','lat'=>'latval','wa'=>'waval'))}";
+	var overlaycomplete = function(e){
+        url = url.replace('lngval',e.overlay.point['lng']);
+        url = url.replace('latval',e.overlay.point['lat']);
+        url = url.replace('waval',e.overlay.wa);
+        window.location=url;
+    };
+    var styleOptions = {
+        strokeColor:"red",    //边线颜色。
+        fillColor:"red",      //填充颜色。当参数为空时，圆形将没有填充效果。
+        strokeWeight: 3,       //边线的宽度，以像素为单位。
+        strokeOpacity: 0.8,	   //边线透明度，取值范围0 - 1。
+        fillOpacity: 0.6,      //填充的透明度，取值范围0 - 1。
+        strokeStyle: 'solid' //边线的样式，solid或dashed。
+    }
+    //实例化鼠标绘制工具
+    var drawingManager = new BMapLib.DrawingManager(map, {
+        isOpen: false, //是否开启绘制模式
+        enableDrawingTool: true, //是否显示工具栏
+        drawingToolOptions: {
+            anchor: BMAP_ANCHOR_TOP_RIGHT, //位置
+            offset: new BMap.Size(5, 5), //偏离值
+            drawingModes : [
+	            BMAP_DRAWING_CIRCLE
+	        ]
+        },
+        circleOptions: styleOptions, //圆的样式
+    });  
+	 //添加鼠标绘制工具监听事件，用于获取绘制结果
+    drawingManager.addEventListener('overlaycomplete', overlaycomplete);
+    function addMarker(lng,lat,name,uid){
+		var point = new BMap.Point(lng,lat);
+		var qs_marker = new BMap.Marker(point);// 创建标注  
+		qs_marker.setTitle(name);
+		map.addOverlay(qs_marker);
+		var opts = {
+		  //width : 200,     // 信息窗口宽度
+		  //height: 100,     // 信息窗口高度
+		  //title : name , // 信息窗口标题
+		  enableMessage:true//设置允许信息窗发送短息
+		}
+		qs_marker.addEventListener("click", function(){
+			var infoWindow = new BMap.InfoWindow('载入中…', opts);  // 创建信息窗口对象      
+			map.openInfoWindow(infoWindow,point); //开启信息窗口
+			$.getJSON("{:U('AjaxCommon/get_com_jobs')}",{uid:uid},function(result){
+				if(result.status == 1){
+					var h = '<p class="map_company"><a href="'+result.data.list[0].company_url+'" target="_blank">'+name+'</a></p>';
+					for (var i = 0; i <= result.data.list.length-1; i++) {
+						h += '<p><a class="map_jobs" href="'+result.data.list[i].jobs_url+'" target="_blank">'+result.data.list[i].jobs_name+'</a></p>';
+					};
+					h += '<p><a class="map_jobs more" href="'+result.data.com_jobs_url+'" target="_blank">查看全部职位>></a></p>';
+					infoWindow = new BMap.InfoWindow(h, opts);  // 创建信息窗口对象      
+					map.openInfoWindow(infoWindow,point); //开启信息窗口
+				}
+			});
+		});
+	}
+    <volist name="jobslist['list']" id="jobs">
+	    addMarker("{$jobs.map_x}","{$jobs.map_y}","{$jobs.companyname}","{$jobs.uid}");
+	</volist>
+</script>
+</body>
+</html>

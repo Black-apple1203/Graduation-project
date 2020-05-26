@@ -1,0 +1,137 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="Company:left_service" />
+			</div>
+			<div class="mright">
+				<!-- 任务 -->
+				<div class="gold_top_gold">
+					<div class="gold w276">
+						<div class="rightbox">
+							<div class="txt">
+								<a class="name" title="{$company_profile['companyname']}">{$company_profile['companyname']}</a>
+								<div class="imgbox">
+									<eq name="$company_profile['audit']" value="1">
+									<div class="company_v"></div>
+									</eq>
+									<if condition="$my_setmeal['id'] gt 0">
+									<div class="company_vip"><img src="{:attach($my_setmeal['id'].'.png','setmeal_img')}" alt="{$my_setmeal['setmeal_name']}" /></div>
+									</if>
+									<eq name="$company_profile['famous']" value="1">
+									<div class="company_bao"></div>
+									</eq>
+									<div class="clear"></div>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="txt link_blue"><span class="gray">剩余{:C('qscms_points_byname')}：</span><strong>{$my_points}</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U('points_detail')}">{:C('qscms_points_byname')}收支明细</a></div>
+						</div>
+						<div class="clear"></div>
+						
+					</div>
+					<div class="todaygold">
+						<div class="txt">今天已获得 <strong>{$points_count['obtain']}</strong>  {:C('qscms_points_byname')}</div>
+						<div class="txt link_blue">您还可免费获得 <strong>{$points_count['able']}</strong> {:C('qscms_points_byname')}</div>
+					</div>
+					<div class="btnbox w180">
+						<if condition="C('qscms_enable_com_buy_points') eq 1">
+						<a class="btn3" href="{:U('points_add')}">{:C('qscms_points_byname')}充值</a>
+						</if>
+						<notempty name="apply['Mall']">
+							<a class="btn2" target="_blank" href="{:url_rewrite('QS_mall_index')}">{:C('qscms_points_byname')}商城</a>
+						</notempty>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="thtab virtual_currency">
+					<div class="li J_hoverbut select">未完成任务</div>
+					<div class="li J_hoverbut">已完成任务</div>
+				  	<div class="clear"></div>
+				</div>
+				<div class="task_th">
+					<div class="th1">任务标题</div>
+					<div class="th2">{:C('qscms_points_byname')}</div>
+					<div class="th3">类型</div>
+					<div class="th4">操作</div>
+					<div class="clear"></div>
+				</div>
+				<div class="tabshow" style="display:block;">
+					<volist name="task" id="vo">
+					<if condition="!isset($done_task[$vo['id']]) || $done_task[$vo['id']] gt 0">
+					<div class="task J_hoverbut">
+						<div class="td1 {$vo['t_alias']}">
+						{$vo['title']}
+						<if condition="$done_task[$vo['id']] gt 0 && $vo['once'] eq '0' && $vo['times'] gt $done_task[$vo['id']]">
+						({$done_task[$vo['id']]} / {$vo['times']})
+						</if>
+						</div>
+						<div class="td2">
+							+ {$vo['points']}
+							<if condition="$done_task[$vo['id']] gt 0 && $vo['once'] eq '0' && $vo['times'] gt $done_task[$vo['id']]">
+							<span>( x{$done_task[$vo['id']]} )</span>
+							</if>
+						</div>
+						<div class="td3"><if condition="$vo['once'] eq '1'">一次性任务<else />日常任务</if></div>
+						<div class="td4 link_blue"><a data-type="{$vo['t_alias']}" <if condition="$task_url[$vo['t_alias']]['type'] eq 'blank'">target="_blank"<elseif condition="$task_url[$vo['t_alias']]['type'] eq 'ajax'" />data="{$vo['t_alias']}" class="ajax_do"<else /></if> href="{$task_url[$vo['t_alias']]['url']}">去完成</a></div>
+						<div class="clear"></div>
+					</div>
+					</if>
+					</volist>
+				</div>
+				<div class="tabshow">
+					<volist name="task" id="vo">
+					<if condition="isset($done_task[$vo['id']]) && ($done_task[$vo['id']] eq $vo['times'] || $vo['id'] eq 18)">
+					<div class="task J_hoverbut">
+						<div class="td1 {$vo['t_alias']}">{$vo['title']}</div>
+						<div class="td2">+ {$vo['points']}</div>
+						<div class="td3"><if condition="$vo['once'] eq '1'">一次性任务<else />日常任务</if></div>
+						<div class="td4 ok">已完成</div>
+						<div class="clear"></div>
+					</div>
+					</if>
+					</volist>
+				</div>
+				<!-- 任务 end -->
+			</div>
+			<div class="clear"></div>
+		</div>
+		
+		<include file="Company:index_footer" />
+		<script src="../public/js/company/jquery.zclip.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			$('.thtab .li').click(function(event) {
+				$(this).addClass('select').siblings().removeClass('select');
+				var positionValue = $('.thtab .li').index(this);
+				$('.tabshow').eq(positionValue).show().siblings('.tabshow').hide();
+			});
+			$(".ajax_do").click(function(){
+				var type = $(this).attr('data-type');
+				var url = $(this).attr('href');
+				if(type=='sign'){
+					$.getJSON(url,function(result){
+			    		if(result.status == 1){
+			    			disapperTooltip("goldremind", '每天签到增加'+result.data+'{:C('qscms_points_byname')}<span class="point">+'+result.data+'</span>');
+			    			setTimeout(function () {
+								window.location.reload();
+							}, 2000);
+			    		}else{
+			    			disapperTooltip('remind',result.msg);
+			    		}
+			    	});
+				}
+				return false;
+			});
+		</script>
+	</body>
+</html>

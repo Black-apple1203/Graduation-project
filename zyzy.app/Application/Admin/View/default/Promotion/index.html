@@ -1,0 +1,145 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>系统将自动取消到期的企业推广。</p>
+    <p>此列表不显示到期、停止、未通过审核等职位的推广信息。</p>
+</div>
+<div class="seltpye_x">
+    <div class="left">到期时间</div>
+    <div class="right">
+        <a href="{:P(array('settr'=>''))}" <eq name='Think.get.settr' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('settr'=>'0'))}" <eq name='Think.get.settr' value='0'>class="select"</eq>>已经到期</a>
+        <a href="{:P(array('settr'=>'3'))}" <eq name='Think.get.settr' value='3'>class="select"</eq>>三天内到期</a>
+        <a href="{:P(array('settr'=>'7'))}" <eq name='Think.get.settr' value='7'>class="select"</eq>>一周内到期</a>
+        <a href="{:P(array('settr'=>'30'))}" <eq name='Think.get.settr' value='30'>class="select"</eq>>一月内到期</a>
+        <a href="{:P(array('settr'=>'90'))}" <eq name='Think.get.settr' value='90'>class="select"</eq>>三月内到期</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="seltpye_x">
+    <div class="left">推广方案</div>
+    <div class="right">
+        <a href="{:P(array('ptype'=>''))}" <eq name='Think.get.ptype' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('ptype'=>'stick'))}" <eq name='Think.get.ptype' value='stick'>class="select"</eq>>职位置顶</a>
+        <a href="{:P(array('ptype'=>'emergency'))}" <eq name='Think.get.ptype' value='emergency'>class="select"</eq>>职位紧急</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<form id="form1" name="form1" method="post" action="{:U('delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:30%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>推广职位
+            </label>
+        </div>
+        <div class="td" style=" width:30%;">所属公司</div>
+        <div class="td center" style=" width:10%;">开始时间</div>
+        <div class="td center" style=" width:10%;">结束时间</div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:30%;">
+                <div class="left_padding striking">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['cp_id']}"/>
+                    <a href="{$vo.jobs_url}" target="_blank" >{$vo.jobs_name}</a>
+                    <span>（职位id:{$vo['cp_jobid']}&nbsp;&nbsp;&nbsp;UID:{$vo['cp_uid']}）</span>
+                    <if condition="$vo['cp_ptype'] eq 'stick'">
+                        <span style="color:#FF6600">[置顶]</span>
+                        <elseif condition="$vo['cp_ptype'] eq 'emergency'" />
+                        <span style="color:#009900">[紧急]</span>
+                    </if>
+                </div>
+            </div>
+            <div class="td" style=" width:30%;">
+                <a href="{$vo.company_url}" target="_blank" >{$vo.companyname}</a>
+                    <span>（UID:{$vo['cp_uid']}）</span>
+            </div>
+            <div class="td center" style=" width: 10%;">
+                <if condition="$vo['cp_starttime'] eq '0'">无限制<else />{$vo.cp_starttime|date="Y-m-d",###}</if>
+            </div>
+            <div class="td center" style=" width:10%;">
+                <if condition="$vo['cp_endtime'] eq '0'">
+                    无限制
+                <else />
+                    <if condition="$vo['cp_endtime'] lt $now"><span style="color:#FF6600">已经到期</span><else />{$vo.cp_endtime|date="Y-m-d",###}</if>
+                </if>
+            </div>
+            <div class="td edit" style=" width:10%;">
+                <a href="javascript:void(0);" class="blue promotion_log" parameter="uid={$vo['cp_uid']}">日志</a>
+                <a href="{:U('edit',array('cp_id'=>$vo['cp_id']))}">修改</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAdd" value="添加推广" onclick="window.location.href='{:U('add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="取消推广"/>
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='职位名'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='职位名'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="职位名">职位名</li>
+                        <li id="2" title="公司名">公司名</li>
+                        <li id="3" title="职位ID">职位ID</li>
+                        <li id="4" title="公司ID">公司ID</li>
+                        <li id="5" title="会员ID">会员ID</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //点击批量取消推广
+        $("#ButDel").click(function () {
+            if (confirm('你确定要取消推广吗？')) {
+                $("form[name=form1]").submit();
+            }
+        });
+        //审核日志
+        $(".promotion_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '推广日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/promotion_log')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+    });
+</script>
+</html>

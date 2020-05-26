@@ -1,0 +1,1 @@
+<?php	return array ( 'QS_top' => '顶部导航', ); ?>

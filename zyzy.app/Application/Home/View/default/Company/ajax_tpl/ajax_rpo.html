@@ -1,0 +1,64 @@
+<div class="rpo_dialog">
+	<form id="J_rpoWrap">
+		<div class="content">
+
+			<div class="td1">
+				<span class="asterisk"></span>&nbsp;选择服务：
+			</div>
+			<div class="td2">
+				<div class="select_input job J_hoverinput J_dropdown J_listitme_parent">
+					<span class="J_listitme_text">选择服务岗位类型</span>
+					<div class="dropdowbox4 J_dropdown_menu">
+			            <div class="dropdow_inner4 w150">
+			                <ul class="nav_box">
+								<volist name="cateJobList" id="vo">
+			                		<li><a class="J_listitme" href="javascript:;" data-code="{$vo.cid}">{$vo.title}</a></li>
+								</volist>
+			                </ul>
+			            </div>
+			        </div>
+					<input class="J_listitme_code" name="job" type="hidden" value=""/>
+				</div>
+				<div class="select_input stage J_hoverinput J_dropdown J_listitme_parent">
+					<span class="J_listitme_text">选择服务阶段</span>
+					<div class="dropdowbox4 J_dropdown_menu">
+			            <div class="dropdow_inner4 w150">
+			                <ul class="nav_box">
+								<volist name="cateStageList" id="vo">
+			                		<li><a class="J_listitme" href="javascript:;" data-code="{$vo.cid}">{$vo.title}</a></li>
+			                	</volist>
+							</ul>
+			            </div>
+			        </div>
+					<input class="J_listitme_code" name="stage" type="hidden" value=""/>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="clear"></div>
+			<div class="td1">
+				<span class="asterisk"></span>&nbsp;联系人：
+			</div>
+			<div class="td2">
+				<input type="text" value="{$contact.contact}" class="input_300_34" name="contact">
+			</div>
+			<div class="clear"></div>
+			<div class="td1">
+				<span class="asterisk"></span>&nbsp;联系电话：
+			</div>
+			<div class="td2">
+				<input type="text" value="{$contact.phone}" class="input_300_34" name="phone">
+			</div>
+			<div class="clear"></div>
+			<div class="td1">
+				&nbsp;备注：
+			</div>
+			<div class="td2">
+				<textarea class="textarea" name="notes" placeholder="请输入您需要招聘的岗位要求等信息"></textarea>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+
+</script>

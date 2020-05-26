@@ -1,0 +1,490 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_jobs.css?v={:strtotime('today')}" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+        <link href="../public/css/jobmoney.css?v={:strtotime('today')}" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+		<qscms:load type="category"/>
+	</head>
+	<body>
+    <include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_jobs" />
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">管理职位</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tab mt15">
+					<a href="{:U('company/jobs_list',array('type'=>1))}" class="tabli <if condition="$Think.get.type eq 1">select</if>">发布中的职位</a>
+					<a href="{:U('company/jobs_list',array('type'=>2))}" class="tabli <if condition="$Think.get.type eq 2">select</if>">未显示的职位</a>
+					<a href="{:U('company/jobs_list')}" class="tabli <if condition="$Think.get.type eq ''">select</if>">全部职位</a>
+					<div class="clear"></div>
+					<if condition="$upper_limit eq 1">
+					<div class="btnbox"><div class="btn_yellow J_hoverbut btn_add J_addJobsDig" href="javascript:;">发布职位</div></div>
+					<else />
+					<div class="btnbox"><div class="btn_yellow J_hoverbut btn_add" onclick="window.location='{:U('jobs_add')}'">发布职位</div></div>
+					</if>
+				</div>
+				<div class="user_tip w880">
+					<div class="tiptit">小提示</div>
+					<div class="tiptxt link_blue">
+						亲爱的HR，您的帐号可同时发布 {$setmeal.jobs_meanwhile} 个职位，现已发布 {$total} 个职位。
+						<notempty name="apply['Rpo']">
+							<br>招聘外包服务（RPO），为您提供从职位发布、筛选简历、组织面试直至入职的一站式服务。<div class="btn_blue J_hoverbut btn_inline" onclick="window.location='{:U('Home/CompanyService/rpo')}'">申请招聘外包</div>
+						</notempty>
+					</div>
+				</div>
+				<notempty name="jobs_list['list']">
+				<form id="form1" action="{:U('jobs_perform')}" class="J_allListBox" method="post">
+					<div class="jobsWrap">
+						<volist name="jobs_list['list']" id="jobs">
+							<div class="jobsList">
+								<!-- 微海报入口 -->
+								<if condition="$allow_look eq 1">
+								<div class="whb_entrance" onclick="window.location.href='{:U('microposte_list',array('y_id'=>$jobs['id']))}'">
+									<div class="whb_entrance_img"></div>
+									<div class="whb_entrance_text">微海报</div>
+								</div>
+								</if>
+								<!-- 微海报入口结束 -->
+								<!-- 分享红包入口 -->
+								<if condition="C('qscms_share_allowance_open')">
+									<div class="J_setShareJob share_entrance" data-id="{$jobs['id']}">
+										<div class="share_entrance_img <eq name="jobs['share_allowance']" value="0">gray</eq>"></div>
+										<div class="share_entrance_text">分享红包</div>
+									</div>
+								</if>
+								<!-- 分享红包结束 -->
+                                <eq name="jobs['allowance_open']" value="1">
+                                    <div jobsid="{$jobs['id']}" class="job-money-cell <if condition="C('qscms_share_allowance_open')">share</if> <gt name="jobs['allowance_id']" value="0">has</gt>">
+                                        <div class="m-c-icon"></div>
+                                        <div class="m-c-txt"><gt name="jobs['allowance_id']" value="0">{$jobs['allowance']['type_cn']}<else />开启打赏</gt></div>
+                                    </div>
+                                </eq>
+								<div class="selWrap">
+									<input name="y_id[]" class="selStatus J_allList" type="checkbox" value="{$jobs['id']}">
+								</div>
+								<div class="jobs fl">
+									<div class="title">
+										<a target="_blank" href="{$jobs.jobs_url}" class="">{$jobs.jobs_name}</a>
+										&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{$jobs.district_cn}
+									</div>
+									<div class="update">
+										待处理简历：
+										<a href="{:U('company/jobs_apply',array('jobs_id'=>$jobs['id']))}" class="">{$jobs.applys}</a>
+										&nbsp;&nbsp; | &nbsp;&nbsp;更新时间：{:date('Y-m-d H:i',$jobs['refreshtime'])}
+										<a href="javascript:;" class="jobs_refresh" data-type="0" url="{:U('CompanyService/jobs_refresh',array('yid'=>$jobs['id']))}">[刷新]</a>
+									</div>
+									<div class="J_operation btns">
+										<a href="{:U('jobs_edit',array('id'=>$jobs['id']))}">修改</a>
+										<a href="{:url_rewrite('QS_resumelist',array('jobcategory'=>$jobs['jobcategory']))}"  target="_blank">匹配</a>
+										<if condition="$jobs['auto_refresh'] eq 1">
+										<a href="javascript:;" class="for_hover">
+											<font style="color:#999">智能刷新</font>
+											<div class="des_box">
+												<div class="desarrow"></div>
+												<div class="des_txt">
+													<!-- -->
+													<strong>已购买【智能刷新】服务</strong><br />
+													有效时间：{$jobs['auto_refresh_starttime']} 至 {$jobs['auto_refresh_endtime']}
+												</div>
+											</div>
+										</a>
+										<else />
+										<a href="javascript:;" class="jobs_refresh" data-type="1" url="{:U('CompanyService/jobs_refresh',array('yid'=>$jobs['id'],'increment'=>1))}">智能刷新</a>
+										</if>
+										<a href="javascript:;" url="{:U('jobs_close',array('y_id'=>$jobs['id'],'list_type'=>$_GET['type']))}" class="close">关闭</a>
+										<a href="javascript:;" url="{:U('jobs_delete',array('y_id'=>$jobs['id'],'list_type'=>$_GET['type']))}" class="delete">删除</a>
+										<a href="javascript:;" class="friend" url="{:urlencode(build_mobile_url(array('c'=>'Wzp','a'=>'com','params'=>'id='.$jobs["company_id"])))}">分享到朋友圈</a>
+									</div>
+								</div>
+								<div class="aloneOperation <if condition="C('qscms_share_allowance_open')">share</if> fl">
+									<div class="box">
+										<if condition="$jobs['stick']">
+											<div class="for_hover">
+												<div class="btn_lightgray J_hoverbut btn_inline_small btn_border mr10">职位置顶</div>
+												<div class="des_box">
+													<div class="desarrow"></div>
+													<div class="des_txt">
+														<!-- -->
+														<strong>已购买【职位置顶】服务</strong><br />
+														有效时间：{:date('Y-m-d',$jobs['promotion']['stick']['starttime'])} 至 {:date('Y-m-d',$jobs['promotion']['stick']['endtime'])}
+													</div>
+												</div>
+											</div>
+											购买置顶推广<i>{$jobs.promotion.stick.total_days}</i>天，剩余<i>{$jobs.promotion.stick.surplus}</i>天
+											<div class="clear"></div>
+										<else/>
+											<div class="btn_green J_hoverbut btn_inline_small mr10 stick_btn" data="{$jobs['id']}">职位置顶</div>
+											职位排名始终靠前，<i>{$promotion[0]['price']}</i>元/{$promotion[0]['value']}天
+										</if>
+									</div>
+									<div class="box borderTop">
+										<if condition="$jobs['emergency']">
+											<div class="for_hover">
+												<div class="btn_lightgray J_hoverbut btn_inline_small btn_border mr10">紧急招聘</div>
+												<div class="des_box">
+													<div class="desarrow"></div>
+													<div class="des_txt">
+														<!-- -->
+														<strong>已购买【紧急招聘】服务</strong><br />
+														有效时间：{:date('Y-m-d',$jobs['promotion']['emergency']['starttime'])} 至 {:date('Y-m-d',$jobs['promotion']['emergency']['endtime'])}
+													</div>
+												</div>
+											</div>
+											购买紧急招聘<i>{$jobs.promotion.emergency.total_days}</i>天，剩余<i>{$jobs.promotion.emergency.surplus}</i>天
+										<else/>
+											<div class="btn_yellow J_hoverbut btn_inline_small mr10 emergency_btn" data="{$jobs['id']}">紧急招聘</div>
+											紧急标识更加醒目，<i>{$promotion[1]['price']}</i>元/{$promotion[1]['value']}天
+										</if>
+									</div>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</volist>
+					</div>
+					<div class="jobsWrap">
+						<div class="allSelWrap">
+							<input name="" class="allSel J_allSelected" type="checkbox">
+						</div>
+						<div class="btn_blue J_hoverbut btn_inline" id="refresh_all" >刷新职位</div>
+						<!-- 微海报按钮 -->
+						<if condition="$allow_look eq 1">
+						<button class="btn_blue J_hoverbut btn_inline" style="padding:0;height:28px;line-height:28px;width:84px" id="choose_jobs">生成海报</button>
+						</if>
+						<!-- 微海报按钮结束 -->
+						<div class="btn_blue J_hoverbut btn_inline" id="close_all">关闭职位</div>
+						<div class="btn_lightgray J_hoverbut btn_inline btn_border" id="delete_all">删除职位</div>
+						<div class="qspage">{$jobs_list.page}</div>
+						<div class="clear"></div>
+					</div>
+				</form>
+				<else/>
+					<div class="jobsWrap">
+						<div class="res_empty">
+							亲爱的HR，您还没有显示中的职位，若已发布，请您查看审核中的职位<br>
+							想要快速找到合适的人才，就赶紧发布职位招揽人才吧~
+						</div>
+						<div class="res_empty_addbox">
+							<div class="btn_blue J_hoverbut btn_115_38" onclick="window.location='{:U('jobs_add')}'">发布职位>></div>
+						</div>
+					</div>
+				</notempty>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+		<script type="text/javascript" src="../public/js/jquery.modal.jobmoney.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#delete_all").click(function(){
+					var listCheckedArray = $('.J_allListBox .J_allList:checked');
+					if (!listCheckedArray.length) {
+						disapperTooltip("remind",'请选择职位');
+						return false;
+					}
+					var url = "{:U('jobs_delete')}";
+		            var qsDialog = $(this).dialog({
+		                title: '删除职位',
+		                loading: true,
+		                border: false,
+		                yes: function () {
+		                    $("#form1").attr('action',"{:U('jobs_delete')}");
+							$("#form1").submit();
+		                }
+		            });
+		            $.getJSON(url, $("#form1").serialize(),function (result) {
+		                if (result.status == 1) {
+		                    qsDialog.setContent(result.data.html);
+		                } else {
+		                    disapperTooltip('remind', result.msg);
+		                }
+		            });
+				});
+				$("#refresh_all").click(function(){
+					var listCheckedArray = $('.J_allListBox .J_allList:checked');
+					if (!listCheckedArray.length) {
+						disapperTooltip("remind",'请选择职位');
+						return false;
+					}
+					var checkedValArr = [];
+					$.each(listCheckedArray, function(index, val) {
+						checkedValArr[index] = $(this).val();
+					});
+					var url = "{:U('CompanyService/jobs_refresh')}";
+					var yid = checkedValArr.join(',');
+					var qsDialog = $(this).dialog({
+		        		title: '职位刷新',
+		        		loading:true,
+						showFooter: false,
+						yes:function(){
+							$.post(url,{yid:yid},function(result){
+								if(result.status){
+									disapperTooltip("success",result.msg);
+                					setTimeout(function () {
+				                        window.location.reload();
+				                    }, 2000);
+								}else{
+					                disapperTooltip("remind",result.msg);
+					                return false;
+					            }
+							},'json');
+						}
+					});
+					$.getJSON(url,{yid:yid},function(result){
+						if(result.status==2){
+							qsDialog.hide();
+		        			var son_qsDialog = $(this).dialog({
+				                title: '批量刷新职位',
+				                loading: true,
+				                border: false
+				            });
+				            son_qsDialog.setBtns(['单条刷新', '取消']);
+				            son_qsDialog.setContent('<div class="refresh_jobs_all_confirm">' + result.msg + '</div>');
+						}else{
+							if(result.data.show_footer==0){
+								qsDialog.showFooter(false);
+							}else{
+								qsDialog.showFooter(true);
+							}
+							if(result.status==0){
+								qsDialog.showFooter(false);
+							}
+							qsDialog.setContent(result.msg);
+						}
+					});
+				});
+				$("#close_all").click(function(){
+					var listCheckedArray = $('.J_allListBox .J_allList:checked');
+					if (!listCheckedArray.length) {
+						disapperTooltip("remind",'请选择职位');
+						return false;
+					}
+					var url = "{:U('jobs_close')}";
+		            var qsDialog = $(this).dialog({
+		                title: '关闭职位',
+		                loading: true,
+		                border: false,
+		                yes: function () {
+		                    $("#form1").attr('action',"{:U('jobs_close')}");
+							$("#form1").submit();
+		                }
+		            });
+		            $.getJSON(url, function (result) {
+		                if (result.status == 1) {
+		                    qsDialog.setContent(result.data.html);
+		                } else {
+		                    disapperTooltip('remind', result.msg);
+		                }
+		            });
+				});
+				$(".close").click(function(){
+					var url = $(this).attr('url');
+		            var qsDialog = $(this).dialog({
+		                title: '关闭职位',
+		                loading: true,
+		                border: false,
+		                yes: function () {
+		                    $.post(url, function (result) {
+				                if (result.status == 1) {
+				                	disapperTooltip("success",result.msg);
+				                	setTimeout(function () {
+				                        location.href=result.data;
+				                    }, 2000);
+				                } else {
+				                    disapperTooltip('remind', result.msg);
+				                }
+				            },'json');
+		                }
+		            });
+		            $.getJSON(url, function (result) {
+		                if (result.status == 1) {
+		                    qsDialog.setContent(result.data.html);
+		                } else {
+		                    disapperTooltip('remind', result.msg);
+		                }
+		            });
+				});
+				$(".delete").click(function(){
+					var url = $(this).attr('url');
+		            var qsDialog = $(this).dialog({
+		                title: '删除职位',
+		                loading: true,
+		                border: false,
+		                yes: function () {
+		                    $.post(url, function (result) {
+				                if (result.status == 1) {
+				                	disapperTooltip("success",result.msg);
+				                    setTimeout(function () {
+				                        location.href=result.data;
+				                    }, 2000);
+				                } else {
+				                    disapperTooltip('remind', result.msg);
+				                }
+				            },'json');
+		                }
+		            });
+		            $.getJSON(url, function (result) {
+		                if (result.status == 1) {
+		                    qsDialog.setContent(result.data.html);
+		                } else {
+		                    disapperTooltip('remind', result.msg);
+		                }
+		            });
+				});
+				// 分享到朋友圈
+				$(".friend").click(function(){
+					var qsDialog = $(this).dialog({
+		        		loading: true,
+						footer: false,
+						header: false,
+						border: false,
+						backdrop: false
+					});
+					var url = $(this).attr('url');
+					qsDialog.hide();
+					var qsDialogSon = $(this).dialog({
+		        		title: '分享到朋友圈',
+		        		content: '<img width="200" height="200" src="{:C("qscms_site_dir")}index.php?m=Home&c=Qrcode&a=index&url='+url+'" />',
+						footer: false
+					});
+				});
+				$(".jobs_refresh").click(function(){
+					var url = $(this).attr('url');
+					var footerShow = eval($(this).data('type'));
+					var qsDialog = $(this).dialog({
+		        		title: '职位刷新',
+		        		loading:true,
+						showFooter: false,
+						yes:function(){
+							$.post(url,function(result){
+								if(result.status){
+									disapperTooltip("success",result.msg);
+                					setTimeout(function () {
+				                        window.location.reload();
+				                    }, 2000);
+								}else{
+					                disapperTooltip("remind",result.msg);
+					                return false;
+					            }
+							},'json');
+						}
+					});
+					$.getJSON(url,function(result){
+						if(result.data.show_footer==0){
+							qsDialog.showFooter(false);
+						}else{
+							if (!footerShow) {
+								qsDialog.showFooter(true);
+							}
+						}
+						qsDialog.setContent(result.msg);
+					});
+				});
+				$(".stick_btn").click(function(){
+					var qsDialog = $(this).dialog({
+		        		title: '职位置顶',
+		        		loading:true,
+						showFooter: false
+					});
+					var url = "{:U('CompanyService/jobs_stick')}";
+					var jobs_id = $(this).attr('data');
+					$.getJSON(url,{jobs_id:jobs_id},function(result){
+						qsDialog.setContent(result.msg);
+					});
+				});
+				$(".emergency_btn").click(function(){
+					var qsDialog = $(this).dialog({
+		        		title: '职位紧急',
+		        		loading:true,
+						showFooter: false
+					});
+					var url = "{:U('CompanyService/jobs_emergency')}";
+					var jobs_id = $(this).attr('data');
+					$.getJSON(url,{jobs_id:jobs_id},function(result){
+						qsDialog.setContent(result.msg);
+					});
+				});
+				$('.job-money-cell').click(function(){
+					if($(this).hasClass('has')){
+						location.href="{:U('allowance')}";
+					}else{
+						var jobsid = $(this).attr('jobsid');
+						var qsDialog = $(this).dialog({
+	                        loading: true,
+	                        footer: false,
+	                        header: false,
+	                        border: false,
+	                        backdrop: false
+	                    });
+	                    var getUrl = qscms.root+"?m=Allowance&c=Ajax&a=set_allowance_job";
+	                    $.getJSON(getUrl,{jobsid:jobsid}, function(result){
+	                        if(result.status==1){
+	                            qsDialog.hide();
+	                            var jobDialog = $(this).dialog({
+	                                title: "开启职位打赏",
+	                                content: result.data,
+	                                footer: false,
+	                                innerPadding: false
+	                            });
+	                        } else {
+	                            qsDialog.hide();
+	                            disapperTooltip('remind',result.msg);
+	                        }
+	                    });
+					}
+				});
+				
+				$("#choose_jobs").click(function(){
+					var listCheckedArray = $('.J_allListBox .J_allList:checked');
+					if (listCheckedArray.length>=9) {
+							disapperTooltip("remind",'最多能选择8个职位');
+							return false;
+						}
+					if(listCheckedArray.length){
+					
+						$("#form1").attr("action","{:U('microposte_list')}");
+						$("#form1").submit();	
+					}else{
+						$("#form1").attr("action","{:U('microposte_jobs')}");
+						
+						$("#form1").submit();	
+					}						
+				});
+				// 开启分享红包
+				$('.J_setShareJob').click(function(){
+					var qsDialog = $(this).dialog({
+						loading: true,
+						footer: false,
+						header: false,
+						border: false,
+						backdrop: false
+					});
+					var getUrl = qscms.root+"?m=Home&c=CompanyService&a=share_allowance";
+					var id = $(this).data('id');
+					$.getJSON(getUrl, {id:id}, function(result){
+						if(result.status==1){
+							qsDialog.hide();
+							var jobDialog = $(this).dialog({
+								title: "开启分享红包",
+								content: result.data.html,
+								footer: false,
+								innerPadding: false
+							});
+						} else {
+							qsDialog.hide();
+							disapperTooltip('remind',result.msg);
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

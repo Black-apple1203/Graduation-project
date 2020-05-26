@@ -1,0 +1,85 @@
+<include file="public:header"/>
+
+<div class="toptit">
+    会员{:C('qscms_points_byname')}设置 (用户名：<span style="color:#0066CC">{$company_user.username}</span>)
+</div>
+<div class="form_main width120">
+    <form action="{:U('user_points_edit')}" method="post" name="FormData" id="FormData" >
+        <div class="fl">会员{:C('qscms_points_byname')}:</div>
+        <div class="fr txt"><span style="color: #FF6600; font-size:16px;">{$userpoints}</span> {:C('qscms_points_quantifier')}</div>
+        <div class="fl">操作{:C('qscms_points_byname')}:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="points_type" type="hidden" value="1">
+                <div class="radio select" data="1" title="增加">增加</div>
+                <div class="radio" data="2" title="减少">减少</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">增减{:C('qscms_points_byname')}:</div>
+        <div class="fr">
+            <input name="points" type="text" class="input_text_default small" maxlength="5" value=""/> {:C('qscms_points_quantifier')}
+        </div>
+        <div class="fl">操作说明:</div>
+        <div class="fr">
+            <input name="points_notes" type="text" class="input_text_default" maxlength="60" value=""/>
+        </div>
+        <div class="fl"><span style="color:#FF0000">是否已收费:</span></div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small select"><input name="is_money" type="hidden" value="1" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"><span style="color:#FF0000">收费金额:</span></div>
+        <div class="fr">
+            <input name="log_amount" type="text" class="input_text_default small" maxlength="5" value=""/> 元
+            <span style="color: #999999;">(请填写收费金额)</span>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="_k_v" value="{$Think.get._k_v}">
+            <input type="hidden" name="uid"  value="{$company_user.uid}" />
+            <input type="submit" class="admin_submit" value="确定"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </form>
+</div>
+
+<div class="toptit link_blue">{:C('qscms_points_byname')}收支明细</div>
+<div class="form_main">
+    <div class="detail_wrap">
+        <div class="list-th">
+            <div class="th1">操作时间</div>
+            <div class="th2 center">操作{:C('qscms_points_byname')}</div>
+            <div class="th3 center" style="width: 380px;">操作说明</div>
+            <div class="clear"></div>
+        </div>
+        <div class="list-data">
+            <notempty name="list['list']">
+                <volist name="list['list']" id="vo">
+                    <div class="list-td">
+                        <div class="td1">{:admin_date($vo['addtime'])}</div>
+                        <div class="td2 center">
+                            <if condition="$vo['operate'] eq 1">+ {$vo['points']}<else />- {$vo['points']}</if>
+                        </div>
+                        <div class="td3 center" style="width: 380px;">{$vo['htype_cn']}</div>
+                        <div class="clear"></div>
+                    </div>
+                </volist>
+                <div class="pages">{$list['page']}</div>
+            <else/>
+                <div class="list_empty" style="margin:0">没有任何信息！</div>
+            </notempty>
+
+        </div>
+    </div>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+</script>
+</html>

@@ -1,0 +1,53 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p class="link_blue">系统内置官方短信，可通过配置信息，获取官方本自然月短信数据统计。没有账号？<a href="http://www.74cms.com/sms.php" target="_blank">立即注册</a></p>
+</div>
+    <div class="toptit">数据统计</div>
+<if condition="$error_msg">
+<div class="list_empty">{$error_msg}</div>
+<else />
+<table class="info-table">
+    <tr>
+        <td class="center alt" width="100">短信剩余条数</td>
+        <td class="font_red" width="300">{$sms_count}</td>
+    </tr>
+</table>
+<div class="list_th">
+    <div class="td" style=" width:20%;">
+        <label id="chkAll" class="left_padding">
+            发送时间
+        </label>
+    </div>
+    <div class="td" style=" width:20%;">接收手机</div>
+    <div class="td" style=" width:60%;">发送内容</div>
+    <div class="clear"></div>
+</div>
+<volist name="list" id="vo">
+    <div class="list_tr link_black">
+        <div class="td" style=" width:20%;">
+            <div class="left_padding striking">
+                {:date('Y-m-d H:i',$vo['addtime'])}
+            </div>
+        </div>
+        <div class="td" style=" width:20%;">
+            {$vo['mobile']}
+        </div>
+        <div class="td" style=" width:60%;">
+            {$vo['txt']}
+        </div>
+        <div class="clear"></div>
+    </div>
+</volist>
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="pages">{$page_html}</div>
+</if>
+
+</div>
+<include file="public:footer"/>
+<script>
+</script>
+</body>
+</html>

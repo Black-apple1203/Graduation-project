@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/members/common.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/members/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+	<include file="header" />
+	<div class="find_pwd">
+		<div class="step s1"></div>
+		<div class="steptxt">
+			<div class="tli font_blue">1.验证账号信息</div>
+			<div class="tli">2.设置新密码</div>
+			<div class="tli">3.找回成功</div>
+			<div class="clear"></div>
+		</div>
+		<div class="rl J_focus">
+			<div class="td1">
+				<div class="input_295_34 select_input J_dropdown J_listitme_parent">
+					<span class="J_listitme_text">通过绑定的手机找回密码</span>
+					<div class="dropdowbox1 J_dropdown_menu">
+						<div class="dropdow_inner1">
+							<ul class="nav_box">
+								<li><a class="J_listitme" href="javascript:;" data-code="">通过手机找回密码</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+			<div class="mobileshow J_listitme_group">
+				<form id="getPassByMobileForm" action="{:U('members/user_getpass')}" method="post" onkeydown="if(event.keyCode==13){return false;}">
+					<div class="selecttip">系统将发送验证码短信到您的手机上，请注意查收</div>
+					<div class="J_validate_group">
+						<div class="td1">
+							<input class="input_295_34" name="mobile" id="mobile" type="text" placeholder="请输入手机号"/>
+						</div>
+						<div class="td2 J_showtip_box"></div>
+						<div class="clear"></div>
+					</div>
+					<div class="J_validate_group">
+						<div class="td1">
+							<div class="code">
+								<input name="mobile_vcode" id="mobile_vcode" type="text"  class="input_295_34" placeholder="请输入短信验证码"/>
+							</div>
+							<div class="codebtn">
+								<input type="button" class="btn_yellow J_hoverbut" id="J_getverificode" value="获取验证码" />
+								<input type="hidden" id="btnCheck" />
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="td2 J_showtip_box"></div>
+						<div class="clear"></div>
+					</div>
+					<div class="btnbox">
+						<input type="hidden" name="token" value="{$token}" />
+						<input type="hidden" name="type" value="1" />
+						<input type="submit" value="下一步" class="btn_reg J_hoverbut" />
+					</div>
+				</form>
+			</div>
+			
+			<div class="bottom_appeal_tip link_blue"><strong>上面的方式都不可用？</strong><br />
+				你还可以进行 <a href="{:U('Home/Members/appeal_user')}">账号申诉</a> 或 电话联系我们 <span class="font_blue">({:C('qscms_bootom_tel')})</span></div>
+			</div>
+		</div>
+		<div id="popup-captcha"></div>
+		<input type="hidden" id="J_sms_open" value="1">
+        <input type="hidden" id="J_captcha_open" value="<if condition="C('qscms_captcha_open') eq 1 && C('qscms_captcha_config.varify_mobile') eq 1">1<else/>0</if>" />
+		<!--下方阴影 -->
+		<div class="find_pwd_bg">
+			<div class="bl"></div>
+			<div class="br"></div>
+			<div class="clear"></div>
+		</div>
+		<include file="public:footer_min" />
+		<script type="text/javascript" src="../public/js/jquery.validate.js"></script>
+		<script type="text/javascript" src="../public/js/jquery.listitem.js"></script>
+		<script type="text/javascript" src="../public/js/jquery.dropdown.js"></script>
+		<script type="text/javascript" src="../public/js/members/jquery.validate.getpass.js"></script>
+		<script type="text/javascript">
+			// 找回方式切换
+			$('.J_listitme').click(function(event) {
+				var indexValue = $('.J_listitme').index(this);
+				$('.J_listitme_group').eq(indexValue).show().siblings('.J_listitme_group').hide();
+			});
+			// 验证是否开启
+            var captcha_open = eval($('#J_captcha_open').val());
+			// 点击获取验证码先判断是否输入了手机号
+			var regularMobile = qscms.regularMobile;
+			$('#J_getverificode').click(function() {
+				var mobileValue = $.trim($('#mobile').val());
+				if (mobileValue == '') {
+					disapperTooltip("remind", "请输入手机号码");
+					$('#mobile').focus();
+					return false;
+				};
+				if (mobileValue != "" && !regularMobile.test(mobileValue)) {
+					disapperTooltip("remind", "请输入正确的手机号码");
+					$('#mobile').focus();
+					return false;
+				}
+				$.ajax({
+		            url: "{:U('Members/ajax_check')}",
+		            cache: false,
+		            async: false,
+		            type: 'post',
+		            dataType: 'json',
+		            data: { type: 'mobile', param: mobileValue },
+		            success: function(json) {
+		                if (json && json.status) {
+		                    disapperTooltip("remind", "该手机号没有注册账号");
+							$('#mobile').focus();
+							return false;
+		                } else {
+                            if (captcha_open) {
+                                qsCaptchaHandler(function(callBackArr) {
+                                    var dataArr = {mobile: $.trim($('#mobile').val()), sms_type: 'getpass',};
+                                    $.extend(dataArr, callBackArr);
+                                    $('#J_getverificode').prop("disabled", !0);
+                                    $('#J_getverificode').addClass('btn_disabled');
+                                    $('#J_getverificode').val('发送中...');
+                                    $.ajax({
+                                        url: "{:U('Members/reg_send_sms')}",
+                                        type: 'POST',
+                                        dataType: 'json',
+                                        data: dataArr,
+                                        success: function(result) {
+                                            if (parseInt(result.status)) {
+                                                disapperTooltip("success", "验证码已发送，请注意查收");
+                                                // 开始倒计时
+                                                var countdown = 60;
+                                                function settime() {
+                                                    if (countdown == 0) {
+                                                        $('#J_getverificode').prop("disabled", 0);
+                                                        $('#J_getverificode').removeClass('btn_disabled');
+                                                        $('#J_getverificode').val('获取验证码');
+                                                        countdown = 60;
+                                                        return;
+                                                    } else {
+                                                        $('#J_getverificode').prop("disabled", !0);
+                                                        $('#J_getverificode').addClass('btn_disabled');
+                                                        $('#J_getverificode').val('重发' + countdown + '秒');
+                                                        countdown--;
+                                                    }
+                                                    setTimeout(function() {
+                                                        settime()
+                                                    },1000)
+                                                }
+                                                settime();
+                                            } else {
+                                                $('#J_getverificode').prop("disabled", 0);
+                                                $('#J_getverificode').removeClass('btn_disabled');
+                                                $('#J_getverificode').val('获取验证码');
+                                                disapperTooltip("remind", data.msg);
+                                            }
+                                        }
+                                    });
+                                });
+                            } else {
+                                // 未开启验证
+                                sendSms();
+                            }
+		                }
+		            }
+		        });
+			});
+			// 发送验证码
+            function sendSms() {
+                $('#J_getverificode').prop("disabled", !0);
+                $('#J_getverificode').addClass('btn_disabled');
+                $('#J_getverificode').val('发送中...');
+                $.ajax({
+                    url: "{:U('Members/reg_send_sms')}",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: {mobile: $.trim($('#mobile').val()), sms_type: 'getpass'}
+                })
+                .done(function(data) {
+                    if (parseInt(data.status)) {
+                        disapperTooltip("success", "验证码已发送，请注意查收");
+                        // 开始倒计时
+                        var countdown = 60;
+                        function settime() {
+                            if (countdown == 0) {
+                                $('#J_getverificode').prop("disabled", 0);
+                                $('#J_getverificode').removeClass('btn_disabled');
+                                $('#J_getverificode').val('获取验证码');
+                                countdown = 60;
+                                return;
+                            } else {
+                                $('#J_getverificode').prop("disabled", !0);
+                                $('#J_getverificode').addClass('btn_disabled');
+                                $('#J_getverificode').val('重发' + countdown + '秒');
+                                countdown--;
+                            }
+                            setTimeout(function() {
+                                settime()
+                            },1000)
+                        }
+                        settime();
+                    } else {
+                        $('#J_getverificode').prop("disabled", 0);
+                        $('#J_getverificode').removeClass('btn_disabled');
+                        $('#J_getverificode').val('获取验证码');
+                        disapperTooltip("remind", data.msg);
+                    }
+                });
+            }
+		</script>
+	</body>
+</html>

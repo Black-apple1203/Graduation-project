@@ -1,0 +1,6 @@
+[ 2020-04-24T15:29:06+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=index&a=login','127.0.0.1:30101','本机地址','1587713346','0','','0') [RunTime:0.272s] [IP:127.0.0.1:30101] [AddTime:1587713346] [qscms]
+[ 2020-04-24T15:30:20+08:00 ] 127.0.0.1 /index.php
+SQL: SELECT `id` FROM qs_jobs_search j WHERE MATCH (`key`) AGAINST ("+eme1" IN BOOLEAN MODE)   ORDER BY stime desc  LIMIT 0,15  [RunTime:0.2849s] [IP:127.0.0.1:30271] [AddTime:1587713420] [qscms]
+[ 2020-04-24T15:30:21+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=ajax_scroll
+SQL: SELECT `id`,`fullname`,`sex`,addtime as time,'add' as type FROM `qs_resume` WHERE `display` = 1 AND `audit` = 1   ORDER BY addtime DESC  LIMIT 5  [RunTime:0.2362s] [IP:127.0.0.1:30288] [AddTime:1587713421] [qscms]

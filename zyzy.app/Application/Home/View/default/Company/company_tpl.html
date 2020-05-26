@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_service" />
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">企业模版</div>
+					<div class="clear"></div>
+				</div>
+				<div class="point_title_group">
+					<div class="title_left">已购买模版</div>
+					<div class="title_right">快速提升企业价值，增强留给求职者的第一印象！</div>
+					<div class="clear"></div>
+				</div>
+				<div class="service_pack_group">
+					<volist name="tpl_list" id="vo">
+					<div class="service_pack_list">
+						<div class="list_box pd_small J_hoverbut">
+							<div class="list_box_img"><img src="{$vo.thumb_dir}/thumbnail.jpg" alt="{$vo['tpl_name']}" /></div>
+							<div class="list_box_tplname link_blue">{$vo['tpl_name']}<a class="view" target="_blank" href="{:url_rewrite('QS_companyshow',array('id'=>$companyinfo['id'],'style'=>$vo['tpl_dir']))}">[预览]</a></div>
+							<if condition="$current_tpl eq $vo['tpl_dir']">
+							<div class="btn_yellow btn_disabled J_hoverbut btn_100_32">使用中...</div>
+							<else />
+							<div class="btn_yellow J_hoverbut btn_100_32 change_tpl" data="{$vo['tpl_dir']}">立即使用</div>
+							</if>
+						</div>
+					</div>
+					</volist>
+					<div class="clear"></div>
+				</div>
+				<div class="point_title_group">
+					<div class="title_left">未购买模版</div>
+					<div class="title_right">一次购买，终生使用</div>
+					<div class="clear"></div>
+				</div>
+				<div class="service_pack_group">
+					<volist name="def_tplid_list" id="vo">
+					<div class="service_pack_list">
+						<div class="list_box pd_small J_hoverbut">
+							<div class="list_box_img"><img src="{$vo.thumb_dir}/thumbnail.jpg" alt="{$vo['tpl_name']}" /></div>
+							<div class="list_box_tplname link_blue">{$vo['tpl_name']}<span class="ft_12">（<span class="yellow_light">{$vo['tpl_val']} </span>{:C('qscms_points_byname')}）</span><a target="_blank" href="{:url_rewrite('QS_companyshow',array('id'=>$companyinfo['id'],'style'=>$vo['tpl_dir']))}" class="view">[预览]</a></div>
+							<div class="btn_yellow J_hoverbut btn_100_32" onclick="javascript:window.open('{:U('CompanyService/increment_add',array('cat'=>'tpl','request_tpl'=>$vo['tpl_id']))}')">立即购买</div>
+						</div>
+					</div>
+					</volist>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$(".change_tpl").click(function(){
+					var url = "{:U('company/company_tpl')}";
+					var tpl = $(this).attr('data');
+					$.getJSON(url,{tpl:tpl},function(result){
+						if(result.status==1){
+							disapperTooltip("success", result.msg);
+                			setTimeout(function () {
+		                        window.location.reload();
+		                    }, 2000);
+						}else{
+							disapperTooltip("remind", result.msg);
+                			return false;
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

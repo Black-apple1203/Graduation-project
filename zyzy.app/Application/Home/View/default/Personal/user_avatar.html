@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/personal/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_user.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="us-top">
+    <div class="us-main">
+        <div class="us-top-box">
+            <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                <div class="se-btn"><input type="submit" value="搜 索"></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+	<div class="user_main">
+		<include file="index_left_nav" />
+	  	<div class="mainbox">
+			<!--职位切换卡 -->
+			<div class="tab">
+				<a class="li J_hoverbut" href="{:U('personal/user_safety')}">账号安全</a>
+				<a class="li select">我的头像</a>
+				<a class="li J_hoverbut" href="{:U('personal/resume_privacy')}">屏蔽企业</a>
+				<a class="li J_hoverbut" href="{:U('personal/user_loginlog')}">登录日志</a>
+			  	<div class="clear"></div>
+			</div>
+			<!--切换卡结束 -->
+			<div class="main">
+		  		<div id="altContent" class="user_avatar">
+					<OBJECT classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" codebase="http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=6,0,40,0" WIDTH="650" HEIGHT="450" id="myMovieName">
+						<PARAM NAME=movie VALUE="../public/flash/resumelogo.swf">
+						<PARAM NAME=quality VALUE=high>
+						<PARAM NAME=bgcolor VALUE=#FFFFFF>
+						<param name="flashvars" value="imgUrl=../public/flash/photodefault.jpg&uploadUrl={:urlencode(U('home/upload/avatar'))}&uploadSrc=false" />
+						<EMBED src="../public/flash/resumelogo.swf" quality=high bgcolor=#FFFFFF WIDTH="650" HEIGHT="450" wmode="transparent" flashVars="imgUrl={$visitor['avatars']}&uploadUrl={:urlencode(U('home/upload/avatar'))}&uploadSrc=false" NAME="myMovieName" ALIGN="" TYPE="application/x-shockwave-flash" allowScriptAccess="always" PLUGINSPAGE="http://www.macromedia.com/go/getflashplayer"></EMBED>
+					</OBJECT>
+				</div>
+				<div id="avatar_priview"></div>
+		  	</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<include file="index_footer" />
+</body>
+</html>

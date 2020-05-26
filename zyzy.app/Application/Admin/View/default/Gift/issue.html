@@ -1,0 +1,249 @@
+<include file="public:header"/>
+<link href="../public/css/admin_employer.css" rel="stylesheet" type="text/css" />
+
+<style>
+	.mask{
+		width:100%;
+		height:100vh;
+		position:fixed;
+		left:0;
+		right:0;
+		top:0;
+		bottom:0;
+		margin:auto auto;
+		background:rgba(0,0,0,.3);
+		display:none;
+	}
+	.mask_text{
+		position:absolute;
+		bottom:40px;
+		width:100%;
+		font-size:32px;
+		color:#fff;
+		text-align:center;
+	}
+</style>
+<div class="toptit">优惠券发放</div>
+<form id="form1" action="{:U('gift_issue')}" method="post">
+    <div class="form_main width150">
+        <input type="hidden" name="page" id="page" value="1">
+        <div class="fl">优惠券:</div>
+        <div class="fr">
+            <notempty name="gifts">
+			<ul style="margin:0px; padding:8px 3px; list-style:none">       
+				<volist name="gifts" id="gifts">
+					<li  class="user_box_li user_box_li_new_length">
+						<label>
+							<input name="gift_id[]" type="checkbox"  value="{$gifts['id']}"/>{$gifts['gift_name']}
+						</label>
+					</li>
+				</volist>
+				<li class="clear" style="list-style:none; display:none"></li>
+			</ul>
+			<else />
+			 <div class="input_text_default middle" style="line-height:40px;border:none;">还没有可发放的优惠券！</div>
+			</notempty>
+			<div class="clear"></div>
+        </div>
+		<div class="clear"></div>
+        <div class="fl">企业:</div>
+        <div class="fr">
+            <div class="imgradio J_company_scale">
+				<input name="setmeal_id" type="hidden" value="selfdefine">
+				<input name="setmeal_name" type="hidden" value="自定义" id="setmeal_name"/>
+				<div class="radio shaixuan" data="all" title="全部">全部</div>
+				<volist name="setmeal" id="setmeal">
+					<div class="radio shaixuan" data="{$setmeal['id']}" title="{$setmeal['setmeal_name']}">{$setmeal['setmeal_name']}</div>
+				</volist>
+				<div class="radio shaixuan select" data="selfdefine" title="自定义">自定义</div>
+				<div class="clear"></div>
+			</div>
+			<div class="search_div" id="search_div">
+                <div class="left">
+                    <div class="search_input">
+                      <input type="text" class="input_text_default" placeholder="请输入企业名称搜索" id="J_search" name="search_key" value="{$Think.get.search_key}" style="width:410px;" autocomplete="off">
+                    </div>
+                    <div class="item-list search_result" id="com_div">
+						<volist name="companys" id="vo">
+                        <div class="item item-{$vo['uid']} <if condition="$vo['disable'] eq 1">disable</if>" data-id="{$vo['uid']}" data-title="{$vo['companyname']}">
+                            <div class="title">{$vo['companyname']}</div>
+                        </div>
+                        </volist>						
+                        <div>
+							<input type="button" class="admin_submit gray" value="下一页" id="nextbtn" nextpage="2" style="float:right;"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="right">
+                    <div class="select_tit">
+                      已选择：
+                    </div>
+                    <div class="item-list select_result">
+                    </div>
+                </div>
+                  <input type="hidden" name="company" id="company" value="">
+                  <div class="clearfix"></div>
+            </div>
+			<div class="clear"></div>
+        </div>
+		<div class="clear"></div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="发放" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onclick="window.location.href='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+		<div class="mask">
+			<div class="mask_text">优惠券发放中，请勿进行其他操作！！！</div>
+		</div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+	$("#upbtn").live('click',function(){
+		var key = $('#J_search').val();
+		var uppage = $(this).attr('uppage');
+		$.post("{:U('Admin/Gift/ajax_get_company')}",{page:uppage,key:key},function(result){
+			if(result.status == 1){
+				$("#com_div").html(result.data);
+			}else{
+				$("#com_div").html('暂无相关信息！');
+			}
+		},'json');	
+	});
+	$("#nextbtn").live('click',function(){
+		var key = $('#J_search').val();
+		var nextpage = $(this).attr('nextpage');
+		$.post("{:U('Admin/Gift/ajax_get_company')}",{page:nextpage,key:key},function(result){
+			if(result.status == 1){
+				$("#com_div").html(result.data);
+			}else{
+				$("#com_div").html('暂无相关信息！');
+			}
+		},'json');	
+	});
+
+													
+    $(".shaixuan").live('click',function(){
+		if($(this).attr("data")=='selfdefine'){
+			$("#search_div").show();
+		}else{
+			$("#search_div").hide();
+		}
+	})
+	function init_search_key(){
+		var key = $('#J_search').val();
+		$.post("{:U('Admin/Gift/ajax_get_company')}",{key:key},function(result){
+			if(result.status == 1){
+				$("#com_div").html(result.data);
+			}else{
+				$("#com_div").html('暂无相关信息！');
+			}
+		},'json');
+		
+		/*if(key){
+			$(".search_result .item").addClass('hide');
+			$(".search_result .item").each(function(){
+			  if($(this).html().indexOf(key) >= 0 ) { 
+				  $(this).removeClass('hide');
+			  } 
+			});
+		}else{
+		  $(".search_result .item").removeClass('hide');
+		}*/
+	}
+	init_search_key();
+	$('#J_search').on("keyup",function(){
+	    init_search_key();
+	});
+	$('.search_result .item').live('click',function(){
+		if($(this).hasClass('hide') || $(this).hasClass('disable')){
+		return false;
+		}
+		var id = $(this).data('id');
+		var title = $(this).data('title');
+		$(this).addClass('disable');
+		var html = '<div class="item">';
+		html += '<div class="title">'+title+'</div>';
+		html += '<i class="layui-icon close" data-id="'+id+'"></i>';
+		html += '</div>';
+		$('.select_result').append(html);
+		set_jobids();
+		remove_choose();
+	});
+	remove_choose();
+	init_selected();
+	function remove_choose(){
+	  $('.close').click(function(){
+		var id = $(this).data('id');
+		$('.item-'+id).removeClass('disable');
+		$(this).parent('.item').remove();
+		set_jobids();
+	  });
+	}
+	function set_jobids(){
+		var id_arr = new Array()
+		$(".select_result .item .close").each(function(){
+			id_arr.push($(this).data('id'));
+		});
+		var id_str = id_arr.join(',');
+		$('#company').val(id_str);
+	}
+	function init_selected(){
+	  $(".search_result .item.disable").each(function(){
+		  var id = $(this).data('id');
+		  var title = $(this).data('title');
+		  var html = '<div class="item">';
+		  html += '<div class="title">'+title+'</div>';
+		  html += '<i class="layui-icon close" data-id="'+id+'"></i>';
+		  html += '</div>';
+		  $('.select_result').append(html);
+	  });
+	  remove_choose();
+	}
+	
+	$('#J_submit').click(function(){
+		var that = $(this);
+		if(that.hasClass('disabled')){
+			return false;
+		}
+		that.val('正在发放...').addClass('disabled');
+		$("#page").val(1);
+		issue();
+		/*var qsDialog = $(this).dialog({
+			title: '发放优惠券',
+			content:'优惠券发放中，请勿进行其他操作！！！',
+			loading: false,
+			footer : false
+		});*/
+		//$(".mask").show();
+		//$("body").css("overflow","hidden");
+		
+	});
+	function issue(){
+		$.post("{:U('gift_issue')}",$('#form1').serialize(),function(result){
+			if(result.status==1){
+				disapperTooltip("success", result.msg,function(){
+					location.href='{:U("static_list")}';
+				});
+			}else if(result.status==2){
+				disapperTooltip("remind", result.msg,function(){
+					var page = parseInt($("#page").val())+1;
+					$("#page").val(page);
+					issue();
+				});
+			}else{
+				disapperTooltip("remind", result.msg,function(){
+					$('#J_submit').val('发放').removeClass('disabled');
+					qsDialog.hide();
+					//$(".mask").hide();
+					//$("body").css("overflow","auto");
+				});
+				return false;
+			}
+		},'json');
+	}
+</script>
+</html>

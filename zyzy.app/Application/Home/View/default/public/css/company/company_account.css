@@ -1,0 +1,73 @@
+.fl{float:left}
+.fr{float:right}
+.mr4{margin-right:4px}
+.mr10{margin-right:10px}
+.ml20{margin-left:20px}
+.ml115{margin-left:115px}
+.mb16{margin-bottom:16px}
+.mb30{margin-bottom:30px}
+.mt15{margin-top:15px}
+.w35{width:35px}
+.w45{width:45px}
+.w52{width:52px}
+.w60{width:60px}
+.w76{width:76px}
+.w89{width:89px}
+.w110{width:110px}
+.w113{width:113px}
+.w120{width:120px}
+.w140{width:140px}
+.w205{width:205px}
+.w518{width:518px}
+.w680{width:680px}
+.w880{width:880px}
+.h50{height:50px}
+.pl18{padding-left:18px}
+.w518 .result{float:left;_display:inline;max-width:485px;white-space:nowrap;_white-space:normal;_width:200px;_height:26px;overflow:hidden;text-overflow:ellipsis;-o-text-overflow:ellipsis;_background:transparent;}
+.input_unit.nopl{padding-left:0;}
+
+
+/* --表头-- */
+.account_list_th{ margin-left:30px; font-size:13px; width:940px; background-color:#F7F7F7; height:36px ; padding-top:6px; margin-top:15px; }
+.account_list_th .th1{float:left; width:250px; padding-top:5px;padding-left:35px; }
+.account_list_th .th2{float:left; width:250px; padding-top:5px;}
+.account_list_th .th3{float:left; width:250px; padding-top:5px;}
+.account_list_th .th4{float:left; width:100px; padding-top:5px;}
+/* --列表-- */
+.account_list{ margin-left:30px; border-bottom:1px #EDEDED solid; height:20px;  padding-top:20px; padding-bottom:20px; font-size:13px; width:940px;}
+.account_list.hover{background-color:#F6F6F6}
+.account_list .td1{ width:250px; padding-left:35px; }
+.account_list .td2{ width:250px;}
+.account_list .td3{ width:250px;}
+.account_list .td4{ width:100px;}
+
+.account_but{padding-left: 35px;}
+
+
+/*添加子账号布局*/
+.mright .mod{padding:30px;}
+.mright .mod .modKey{float:left;width:120px;height:34px;line-height:34px;text-align:right}
+.mright .mod .modKey span{color:#FF0000;padding-right:12px;height:34px;line-height:34px;background:url(../../images/16.png) no-repeat left center}
+.mright .mod .modVal{float:left}
+.mright .mod .modVal .des-temp{height:34px;line-height:34px;color:#333;display:none;}
+.mright .mod .modVal .des-temp .des-ques{width:12px;height:12px;float:left;position:relative;margin-top:11px;background:url("../../images/199.png") no-repeat;*zoom:1;cursor:pointer;margin-right:5px;}
+.mright .mod .modVal .des-temp .des-ques .des_box{display:none;position:absolute;top:23px;left:-24px;width:430px;border:1px solid #ededed;padding:10px;background:#fff;cursor:default;z-index:5;box-shadow:1px 1px 10px #999;}
+.mright .mod .modVal .des-temp .des-ques .des_box .des_txt{padding-left:10px;padding-right:10px;width:430px;text-align:left;line-height:180%;}
+.mright .mod .modVal .des-temp .des-ques .des_box .des_txt span{color:#FF6600;font-family:Georgia,"Times New Roman",Times,serif;font-size:16px;padding:8px;}
+.mright .mod .modVal .des-temp .des-ques .des_box .des_txt .btn{text-align:center;padding-top:10px;padding-bottom:10px;}
+.mright .mod .modVal .des-temp .des-ques .des_box .desarrow{position:absolute;top:-7px;left:24px;width:11px;height:7px;background:url(../../images/160.png) no-repeat 0 -16px;}
+.mright .mod .modVal .des-temp .des-ques:hover .des_box{display:block;}
+.mright .mod .modVal .des-temp .des-txt{float:left;padding-right:10px;*zoom:1;}
+.mright .mod .modVal .des-temp .des-a{float:left;}
+.mright .mod .modVal .des-temp .des-item{height:34px;line-height:34px;color:#0180cf;text-decoration:none;margin-right:10px;*zoom:1;}
+.mright .mod .modVal .des-temp .des-item:hover{text-decoration:underline;}
+.mright .mod .modVal .des-temp .des-item.cur{color:#333}
+.mright .mod .radio_list{padding:6px 20px}
+.mright .mod .partition{height:34px;line-height:34px;margin:0 7px}
+.mright .mod .contact{display:none}
+.mright .mod .checkBox{vertical-align:middle;height:34px;line-height:34px}
+.mright .mod .checkBox input{vertical-align:middle;height:34px;line-height:34px;margin:0;padding:0;margin-right:5px}
+.mright .mod .other{background:url(../../images/57.png) no-repeat left center;height:34px;line-height:34px;padding-left:20px;margin-left:60px;text-decoration:underline;color:#666}
+.mright .mod .buySms,.mright .mod .buySms .smsMun,.mright .mod .buySms .buy{height:34px;line-height:34px}
+.mright .mod .buySms .smsMun{color:#FF9900;font-style:normal;margin:0 2px}
+.mright .mod .buySms .buy{color:#FF9900;text-decoration:none}

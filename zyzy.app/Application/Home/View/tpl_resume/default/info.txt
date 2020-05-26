@@ -1,0 +1,4 @@
+name:默认模版
+version:5.0
+author:74cms.com
+authorurl:http://www.74cms.com

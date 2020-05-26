@@ -1,0 +1,112 @@
+<include file="public:header"/>
+<div class="seltpye_x">
+    <div class="left">投诉时间</div>
+    <div class="right">
+        <a href="{:P(array('settr'=>''))}" <eq name='Think.get.settr' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('settr'=>'3'))}" <eq name='Think.get.settr' value='3'>class="select"</eq>>三天内</a>
+        <a href="{:P(array('settr'=>'7'))}" <eq name='Think.get.settr' value='7'>class="select"</eq>>一周内</a>
+        <a href="{:P(array('settr'=>'30'))}" <eq name='Think.get.settr' value='30'>class="select"</eq>>一月内</a>
+        <a href="{:P(array('settr'=>'180'))}" <eq name='Think.get.settr' value='180'>class="select"</eq>>半年内</a>
+        <a href="{:P(array('settr'=>'360'))}" <eq name='Think.get.settr' value='360'>class="select"</eq>>一年内</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="seltpye_x">
+    <div class="left">处理状态</div>
+    <div class="right">
+        <a href="{:P(array('audit'=>''))}" <eq name='Think.get.audit' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('audit'=>'1'))}" <eq name='Think.get.audit' value='1'>class="select"</eq>>未处理</a>
+        <a href="{:P(array('audit'=>'2'))}" <eq name='Think.get.audit' value='2'>class="select"</eq>>已处理</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<form id="form1" name="form1" method="post" action="{:U('complain_delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:15%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>被投诉顾问
+            </label>
+        </div>
+        <div class="td" style=" width:10%;">处理情况</div>
+        <div class="td" style=" width:40%;">投诉内容</div>
+        <div class="td center" style=" width:15%;">投诉者</div>
+        <div class="td center" style=" width:15%;">投诉时间</div>
+        <div class="td" style=" width:5%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:15%;">
+                <div class="left_padding striking">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['id']}"/>{$vo.consultant_name}
+                </div>
+            </div>
+            <div class="td" style=" width:10%;">
+                <if condition="$vo['audit'] eq 1"><span style="color:#FF0000;">未处理</span><elseif condition="$vo['audit'] eq 2"/>属实<else/>不属实</if>
+            </div>
+            <div class="td vtip" style=" width:40%;" title="{:str_replace(array('&lt;','&gt;','/','<','>','script'),'',nl2br($vo['notes']))}">{$vo.notes}</div>
+            <div class="td center" style=" width: 15%;">{$vo.username}</div>
+            <div class="td center" style=" width:15%;">{:admin_date($vo['addtime'])}</div>
+            <div class="td edit" style=" width:5%;">
+                <a href="{:U('complain_delete',array('id'=>$vo['id']))}" class="gray" onclick="return confirm('确定删除吗？');">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButVerify" value="审核"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除"/>
+    </div>
+
+    <div class="footso"></div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //审核
+        $("#ButVerify").click(function () {
+            var data = $("form[name=form1]").serialize();
+            if(data.length == 0){
+                disapperTooltip('remind','请选择投诉！');
+            } else {
+                var qsDialog = $(this).dialog({
+                    title: '审核投诉',
+                    loading: true,
+                    footer : false
+                });
+                var url = "{:U('Ajax/complain_audit')}";
+                $.post(url, data, function (result) {
+                    if(result.status == 1){
+                        qsDialog.setContent(result.data);
+                    } else {
+                        qsDialog.hide();
+                        disapperTooltip('remind',result.msg);
+                    }
+                });
+            }
+        });
+        //批量删除
+        $("#ButDel").click(function () {
+            if (confirm('你确定要删除吗？')) {
+                $("form[name=form1]").submit();
+            }
+        });
+    });
+</script>
+</html>

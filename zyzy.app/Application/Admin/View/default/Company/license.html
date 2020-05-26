@@ -1,0 +1,48 @@
+<include file="public:header"/>
+
+<form action="{:U('Company/com_audit')}" method="post" enctype="multipart/form-data" name="FormData" id="FormData" >
+    <div class="toptit">
+        审核企业营业执照 - <span style="color:#0066CC">{$info.companyname}</span>
+    </div>
+    <div class="form_main width120">
+        <if condition="$info['certificate_img']">
+            <div class="fl">企业全称:</div>
+            <div class="fr txt">{$info['companyname']}</div>
+            <div class="fl">营业执照:</div>
+            <div class="fr">
+                <a target="_blank" href="{:attach($info['certificate_img'],'certificate_img')}">
+                    <img width="200" src="{:attach($info['certificate_img'],'certificate_img')}">
+                </a>
+            </div>
+            <div class="fl">认证状态:</div>
+            <div class="fr">
+                <div class="imgradio">
+                    <input name="audit" type="hidden" value="{$info['audit']}">
+                    <div class="radio <eq name='info.audit' value='1'>select</eq>" data="1" title="认证通过">认证通过</div>
+                    <div class="radio <eq name='info.audit' value='2'>select</eq>" data="2" title="等待认证">等待认证</div>
+                    <div class="radio <eq name='info.audit' value='3'>select</eq>" data="3" title="认证未通过">认证未通过</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+                <input type="hidden" name="y_id"  value="{$info['uid']}" />
+                <input type="hidden" name="_k_v" value="{$Think.get._k_v}">
+                <input type="submit" class="admin_submit" value="认证"/>
+            </div>
+        <else />
+            <div class="fl">营业执照:</div>
+            <div class="fr txt">未上传营业执照</div>
+        </if>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+</script>
+</html>

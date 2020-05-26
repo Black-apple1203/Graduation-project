@@ -1,0 +1,104 @@
+<include file="public:header" />
+	<div class="toptit">发送短信</div>
+    <span id="submitbox">
+		<form action="{:U('send_sms')}" method="post"   name="form" id="form">
+		<input name="uid" type="hidden"  id="uid" value="{$Think.get.uid}" /></td>
+		<table width="90%" border="0" cellspacing="10" cellpadding="1" style=" margin-bottom:3px;">
+          <tr>
+            <td width="100" align="right">接收手机:</td>
+            <td>
+			   <input name="mobile" type="text" class="input_text_400"   value="{$Think.get.mobile}" />
+			       </td>
+          </tr>
+		  <tr>
+            <td width="100" align="right">发送内容:</td>
+            <td>
+			  <textarea name="txt" class="input_text_400" style="height:80px;"></textarea>
+			  <span class="admin_note">内容超过70个字符将自动截取</span>		    </td>
+          </tr>
+          <tr>
+            <td align="right">&nbsp;</td>
+            <td>
+			<input name="url" type="hidden" value="{$url}" />
+			
+			<input name="check" type="submit" class="admin_submit" id="check"    value="立即发送" /></td>
+          </tr>
+        </table>
+	    </form>
+		<if condition="$smslog">
+	 <div class="toptit">短信发送记录</div>
+	<form action="{:U('del')}" method="post"   name="form1" id="form1">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0"  id="list" class="link_lan">
+    <tr>
+      <td  width="120" class="admin_list_tit admin_list_first">
+     <label id="chkAll"><input type="checkbox" name="" title="全选/反选" id="chk"/>类型</label>	 </td>
+	  <td class="admin_list_tit" width="13%">手机号</td>
+	  <td  class="admin_list_tit">短信内容</td>
+      <td width="110"  align="center"  class="admin_list_tit">添加时间</td>	  
+      <td width="110"  align="center"  class="admin_list_tit">发送时间</td>
+      <td width="10%" align="center"  class="admin_list_tit">操作</td>
+    </tr>
+	<volist name="smslog" id="vo">
+	 <tr>
+      <td   class="admin_list admin_list_first">
+     <input type="checkbox" name="id[]"  value="{$vo.s_id}"/>
+     <if condition="$vo['s_type'] eq 1"><span style="color:#FF6600">等待发送</span></if>
+     <if condition="$vo['s_type'] eq 2"><span style="color:#009900">发送成功</span></if>
+     <if condition="$vo['s_type'] eq 3"><span style="color:#666666">发送失败</span></if>
+	  </td>
+	  <td  class="admin_list">
+	  {$vo.s_mobile}
+	  </td>
+      <td   class="admin_list vtip" title="{$vo.s_body|nl2br}" >
+	   {$vo.s_body}
+	  </td>
+      <td align="center"  class="admin_list">
+	  {:date('Y-m-d',$vo['s_addtime'])}
+		</td>	  
+      <td align="center"  class="admin_list">
+	  <if condition="$vo['s_sendtime'] eq 0">
+		----
+		<else />
+		{:date('Y-m-d',$vo['s_sendtime'])}
+		</if>
+	  </td>
+      <td align="center"  class="admin_list">
+	  <a href="javascript:void()" class="again_send" id="{$vo.s_id}">重新发送</a>
+	</td>
+	</tr>
+	</volist>
+  </table>
+	<table width="100%" border="0" cellspacing="10"  class="admin_list_btm" >
+		<tr>
+            <td height="30" width="110" align="right" >&nbsp;</td>
+            <td height="30"  >
+              <input type="submit" name="submit22" type="button" class="admin_submit submitdel"    value="删除所选" />
+           </td>
+          </tr>
+	  </table>
+	</form>
+<div class="page link_bk" style="height:20px">{$page}</div>
+</if>  </span>
+<div id="hide" style="display: none; color: #009900; padding-left:30px; padding-bottom:80px;">
+ 正在发送.......<br />
+<br />
+</div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript"> 
+$(document).ready(function()
+{
+	$("#check").click(function () {	
+	$("#submitbox").hide();
+	$("#hide").show();	
+	});
+	$(".again_send").click(function(){
+		$(this).html('发送中...');
+		$(this).css('color','red');
+		$id=$(this).attr('id');
+		window.location.href='{:U("again_send")}&id='+$id;
+	})
+});
+</script>
+</body>
+</html>

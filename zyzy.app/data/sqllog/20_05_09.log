@@ -1,0 +1,26 @@
+[ 2020-05-09T21:19:29+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: SHOW COLUMNS FROM `qs_menu` [RunTime:4.4759s] [IP:127.0.0.1:44263] [AddTime:1589030369] [qscms]
+[ 2020-05-09T21:19:29+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: SHOW COLUMNS FROM `qs_admin_role` [RunTime:0.2201s] [IP:127.0.0.1:44263] [AddTime:1589030369] [qscms]
+[ 2020-05-09T21:19:30+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: SELECT `groups`,`mids` FROM `qs_admin_role` WHERE `id` = null    LIMIT 1  [RunTime:0.8977s] [IP:127.0.0.1:44263] [AddTime:1589030370] [qscms]
+[ 2020-05-09T21:19:31+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: SHOW COLUMNS FROM `qs_admin_auth_group` [RunTime:0.4291s] [IP:127.0.0.1:44263] [AddTime:1589030371] [qscms]
+[ 2020-05-09T21:19:31+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: SELECT `id`,`msid`,`mids` FROM `qs_admin_auth_group`   ORDER BY ordid  [RunTime:0.2075s] [IP:127.0.0.1:44263] [AddTime:1589030371] [qscms]
+[ 2020-05-09T21:19:32+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: DELETE FROM `qs_admin_auth` WHERE `role_id` = null [RunTime:0.247s] [IP:127.0.0.1:44263] [AddTime:1589030372] [qscms]
+[ 2020-05-09T21:19:35+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: SELECT m.id,m.pid,m.spid,m.module_name,m.controller_name,m.action_name,m.menu_type,m.log_cn FROM `qs_admin_auth` INNER JOIN qs_menu m ON m.id=qs_admin_auth.menu_id  WHERE `role_id` = null AND m.module_name IN ('Home','Admin') AND m.mods <> 1   ORDER BY pid desc,id desc  [RunTime:0.3335s] [IP:127.0.0.1:44263] [AddTime:1589030375] [qscms]
+[ 2020-05-09T21:19:37+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: SHOW COLUMNS FROM `qs_admin_log` [RunTime:0.2731s] [IP:127.0.0.1:44263] [AddTime:1589030377] [qscms]
+[ 2020-05-09T21:19:37+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=login
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=index&a=login','127.0.0.1:44263','本机地址','1589030376','0','','0') [RunTime:0.5243s] [IP:127.0.0.1:44263] [AddTime:1589030377] [qscms]
+[ 2020-05-09T21:40:33+08:00 ] 127.0.0.1 /index.php?m=admin&c=jobs&a=index&menu_id=194&sub_menu_id=195
+SQL: SELECT COUNT(*) AS tp_count FROM `qs_jobs`    LIMIT 1  [RunTime:0.3318s] [IP:127.0.0.1:45654] [AddTime:1589031633] [qscms]
+[ 2020-05-09T21:40:35+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair_stat
+SQL: SHOW COLUMNS FROM `qs_company_img` [RunTime:0.6348s] [IP:127.0.0.1:45668] [AddTime:1589031635] [qscms]
+[ 2020-05-09T22:13:47+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=ajax&a=affair','127.0.0.1:49300','本机地址','1589033626','1','admin','0') [RunTime:0.2138s] [IP:127.0.0.1:49300] [AddTime:1589033627] [qscms]
+[ 2020-05-09T22:13:48+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair_stat
+SQL: SHOW COLUMNS FROM `qs_company_img` [RunTime:0.3412s] [IP:127.0.0.1:49301] [AddTime:1589033628] [qscms]

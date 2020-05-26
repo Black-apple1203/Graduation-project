@@ -1,0 +1,16 @@
+[ 2020-04-14T15:26:01+08:00 ] 127.0.0.1 /
+SQL: SHOW COLUMNS FROM `qs_jobs_search` [RunTime:0.239s] [IP:127.0.0.1:28165] [AddTime:1586849161] [qscms]
+[ 2020-04-14T15:26:05+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=ajax_scroll
+SQL: SELECT `id`,`fullname`,`sex`,addtime as time,'add' as type FROM `qs_resume` WHERE `display` = 1 AND `audit` = 1   ORDER BY addtime DESC  LIMIT 5  [RunTime:0.3379s] [IP:127.0.0.1:28176] [AddTime:1586849165] [qscms]
+[ 2020-04-14T15:28:37+08:00 ] 127.0.0.1 /index.php?m=home&c=jobs&a=com_show&id=3
+SQL: SELECT * FROM `qs_members_handsel` WHERE `uid` = 10 AND `htype` = 'task_sign' AND `addtime` > 1586793600    LIMIT 1  [RunTime:0.2985s] [IP:127.0.0.1:28390] [AddTime:1586849317] [qscms]
+[ 2020-04-14T15:28:39+08:00 ] 127.0.0.1 /index.php?m=home&c=jobs&a=com_show&id=3
+SQL: SELECT * FROM `qs_personal_jobs_apply` WHERE `company_uid` = 11    [RunTime:0.4276s] [IP:127.0.0.1:28390] [AddTime:1586849319] [qscms]
+[ 2020-04-14T15:28:42+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=ajax&a=affair','127.0.0.1:28391','本机地址','1586849321','1','admin','0') [RunTime:0.2762s] [IP:127.0.0.1:28391] [AddTime:1586849322] [qscms]
+[ 2020-04-14T15:28:45+08:00 ] 127.0.0.1 /index.php?m=&c=company&a=index&uid=12
+SQL: SELECT * FROM `qs_gift_issue` WHERE `uid` = 10 AND `is_used` = 2    [RunTime:0.2913s] [IP:127.0.0.1:28390] [AddTime:1586849325] [qscms]
+[ 2020-04-14T15:28:46+08:00 ] 127.0.0.1 /index.php?m=&c=company&a=index&uid=12
+SQL: SELECT COUNT(*) AS tp_count FROM `qs_company_interview` WHERE `company_uid` = 10    LIMIT 1  [RunTime:0.242s] [IP:127.0.0.1:28390] [AddTime:1586849326] [qscms]
+[ 2020-04-14T15:28:47+08:00 ] 127.0.0.1 /index.php?m=&c=company&a=index&uid=12
+SQL: SELECT qs_view_jobs.uid FROM `qs_view_jobs` INNER JOIN qs_resume i on i.uid=qs_view_jobs.uid  WHERE qs_view_jobs.jobs_uid = '10' AND i.def = 1 GROUP BY qs_view_jobs.uid    [RunTime:0.737s] [IP:127.0.0.1:28390] [AddTime:1586849327] [qscms]

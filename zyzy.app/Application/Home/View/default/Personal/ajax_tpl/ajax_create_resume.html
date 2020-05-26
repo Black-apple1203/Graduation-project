@@ -1,0 +1,38 @@
+<div class="J_radioitme_parent create_resume_dialog">
+	<div class="tip">请选择简历创建方式</div>
+	<div class="mode_radio_list">
+		<div class="J_radioitme rli checked type_tab" data-code="0">创建全新的简历</div>
+		<div id="J_helisResume" class="J_radioitme rli type_tab" data-code="1">复制已创建的简历</div>
+	</div>
+	<div id="J_resumeList" class="resume_radio_list" style="display:none;">
+        <volist name="resume_list" id="resume">
+            <div class="J_radioitme rli <if condition="$i eq 1">checked</if>" data-code="{$resume.id}">
+                <div class="td1" title="{$resume.title}">{$resume.title}</div>
+                <div class="td2">
+                    <if condition="$i eq 1">默认简历<else/>&nbsp;</if>
+                </div>
+                <div class="td3">完整度：{$resume.complete_percent}%</div>
+            </div>
+        </volist>
+        <input id="J_resume_id" class="J_radioitme_code" name="pid" type="hidden" value="">
+	</div>
+</div>
+<script type="text/javascript">
+    $(".type_tab").click(function(){
+        $(".type_tab").removeClass('checked');
+        $(this).addClass('checked');
+        if($(this).attr('data-code')==1){
+            $("#J_resumeList").show();
+        }else{
+            $("#J_resumeList").hide();
+        }
+    });
+    $('#J_resumeList .J_radioitme').click(function(){
+        $('#J_helisResume').addClass('checked').siblings().removeClass('checked');
+    });
+    $('#J_helisResume').click(function(){
+        $(this).addClass('checked').siblings().removeClass('checked');
+        $('#J_resume_id').val($('#J_resumeList .checked').attr('data-code'));
+        return !1;
+    });
+</script>

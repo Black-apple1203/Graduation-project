@@ -1,0 +1,75 @@
+<include file="public:header" />
+<form id="form1">
+    <div class="toptit">注册设置</div>
+    <div class="form_main width200">
+    <div class="fl">关闭会员注册：</div>
+    <div class="fr">
+        <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_closereg') eq 1">select</if>"><input name="closereg" type="hidden" value="{:C('qscms_closereg')}" /></div>
+        <div class="clear"></div>
+    </div>
+    <div class="fl">开启密码输入：</div>
+    <div class="fr">
+        <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_register_password_open') eq 1">select</if>"><input name="register_password_open" type="hidden" value="{:C('qscms_register_password_open')}" /></div>
+        <div class="clear"></div>
+    </div>
+    <div class="fl">用户名前缀：</div>
+    <div class="fr">
+        <input name="reg_prefix" type="text" class="input_text_default small" maxlength="5" value="{:C('qscms_reg_prefix')}"/>
+        <label class="no-fl-note">（注册生成用户名，规则：前缀+手机号末4位+随机码，如:user_5353753951）</label>
+    </div>
+    <div class="fl">快速注册生成密码：</div>
+    <div class="fr">
+        <div class="imgradio J_job_pw_type">
+            <input name="reg_password_tpye" type="hidden" value="{:C('qscms_reg_password_tpye')}">
+            <div class="radio <if condition="C('qscms_reg_password_tpye') eq 1">select</if>" data="1" title="与用户名相同">与用户名相同</div>
+        <div class="radio <if condition="C('qscms_reg_password_tpye') eq 2">select</if>" data="2" title="随机密码">随机密码</div>
+    <div class="radio <if condition="C('qscms_reg_password_tpye') eq 3">select</if>" data="3" title="指定密码">指定密码</div>
+    <div class="clear"></div>
+    </div>
+    </div>
+    <div id="config_reg_password" <if condition="C('qscms_reg_password_tpye') neq 3">style="display:none"</if>>
+    <div class="fl">输入指定密码：</div>
+    <div class="fr">
+        <input name="reg_weixin_password" type="text" class="input_text_default small" maxlength="16" value="{:C('qscms_reg_weixin_password')}"/>
+    </div>
+    </div>
+    <div class="fl"></div>
+    <div class="fr">
+        <input type="button" id="J_submit" class="admin_submit" value="保存修改"/>
+    </div>
+
+    <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('config/edit')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+  $('.J_job_pw_type .radio').click(function(){
+    if($(this).attr('data') == 3){
+      $('#config_reg_password').show();
+    }else{
+      $('#config_reg_password').hide();
+    }
+  })
+</script>
+</body>
+</html>

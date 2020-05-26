@@ -1,0 +1,37 @@
+<form id="form2" name="form2" method="post" action="{:U('set_audit_save')}">
+<input type="hidden" name="id" value="{$id}">
+<!-- -->
+<div class="note" style="padding:10px;background-color:#FFF8DC;color:#ff9300;">
+  审核通过将会把红包发放给邀请者<br />审核不通过将会暂停发放红包
+</div>
+<table width="400" border="0" align="center" cellpadding="0" cellspacing="6" >
+  <tr>
+    <td width="50" height="30">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+    <td height="30"><strong  style="color:#0066CC; font-size:14px;">将所选记录设置为：</strong></td>
+  </tr>
+  
+  <tr>
+    <td height="25">&nbsp;</td>
+    <td>
+    <div class="imgradio J_job_sex">
+        <input name="pass" type="hidden" value="1">
+        <div class="radio select" data="1" title="审核通过">审核通过</div>
+        <div class="radio " data="2" title="审核未通过">审核未通过</div>
+        <div class="clear"></div>
+    </div>
+      </td>
+    </tr>
+    <tr>
+      <td width="50">
+        备注：
+      </td>
+      <td>
+        <textarea name="note" class="input_text_default" style="width:390px;height:90px;"></textarea>
+      </td>
+    </tr>
+    <tr>
+      <td height="25">&nbsp;</td>
+      <td><input type="submit" name="set_audit_save" id="set_audit_save" value="确定" class="admin_submit"    /></td>
+    </tr>
+  </table>
+  </form>

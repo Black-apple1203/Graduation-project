@@ -1,0 +1,55 @@
+<include file="public:header" />
+<div class="toptip">
+  <h2>提示：</h2>
+  <p>
+每个资源文件最多包含5000个URL，并且文件在压缩前不超过9.5MB。<br />
+此设置将关联计划任务中的百度开发平台数据生成任务。
+</p>
+</div>
+<div class="toptit">配置</div>
+  <form action="{:U('baiduxml/config')}" method="post"  name="form1" id="form1">
+    <table width="100%" border="0" cellspacing="5" cellpadding="5">
+  <tr>
+      <td width="150" align="right">信息筛选方式：</td>
+      <td> 
+     <label>
+        <input name="order" type="radio" id="order" value="1"  <if condition="$info['order'] eq '1'">checked=checked </if>/>添加时间降序</label>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<label>
+        <input name="order" type="radio" id="order" value="2"  <if condition="$info['order'] eq '2'">checked=checked </if>/>刷新时间降序</label>    </td>
+    </tr>
+    <tr>
+      <td width="150" align="right">生成信息最大数：</td>
+      <td><input name="xmlmax" type="text"  class="input_text_200" id="xmlmax" value="{$info.xmlmax}" maxlength="30"/><span class="admin_note">0为不限制，如设为10000，则每次最多生成10000个职位</span></td>
+    </tr>
+    <tr>
+      <td align="right">单个文档包含信息总数：</td>
+      <td><input name="xmlpagesize" type="text"  class="input_text_200" id="xmlpagesize" value="{$info.xmlpagesize}" maxlength="100"/>
+     <span class="admin_note">不能超过5000，建议设为3000</span></td>
+    </tr>
+  <tr>
+      <td align="right">分卷文档名称前缀：</td>
+      <td><input name="xmlpre" type="text"  class="input_text_200" id="xmlpre" value="{$info.xmlpre}" maxlength="100"/>     </td>
+    </tr>
+  
+  <tr>
+      <td align="right">索引文档名称：</td>
+      <td><input name="indexname" type="text"  class="input_text_200" id="indexname" value="{$info.indexname}" maxlength="100"/></td>
+    </tr>
+   <tr>
+      <td align="right">文档保存目录：</td>
+      <td><input name="xmldir" type="text"  class="input_text_200" id="indexdir" value="{$info.xmldir}" maxlength="100"/>
+     <span class="admin_note">默认为系统根目录下的'data/baiduxml'目录</span></td>
+    </tr>
+        
+         <tr>
+           <td align="right">&nbsp;</td>
+           <td height="50"> 
+             <input name="submit" type="submit" class="admin_submit"    value="保存修改"/>             </td>
+      </tr>
+  </table>
+  </form>
+</div>
+<include file="public:footer" />
+</body>
+</html>

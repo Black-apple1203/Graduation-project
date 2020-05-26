@@ -1,0 +1,26 @@
+<div class="dialog_box log" style="width:750px;">
+    <table width="750" border="0" cellpadding="0" cellspacing="0" id="list" class="link_lan">
+        <tr>
+            <td width="120" class="admin_list_tit admin_list_first">操作用户</td>
+            <td width="120" class="admin_list_tit">操作时间</td>
+            <td width="120" class="admin_list_tit">操作地点</td>
+            <td width="140" class="admin_list_tit">操作IP</td>
+            <td class="admin_list_tit">详情</td>
+        </tr>
+        <if condition="$list">
+            <volist name="list" id="vo">
+                <tr>
+                    <td class="admin_list admin_list_first"><notempty name="vo['operater']">{$vo['operater']}<else />{$vo['log_username']}</notempty></td>
+                    <td class="admin_list">{:date('m-d H:i',$vo['log_addtime'])}</td>
+                    <td class="admin_list">{$vo['log_address']}</td>
+                    <td class="admin_list">{$vo['log_ip']}</td>
+                    <td class="admin_list">{$vo['log_value']}</td>
+                </tr>
+            </volist>
+        <else/>
+            <tr>
+                <td colspan="4" class="admin_list admin_list_first">没有任何信息！</td>
+            </tr>
+        </if>
+    </table>
+</div>

@@ -1,0 +1,1 @@
+<?php	return array ( 'qq' => array ( 'alias' => 'qq', 'name' => '腾讯QQ', 'config' => 'a:2:{s:6:"app_id";s:0:"";s:7:"app_key";s:0:"";}', 'app_config' => '', 'status' => '1', ), ); ?>

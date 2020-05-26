@@ -1,0 +1,213 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_user.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_user" /> </div>
+			<div class="mright">
+				<div class="user_pagetitle safety_user_pagetitle">
+					<div class="pat_l">账号安全</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tab">
+					<a href="{:U('company/user_security')}" class="tabli select" >账号安全</a>
+					<a href="{:U('company/user_loginlog')}" class="tabli">登录日志</a>
+					<a href="{:U('accountMigration/index')}" class="tabli">账号迁移</a>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tip">
+					<div class="tiptit">小提示</div>
+					<div class="tiptxt link_blue">
+					手机号、邮箱认证通过后可增强您账号的安全性，也可通过已认证的手机号、邮箱快速登录帐号。
+					</div>
+				</div>
+				<div class="safety J_hoverbut link_blue">
+					<div class="td1">用户名</div>
+					<div id="J_unameWrap" class="td2">{$visitor.username}</div>
+					<div class="td3">&nbsp;</div>
+					<div class="td4"><a id="J_edit_uname" href="javascript:;">修改</a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="safety J_hoverbut link_blue">
+					<div class="td1 t1">密码</div>
+					<div class="td2">上次登录时间：<span><if condition="$visitor['last_login_time']">{:date('Y-m-d H:i:s',$visitor['last_login_time'])}<else />从未登录</if></span></div>
+					<div class="td3"><a href="{:U('user_loginlog')}">[查看登录日志]</a></div>
+					<div class="td4"><a id="J_edit_password" href="javascript:;">修改</a></div>
+					<div class="clear"></div>
+				</div>
+				<div class="safety J_hoverbut link_blue">
+					<div class="td1 t2">手机</div>
+					<div id="J_mobileWrap" class="td2"><if condition="$members_info['mobile']">{$members_info.mobile}<else />手机未填写</if><span>（认证后可用于登录账号、找回密码）</span></div>
+					<div class="td3">&nbsp;</div>
+					<div class="td4">
+						<a id="J_auth_mobile" href="javascript:;">修改</a>
+					</div>
+					<div class="clear"></div>
+				</div>
+	        	<div class="safety_btit">账号绑定<span>（授权绑定后，可使用第三方帐号快速登录）</span></div>
+	        	<div class="safety_binding">
+	 				<volist name="oauth_list" id="oauth">
+						<div class="td1">
+							<if condition="$user_bind[$oauth['alias']] eq ''">
+								<div class="{$oauth.alias}">{$oauth.name}</div>
+						    	<div class="txt link_blue"><a id="J_bind_{$oauth.alias}" href="{:U('callback/index',array('mod'=>$oauth['alias'],'type'=>'bind'))}">立即绑定</a></div>
+							<else/>
+								<div class="{$oauth.alias} ok">{$oauth.name}</div>
+								<div class="txt link_blue"><a class="J_unlogin" href="javascript:;" url="{:U('callback/index',array('mod'=>$oauth['alias'],'type'=>'unbind'))}" name="{$oauth.name}">解除绑定</a></div>
+							</if>
+		 		   		</div>
+	 				</volist>
+					<div class="clear"></div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script type="text/javascript">
+			$('#J_edit_password').click(function(){
+				var qsDialog = $(this).dialog({
+	        		title: '修改密码',
+					loading: true,
+					showFooter: false,
+					yes: function() {
+						var options = {};
+						options['oldpassword'] = $('#J_passwordWrap').find('input[name="oldpassword"]').val();
+						options['password'] = $('#J_passwordWrap').find('input[name="password"]').val();
+						options['password1'] = $('#J_passwordWrap').find('input[name="password1"]').val();
+						$.post("{:U('Members/save_password')}",options,function(r){
+							if(r.status == 1){
+								disapperTooltip('success',r.msg);
+								qsDialog.hide();
+							}else{
+								disapperTooltip("remind", r.msg);
+							}
+						},'json');
+					}
+				});
+				$.getJSON("{:U('Members/save_password')}",function(result){
+					if(result.status == 1){
+						qsDialog.setCloseDialog(false);
+						qsDialog.setContent(result.data.html);
+        				qsDialog.showFooter(true);
+					}else{
+						qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+					}
+				});
+			});
+			var regularUsername = /^(?=[\u4e00-\u9fa5a-zA-Z])(?!\d+)[\u4e00-\u9fa5\w.]{3,18}$/;
+			$('#J_edit_uname').click(function(){
+				var qsDialog = $(this).dialog({
+	        		title: '修改用户名',
+					loading: true,
+					showFooter: false,
+					yes: function() {
+						var username = $.trim($('#J_usernameInput').val());
+						if (!username.length) {
+							disapperTooltip("remind", '请填写新用户名');
+							$('#J_usernameInput').focus();
+							return false;
+						}
+						if (username.length && !regularUsername.test(username)) {
+							disapperTooltip("remind", "用户名中英文开头3-18位，无特殊符号");
+							$('#J_usernameInput').focus();
+							return false;
+						}
+						$.post("{:U('Members/save_username')}",{username:username},function(r){
+							if(r.status == 1){
+								$('#J_unameWrap').text(username);
+								disapperTooltip('success',r.msg);
+								qsDialog.hide();
+							}else{
+								disapperTooltip("remind", r.msg);
+							}
+						},'json');
+					}
+				});
+				$.getJSON("{:U('Members/save_username')}",function(result){
+					if(result.status == 1){
+						qsDialog.setCloseDialog(false);
+						qsDialog.setContent(result.data.html);
+        				qsDialog.showFooter(true);
+					}else{
+						qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+					}
+				});
+			});
+			$('#J_auth_mobile').click(function(){
+				var title = '修改手机';
+				var qsDialog = $(this).dialog({
+			        title: title,
+	                loading: true,
+	                border: false,
+	                footer: false
+	            });
+				$.getJSON("{:U('Members/user_mobile')}",function(result){
+		    		if(result.status == 1){
+		    			qsDialog.hide();
+						var qsDialogSon = $(this).dialog({
+			        		title: title,
+	                		border: false,
+			        		content: result.data,
+							yes: function() {
+								var regularMobileAuth = qscms.regularMobile; // 验证手机号正则
+								var mobile = $.trim($('#J_mobileWrap input[name="mobile"]').val());
+								if(mobile == ''){
+									$('#J_mobileWrap .J_errbox').text('手机号不能不空！').show();
+									return false;
+								}
+								if (mobile != "" && !regularMobileAuth.test(mobile)) {
+									$('#J_mobileWrap .J_errbox').text('手机号码格式不正确！').show();
+									return false;
+								}
+								var verifycode  = $.trim($('#J_mobileWrap input[name="verifycode"]').val());
+								if(!verifycode){
+									$('#J_mobileWrap .J_errbox').text('请填写验证码！').show();
+									return false;
+								}
+								$.post("{:U('Members/verify_mobile_code')}",{verifycode:verifycode},function(result){
+									if(result.status == 1){
+										qsDialogSon.hide();
+										f.text('修改');
+										$('#J_mobileWrap').html(result.data.mobile+'<span>（认证后可使用该手机登录账号、找回密码）</span>');
+										if(result.data.points){
+											disapperTooltip("goldremind", '验证手机号增加'+result.data.points+'{:C('qscms_points_byname')}<span class="point">+'+result.data.points+'</span>');
+										}else{
+											disapperTooltip('success',result.msg);
+										}
+									} else {
+										$('#J_mobileWrap .J_errbox').text(result.msg).show();
+									}
+								},'json');
+							}
+						});
+						qsDialogSon.setCloseDialog(false);
+		    		}else{
+		    			qsDialog.hide();
+		    			disapperTooltip('remind',result.msg);
+		    		}
+		    	});
+			});
+			$('.J_unlogin').click(function(){
+				var url = $(this).attr('url'),
+					name = $(this).attr('name'),
+					qsDialog=$(this).dialog({
+						title: '取消绑定',
+						loading: false,
+						border: false,
+						content : '当前帐号已绑定<'+name+'><br/>确定解绑吗？',
+						yes: function() {
+							window.location.href=url;
+						}
+					});
+			});
+		</script>
+	</body>
+</html>

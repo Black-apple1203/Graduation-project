@@ -1,0 +1,29 @@
+<div class="dialog_box log" style="width:750px;">
+    <table width="750" border="0" cellpadding="0" cellspacing="0" id="list" class="link_lan">
+        <tr>
+            <td width="120" class="admin_list_tit admin_list_first">查看用户</td>
+            <td width="120" class="admin_list_tit">查看时间</td>
+            <td width="120" class="admin_list_tit">openid</td>
+        </tr>
+        <if condition="$list">
+            <volist name="list" id="vo">
+                <tr>
+                    <td class="admin_list admin_list_first">
+                        {$vo.username}
+                        <if condition="$vo['avatars'] neq ''">
+                            &nbsp;<span class="vtip">
+                                <img class="avatar small" src="{:attach($vo['avatars'],'avatar')}" align="absmiddle" width="30" height="30">
+                            </span>
+                        </if>
+                    </td>
+                    <td class="admin_list">{:date('m-d H:i',$vo['addtime'])}</td>
+                    <td class="admin_list">{$vo['openid']}</td>
+                </tr>
+            </volist>
+        <else/>
+            <tr>
+                <td colspan="4" class="admin_list admin_list_first">没有任何信息！</td>
+            </tr>
+        </if>
+    </table>
+</div>

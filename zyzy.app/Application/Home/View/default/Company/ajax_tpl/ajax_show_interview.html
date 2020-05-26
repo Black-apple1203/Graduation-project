@@ -1,0 +1,30 @@
+<div class="show_interview_dialog">
+	<div class="tip">
+		<strong>{$interview['resume_name']}</strong> 你好：<br>
+		<if condition="$is_apply eq 1">
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;感谢你关注 {$interview['company_name']}！我们诚挚邀请您来参加面试，请您务必准时到达面试地点，如果时间上有变化请尽快与我们联系。
+		<else />
+		&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经过我司HR的初步筛选，认为你与我们的职位要求很匹配，现诚挚邀请你来我司面谈。请准时出席，如时间上有变化也请尽快与我们联系。
+		</if>
+	</div>
+	<div class="content">
+		<div class="td1">面试职位：</div>
+		<div class="td2">{$interview.jobs_name}</div>
+		<div class="clear"></div>
+		<div class="td1">面试时间：</div>
+		<div class="td2">{:PA(date('Y/m/d A h:i',$interview['interview_time']))}</div>
+		<div class="clear"></div>
+		<div class="td1">面试地点：</div>
+		<div class="td2  substring" title="{$interview.address}">{$interview.address}</div>
+		<div class="clear"></div>
+		<div class="td1">联系人：</div>
+		<div class="td2">{$interview.contact}</div>
+		<div class="clear"></div>
+		<div class="td1">联系电话：</div>
+		<div class="td2">{$interview.telephone}</div>
+		<div class="clear"></div>
+		<div class="td1">备注：</div>
+		<div class="td2">{$interview.notes}</div>
+		<div class="clear"></div>
+	</div>
+</div>

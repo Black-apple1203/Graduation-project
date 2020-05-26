@@ -1,0 +1,14 @@
+<div class="left_jobs">
+  	<div class="li link_gray6 J_hoverbut t5 <if condition="ACTION_NAME eq 'jobs_apply'">select</if>" onclick="window.location='{:U('company/jobs_apply')}'"><a href="{:U('company/jobs_apply')}">收到的简历</a></div>
+  	<div class="li link_gray6 J_hoverbut t6 <if condition="ACTION_NAME eq 'jobs_interview'">select</if>" onclick="window.location='{:U('company/jobs_interview')}'"><a href="{:U('company/jobs_interview')}">面试邀请</a></div>
+	<if condition="C('qscms_video_interview_open') eq 1">
+	  <div class="li link_gray6 J_hoverbut t26 <if condition="ACTION_NAME eq 'video_interview'">select</if>" onclick="window.location='{:U('company/video_interview')}'"><a href="{:U('company/video_interview')}">视频面试</a></div>
+	</if>  
+	<div class="li link_gray6 J_hoverbut t7 <if condition="ACTION_NAME eq 'resume_down'">select</if>" onclick="window.location='{:U('company/resume_down')}'"><a href="{:U('company/resume_down')}">已下载简历</a></div>
+  	<div class="li link_gray6 J_hoverbut t8 <if condition="ACTION_NAME eq 'resume_favorites'">select</if>" onclick="window.location='{:U('company/resume_favorites')}'"><a href="{:U('company/resume_favorites')}">收藏的简历</a></div>
+  	<div class="li link_gray6 J_hoverbut t9 <if condition="ACTION_NAME eq 'resume_viewlog'">select</if>" onclick="window.location='{:U('company/resume_viewlog')}'"><a href="{:U('company/resume_viewlog')}">浏览过的简历</a></div>
+  	<div class="li link_gray6 J_hoverbut t10 <if condition="ACTION_NAME eq 'jobs_viewlog'">select</if>" onclick="window.location='{:U('company/jobs_viewlog')}'"><a href="{:U('company/jobs_viewlog')}">谁看过我</a></div>
+  	<!-- -->
+<include file="left_complaint" />
+	<!-- -->
+</div>

@@ -1,0 +1,70 @@
+<include file="public:header" />
+	<div class="toptip">
+    	<div class="toptit">提示：</div>
+		<p>系统检测 “<strong>{$module.version.module_name}</strong>” 已经安装，版本号为<strong>[{$module.version.version}]</strong>,重新安装会删除原有数据，请慎重操作！</p>
+	</div>
+	<div class="toptit">应用详情</div>
+	<table width="800"  border="0" cellpadding="2" cellspacing="2"  class="apply_show" style="margin-bottom:15px;" >
+		<tr>
+			<td width="80" align="center">
+				<img src="{$module.ico}" border="0" width="58" height="58">			</td>
+			<td style="line-height:230%;color:#999999" class="J_mod" m="{$module.module}" v="{$module.version.version}">
+			<strong style="color: #0066CC; font-size:14px; padding-right:10px;">{$module.version.module_name}</strong>（{$module.module}）&nbsp;&nbsp;&nbsp;
+			<span class="J_v">版本：{$module.version.version}</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span class="J_t">更新时间：{$module['version']['update_time']}</span><br />
+			{$module.version.explain}
+		  </td>
+		</tr>
+</table>
+	<!--点击安装按钮显示下方，卸载相同 -->
+	<form id="J_install_form" action="{:U('apply/setup')}" method="post" style="display:none">
+		<div class="toptit">安装进程</div>
+		<div id="J_process" style="padding:20px; padding-top:10px; height:160px;overflow:auto;margin-bottom: 10px;"></div>
+		<input name="mod" value="{$module.module}" type="hidden">
+		<iframe src="about:blank" style="width:500px; height:300px;display:none;" name="post_target"></iframe>
+	</form>
+	<table width="100%" border="0" cellspacing="10"  class="admin_list_btm">
+		<tr id="J_run">
+			<td>
+				<input name="ButADD" type="button" class="admin_submit" value="开始安装" onclick="setup();"/>
+				<input name="ButADD" type="button" class="admin_submit" id="ButADD" value="返回"  onclick="window.location='{:U('apply/index')}'"/>
+			</td>
+		</tr>
+		<tr id="J_end" style="display:none">
+			<td>
+				<input name="ButADD" type="button" class="admin_submit" id="ButADD" value="安装完成"  onclick="window.location='{:U('apply/index')}'"/>
+			</td>
+		</tr>
+	</table>
+</div>
+<include file="public:footer" />
+<script>
+	function setup(){
+		$('#J_install_form').show().attr('target','post_target');
+	    $('#J_install_form').submit();
+	    $('#J_run').hide();
+	}
+	function show_process(html){
+	    $('#J_process').html($('#J_process').html() + html);
+	    var _t = $('#J_process').get(0);
+	    _t.scrollTop = _t.scrollHeight;
+	}
+	function install_failure(){
+	    $('#J_run').show();
+	}
+	function install_successed(){
+	    $('#J_end').show();
+	}
+	function callback(a){
+	    $.each(a.data,function(k,v){
+			var version = $('.J_mod[m="'+k+'"]').attr('v');
+			if(v.version && version < v.version){
+				v.update_time = v.update_time ? v.update_time : '未发布';
+				$('.J_mod[m="'+k+'"] .J_v').after('<a href="https://www.74cms.com/app/lists.html" class="newsv">有新版</a>');
+				$('.J_mod[m="'+k+'"] .J_t').html('更新时间：'+v.update_time);
+			}
+	    });
+	}
+</script>
+<script src="https://www.74cms.com/plus/check_module.php?module_name={$module.module}" language="javascript"></script>
+</body>
+</html>

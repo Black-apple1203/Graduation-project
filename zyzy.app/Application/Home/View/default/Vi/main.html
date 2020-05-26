@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<include file="public:meta" />
+		<link
+			href="{:C('TPL_PUBLIC_DIR')}/css/common.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="{:C('TPL_PUBLIC_DIR')}/css/vi.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+	</head>
+	<body>
+		<div class="vi_head">
+			<div class="head_content">
+				<a href="__ROOT__/">
+					<img class="hc_logo" src="<if condition="C('qscms_logo_home')"
+						>{:attach(C('qscms_logo_home'),'resource')}<else />{:C('TPL_HOME_PUBLIC_DIR')}/images/logo.gif</if
+					>" alt="logo">
+				</a>
+				<div class="hc_logo_vi"></div>
+				<a href="__ROOT__/" class="hc_back_home">返回网站</a>
+				<a class="hc_contact">联系电话：{:C('qscms_top_tel')}</a>
+				<a href="{$test_url}" class="hc_detect">设备检测</a>
+			</div>
+		</div>
+		<div class="vi_container">
+			<neq name="room_status" value="opened">
+				<div class="vi_over_box">
+					<div class="over_title">
+						<eq name="room_status" value="overtime"
+							>本次面试已结束，感谢您的参与！</eq
+						>
+						<eq name="room_status" value="nostart"
+							>本次面试未开始，敬请期待！</eq
+						>
+					</div>
+					<div class="clear"></div>
+					<div class="over_info_box">
+						<div class="box_line">
+							&nbsp;&nbsp;&nbsp;候选人：<span class="con"
+								>{$resume_info['fullname']}</span
+							>
+						</div>
+						<div class="box_line">
+							面试时间：<span class="con"
+								>{:date('Y-m-d H:i',$info['interview_time'])}</span
+							>
+						</div>
+						<div class="box_line">
+							面试职位：<span class="con">{$info['jobs_name']}</span>
+						</div>
+						<div class="box_line">
+							公司名称：<span class="con">{$jobs_info['companyname']}</span>
+						</div>
+					</div>
+				</div>
+				<else />
+				<div class="tip" style="width:1170px;margin-bottom:26px;display:none;">
+					为提高视频面试效率，建议您使用谷歌内核浏览器并提前检测您的设备是否能够正常连通
+				</div>
+				<div class="vi_media_room">
+					<div class="stream_box" title="pc" id="video_grid">
+						<!-- 对方视频 -->
+						<!-- <div class="player_box"></div> -->
+						<!-- 对方视频 end-->
+						<!-- 本地视频 -->
+						<div class="local_stream" id="local_stream">
+							<div id="local_video_info" class="video-info"></div>
+						</div>
+						<!-- 本地视频 end-->
+						<!-- 等待加入 -->
+						<div class="wait_join">
+							<eq name="utype" value="1">等待求职者进入…<else />等待HR进入…</eq>
+						</div>
+						<!-- 等待加入 end-->
+					</div>
+					<div class="stream_handle">
+						<div class="handle_box">
+							<div class="handle_audio J_mute"></div>
+							<div class="handle_call" id="leave"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="info_line i1">
+							面试时长：<span id="J_view_time">00:00</span>
+						</div>
+						<div class="info_line i2">面试职位：{$info['jobs_name']}</div>
+						<if condition="$utype==1">
+							<div class="info_line i3">
+								{$resume_info['fullname']}
+								({$resume_info['age']}岁,{$resume_info['education_cn']},{$resume_info['experience_cn']}经验)
+							</div>
+							<a
+								href="{:url_rewrite('QS_resumeshow',array('id'=>$resume_info['id']))}"
+								target="_blank"
+								class="to_show"
+								>查看简历</a
+							>
+							<a href="javascript:;" class="to_warn J_notice">发送提醒</a>
+							<else />
+							<div class="info_line i3">薪资待遇：{$jobs_info['wage_cn']}</div>
+							<a
+								href="{:url_rewrite('QS_jobsshow',array('id'=>$jobs_info['id']))}"
+								target="_blank"
+								class="to_show"
+								>查看职位</a
+							>
+							<a href="javascript:;" class="to_warn J_notice">发送提醒</a>
+						</if>
+					</div>
+				</div>
+				<input type="hidden" id="userId" value="" />
+				<input type="hidden" id="roomId" value="" />
+				<input type="button" id="btnCheck" style="display:none;">
+				<div id="popup-captcha"></div>
+				<input type="hidden" id="J_captcha_open" value="{:C('qscms_captcha_open')}" />
+				<script>
+					var isChrome = navigator.userAgent.indexOf("Chrome") > -1; // 是否是谷歌
+					if (isChrome === false) {
+						$(".tip").show();
+					}
+					// initialize userId/roomId
+					$("#userId").val("{$userid}");
+					$("#roomId").val("{$roomid}");
+					var globalConfig = {
+							sdkAppId: parseInt("{:C('qscms_trtc_appid')}"),
+							userSig: "{$sig}"
+						},
+						isDetectPage = false, // 是否检测设备
+						camerasList = [],
+						microphonesList = [],
+						speakersList = [];
+				</script>
+				<script src="{:C('TPL_PUBLIC_DIR')}/js/layer/layer.js"></script>
+				<!-- 引入 TRTC WEB SDK 脚本 -->
+				<script src="{:C('TPL_PUBLIC_DIR')}/js/vi/trtc.js?v={:date('Ymd')}"></script>
+				<!-- 相关脚本 -->
+				<script src="{:C('TPL_PUBLIC_DIR')}/js/vi/lib-generate-test-usersig.min.js?v={:date('Ymd')}"></script>
+				<script src="{:C('TPL_PUBLIC_DIR')}/js/vi/utils.js?v={:date('Ymd')}"></script>
+				<script src="{:C('TPL_PUBLIC_DIR')}/js/vi/rtc-client.js?v={:date('Ymd')}"></script>
+				<script src="{:C('TPL_PUBLIC_DIR')}/js/vi/handle.js?v={:date('Ymd')}"></script>
+				<script>
+					$(document).ready(function() {
+						var selfutype = "{$utype}";
+						var url = "";
+						var remindNum = 0;
+						if (selfutype == "1") {
+							url = "{:U('vi/ajax_notice_persoal')}";
+							remindNum = "{$PersonalRemindNum}";
+							var txt = "求职者";
+						} else {
+							url = "{:U('vi/ajax_notice_company')}";
+							remindNum = "{$companyRemindNum}";
+							var txt = "企业";
+						}
+						var code = "{$code}";
+						var captcha_open = eval($('#J_captcha_open').val());
+						$(".J_notice").click(function() {
+							if ($(this).hasClass('btn_disabled')) { return false; }
+							if (captcha_open && (parseInt(remindNum) > 3)) {
+								// 发送次数大于三次，出现验证码
+								layer.confirm(
+									"确定提醒" + txt + "吗？",
+									function() {
+										qsCaptchaHandler(function(callBackArr) {
+											var dataArr = {code: code};
+											$.extend(dataArr, callBackArr);
+											$.ajax({
+												url: url,
+												type: 'POST',
+												dataType: 'json',
+												data: dataArr,
+												success: function(res) {
+													if (res.status == 1) {
+														layer.msg("已成功提醒" + txt);
+														remindNum++;
+														coundDownFun();
+													} else {
+														layer.msg(res.msg);
+													}
+												}
+											});
+											layer.closeAll("dialog");
+										});
+									},
+									function() {}
+								);
+							} else {
+								confirmFun();
+							}
+							function confirmFun() {
+								layer.confirm(
+									"确定提醒" + txt + "吗？",
+									function() {
+										$.getJSON(url, { code: code }, function(res) {
+											if (res.status == 1) {
+												layer.msg("已成功提醒" + txt);
+												remindNum++;
+												coundDownFun();
+											} else {
+												layer.msg(res.msg);
+											}
+										});
+										layer.closeAll("dialog");
+									},
+									function() {}
+								);
+							}
+							function coundDownFun() {
+								// 开始倒计时
+			                    var countDownNumber = 180;
+			                    function seTimeFun() {
+			                        if (parseInt(countDownNumber) === 0) {
+			                            $('.J_notice').removeClass('btn_disabled');
+			                            $('.J_notice').text('发送提醒');
+			                            countDownNumber = 180;
+			                            return;
+			                        } else {
+			                            $('.J_notice').addClass('btn_disabled');
+			                            $('.J_notice').text('重发' + countDownNumber + '秒');
+			                            countDownNumber--;
+			                        }
+			                        setTimeout(function() {
+			                            seTimeFun()
+			                        },1000)
+			                    }
+			                    seTimeFun();
+							}
+						});
+					});
+				</script>
+			</neq>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,239 @@
+.fl{float:left}
+.fr{float:right}
+.mr4{margin-right:4px}
+.mr10{margin-right:10px}
+.ml20{margin-left:20px}
+.ml115{margin-left:115px}
+.mb16{margin-bottom:16px}
+.mb30{margin-bottom:30px}
+.mt15{margin-top:15px}
+.w35{width:35px}
+.w45{width:45px}
+.w52{width:52px}
+.w60{width:60px}
+.w76{width:76px}
+.w89{width:89px}
+.w110{width:110px}
+.w113{width:113px}
+.w120{width:120px}
+.w140{width:140px}
+.w205{width:205px}
+.w518{width:518px}
+.w680{width:680px}
+.w880{width:880px}
+.h50{height:50px}
+.pl18{padding-left:18px}
+.w518 .result{float:left;_display:inline;max-width:485px;white-space:nowrap;_white-space:normal;_width:200px;_height:26px;overflow:hidden;text-overflow:ellipsis;-o-text-overflow:ellipsis;_background:transparent;}
+.input_unit.nopl{padding-left:0;}
+
+/*添加职位布局*/
+.mright .modTitle{height:24px;line-height:24px;padding-left:24px;margin:15px 0;background:url(../../images/50.png) no-repeat 0 0;padding-left:40px;margin:20px 30px;font-size:16px;color:#333}
+.mright .modTitle.basic{}
+.mright .modTitle.contact{background-position:0 -39px}
+.mright .modTitle.advanced{background-position:0 -78px}
+.mright .mod{padding:0 30px}
+.mright .mod .modKey{float:left;width:120px;height:34px;line-height:34px;text-align:right}
+.mright .mod .modKey span{color:#FF0000;padding-right:12px;height:34px;line-height:34px;background:url(../../images/16.png) no-repeat left center}
+.mright .mod .modVal{float:left}
+.mright .mod .modVal .des-temp{height:34px;line-height:34px;color:#333;display:none;}
+.mright .mod .modVal .des-temp .des-ques{width:12px;height:12px;float:left;position:relative;margin-top:11px;background:url("../../images/199.png") no-repeat;*zoom:1;cursor:pointer;margin-right:5px;}
+.mright .mod .modVal .des-temp .des-ques .des_box{display:none;position:absolute;top:23px;left:-24px;width:430px;border:1px solid #ededed;padding:10px;background:#fff;cursor:default;z-index:5;box-shadow:1px 1px 10px #999;}
+.mright .mod .modVal .des-temp .des-ques .des_box .des_txt{padding-left:10px;padding-right:10px;width:430px;text-align:left;line-height:180%;}
+.mright .mod .modVal .des-temp .des-ques .des_box .des_txt span{color:#FF6600;font-family:Georgia,"Times New Roman",Times,serif;font-size:16px;padding:8px;}
+.mright .mod .modVal .des-temp .des-ques .des_box .des_txt .btn{text-align:center;padding-top:10px;padding-bottom:10px;}
+.mright .mod .modVal .des-temp .des-ques .des_box .desarrow{position:absolute;top:-7px;left:24px;width:11px;height:7px;background:url(../../images/160.png) no-repeat 0 -16px;}
+.mright .mod .modVal .des-temp .des-ques:hover .des_box{display:block;}
+.mright .mod .modVal .des-temp .des-txt{float:left;padding-right:10px;*zoom:1;}
+.mright .mod .modVal .des-temp .des-a{float:left;}
+.mright .mod .modVal .des-temp .des-item{height:34px;line-height:34px;color:#0180cf;text-decoration:none;margin-right:10px;*zoom:1;}
+.mright .mod .modVal .des-temp .des-item:hover{text-decoration:underline;}
+.mright .mod .modVal .des-temp .des-item.cur{color:#333}
+.mright .mod .radio_list{padding:6px 20px}
+.mright .mod .partition{height:34px;line-height:34px;margin:0 7px}
+.mright .mod .contact{display:none}
+.mright .mod .checkBox{vertical-align:middle;height:34px;line-height:34px}
+.mright .mod .checkBox input{vertical-align:middle;height:34px;line-height:34px;margin:0;padding:0;margin-right:5px}
+.mright .mod .other{background:url(../../images/57.png) no-repeat left center;height:34px;line-height:34px;padding-left:20px;margin-left:60px;text-decoration:underline;color:#666}
+.mright .mod .buySms,.mright .mod .buySms .smsMun,.mright .mod .buySms .buy{height:34px;line-height:34px}
+.mright .mod .buySms .smsMun{color:#FF9900;font-style:normal;margin:0 2px}
+.mright .mod .buySms .buy{color:#FF9900;text-decoration:none}
+
+/*职位管理布局*/
+.jobsWrap{margin:0 30px 15px}
+.jobsWrap .jobsList{margin-top:15px;border:1px solid #ededed;font-size:12px;position:relative;}
+.jobsWrap .jobsList .selWrap{width:32px;text-align:center;float:left;padding:15px 0;padding-top:22px;}
+.jobsWrap .jobsList .jobs{padding:15px 0;width:423px}
+.jobsWrap .jobsList .jobs .title a{font-size:14px}
+.jobsWrap .jobsList .jobs .update .wait{color:#f04815}
+.jobsWrap .jobsList .jobs .btns a{margin-right:5px}
+.jobsWrap .jobsList .jobs .btns .for_hover{position:relative;padding-bottom:10px;}
+.jobsWrap .jobsList .jobs .btns .for_hover:hover{text-decoration:none;}
+.jobsWrap .jobsList .jobs .btns .des_box{display:none;position:absolute;top:25px;right:-48px;color:#333333;width:250px;border:1px solid #ededed;padding:10px;background:#fff;cursor:default;z-index:5;box-shadow:1px 1px 10px #999;}
+.jobsWrap .jobsList .jobs .btns .des_box .des_txt{padding-left:10px;padding-right:10px;width:250px;text-align:left;line-height:180%;}
+.jobsWrap .jobsList .jobs .btns .des_box .des_txt span{color:#FF6600;font-family:Georgia,"Times New Roman",Times,serif;font-size:16px;padding:8px;}
+.jobsWrap .jobsList .jobs .btns .des_box .des_txt .btn{text-align:center;padding-top:10px;padding-bottom:10px;}
+.jobsWrap .jobsList .jobs .btns .des_box .desarrow{position:absolute;top:-7px;right:68px;width:11px;height:7px;background:url(../../images/160.png) no-repeat 0 -16px;}
+.jobsWrap .jobsList .jobs .btns .for_hover:hover .des_box{display:block;}
+.jobsWrap .jobsList .jobs .btns .friend{background:url(../../images/61.png) no-repeat left center;padding-left:18px;color:#999;margin-left:7px}
+.jobsWrap .jobsList .jobs a{color:#5f8dc9;text-decoration:none;height:25px;line-height:25px}
+.jobsWrap .jobsList .jobs a:hover{text-decoration:underline}
+.jobsWrap .jobsList .aloneOperation{width:480px;border-left:1px solid #ededed}
+.jobsWrap .jobsList .aloneOperation .box{padding:10px 15px;line-height:30px;}
+.jobsWrap .jobsList .aloneOperation .box .for_hover{position:relative;float:left;width:74px;}
+.jobsWrap .jobsList .aloneOperation .box .des_box{display:none;position:absolute;top:36px;right:-36px;width:250px;border:1px solid #ededed;padding:10px;background:#fff;cursor:default;z-index:5;box-shadow:1px 1px 10px #999;}
+.jobsWrap .jobsList .aloneOperation .box .des_box .des_txt{padding-left:10px;padding-right:10px;width:250px;text-align:left;line-height:180%;}
+.jobsWrap .jobsList .aloneOperation .box .des_box .des_txt span{color:#FF6600;font-family:Georgia,"Times New Roman",Times,serif;font-size:16px;padding:8px;}
+.jobsWrap .jobsList .aloneOperation .box .des_box .des_txt .btn{text-align:center;padding-top:10px;padding-bottom:10px;}
+.jobsWrap .jobsList .aloneOperation .box .des_box .desarrow{position:absolute;top:-7px;right:68px;width:11px;height:7px;background:url(../../images/160.png) no-repeat 0 -16px;}
+.jobsWrap .jobsList .aloneOperation .box .for_hover:hover .des_box{display:block;}
+.jobsWrap .jobsList .aloneOperation .borderTop{border-top:1px solid #ededed}
+.jobsWrap .jobsList .aloneOperation i{font-style:normal;color:#E48B04;margin:0 2px}
+.jobsWrap .jobsList .job-money-cell{position:absolute;top:25px;left:380px;width:60px;height:60px;text-align:center;cursor:pointer;}
+.jobsWrap .jobsList .job-money-cell .m-c-icon{margin-left:16px;width:28px;height:33px;background:url(../../images/204.png) no-repeat;*zoom:1;}
+.jobsWrap .jobsList .job-money-cell .m-c-txt{padding-top:8px;font-size:12px;color:#5f8dc9;}
+.jobsWrap .jobsList .job-money-cell.has .m-c-icon{background:url(../../images/204.png) 0px -33px no-repeat;}
+.jobsWrap .jobsList .job-money-cell.has .m-c-txt{color:#ff0000;}
+.jobsWrap .allSelWrap{float:left;width:32px;height:36px;text-align:center}
+.jobsWrap .allSelWrap input{height:36px;line-height:36px}
+.jobsWrap .res_empty{background-image:url(../../images/13.png);background-repeat:no-repeat;background-position:center 10px;margin:0 auto;width:500px;height:30px;text-align:center;height:90px;padding-top:138px;margin-top:20px;line-height:200%}
+.jobsWrap .res_empty_addbox{width:120px;margin:0 auto}
+
+/*未显示职位管理*/
+.jobsWrap .jobsList .s-t-box{width:200px;}
+.jobsWrap .jobsList .s-t-box .status{width:200px;text-align:center;padding:30px 0;height:20px;line-height:20px}
+.jobsWrap .jobsList .s-t-box.m .status{padding-top:20px;padding-bottom:3px;}
+.jobsWrap .jobsList .s-t-box.m .no_pass{width:12px;height:12px;background:url(../../images/253.png) no-repeat;display:inline-block;*display:inline;*zoom:1;margin-left:8px;cursor:pointer;position:relative;}
+
+.jobsWrap .jobsList .s-t-box.m .no_pass .des_box{display:none;position:absolute;top:23px;left:-24px;width:350px;border:1px solid #ededed;padding:10px;background:#fff;cursor:default;z-index:5;box-shadow:1px 1px 10px #999;}
+.jobsWrap .jobsList .s-t-box.m .no_pass .des_box .des_txt{padding-left:10px;word-break:break-all;padding-right:10px;width:336px;text-align:left;line-height:180%;}
+.jobsWrap .jobsList .s-t-box.m .no_pass .des_box .des_txt span{color:#FF6600;font-family:Georgia,"Times New Roman",Times,serif;font-size:16px;padding:8px;}
+.jobsWrap .jobsList .s-t-box.m .no_pass .des_box .des_txt .btn{text-align:center;padding-top:10px;padding-bottom:10px;}
+.jobsWrap .jobsList .s-t-box.m .no_pass .des_box .desarrow{position:absolute;top:-7px;left:24px;width:11px;height:7px;background:url(../../images/160.png) no-repeat 0 -16px;}
+.jobsWrap .jobsList .s-t-box.m .no_pass:hover .des_box{display:block;}
+
+.jobsWrap .jobsList .m .m-type{width:200px;text-align:center;height:14px;line-height:14px;}
+.jobsWrap .jobsList .m .m-type .m-t-txt{display:inline-block;*display:inline;*zoom:1;height:14px;}
+.jobsWrap .jobsList .m .m-type .m-t-icon{display:inline-block;*display:inline;*zoom:1;position:relative;width:14px;height:14px;background:url(../../images/206.png) no-repeat;vertical-align:text-bottom;cursor:pointer;}
+.jobsWrap .jobsList .m .m-type .m-t-icons{z-index: 9999;}
+.jobsWrap .jobsList .m .m-type .m-t-icon .m-re-box{display:none;position:absolute;right:-55px;top:23px;width:480px;padding:15px 0;font-size:12px;background:#fefce8;border:1px solid #ffe4b5;-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;}
+.m-tx-line{color:#333;text-align:left;padding-left:15px;height:14px;line-height:14px;}
+.m-tx-line .t{color:#999;}
+.m-tx-line .o{color:#FF6600;}
+.jobsWrap .jobsList .m .m-type .m-t-icon .m-re-box .h15{width:100%;height:15px;}
+.jobsWrap .jobsList .m .m-type .m-t-icon .m-re-box .red-txt{color:#ff0000;}
+.jobsWrap .jobsList .m .m-type .m-t-icon .m-re-arr{position:absolute;right:56px;top:-7px;width:10px;height:7px;background:url(../../images/205.png) no-repeat;}
+.jobsWrap .jobsList .m .m-type .m-t-icon .m-re-clo{position:absolute;left:460px;top:10px;width:9px;height:9px;background:url(../../images/205.png) 0 -11px no-repeat;}
+.jobsWrap .jobsList .m .m-type .m-t-icon:hover .m-re-box{display:block;}
+.jobsWrap .jobsList .edit{width:260px;text-align:right;padding:30px 0;height:20px;line-height:20px}
+.jobsWrap .jobsList .edit a{margin-left:20px;height:20px;line-height:20px}
+.jobsWrap .jobsList .status.font_red{color:#ff6060}
+.jobsWrap .jobsList .status.font_yellow{color:#fd8000}
+
+/*招聘效果统计*/
+.line_wrap{width:940px;border:1px solid #EFEFEF;margin-left:30px;margin-top:20px}
+.line_wrap .line_top{line-height:40px;background-color:#FAFAFA}
+.line_wrap .line_top .select_input{float:left;display:inline-block;border:0;background-color:#FAFAFA;border-right:1px solid #EFEFEF;height:38px;line-height:38px;background-position:right 3px}
+.line_wrap .line_main{}
+.line_wrap .dropdowbox10{top:38px;}
+.detail_wrap{width:940px;margin-left:30px;margin-top:20px;}
+.detail_wrap .detail_title{height:28px;line-height:22px;margin-top:20px;width:940px;font-size:14px;border-bottom:1px solid #EFEFEF}
+.detail_wrap .detail_title .num_tip{font-size:12px;margin-left:10px}
+.detail_wrap .detail_title .num_tip .num{color:#F19115}
+.detail_wrap .detail_title .pat_l{float:left;width:560px}
+.detail_wrap .detail_title .pat_r{float:left;font-size:12px;text-align:right;width:380px}
+.detail_wrap .detail_title .pat_r .rli{width:auto;margin-left:10px}
+.detail_wrap .detail_title.apply_title .pat_l{width:508px}
+.detail_wrap .detail_title.apply_title .pat_r{width:232px}
+.chart_wrap{}
+.chart_wrap .chart_item{width:466px;float:left}
+.detail_wrap .list_th{background-color:#F7F7F7;line-height:40px;margin-top:14px;width:740px;border-radius:2px}
+.detail_wrap .list_th .th1{margin-left:20px;width:114px}
+.detail_wrap .list_th .th2{width:210px}
+.detail_wrap .list_th .th3{width:170px}
+.detail_wrap .list_th .th4{width:100px}
+.detail_wrap .list_th .th5{text-align:center}
+.detail_wrap .list_td{padding:16px 0;border-bottom:1px solid #F7F7F7;width:740px}
+.detail_wrap .list_td .td1{margin-left:20px;width:114px}
+.detail_wrap .list_td .td2{width:210px}
+.detail_wrap .list_td .td3{width:170px}
+.detail_wrap .list_td .td4{width:100px;color:#FF6B0D}
+.detail_wrap .list_td .td5{text-align:center}
+
+
+/*新修改*/
+.jobsWrap .jobsList .aloneOperation.share{
+	width: 340px;
+	margin-left: 140px;
+}
+.jobsWrap .jobsList .aloneOperation{
+    width: 410px;
+    margin-left: 70px;
+}
+.jobsWrap .jobsList .share_entrance{
+    position: absolute;
+    top: 25px;
+    left: 445px;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    cursor: pointer;
+}
+.share_entrance_img{
+    margin-left: 15px;
+    width: 30px;
+    height: 34px;
+    background: url(./img/whb2.png) 0 no-repeat;
+}
+.share_entrance_img.gray {
+    background: url(./img/whb5.png) 0 no-repeat;
+}
+.share_entrance_text{
+    padding-top: 7px;
+    font-size: 12px;
+    color: #5f8dc9;
+}
+
+.jobsWrap .jobsList .job-money-cell{
+	left: 441px;
+}
+.jobsWrap .jobsList .job-money-cell.share{
+    left: 511px;
+}
+/*微海报*/
+.whb_entrance{
+    position: absolute;
+    top: 25px;
+    left: 380px;
+    width: 60px;
+    height: 60px;
+    text-align: center;
+    cursor: pointer;
+
+}
+.whb_entrance_img{
+	margin-left: 13px;
+    width: 44px;
+    height: 32px;
+    background: url(./img/whb1.png) no-repeat;
+
+}
+.whb_entrance_text{
+	padding-top: 9px;
+    font-size: 12px;
+    color: #5f8dc9;
+}
+.whb_button{
+	width: 86px;
+    display: inline-block;
+    height: 28px;
+    line-height: 28px;
+    margin-right: 18px;
+    text-decoration: none;
+    text-align: center;
+    color: #FFFFFF;
+    background-color: #5F8DC9;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 0px #35639F solid
+}

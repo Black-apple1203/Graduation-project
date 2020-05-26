@@ -1,0 +1,207 @@
+/**
+ * 个人中心弹框css样式
+ * 
+ * @Author: YangGuo
+ * @Date: 2016-7-14
+ */
+
+/* --单选-- */
+.radio_list{}
+.radio_list .rli{background:url(../../images/19.png) no-repeat 0px -148px;padding-left:23px;width:50px;float:left;height:22px;line-height:22px;cursor:pointer}
+.radio_list .rli.checked{background:url(../../images/19.png) no-repeat 0px -181px;}
+
+/* 注册成功弹框 450px*/
+.reg_success_dialog{width:430px;font-size:20px;color:#3EB958;padding:15px 0 20px 20px;}
+.reg_success_dialog .tip{width:405px;line-height:30px;background:url(../../images/74.png) no-repeat 0px -44px;margin-bottom:15px;padding-left:55px;}
+.reg_success_dialog .tip .description{color:#333333;font-size:14px;}
+.reg_success_dialog .btn{width:350px;padding-left:55px;text-align:right;}
+.reg_success_dialog .btn .btn_b{width:120px;}
+.reg_success_dialog .btn .btn_g{width:90px;}
+
+/* 创建简历弹框 450px*/
+.create_resume_dialog{width:430px;font-size:14px;color:#333333;padding:10px 0 10px 15px;}
+.create_resume_dialog .tip{width:430px;color:#666666;font-size:13px;margin-bottom:10px;}
+.create_resume_dialog .mode_radio_list{width:410px;padding:0 10px;}
+.create_resume_dialog .mode_radio_list .rli{background:url(../../images/19.png) no-repeat 0px -142px;padding-left:23px;height:34px;line-height:34px;cursor:pointer}
+.create_resume_dialog .mode_radio_list .rli.checked{background:url(../../images/19.png) no-repeat 0px -176px;}
+.create_resume_dialog .resume_radio_list{width:410px;margin-left:10px;font-size:12px;color:#666666;}
+.create_resume_dialog .resume_radio_list .rli{background:#F0F0F0 url(../../images/19.png) no-repeat 10px -143px;padding-left:33px;height:34px;line-height:34px;cursor:pointer;margin-bottom:5px;}
+.create_resume_dialog .resume_radio_list .rli.checked{background-position:10px -175px;}
+.create_resume_dialog .resume_radio_list .rli .td1{width:170px;float:left;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;}
+.create_resume_dialog .resume_radio_list .rli .td2{width:80px;padding-left:10px;float:left;color:#FF6600;}
+.create_resume_dialog .resume_radio_list .rli .td3{width:110px;float:left;}
+
+/* 刷新简历弹框 350px*/
+.refresh_resume_dialog{width:350px;font-size:14px;color:#333333;padding-left:20px;padding-top:10px;}
+.refresh_resume_dialog .tip{width:295px;height:47px;line-height:25px;background:url(../../images/80.png) no-repeat 0px 5px;color:#666666;margin-bottom:20px;padding-left:55px;}
+.refresh_resume_dialog .tip strong{color:#FF6600;}
+.refresh_resume_dialog .content{width:405px;padding-left:55px;}
+.refresh_resume_dialog .content .td{width:350px;margin-bottom:15px;font-weight:bold;}
+.refresh_resume_dialog .content .td1{width:70px;height:35px;text-align:right;}
+.refresh_resume_dialog .content .td2{width:280px;}
+.refresh_resume_dialog .content .td2 a{color:#5F8DC9;text-decoration:none;}
+.refresh_resume_dialog .content .td2 a:hover{text-decoration:underline;}
+
+/* 修改刷新简历弹框 470px*/
+.refresh_resume_dialog .content.c .orgWrap,.refresh_resume_dialog .content .refresh_resume_edit_dialog.c .default{display:none}
+.refresh_resume_dialog .content.c .telWrap,.refresh_resume_dialog .content .refresh_resume_edit_dialog .default,.refresh_resume_dialog .content .refresh_resume_edit_dialog.c .approve{display:block}
+.refresh_resume_dialog .content .refresh_resume_edit_dialog,.refresh_resume_dialog .content .refresh_resume_edit_dialog .approve{display:none}
+.refresh_resume_dialog .content .refresh_resume_edit_dialog .td{width:350px;margin-bottom:15px;font-weight:bold;}
+.refresh_resume_dialog .content .refresh_resume_edit_dialog .td1{width:82px;height:45px;padding-top:5px;text-align:right;}
+.refresh_resume_dialog .content .refresh_resume_edit_dialog .td2{width:250px;}
+.refresh_resume_dialog .content .refresh_resume_edit_dialog .td2 .code{float:left;overflow:hidden;position:relative;width:120px;}
+.refresh_resume_dialog .content .refresh_resume_edit_dialog .td2 .code input{width:120px;height:32px;line-height:32px;padding-left:10px;border:1px solid #dddddd;border-right-width:0;}
+.refresh_resume_dialog .content .refresh_resume_edit_dialog .td2 .codebtn{float:left;height:32px;width:120px;}
+.refresh_resume_dialog .content .refresh_resume_edit_dialog .td2 .codebtn div{width:113px;padding:0px;height:32px;line-height:32px;border-radius:0px;}
+
+/* 委托简历弹框 450px*/
+.entrust_resume_dialog{width:430px;font-size:14px;color:#333333;padding-left:20px;padding-top:10px;}
+.entrust_resume_dialog .tip{width:320px;height:47px;line-height:25px;background:url(../../images/80.png) no-repeat 0px 5px;color:#666666;margin-bottom:20px;padding-left:55px;}
+.entrust_resume_dialog .tip strong{color:#FF6600;}
+.entrust_resume_dialog .content{width:375px;padding-left:55px;}
+.entrust_resume_dialog .content .td1{width:70px;height:35px;text-align:right;}
+.entrust_resume_dialog .content .td1.p{padding-top:2px;}
+.entrust_resume_dialog .content .td2{width:300px}
+
+/* 更换简历模版弹框 470px*/
+.change_resume_tpl_dialog{width:450px;font-size:14px;color:#333333;padding:10px 0 10px 20px;}
+.change_resume_tpl_dialog .title{width:450px;}
+.change_resume_tpl_dialog .title .td1{width:70px;height:35px;text-align:right;color:#666666;}
+.change_resume_tpl_dialog .title .td2{width:280px;}
+.change_resume_tpl_dialog .content{width:450px;}
+.change_resume_tpl_dialog .content .left{width:165px;height:180px;padding:10px;border:1px solid #CFCFCF;float:left;overflow-y:auto;}
+.change_resume_tpl_dialog .content .left .tip{color:#666666;margin-bottom:5px;}
+.change_resume_tpl_dialog .content .left .tpl_radio_list{width:145px;}
+.change_resume_tpl_dialog .content .left .tpl_radio_list .rli{background:url(../../images/19.png) no-repeat 0px -144px;padding-left:23px;height:30px;line-height:30px;cursor:pointer;}
+.change_resume_tpl_dialog .content .left .tpl_radio_list .rli.checked{background-position:0px -177px;}
+.change_resume_tpl_dialog .content .left .tpl_radio_list .rli span{color:#FF6600;}
+.change_resume_tpl_dialog .content .right{width:225px;color:#FF6600;padding-left:20px;float:left;}
+.change_resume_tpl_dialog .content .right .thumb{width:223px;height:138px;border:1px solid #CFCFCF;}
+.change_resume_tpl_dialog .content .right .preview{width:223px;text-align:center;margin-top:5px;}
+
+/* 申请单个职位弹框 470px*/
+.apply_job_dialog{width:450px;font-size:14px;color:#333333;padding:10px 0 10px 20px;}
+.apply_job_dialog .tip{width:350px;height:47px;line-height:25px;background:url(../../images/80.png) no-repeat 0px 5px;color:#666666;margin-bottom:20px;padding-left:55px;}
+.apply_job_dialog .tip strong{color:#FF6600;}
+.apply_job_dialog .content{width:450px;}
+.apply_job_dialog .content .td1{width:70px;height:35px;text-align:right;color:#666666;}
+.apply_job_dialog .content .td2{width:280px;color:#333333;}
+.apply_job_dialog .content .resume_radio_list{width:400px;height:160px;padding:15px 15px 5px;border:1px solid #CFCFCF;overflow-y:auto;}
+.apply_job_dialog .content .resume_radio_list .rli{margin-bottom:10px;}
+.apply_job_dialog .content .resume_radio_list .rli .name{background:url(../../images/19.png) no-repeat 0px -150px;padding-left:23px;cursor:pointer;margin-bottom:8px;}
+.apply_job_dialog .content .resume_radio_list .rli .name.checked{background-position:0px -183px;}
+.apply_job_dialog .content .resume_radio_list .rli .name span{color:#FF6600;font-size:12px;margin-left:5px;}
+.apply_job_dialog .content .resume_radio_list .rli .info{padding-left:24px;color:#666666;font-size:12px;}
+.apply_job_dialog .content .resume_radio_list .rli .info a{color:#5F8DC9;text-decoration:none;}
+.apply_job_dialog .content .resume_radio_list .rli .info a:hover{text-decoration:underline;}
+
+/* 批量投递职位失败信息弹框 470px*/
+.apply_jobs_fail_dialog{width:450px;font-size:14px;color:#333333;padding:10px 0 10px 20px;}
+.apply_jobs_fail_dialog .content{width:450px;}
+.apply_jobs_fail_dialog .content .td{width:420px;margin-bottom:15px;color:#666666;}
+.apply_jobs_fail_dialog .content .td strong{color:#FF6600;margin:0 5px;}
+.apply_jobs_fail_dialog .content .jobs_list{width:400px;height:200px;padding:15px 15px 5px;border:1px solid #CFCFCF;overflow-y:auto;}
+.apply_jobs_fail_dialog .content .jobs_list .li{margin-bottom:5px;border-bottom:1px solid #F0F0F0;height:55px;line-height:25px;}
+.apply_jobs_fail_dialog .content .jobs_list .li .left{float:left;width:200px;}
+.apply_jobs_fail_dialog .content .jobs_list .li .left .job{cursor:pointer;}
+.apply_jobs_fail_dialog .content .jobs_list .li .left .job a{color:#333333;text-decoration:none;}
+.apply_jobs_fail_dialog .content .jobs_list .li .left .job a:hover{text-decoration:underline;}
+.apply_jobs_fail_dialog .content .jobs_list .li .left .company{cursor:pointer;color:#666666;}
+.apply_jobs_fail_dialog .content .jobs_list .li .left .company a{color:#666666;text-decoration:none;}
+.apply_jobs_fail_dialog .content .jobs_list .li .left .company a:hover{text-decoration:underline;}
+.apply_jobs_fail_dialog .content .jobs_list .li .right{width:165px;float:left;background:url(../../images/70.png) no-repeat -5px 5px;padding-left:30px;padding-top:11px;color:#EB5C4C;}
+
+/* 修改用户名、密码，认证手机、邮箱弹框 450px*/
+.modify_user_dialog{width:450px;font-size:14px;color:#333333;padding:10px 0 0 15px;}
+.modify_user_dialog .tip{width:390px;height:47px;line-height:47px;background:url(../../images/80.png) no-repeat 0px 5px;color:#666666;margin-bottom:20px;padding-left:55px;font-weight:bold}
+.modify_user_dialog .content{width:395px;padding-left:38px;}
+.modify_user_dialog .content .td1{width:82px;height:45px;padding-top:5px;text-align:right;}
+.modify_user_dialog .content .td2{width:250px;}
+.modify_user_dialog .content .td2.p{padding-top:5px;}
+.modify_user_dialog .content .td2 .code{float:left;position:relative;width:128px;}
+.modify_user_dialog .content .td2 .code input{width:116px;height:32px;line-height:32px;padding-left:10px;border:1px solid #dddddd;border-radius:3px 0 0 3px;}
+.modify_user_dialog .content .td2 .codebtn{float:left;margin-left:-2px;}
+.modify_user_dialog .content .td2 .codebtn input[type=button]{width:119px;padding:0px;height:34px;line-height:34px;}
+.modify_user_dialog .content.c .default,.modify_user_dialog .content .verify{display:none}
+.modify_user_dialog .content .default,.modify_user_dialog .content.c .verify{display:block}
+.modify_user_dialog .content .err{display:none;width:232px;margin-left:82px;height:26px;line-height:26px;color:#CC3300;background-color:#FFD8CE;border:1px #FF9E86 solid;font-size:12px;padding-left:10px;margin-bottom:15px;border-radius:3px;}
+
+/* 查看消息详情弹框 470px*/
+.show_message_dialog{width:470px;font-size:14px;color:#333333;padding-top:10px;}
+.show_message_dialog .content{width:470px;}
+.show_message_dialog .content .td1{width:70px;text-align:right;color:#666666;}
+.show_message_dialog .content .td1.p{padding-top:2px;}
+.show_message_dialog .content .td2{width:370px;margin-bottom:8px;}
+.show_message_dialog .content .td2.multi{line-height:25px;max-height:150px;overflow-y:auto;}
+
+/* 警告确认弹框 400px*/
+.warning_dialog{width:380px;font-size:15px;color:#333333;padding:20px 0 0px 20px;}
+.warning_dialog .tip{width:300px;min-height:47px;line-height:25px;background:url(../../images/80.png) no-repeat 0px 5px;margin-bottom:20px;padding-left:55px;}
+.warning_dialog .tip .description{color:#666666;font-size:14px;}
+.warning_dialog .tip .description a{color:#5F8DC9;text-decoration:none;margin:0 5px;}
+.warning_dialog .tip .description a:hover{text-decoration:underline;}
+
+/* 引导消费 */
+.guide_service_dialog{}
+.guide_service_dialog .guide_service_dialog_head{padding-left:10px;font-size:14px;color:#666666;}
+.guide_service_dialog .guide_list_group{margin-top:14px;padding:15px 10px;border-top:1px solid #ededed;border-bottom:1px dashed #ededed;padding-bottom:5px;}
+.guide_service_dialog .guide_list_group.last{border:0;margin-top:0;padding:10px;}
+.guide_service_dialog .guide_list_group.labs{border-bottom:0;margin-top:14px;padding-bottom:0;}
+.guide_service_dialog .guide_list_group.for_labs{border-top:0;margin-top:0;padding-top:5px;}
+.guide_service_dialog .guide_list_group .guide_list_left{width:70px;float:left;font-weight:600;color:#333;}
+.guide_service_dialog .guide_list_group .guide_list_left.for_input{line-height:32px;}
+.guide_service_dialog .guide_list_group .guide_list_right{width:332px;padding-left:5px;float:left;}
+.guide_service_dialog .guide_list_group .guide_list_right .tips_line{font-size:12px;color:#666666;}
+.guide_service_dialog .guide_list_group .guide_list_right .input_coin{border:1px solid #ededed;border-radius:3px;height:32px;line-height:32px;width:158px;display:inline-block;*display:inline;*zoom:1;padding-left:10px;}
+.guide_service_dialog .guide_btn_group{padding:20px 10px;}
+.guide_service_dialog .guide_btn_group .btn_guide{display:inline-block;*display:inline;*zoom:1;width:100px;height:34px;line-height:34px;text-align:center;color:#fff;background:#fd8000;border:0;cursor:pointer;margin-left:75px;border-radius:4px;}
+.guide_service_dialog .guide_btn_group .btn_guide:hover{background-color:#E68A13;}
+.guide_service_dialog .yellow_light{color:#fd8000;}
+.guide_service_dialog .cash_btn_group{padding:0 10px;padding-top:15px;}
+.guide_service_dialog .cash_btn_group .cash_btn_cell{float:left;width:50%;text-align:center;}
+.guide_service_dialog .cash_btn_group .cash_btn_cell a{text-decoration:none;}
+.guide_service_dialog .cash_btn_group .cash_btn_cell .cell_icon{display:inline-block;*display:inline;*zoom:1;width:61px;height:61px;background:url(../../images/145.png) no-repeat;}
+.guide_service_dialog .cash_btn_group .cash_btn_cell .cell_icon.icon2{background-position:0 -61px;}
+.guide_service_dialog .cash_btn_group .cash_btn_cell .cell_txt{margin-top:5px;font-size:12px;color:#0180cf;}
+.guide_resume_template,.guide_resume_lightag{width:430px;}
+
+/*简历模板*/
+.guide_resume_template .template_list{padding-right:10px;padding-bottom:10px;float:left;}
+.guide_resume_template .template_list .list_box{position:relative;padding:15px;width:124px;height:124px;border:1px solid #ededed;}
+.guide_resume_template .template_list .list_box .template_name{color:#333333;line-height:14px;}
+.guide_resume_template .template_list .list_box .thumb_box{margin:15px 0;width:124px;height:70px;}
+.guide_resume_template .template_list .list_box .thumb_box img{width:124px;height:70px;border:0;}
+.guide_resume_template .template_list .list_box .view_line{font-size:12px;line-height:12px;}
+.guide_resume_template .template_list .list_box .hook{position:absolute;right:0px;bottom:-1px;width:19px;height:19px;background-image:url(../../images/46.png);background-position:0 0;display:none;}
+.guide_resume_template .template_list .list_box:hover,.guide_resume_template .template_list .list_box.active{background:#fffaf3;border:1px solid #ff6600;}
+.guide_resume_template .template_list .list_box.active .hook{display:block;}
+
+/* 简历置顶*/
+.guide_resume_placetop{width:460px;}
+.guide_resume_placetop .placetop_list{padding-right:10px;padding-bottom:10px;float:left;}
+.guide_resume_placetop .placetop_list .list_box{position:relative;padding:0 15px;height:30px;line-height:30px;border:1px solid #ededed;width:130px;}
+.guide_resume_placetop .placetop_list .list_box .hook{position:absolute;right:0px;bottom:-1px;width:19px;height:19px;background-image:url(../../images/46.png);background-position:0 0;display:none;}
+.guide_resume_placetop .placetop_list .list_box .right_position{position:absolute;top:0;right:20px;}
+.guide_resume_placetop .placetop_list .list_box:hover,.guide_resume_placetop .placetop_list .list_box.active{background:#fffaf3;border:1px solid #ff6600;cursor:pointer;}
+.guide_resume_placetop .placetop_list .list_box.active .hook{display:block;}
+.guide_resume_placetop .guide_list_group .guide_list_right{width:355px;}
+
+/*醒目标签*/
+.guide_resume_placetop .lab{float:left;width:50px;height:20px;line-height:20px;background-image:url(../../images/91.png);background-repeat:no-repeat;cursor:pointer;margin-right:10px;margin-bottom:10px;padding-left:23px;font-size:12px;color:#7d7d7d;}
+.guide_resume_placetop .lab{background-position:0 0;}
+.guide_resume_placetop .lab:hover{background-position:0px -22px;color:#be7707;}
+.guide_resume_placetop .lab.select{background-position:0px -22px;color:#be7707;}
+
+/* 查看面试邀请弹框 490px*/
+.show_interview_dialog{width:470px;font-size:14px;color:#333333;padding:10px 0px 10px 30px;}
+.show_interview_dialog .tip{width:450px;line-height:22px;margin-bottom:10px;border-bottom:1px solid #F0F0F0;padding-bottom:10px;}
+.show_interview_dialog .tip strong{color:#FF6600;}
+.show_interview_dialog .tip span{color:#5F8DC9;}
+.show_interview_dialog .content{width:450px;border-bottom:1px solid #F0F0F0;}
+.show_interview_dialog .content .td1{width:100px;height:30px;text-align:right;}
+.show_interview_dialog .content .td2{width:320px;height:30px;}
+.show_interview_dialog .content .td2 .am_or_pm{width:70px;float:left;margin:0 5px;}
+.show_interview_dialog .content .td2 .time{width:90px;float:left;}
+.show_interview_dialog .content .td2 .option{margin-top:7px;margin-right:20px;float:left;}
+.show_interview_dialog .content .td2 .contact_type{width:70px;float:left;}
+.show_interview_dialog .content .td2 .contact{width:225px;padding-left:10px;height:34px;border:1px #DDDDDD solid;line-height:34px;color:#333333;float:left;margin-left:5px;}

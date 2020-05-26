@@ -1,0 +1,521 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_user.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+        <qscms:load type="category" search="1"/>
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_user" /> </div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">基本资料</div>
+					<div class="clear"></div>
+				</div>
+				<div class="profile_wrap">
+					<div class="profile_title">基本信息</div>
+					<div class="dashed_line"></div>
+					<div class="clear"></div>
+					<div class="basic_form J_focus pos_rel">
+						<div class="item">
+							<div class="item_label"><span class="asterisk"></span>企业名称：</div>
+							<div class="item_val">
+							<if condition="$company_profile['id']">
+							<div class="line_substring" title="{$company_profile['companyname']}">{$company_profile['companyname']}</div><span class="sm_tip">（修改企业名称请联系客服人员，服务热线：<span class="num">{:C('qscms_bootom_tel')}</span>）</span>
+							<input type="hidden" name="companyname" value="{$company_profile['companyname']}">
+							<else />
+							<input type="text" class="input_205_34" name="companyname">
+							</if>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label">企业简称：</div>
+							<div class="item_val">
+								<if condition="$company_profile['short_name']">
+									<div class="line_substring" title="{$company_profile['short_name']}">{$company_profile['short_name']}</div>
+									<input type="hidden" name="short_name" value="{$company_profile['short_name']}">
+									<else />
+									<input type="text" value="{$company_profile.companyname}" class="input_205_34 fl" name="short_name" placeholder="请填写大家最熟悉的名字"><span class="sm_tip">填写大家最熟悉的名字</span>
+								</if>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label"><span class="asterisk"></span>企业性质：</div>
+							<div class="item_val select_input select_205_34 J_hoverinput J_dropdown J_listitme_parent">
+								<span class="J_listitme_text">{$company_profile['nature_cn']|default="请选择"}</span>
+								<div class="dropdowbox8 J_dropdown_menu">
+						            <div class="dropdow_inner8">
+						                <ul class="nav_box">
+						                	<volist name="category['QS_company_type']" id="vo">
+						                		<li><a class="J_listitme" href="javascript:;" data-code="{$key}" >{$vo}</a></li>
+											</volist>
+						                </ul>
+						            </div>
+						        </div>
+								<input class="J_listitme_code" name="nature" type="hidden" value="{$company_profile.nature}" />
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label"><span class="asterisk"></span>企业规模：</div>
+							<div class="item_val select_input select_205_34 J_hoverinput J_dropdown J_listitme_parent">
+								<span class="J_listitme_text">{$company_profile['scale_cn']|default="请选择"}</span>
+								<div class="dropdowbox8 J_dropdown_menu">
+									<div class="dropdow_inner8">
+										<ul class="nav_box">
+											<volist name="category['QS_scale']" id="vo">
+												<li><a class="J_listitme" href="javascript:;" data-code="{$key}" >{$vo}</a></li>
+											</volist>
+										</ul>
+									</div>
+								</div>
+								<input class="J_listitme_code" name="scale" type="hidden" value="{$company_profile.scale}" />
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+								<div class="item_label"><span class="asterisk"></span>所在地区：</div>
+								<div class="item_val select_input_multi select_205_34 J_hoverinput" data-toggle="funCityModal" data-title="请选择工作地区" data-multiple="false" data-maximum="0" data-width="760">
+								<span title="" class="result J_resuletitle_city">{$company_profile.district_cn|default="请选择"}</span>
+								<input class="J_resultcode_city" name="district" id="district" type="hidden" value="<if condition="$company_profile['district']">{$company_profile.district}</if>" keep="<if condition="$company_profile['district']">{$company_profile.district}</if>" />
+								<div class="clear"></div>
+							</div>
+							<div class="item_label"><span class="asterisk"></span>所属行业：</div>
+							<div class="item_val select_input select_205_34 J_hoverinput" id="J_showmodal_trade" data-title="请选择所属行业" data-multiple="false" data-maxnum="0" data-width="682">
+								<span title="" class="result J_resuletitle_trade">{$company_profile['trade_cn']|default="请选择"}</span>
+								<input class="J_resultcode_trade" type="hidden" name="trade" id="trade" value="{$company_profile['trade']}">
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="logo_wrap pos_rel">
+							<div class="logo">
+								<if condition="$company_profile['logo']">
+									<img id="logo_res" width="120" height="120" src="{:attach($company_profile['logo'],'company_logo')}?{:time()}">
+								<else />
+								<img id="logo_res" width="120" height="120" src="{:attach('no_logo.png','resource')}">
+								</if>
+							</div>
+							<div class="logo_upload" id="hidden_file" name="company_logo">
+								<div class="upimg"><div class="up">上传logo</div><div class="uptip"><p>要求：请用jpg,gif</p> <p>尺寸：120*120</p></div></div>
+							</div>
+						</div>
+						<div class="clear_logo" <if condition="$company_profile['logo']"> style="display:block;"</if>>清除</div>
+
+						<div class="item">
+							<div class="item_label">注册资金：</div>
+							<div class="item_val">
+								<div class="select_input_write">
+									<input type="text" class="inputst" dir="no_focus" name="registered" value="{$company_profile.registered}" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">
+									<div class="righttxt for_tooltip J_tooltip J_listitme_parent">
+										<span class="J_listitme_text">{$company_profile.currency|default="万人民币"}</span>
+										<div class="dropdowbox14 J_tooltip_menu">
+								            <div class="dropdow_inner14">
+								                <ul class="nav_box">
+								                    <li><a class="J_listitme" href="javascript:;" data-code="万人民币">万人民币</a></li>
+								                    <li><a class="J_listitme" href="javascript:;" data-code="万美元">万美元</a></li>
+								                </ul>
+								            </div>
+								        </div>
+										<input class="J_listitme_code" name="currency" type="hidden" value="{$company_profile.currency|default="万人民币"}"/>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+							<div class="item_label">企业网址：</div>
+							<div class="item_val"><input type="text" value="{$company_profile.website}" placeholder="http://" class="input_205_34" name="website"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label">企业福利：</div>
+							<div class="item_val select_input_multi select_245_34 w518 J_hoverinput" id="J_showmodal_jobtag" data-title="请选择企业福利" data-multiple="true" data-maxnum="6" data-width="582">
+								<span title="" class="result J_resuletitle_jobtag">{$tagStr['cn']|default="请选择"}</span>
+								<input class="J_resultcode_jobtag" type="hidden" name="tag" id="tag" value="{$tagStr['id']}">
+								<div class="clear"></div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label">企业简介：</div>
+							<div class="item_val">
+								<input type="text" value="{$company_profile.short_desc}" class="input_205_34 w518" name="short_desc" placeholder="请用一句话描述企业的主营业务及行业地位">
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label"><span class="asterisk"></span>企业介绍：</div>
+							<div class="item_val">
+								<textarea class="textarea_438_34 w518" rows="" cols="" name="contents">{$company_profile.contents}</textarea>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+
+				<div class="profile_wrap">
+					<div class="profile_title contact">联系方式</div>
+					<div class="dashed_line"></div>
+					<div class="clear"></div>
+					<div class="basic_form J_focus">
+						<div class="item">
+							<div class="item_label"><span class="asterisk"></span>联系人：</div>
+							<div class="item_val">
+								<input type="text" value="{$company_profile.contact}" class="input_245_34 fl" name="contact">
+								<label class="item_chk fl"><input type="checkbox" name="contact_show" <if condition="$company_profile['contact_show'] eq ''">value="1"<elseif condition="$company_profile['contact_show'] eq 0" />checked="checked" value="0"<else/>value="1"</if>> 不公开</label>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label"><span class="asterisk"></span>联系电话：</div>
+							<div class="item_val">
+								<if condition="$visitor['mobile']">
+									<div class="input_unit disabled fl">
+							          <input type="text" value="{$visitor.mobile}" dir="no_focus" class="input_val input_205_34 nopd disabled" disabled name="telephone">
+							          <a href="javascript:;" id="J_auth_mobile" class="unit edit">[修改]</a>
+							        </div>
+							    <else />
+									<input type="text" value="<if condition="$company_profile['telephone'] neq ''">{$company_profile.telephone}<else />{$visitor.mobile}</if>" class="input_245_34 fl" name="telephone">
+								</if>
+								<label class="item_chk fl"><input type="checkbox" name="telephone_show" <if condition="$company_profile['telephone_show'] eq ''">value="1"<elseif condition="$company_profile['telephone_show'] eq 0" />checked="checked" value="0"<else/>value="1"</if>> 不公开</label>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label">&nbsp;</div>
+							<div class="item_val">
+								<input type="text" value="{$company_profile['landline_tel_first']}" class="input_110_34 w60 mr4 fl" name="landline_tel_first" placeholder="区号">
+								<input type="text" value="{$company_profile['landline_tel_next']}" class="input_110_34 w89 mr4 fl" name="landline_tel_next" placeholder="固定电话">
+								<input type="text" value="{$company_profile['landline_tel_last']}" class="input_110_34 w52 fl" name="landline_tel_last" placeholder="分机号">
+								<label class="item_chk fl"><input type="checkbox" name="landline_tel_show" <if condition="$company_profile['landline_tel_show'] eq ''">value="1"<elseif condition="$company_profile['landline_tel_show'] eq 0" />checked="checked" value="0"<else/>value="1"</if>> 不公开</label>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label">联系邮箱：</div>
+							<div class="item_val">
+								<div class="reg-form-content fl">
+									<input type="text" value="<if condition="$company_profile['email'] neq ''">{$company_profile.email}<else />{$visitor.email}</if>" class="input_245_34 inputElem" name="email">
+								</div>
+						        <label class="item_chk fl"><input type="checkbox" name="email_show" <if condition="$company_profile['email_show'] eq ''">value="1"<elseif condition="$company_profile['email_show'] eq 0" />checked="checked" value="0"<else/>value="1"</if>> 不公开</label>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label">QQ：</div>
+							<div class="item_val">
+								<input type="text" value="<if condition="$company_profile['qq'] neq '' && $company_profile['qq'] neq '0'">{$company_profile.qq}</if>" class="input_245_34 fl" name="qq">
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label"><span class="asterisk"></span>联系地址：</div>
+							<div class="item_val fl">
+								<input type="text" value="{$company_profile.address}" id="suggestId" class="input_245_34 w415" name="address">
+							</div>
+							<div class="search fl btn_blue J_hoverbut btn_100_32 btn_inline" id="search">精确查找</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label">&nbsp;</div>
+							<div class="item_val">
+								<div class="map" id="container" style="height: 300px;border:1px solid #dddddd"></div>
+								<div id="searchResultPanel" style="border:1px solid #C0C0C0;width:150px;height:auto; display:none;"></div>
+								<input type="hidden" name="map_x" id="map_x">
+								<input type="hidden" name="map_y" id="map_y">
+								<input type="hidden" name="map_zoom" id="map_zoom">
+								<label class="synchro_chk"><input type="checkbox" name="sync" value="1"> 修改联系方式同步到职位</label>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="item">
+							<div class="item_label">&nbsp;</div>
+							<div class="item_val">
+								<div class="btn_blue J_hoverbut btn_115_38" id="save_info">保存</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			<div class="clear"></div>
+		</div>
+	</body>
+	<include file="index_footer" />
+	<script type="text/javascript" src="../public/js/jquery.modal.userselectlayer.js"></script>
+	<script type="text/javascript" src="../public/js/jquery.user.city.js"></script>
+	<script type="text/javascript" src="../public/js/emailAutoComplete.js"></script>
+	<script type="text/javascript" src="https://api.map.baidu.com/api?v=2.0&ak={:C('qscms_map_ak')}"></script>
+	<script type="text/javascript" src="https://api.map.baidu.com/library/DrawingManager/1.4/src/DrawingManager_min.js"></script>
+	<script src="../public/js/ajaxfileupload.js" type="text/javascript" language="javascript"></script>
+	<script src="../public/js/qscms.js" type="text/javascript" language="javascript"></script>
+	<script type="text/javascript" src="../public/js/company/jquery.baidumap.js"></script>
+	<script type="text/javascript">
+		var comid = "{$company_profile['id']}";
+		$.upload("#hidden_file",{company_id:comid,type:'company_logo'},function(result){
+			$("#logo_res").attr("src",result.data.path);
+			if(result.data.points){
+				disapperTooltip("goldremind", '上传logo增加'+result.data.points+'{:C('qscms_points_byname')}<span class="point">+'+result.data.points+'</span>');
+			}else{
+				disapperTooltip('success',result.msg);
+			}
+			$('.clear_logo').show();
+		});
+		$(document).ready(function(){
+			$('.clear_logo').die().live('click',function(){
+				var qsDialog = $(this).dialog({
+	        		title: '系统提示',
+	        		content: '企业logo代表了企业的品牌形象，确定要清除企业logo吗？',
+					yes: function() {
+						$.getJSON("{:U('clear_logo')}",function(result){
+							if(result.status==1){
+								$("#logo_res").attr("src","{:attach('no_logo.png','resource')}");
+								$('.clear_logo').hide();
+							}
+						});
+					}
+				});
+			});
+			/* 保存企业基本资料 */
+			var regularMobile = qscms.regularMobile; // 验证手机号
+			var regularEmail = /^[_\.0-9a-zA-Z-]+[_0-9a-zA-Z-]@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,3}$/; // 验证邮箱
+			var regularTelFirst = /^[0-9]{3}[0-9]?$/; // 验证区号
+			var regularTelNext = /^[0-9]{6,11}$/; // 验证电话号码
+			var regularTelLast = /^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/; // 验证分机号码
+			var regularWebsite = /^http(s?):\/\/(?:[A-za-z0-9-]+\.)+[A-za-z]{2,4}(:\d+)?(?:[\/\?#][\/=\?%\-&~`@[\]\':+!\.#\w]*)?$/; // 验证企业网址
+			var regularQQ = /^[1-9][0-9]{4,}$/; // 验证QQ
+			$("#save_info").die().live('click',function(){
+	            var that = $(this);
+	            if(that.hasClass('disabled')){
+	                return false;
+	            }
+				var companyname = $.trim($("input[name=companyname]").val());
+				var short_name = $.trim($("input[name=short_name]").val());
+				var nature = $.trim($("input[name=nature]").val());
+				var trade = $.trim($("input[name=trade]").val());
+				var scale = $.trim($("input[name=scale]").val());
+				var district = $.trim($("input[name=district]").val());
+				var registered = $.trim($("input[name=registered]").val());
+				var currency = $.trim($("input[name=currency]").val());
+				var website = $.trim($("input[name=website]").val());
+				var tag = $.trim($("input[name=tag]").val());
+				var short_desc = $.trim($("input[name=short_desc]").val());
+				var contents = $.trim($("textarea[name=contents]").val());
+				var contact = $.trim($("input[name=contact]").val());
+				var telephone = $.trim($("input[name=telephone]").val());
+				var landline_tel_first = $.trim($("input[name=landline_tel_first]").val());
+				var landline_tel_next = $.trim($("input[name=landline_tel_next]").val());
+				var landline_tel_last = $.trim($("input[name=landline_tel_last]").val());
+				var email = $.trim($("input[name=email]").val());
+				var address = $.trim($("input[name=address]").val());
+				var qq = $.trim($("input[name=qq]").val());
+				var map_x = $.trim($("input[name=map_x]").val());
+				var map_y = $.trim($("input[name=map_y]").val());
+				var map_zoom = $.trim($("input[name=map_zoom]").val());
+				var sync = $("input[name=sync]").is(":checked")?1:0;
+				var contact_show = $("input[name=contact_show]").is(":checked")?0:1;
+				var telephone_show = $("input[name=telephone_show]").is(":checked")?0:1;
+				var landline_tel_show = $("input[name=landline_tel_show]").is(":checked")?0:1;
+				var email_show = $("input[name=email_show]").is(":checked")?0:1;
+				var id = "{$company_profile['id']}";
+				if (companyname == "") {
+					disapperTooltip("remind", "请填写企业名称");
+					return false;
+				}
+				if (nature == "0") {
+					disapperTooltip("remind", "请选择企业性质");
+					return false;
+				}
+				if (trade == "0") {
+					disapperTooltip("remind", "请选择所属行业");
+					return false;
+				}
+				if (scale == "0") {
+					disapperTooltip("remind", "请选择企业规模");
+					return false;
+				}
+				if (district == "0") {
+					disapperTooltip("remind", "请选择所在地区");
+					return false;
+				}
+				if (registered != "" && !regularTelLast.test(registered)) {
+					disapperTooltip("remind", "注册资金应为数字");
+					return false;
+				}
+				if (registered != "" && !regularTelLast.test(registered) || registered.length > 5) {
+					disapperTooltip("remind", "注册资金不能超出5位数");
+					return false;
+				}
+				if (website != "" && !regularWebsite.test(website)) {
+					disapperTooltip("remind", "企业网址格式不正确");
+					return false;
+				}
+				if (contents == "") {
+					disapperTooltip("remind", "请填写企业介绍");
+					return false;
+				}
+				if (contact == "") {
+					disapperTooltip("remind", "请填写联系人");
+					return false;
+				}
+				if (contact != "" && contact.length > 10) {
+					disapperTooltip("remind", "联系人1-10个字");
+					return false;
+				}
+				if(landline_tel_next=="" && telephone=="") {
+					disapperTooltip("remind", "请填写联系手机或座机");
+					return false;
+				} else {
+					if (telephone != "" && !regularMobile.test(telephone)) {
+						disapperTooltip("remind", "手机号格式不正确");
+						return false;
+					}
+					if (landline_tel_first != "" && !regularTelFirst.test(landline_tel_first)) {
+						disapperTooltip("remind", "请填写正确的区号");
+						return false;
+					}
+					if (landline_tel_next != "" && !regularTelNext.test(landline_tel_next)) {
+						disapperTooltip("remind", "电话号码为6-11位数字");
+						return false;
+					}
+					if (landline_tel_last != "" && !regularTelLast.test(landline_tel_last)) {
+						disapperTooltip("remind", "分机号码为数字");
+						return false;
+					}
+					if (landline_tel_last != "" && !regularTelLast.test(landline_tel_last) || landline_tel_last.length > 4) {
+						disapperTooltip("remind", "分机号码不能超出4位");
+						return false;
+					}
+				}
+				if (email != "" && !regularEmail.test(email) || email.split("@")[0].length > 20) {
+					disapperTooltip("remind", "邮箱格式不正确");
+					return false;
+				}
+				if (qq != "" && !regularQQ.test(qq)) {
+					disapperTooltip("remind", "请填写正确格式的QQ");
+					return false;
+				}
+				if (address == "") {
+					disapperTooltip("remind", "联系地址不能为空");
+					return false;
+				}
+				if (address != "" && address.length > 30) {
+					disapperTooltip("remind", "联系地址不能大于30个字");
+					return false;
+				}
+				$(this).html('正在保存...');
+				$(this).addClass('btn_gray9');
+				$(this).removeClass('btn_blue');
+				that.addClass('disabled');
+				$.post("{:U('company/com_info')}",{id:id,companyname:companyname,short_name:short_name,nature:nature,trade:trade,scale:scale,registered:registered,currency:currency,district:district,website:website,tag:tag,short_desc:short_desc,contents:contents,contact:contact,telephone:telephone,landline_tel_first:landline_tel_first,landline_tel_next:landline_tel_next,landline_tel_last:landline_tel_last,email:email,address:address,map_x:map_x,map_y:map_y,map_zoom:map_zoom,sync:sync,contact_show:contact_show,telephone_show:telephone_show,landline_tel_show:landline_tel_show,email_show:email_show,qq:qq},function(r){
+					if(r.status==1){
+						var jump_auth = parseInt("{$jump_certificate}");
+						if(jump_auth){
+							if(r.data.points){
+								disapperTooltip("goldremind", '完善企业资料增加'+r.data.points+'{:C('qscms_points_byname')}<span class="point">+'+r.data.points+'</span>');
+							}else{
+								disapperTooltip('success',r.msg);
+							}
+							setTimeout(function () {
+		                        location.href="{:U('com_auth')}";
+		                    }, 2000);
+						}else{
+							var qsDialogTip = $(this).dialog({
+								title: '企业资料',
+								footer: false,
+                                loading: true
+							});
+                            qsDialogTip.setContent(r.data.html);
+						}
+					}else{
+						disapperTooltip('remind',r.msg);
+					}
+					$("#save_info").html('保存');
+					$("#save_info").addClass('btn_blue');
+					$("#save_info").removeClass('btn_gray9');
+					that.removeClass('disabled');
+				},'json');
+			});
+
+			// 修改手机
+			$('#J_auth_mobile').click(function(){
+				var f = $(this);
+				var qsDialog = $(this).dialog({
+	        		loading: true,
+					footer: false,
+					header: false,
+					border: false,
+					backdrop: false
+				});
+				$.getJSON("{:U('members/user_mobile')}",function(result){
+		    		if(result.status == 1){
+		    			qsDialog.hide();
+		    			var qsDialogSon = $(this).dialog({
+			        		title: '修改已认证手机',
+			        		content: result.data,
+							yes: function() {
+								var verifycode  = $.trim($('#J_mobileWrap input[name="verifycode"]').val());
+								if(!verifycode){
+									$('#J_mobileWrap .J_errbox').text('请填写验证码！').show();
+									return false;
+								}
+								$.post("{:U('members/verify_mobile_code')}",{verifycode:verifycode},function(result){
+									if(result.status == 1){
+										f.prev().val(result.data.mobile);
+										qsDialogSon.hide();
+										if(result.data.points){
+											disapperTooltip("goldremind", '验证手机号增加'+result.data.points+'{:C('qscms_points_byname')}<span class="point">+'+result.data.points+'</span>');
+										}else{
+											disapperTooltip('success',result.msg);
+										}
+									}else{
+										$('#J_mobileWrap .J_errbox').text(result.msg).show();
+									}
+								},'json');
+							}
+						});
+						qsDialogSon.setCloseDialog(false);
+		    		} else {
+		    			qsDialog.hide();
+		    			disapperTooltip('remind',result.msg);
+		    		}
+		    	});
+			});
+		
+			// 修改联系邮箱
+			$('#J_auth_email').click(function(){
+				var f = $(this);
+				var qsDialog = $(this).dialog({
+		    		loading: true,
+					footer: false,
+					header: false,
+					border: false,
+					backdrop: false
+				});
+				$.getJSON("{:U('members/user_email')}",function(result){
+		    		if(result.status == 1){
+		    			qsDialog.hide();
+						var qsDialogSon = $(this).dialog({
+			        		title: '修改已认证邮箱',
+							content: result.data
+						});
+		    		}else{
+		    			qsDialog.hide();
+    					disapperTooltip('remind',result.msg);
+		    		}
+		    	});
+			});
+
+			// 百度地图
+			baidumap("{$company_profile.companyname}","{$company_profile.address}","{$company_profile.map_x}","{$company_profile.map_y}","{$company_profile.map_zoom}","{:C('qscms_map_center_x')}","{:C('qscms_map_center_y')}","{:C('qscms_map_zoom')}");
+		});
+	</script>
+</html>

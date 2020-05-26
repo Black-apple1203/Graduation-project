@@ -1,0 +1,109 @@
+<include file="public:header"/>
+<span id="version"></span>
+<volist name="message" id="message">
+    <if condition="$message['type'] eq 'warning'">
+        <div class="errtit">{$message.content}</div>
+        <else/>
+        <div class="errtit">{$message.content}</div>
+    </if>
+</volist>
+<if condition="$sms_notice">
+    <div class="errtit link_blue">{$sms_notice}</div>
+</if>
+<!-- 添加及时聊天到期提醒h-->
+<if condition="$im_notice">
+    <div class="errtit link_blue">{$im_notice}</div>
+</if>
+<div class="toptit">今日统计</div>
+<div class="mainli num">新增个人会员<a href="{:U('personal/member_list')}" id="personal_users">&nbsp;</a></div>
+<div class="mainli num">新增简历<a href="{:U('personal/index')}" id="resumes">&nbsp;</a></div>
+<div class="mainli num">简历刷新次数<a href="{:U('personal/index')}" id="resume_refresh">&nbsp;</a></div>
+<div class="mainli num">新增企业会员<a href="{:U('company/index')}" id="company_users">&nbsp;</a></div>
+<div class="mainli num">新增职位<a href="{:U('jobs/index')}" id="jobs">&nbsp;</a></div>
+<div class="mainli num">简历下载量<a href="{:U('ResumeDown/index')}" id="resume_down">&nbsp;</a></div>
+<div class="mainli num">企业新增订单<a href="{:U('order/index')}" id="company_order">&nbsp;</a></div>
+<div class="mainli num">个人新增订单<a href="{:U('order/index_per')}" id="personal_order">&nbsp;</a></div>
+<div class="mainli num">发出面试邀请<a href="{:U('CompanyInterview/index')}" id="interview">&nbsp;</a></div>
+<div class="mainli num">简历投递数<a href="{:U('JobsApply/index')}" id="jobs_apply">&nbsp;</a></div>
+<div class="mainli num">职位刷新数<a href="{:U('jobs/index')}" id="jobs_refresh">&nbsp;</a></div>
+<div class="clear"></div>
+
+<div class="toptit">昨日统计</div>
+<div class="mainli num">新增个人会员<a href="{:U('personal/member_list')}" id="yesterday_personal_users">&nbsp;</a></div>
+<div class="mainli num">新增简历<a href="{:U('personal/index')}" id="yesterday_resumes">&nbsp;</a></div>
+<div class="mainli num">简历刷新次数<a href="{:U('personal/index')}" id="yesterday_resume_refresh">&nbsp;</a></div>
+<div class="mainli num">新增企业会员<a href="{:U('company/index')}" id="yesterday_company_users">&nbsp;</a></div>
+<div class="mainli num">新增职位<a href="{:U('jobs/index')}" id="yesterday_jobs">&nbsp;</a></div>
+<div class="mainli num">简历下载量<a href="{:U('ResumeDown/index')}" id="yesterday_resume_down">&nbsp;</a></div>
+<div class="mainli num">企业新增订单<a href="{:U('order/index')}" id="yesterday_company_order">&nbsp;</a></div>
+<div class="mainli num">个人新增订单<a href="{:U('order/index_per')}" id="yesterday_personal_order">&nbsp;</a></div>
+<div class="mainli num">发出面试邀请<a href="{:U('CompanyInterview/index')}" id="yesterday_interview">&nbsp;</a></div>
+<div class="mainli num">简历投递数<a href="{:U('JobsApply/index')}" id="yesterday_jobs_apply">&nbsp;</a></div>
+<div class="mainli num">职位刷新数<a href="{:U('jobs/index')}" id="yesterday_jobs_refresh">&nbsp;</a></div>
+<div class="clear"></div>
+
+<div class="toptit">待处理事务</div>
+<div class="mainli num">待审核职位<a href="{:U('jobs/index_noaudit')}" id="jobs_audit">&nbsp;</a></div>
+<div class="mainli num">待认证企业<a href="{:U('company/index',array('audit'=>2))}" id="company_audit">&nbsp;</a></div>
+<div class="mainli num">举报信息<a href="{:U('report/index')}" id="report">&nbsp;</a></div>
+<div class="mainli num">待审核简历<a href="{:U('personal/index_noaudit')}" id="resume_audit">&nbsp;</a></div>
+<div class="mainli num">待审核简历照片/作品<a href="{:U('ResumeImg/index',array('audit'=>2))}" id="resume_img_audit">&nbsp;</a></div>
+<div class="mainli num">意见/建议<a href="{:U('feedback/index')}" id="feedback">&nbsp;</a></div>
+<div class="clear"></div>
+
+<div class="toptit">最近30天会员注册趋势</div>
+<script language="JavaScript" src="__ADMINPUBLIC__/js/FusionCharts.js"></script>
+<div id="chartdiv" style=" padding: 0 25px;">FusionCharts.</div>
+<script type="text/javascript">
+    var chart = new FusionCharts("__ADMINPUBLIC__/js/statement/area2D.swf", "ChartId", "1000", "200");
+    chart.setDataURL("{$charts}");
+    chart.render("chartdiv");
+</script>
+<script type="text/javascript">
+    var tsTimeStamp= new Date().getTime();
+    $.getJSON("{:U('index/total')}",function(result){
+        for(var i in result.data){
+            if(result.data[i]==0)
+            {
+                $("#"+i).html(result.data[i]);
+            }
+            else
+            {
+                $("#"+i).html('+'+result.data[i]);
+            }
+
+        }
+    });
+</script>
+
+<div class="toptit">zy拉钩人才系统</div>
+<div class="mainli">系统当前版本：v{:C('QSCMS_VERSION')}<span id="update_notice"></span></div>
+<div class="mainli link_blue">认证授权：<span id="certification">载入中...</span></div>
+<div class="mainli link_blue">拉钩官网：<a href="https://www.lagou.com/" target="_blank">www.lagou.com</a></div>
+<div class="mainli">程序开发：鲁东大学信电学院</div>
+<div class="mainli">版权所有：计本1601张艳</div>
+<div class="mainli link_blue">官方论坛：<a href="http://ask.74cms.com/" target="_blank">ask.74cms.com</a></div>
+<div class="clear"></div>
+
+<div class="toptit">服务器信息</div>
+<div class="mainli">操作系统：windows10{$system_info.server_os}</div>
+<div class="mainli">PHP版本：{$system_info.php_version}</div>
+<div class="mainli">MySQL版本：5.7.26{$system_info.mysql_version}</div>
+<div class="mainli">服务器软件：{$system_info.web_server}</div>
+<div class="clear"></div>
+
+<div class="toptit">官方动态</div>
+<table width="100%" border="0" cellspacing="0" cellpadding="4">
+    <tr>
+        <td style=" line-height:220%; padding-left:40px;" class="link_blue">
+            <span id="announcement" class="link_lan">载入中...</span>
+        </td>
+    </tr>
+</table>
+<script src="https://www.74cms.com/plus/external.php?version={$system_info.version}&release={$system_info.release}&certification={:C('qscms_site_domain')}&announcement=1" language="javascript"></script>
+</div>
+
+<include file="public:footer"/>
+
+</body>
+</html>

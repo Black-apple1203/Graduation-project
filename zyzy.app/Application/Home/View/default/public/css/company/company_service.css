@@ -1,0 +1,22 @@
+.order_tab { margin-top: 14px; }
+.order_th { margin-left: 30px; background-color: #F7F7F7; line-height: 40px; margin-top: 14px; width: 940px; border-radius: 2px; }
+.order_th .th1 { margin-left: 14px; width: 330px; }
+.order_th .th2 { width: 130px; }
+.order_th .th3 { width: 160px; }
+.order_th .th4 { width: 100px; }
+.order_th .th5 { text-align: center; }
+.order_th .select_input { margin-top: 4px; height: 30px; line-height: 30px; background-position: right -2px; }
+.order_td { margin-left: 30px; padding: 16px 0; border-bottom: 1px solid #F7F7F7; width: 940px; line-height: 24px; }
+.order_td .td1 { margin-left: 14px; width: 290px; }
+.order_td .td2 { width: 130px; line-height: 46px; text-align: center;}
+.order_td .td3 { width: 180px; line-height: 46px; text-align: center;}
+.order_td .td3.pay { color: #FF0707; }
+.order_td .td3 .invoice { vertical-align: middle; cursor: pointer; position: relative; text-align: left;}
+.order_td .td3 .invoice .invoice-detail { display: none; position: absolute; border: 1px solid #dddddd; top: 18px; left: -328px; width: 440px; background-color: #FBFBFB; padding: 10px 20px; z-index: 1; }
+.order_td .td3 .invoice .invoice-detail .invoice-title { font-size: 16px; font-weight: bold; }
+.order_td .td3 .invoice .invoice-detail .invoice-item { width: 200px; float: left; line-height: 24px; margin-left: 16px; }
+.order_td .td3 .invoice .invoice-detail .invoice-item.col2 { width: 440px; }
+.order_td .td3 .invoice .invoice-detail.show { display: block; }
+.order_td .td3.goods{width: 140px;}
+.order_td .td4 { width: 70px; line-height: 46px; color: #FF6B0D; text-align: center;}
+.order_td .td5 { text-align: center; line-height: 46px;width: 200px; }

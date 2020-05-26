@@ -1,0 +1,1 @@
+<?php	return array ( 'time' => '1363941301', 'count' => 1, ); ?>

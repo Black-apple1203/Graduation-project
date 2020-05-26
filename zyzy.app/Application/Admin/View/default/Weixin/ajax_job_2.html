@@ -1,0 +1,34 @@
+<volist name="list" id="vo">
+<section data-tools="74cmszw2">
+    <section style="padding:0px 0px 1em 0px;margin:1em 0px;">
+        <section style="margin-bottom: -39px;margin-left:5px;transform: rotate(0deg);-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-o-transform: rotate(0deg);">
+            <section style="width:58px;height:58px;margin:20px 0px;background-color:#fefefe;border-radius:100%;margin-bottom:-35px;margin-left:-4px;"></section>
+            <section style="margin-bottom:-48px;margin-left:4px; width:56px; height:28px; background-color:#fefefe;border-radius:30px 30px 0 0;border: 2px dashed #2dd489;border-bottom: none;transform: rotate(140deg);-webkit-transform: rotate(140deg);-moz-transform: rotate(140deg);-o-transform: rotate(140deg);"></section>
+            <section data-brushtype="text" style="width:45px;height:45px;background-color:#2dd489;border-radius:100%;font-size: 26px;color: #fff;text-align: center;line-height: 45px;transform: rotate(0deg);-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-o-transform: rotate(0deg);">
+                聘
+            </section>
+        </section>
+        <section style="padding-left:0.5em;">
+            <section style="border: 2px dashed #2dd489;border-radius:6px ;padding:0px 1em 1em 1em;">
+                <section data-brushtype="text" style="font-size: 18px;padding:0.7em 0px 20px 2.6em;font-weight: bold;">
+                    <strong>{$vo.jobs_name}</strong>
+                </section>
+                <section data-autoskip="1" style="font-size: 14px;text-align: justify;letter-spacing:1.5px;line-height: 1.75em;">
+                    <p>
+                        岗位要求：
+                    </p><br>
+                    <p>
+                       {$vo.contents}
+                    </p><br>
+                    <p>
+                        工作地点：{$vo.address}
+                    </p><br>
+                </section>
+                <section style="text-align: center;">
+                        &gt;&gt;<a href="{$vo.jobs_url}" style="text-decoration:none"><span style="color: #2dd489;"><strong><span style="font-size: 15px;">点击申请职位</span></strong></span></a>&lt;&lt;
+                </section>
+            </section>
+        </section>
+    </section>
+</section>
+</volist>

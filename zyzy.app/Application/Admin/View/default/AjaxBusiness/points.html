@@ -1,0 +1,28 @@
+<table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#DFDFDF" class="link_blue">
+    <tr>
+        <td bgcolor="#FFFFFF">{:C('qscms_points_byname')}数：<span style="color:#ff9900;font-weight:bold;">{$userpoints}</span></td>
+    </tr>
+</table>
+<div class="mantit" style="margin-top:15px; margin-bottom: 8px;"><strong>{:C('qscms_points_byname')}收支明细</strong></div>
+<div style="max-height:200px;overflow-y:auto">
+    <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#DFDFDF" class="link_lan">
+        <tr>
+            <td width="120" bgcolor="#FFFFFF" align="center">操作时间</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">操作{:C('qscms_points_byname')}</td>
+            <td bgcolor="#FFFFFF">操作说明</td>
+        </tr>
+        <if condition="$list">
+            <volist name="list" id="vo">
+                <tr>
+                    <td bgcolor="#FFFFFF" align="center">{:admin_date($vo['addtime'])}</td>
+                    <td bgcolor="#FFFFFF" align="center"><if condition="$vo['operate'] eq 1">+ {$vo['points']}<else />- {$vo['points']}</if></td>
+                    <td bgcolor="#FFFFFF">{$vo['htype_cn']}</td>
+                </tr>
+            </volist>
+        <else/>
+            <tr>
+                <td colspan="3" bgcolor="#FFFFFF">没有任何信息！</td>
+            </tr>
+        </if>
+    </table>
+</div>

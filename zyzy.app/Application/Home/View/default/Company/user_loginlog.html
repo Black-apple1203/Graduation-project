@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_user.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_user" /> 
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle log_user_pagetitle">
+					<div class="pat_l">登录日志</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tab">
+					<a href="{:U('company/user_security')}" class="tabli " >账号安全</a>
+					<a href="{:U('company/user_loginlog')}" class="tabli select">登录日志</a>
+					<a href="{:U('accountMigration/index')}" class="tabli">账号迁移</a>
+					<div class="clear"></div>
+				</div>
+				<div class="log_wrap">
+					<div class="log_th">
+				    	<div class="th1">登录时间</div>
+						<div class="th2">登录IP</div>
+						<div class="th3">登录地点（仅供参考）</div>
+						<div class="th4">登录方式</div>
+						<div class="clear"></div>
+					</div>
+					<notempty name="loginlog['list']">
+					<volist name="loginlog['list']" id="log">
+						<div class="log J_hoverbut">
+							<div class="td1">{:date('Y-m-d H:i:s',$log['log_addtime'])}</div>
+							<div class="td2">{$log.log_ip}</div>
+							<div class="td3">{$log.log_address}</div>
+							<div class="td4">{$log.log_source}</div>
+							<div class="clear"></div>
+						</div>
+					</volist>
+					<div class="qspage">{$loginlog.page}</div>
+					<else />
+					<div class="res_empty">
+						没有找到相应的信息！
+					</div>
+					</notempty>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+	</body>
+	<script type="text/javascript">
+		$('.logo_wrap').mouseover(function(){
+			$(".logo_upload").show();
+		});
+		$('.logo_wrap').mouseout(function(){
+			$(".logo_upload").hide();
+		});
+	</script>
+</html>

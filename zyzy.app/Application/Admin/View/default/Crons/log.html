@@ -1,0 +1,30 @@
+<include file="public:header" />
+ <div class="toptip">
+  <h2>提示：</h2>
+  <p>
+计划任务是一项使系统在规定时间自动执行某些特定任务的功能，在需要的情况下，您也可以方便的将其用于功能的扩展。<br />
+计划任务是与系统核心紧密关联的功能特性，不当的设置可能造成功能的隐患，严重时可能导致网站无法正常运行。
+</p>
+</div>
+  <table width="100%" border="0" cellpadding="0" cellspacing="0"  id="list" class="link_lan">
+    <tr>
+      <td  class="admin_list_tit admin_list_first">
+      名称
+      </td>
+    </tr>
+   <volist name="list" id="vo">
+    <tr>
+      <td   class="admin_list admin_list_first">
+    {$vo}
+   </td>
+    </tr>
+   </volist>
+  </table>
+  <if condition="!$list">
+<div class="admin_list_no_info">没有任何信息！</div>
+</if>
+<div class="qspage">{$page}</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

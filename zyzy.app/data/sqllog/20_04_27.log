@@ -1,0 +1,12 @@
+[ 2020-04-27T10:33:17+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=ajax&a=affair','127.0.0.1:46587','本机地址','1587954797','1','admin','0') [RunTime:0.2712s] [IP:127.0.0.1:46587] [AddTime:1587954797] [qscms]
+[ 2020-04-27T11:00:22+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT COUNT(*) AS tp_count FROM `qs_resume_img` left join qs_resume r on r.id=qs_resume_img.resume_id  WHERE qs_resume_img.audit = 2    LIMIT 1  [RunTime:0.2034s] [IP:127.0.0.1:48357] [AddTime:1587956422] [qscms]
+[ 2020-04-27T16:52:28+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+SQL: SELECT * FROM `qs_queue_auto_refresh` WHERE `refreshtime` <= 1587977547 AND `type` = 2    [RunTime:0.4928s] [IP:127.0.0.1:51831] [AddTime:1587977548] [qscms]
+[ 2020-04-27T16:52:28+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+SQL: SELECT * FROM `qs_members_setmeal` WHERE ( `endtime` <= 1587977548 AND `endtime` <> 0  ) AND `setmeal_id` > 1    [RunTime:0.3059s] [IP:127.0.0.1:51831] [AddTime:1587977548] [qscms]
+[ 2020-04-27T16:52:41+08:00 ] 127.0.0.1 /index.php?m=admin&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+SQL: SELECT `groups`,`mids` FROM `qs_admin_role` WHERE `id` = null    LIMIT 1  [RunTime:0.4049s] [IP:127.0.0.1:51868] [AddTime:1587977561] [qscms]
+[ 2020-04-27T16:52:42+08:00 ] 127.0.0.1 /index.php?m=admin&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+SQL: DELETE FROM `qs_admin_auth` WHERE `role_id` = null [RunTime:0.3544s] [IP:127.0.0.1:51868] [AddTime:1587977562] [qscms]

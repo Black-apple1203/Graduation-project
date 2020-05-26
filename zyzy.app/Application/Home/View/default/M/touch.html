@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/m.css" rel="stylesheet" type="text/css" />
+	<qscms:load type="category"/>
+</head>
+<body>
+<include file="public:header_m" />
+<div id="banner-block">
+    <div class="banner-wrap wap">
+        <div class="container">
+            <div class="wpage-img"><img src="{:C('TPL_PUBLIC_DIR')}/images/189.jpg" alt="" /></div>
+            <div class="a-text-wrap">
+                <h1>触屏版，海量职位一手掌握</h1>
+                <h2>手机浏览器输入网址</h2>
+                <div class="wap-input">{:build_mobile_url()}</div>
+                <div class="wap-code">
+                    <img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(build_mobile_url())}" alt="二维码" width="118" height="118" />
+                    <p>扫一扫，立即打开</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="m-main">
+    <div class="m-row wap">
+        <div class="container clearfix">
+            <div class="row-left-text f-left">
+                <h2>机型通用</h2>
+                <p>无需下载，没有平台、机型的限制，触屏<br />手机就能上网找工作！机会不再稍纵即逝，<br />它已在你轻盈的指尖上！</p>
+            </div>
+            <div class="row-right-box f-right">
+                <div class="more-phone"><img src="{:C('TPL_PUBLIC_DIR')}/images/185.jpg" alt="" /></div>
+            </div>
+        </div>
+    </div>
+    <div class="m-row wap odd">
+        <div class="container clearfix">
+            <div class="row-left-phone f-left">
+                <div class="wap-phone-block"><img src="{:C('TPL_PUBLIC_DIR')}/images/186.jpg" alt="" /></div>
+            </div>
+            <div class="row-right-text f-right">
+                <h2>功能不打折</h2>
+                <p>无损移植PC端所有核心功能，简约而不简<br />单！简历管理？求职应聘？均可随时随地、<br />轻松搞定！</p>
+            </div>
+        </div>
+    </div>
+    <div class="m-row wap">
+        <div class="container clearfix">
+            <div class="row-left-text f-left">
+                <h2>求职管理</h2>
+                <p>完善的求职管理中心，随时随地查看职位<br />申请、收藏记录、收到的面试邀请等，工<br />作机会一手掌握。</p>
+            </div>
+            <div class="row-right-box f-right">
+                <div class="phone-block ios-phone">
+                    <div class="app-img"><img src="{:C('TPL_PUBLIC_DIR')}/images/187.jpg" alt="" /></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="m-row wap odd">
+        <div class="container clearfix">
+            <div class="row-left-phone f-left">
+                <div class="wap-phone-block"><img src="{:C('TPL_PUBLIC_DIR')}/images/188.jpg" alt="" /><div class="wap-sp-block"></div></div>
+
+            </div>
+            <div class="row-right-text f-right">
+                <h2>海量职位</h2>
+                <p>海量职位，随时随地任您搜！<br />按关键字、行业、工作年限、地区多重组合，<br />精准查询职位。</p>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer_min" />
+</body>
+</html>

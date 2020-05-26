@@ -1,0 +1,388 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_resumes.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_resumes" /> 
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">收到的简历</div>
+					<!--<div class="pat_r">系统保留三个月的记录，共<strong> {$apply_list['count']} </strong>条</div>-->
+					<div class="clear"></div>
+				</div>
+				<div class="user_tab">
+					<a href="{:U('jobs_apply')}" class="tabli <if condition="$is_reply eq 0">select</if>" >待处理简历</a>
+					<a href="{:U('jobs_apply',array('is_reply'=>1))}" class="tabli <if condition="$is_reply eq 1">select</if>">已处理简历</a>
+					<div class="clear"></div>
+					<div class="btnbox resume_list">
+						<form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_resumelist'))}" method="get">
+							<input name="key" id="key" type="text" class="input_245_34" placeholder="请输入关键字">
+							<!--<input type="text" name="key" class="soinput" placeholder="请输入关键字" />-->
+							<input type="hidden" name="search_type" value="<if condition="C('qscms_resumesearch_key_first_choice') eq 1">precise<else />full</if>" />
+							<div class="btn_yellow J_hoverbut btn_inline btnSearch" style="padding: 7px 15px;">搜人才</div>
+						</form>
+					</div>
+				</div>
+				<div class="resume_receive_select">
+					<div class="left">
+						<div class="td1">应聘职位：</div>
+						<div class="td2">
+							<div class="input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+								<span class="J_listitme_text line_substring">
+									<if condition="$jobs_id eq 0">
+										全部职位
+									<else />
+										{$jobs_list[$jobs_id]}
+									</if>
+								</span>
+								<div class="dropdowbox6 J_dropdown_menu">
+						            <div class="dropdow_inner6">
+						                <ul class="nav_box">
+						                	<li><a class="J_listitme" href="{:P(array('jobs_id'=>0))}" >全部职位</a></li>
+						                	<volist name="jobs_list" id="vo">
+						                	<li><a class="J_listitme" href="{:P(array('jobs_id'=>$key))}" title="{$vo}">{$vo}</a></li>
+						                	</volist>
+						                </ul>
+						            </div>
+						        </div>
+							</div>
+						</div>
+						<div class="td3">
+							<label><input type="checkbox" <if condition="$Think.get.stop eq '1'">checked="checked"</if> url="<if condition="$Think.get.stop eq '1'">{:U('jobs_apply',array('is_reply'=>$is_reply,'stop'=>0))}<else />{:U('jobs_apply',array('is_reply'=>$is_reply,'stop'=>1))}</if>" class="jump">包含停招职位</label>
+						</div>
+						<div class="clear"></div>
+						<div class="td1">简历来源：</div>
+						<div class="radio_list">
+							<div class="li jump <if condition="!$Think.get.is_apply || $Think.get.is_apply eq '0'">checked</if>" url="{:P(array('is_apply'=>0))}">全部</div>
+							<div class="li jump <if condition="$Think.get.is_apply eq '2'">checked</if>" url="{:P(array('is_apply'=>2))}">主动投递</div>
+							<div class="li jump <if condition="$Think.get.is_apply eq '1'">checked</if>" url="{:P(array('is_apply'=>1))}">委托投递</div>
+							<div class="clear"></div>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="right">
+						<div class="time">近两周<span>（{$date}&nbsp;-&nbsp;至今）</span></div>
+						<div class="statistics">
+							<div class="td1">
+								<div class="val">{$count[1]}</div>处理简历
+							</div>
+							<div class="line"></div>
+							<div class="td1">
+								<div class="val">{$count[0]}</div>收到简历
+							</div>
+							<div class="line"></div>
+							<div class="td1">
+								<div class="val">{$count[2]}%</div>处理率
+							</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="resume_receive_th">
+					<if condition="$is_reply eq 0">
+	    				<div class="th7">
+	    					状态标签
+						</div>
+					<else />
+						<div class="th1">
+							<div class="input_90_30_div J_hoverinput J_dropdown J_listitme_parent">
+								<span class="J_listitme_text">
+									<if condition="$state eq 0">
+										状态标签
+									<else />
+										{$state_arr[$state]}
+									</if>
+								</span>
+								<div class="dropdowbox11 J_dropdown_menu">
+						            <div class="dropdow_inner11">
+						                <ul class="nav_box">
+						                	<li><a class="J_listitme" href="{:P(array('state'=>0))}" >全部状态</a></li>
+						                	<volist name="state_arr" id="vo">
+						                	<li><a class="J_listitme" href="{:P(array('state'=>$key))}" >{$vo}</a></li>
+					 	                	</volist>
+						                </ul>
+						            </div>
+						        </div>
+							</div>
+						</div>
+					</if>
+    				<div class="th2">姓名</div>
+    				<div class="th3">基本信息</div>
+    				<div class="th4">应聘职位</div>
+    				<div class="th5">
+    					<div class="input_90_30_div J_hoverinput J_dropdown J_listitme_parent">
+							<span class="J_listitme_text">
+								<if condition="$Think.get.settr eq 0">
+									应聘时间
+								<else />
+									{$Think.get.settr}天内
+								</if>
+							</span>
+							<div class="dropdowbox11 J_dropdown_menu">
+					            <div class="dropdow_inner11">
+					                <ul class="nav_box">
+					                	<li><a class="J_listitme" href="{:P(array('settr'=>0))}" >不限时间</a></li>
+					                	<li><a class="J_listitme" href="{:P(array('settr'=>3))}" >3天内</a></li>
+					                	<li><a class="J_listitme" href="{:P(array('settr'=>7))}" >7天内</a></li>
+					                	<li><a class="J_listitme" href="{:P(array('settr'=>15))}" >15天内</a></li>
+					                	<li><a class="J_listitme" href="{:P(array('settr'=>30))}" >30天内</a></li>
+					                </ul>
+					            </div>
+					        </div>
+						</div>
+    				</div>
+    				<div class="th6">操作</div>
+    				<div class="clear"></div>
+    			</div>
+				<form id="form1" action="{:U('del_jobs_apply')}" method="post" class="J_allListBox">
+				<notempty name="apply_list['list']">
+				<volist name="apply_list['list']" id="vo">
+				<div class="resume_receive" did="{$vo['did']}">
+					<if condition="$vo['fullname']">
+	    				<div class="td1">
+							<div class="input">
+								<input name="y_id[]" class="J_allList" type="checkbox" value="{$vo['did']}" resume_id="{$vo['resume_id']}"> &nbsp;
+							</div>
+	    					<div class="look_icon <if condition="$vo['personal_look'] eq 1">unlook</if>" title="<if condition="$vo['personal_look'] eq 1">未查看<else/>已查看</if>"></div>
+	    					<div title="<if condition="$vo['is_reply'] gt 0">{$state_arr[$vo['is_reply']]}</if>" class="replay_icon J_dropdown <if condition="$vo['is_reply'] gt 0">s{$vo['is_reply']}</if>">
+							<div class="dropdowboxapply J_dropdown_menu">
+					            <div class="dropdow_innerapply">
+					                <ul class="nav_box">
+					                	<volist name="state_arr" id="st">
+					                	<li><a class="J_listitme label_resume s{$key}" href="{:U('company_label_resume_apply',array('y_id'=>$vo['did'],'state'=>$key))}" >{$st}</a></li>
+					                	</volist>
+					                </ul>
+					            </div>
+					        </div>
+	    					</div>
+	    					<div class="clear"></div>
+	    				</div>
+						<div class="td2 link_blue substring"><a target="_blank" href="{:url_rewrite('QS_resumeshow',array('id'=>$vo['resume_id'],'jobs_id'=>$vo['jobs_id'],'from_apply'=>1),0,false)}">{$vo['fullname']}</a><eq name="vo['is_quick']" value="1"><span class="quick" title="该简历为会员快捷注册"></span></eq></div>
+	    				<div class="td3">{$vo['age']}岁/{$vo['sex_cn']}/{$vo['education_cn']}/{$vo['experience_cn']}</div>
+	    				<div class="td4 link_blue substring"><a target="_blank" href="{$vo.jobs_url}">{$vo['jobs_name_']}</a></div>
+	    				<div class="td5">{:fdate($vo['apply_addtime'])}</div>
+	    				<div class="td6 link_blue J_tooltip">
+	    					<a href="javascript:;" class="clink">操作</a>
+	    					<div class="dropdowbox2 J_tooltip_menu">
+					            <div class="dropdow_inner2">
+					                <ul class="nav_box">
+					                    <li><a class="J_interview" href="javascript:;" resume_id="{$vo['resume_id']}">邀请面试</a></li>
+					                    <li><a class="J_del_resume" href="javascript:;" url="{:U('company/del_jobs_apply',array('y_id'=>$vo['did']))}">删除</a></li>
+					                </ul>
+					            </div>
+					        </div>
+	    				</div>
+    				<else />
+						<div class="td1">
+							<div class="input">
+								<input name="y_id[]" class="J_allList" type="checkbox" value="{$vo['did']}"> &nbsp;该简历不存在或已被删除
+							</div>
+	    				</div>
+	    				<div class="td2">&nbsp;</div><div class="td3">&nbsp;</div><div class="td4">&nbsp;</div><div class="td5">&nbsp;</div>
+	    				<div class="td6 link_blue"><a href="javascript:;" url="{:U('company/del_jobs_apply',array('y_id'=>$vo['did']))}" class="clink J_del_resume">删除</a></div>
+    				</if>
+    				<div class="clear"></div>					
+				</div>
+				</volist>
+				<div class="resume_but">
+		 			<div class="td1"><input class="J_allSelected" type="checkbox" value="" /></div>
+		 			<div class="td2">
+		 				<div class="btn_blue J_hoverbut btn_inline" id="save_as_doc_word">保存到电脑</div>
+						<div class="btn_lightgray J_hoverbut btn_inline" id="deleteall">删除</div>
+		 			</div>
+		 			<div class="clear"></div>
+	    		</div>
+				<div class="qspage">{$apply_list['page']}</div>
+				<else />
+					<if condition="$hasget">
+					<div class="res_empty">
+						抱歉，没有找到符合您条件的简历，建议您修改筛选条件后重试
+					</div>
+					<else />
+					<div class="res_empty link_blue">
+						收到的简历不够多？不如主动出击找人才！<br />
+						海量优质简历任您选，快速招人不再难。立即 <a href="{:url_rewrite('QS_resume')}" target="_blank">搜人才</a>
+					</div>
+					</if>
+				</notempty>
+				</form>
+			</div>
+		</div>
+		<include file="index_footer" />
+		<script type="text/javascript" src="../public/js/laydate/laydate.js"></script>
+		<script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				// 搜简历
+				$('.btnSearch').click(function () {
+					$('#ajax_search_location').submit();
+				});
+				$('#ajax_search_location').submit(function(){
+					var input_key = $('input[name="key"]');
+					var nowKeyValue = $.trim(input_key.val());
+					input_key.val(htmlspecialchars(nowKeyValue));
+					var post_data = $(this).serialize();
+					if(qscms.keyUrlencode==1){
+						post_data = encodeURI(post_data);
+					}
+					var new_tab=window.open('about:blank');
+					$.post($(this).attr('action'),post_data,function(result){
+						//window.location.href=result.data;
+						//window.open(result.data,"_blank");
+						new_tab.location.href=result.data;
+					},'json');
+					return false;
+				});
+				$(".label_resume").click(function(){
+					var url = $(this).attr('href');
+					$.getJSON(url,function(result){
+						if(result.status==1){
+							if(result.data){
+								disapperTooltip("goldremind", '处理3天内收到的简历增加'+result.data+'{:C('qscms_points_byname')}<span class="point">+'+result.data+'</span>');
+							}else{
+								disapperTooltip('success',result.msg);
+							}
+							setTimeout(function () {
+		                        window.location.reload();
+		                    }, 2000);
+						}else{
+							disapperTooltip('remind', result.msg);
+						}
+					});
+					return false;
+				});
+				$(".jump").click(function(){
+					location.href=$(this).attr('url');
+				});
+				$("#save_as_doc_word").click(function(){
+					var $checkArr = $('.J_allList:checked');
+					if($checkArr.length<=0){
+						disapperTooltip('remind', '请选择简历');
+						return false;
+					}
+					var valArr = new Array();
+					$.each($checkArr, function(){
+						if($(this).attr('resume_id')){
+							valArr.push($(this).attr('resume_id'));
+						}
+					});
+					if(valArr.length == 0){
+						disapperTooltip('remind','选择的简历不存在或已被删除！');
+						return false;
+					}
+					$("#form1").attr('action',"{:U('resume_doc_for_apply')}");
+					$("#form1").attr('target',"_blank");
+					$("#form1").submit();
+				});
+				$(".J_del_resume").click(function () {
+		            var url = $(this).attr('url');
+		            var qsDialog = $(this).dialog({
+				        title: '删除收到的简历',
+		                loading: true,
+		                border: false,
+		                footer: false
+		            });
+		            $.getJSON(url, function (result) {
+		                if (result.status == 1) {
+		                	qsDialog.hide();
+		                	var qsDialogSon = $(this).dialog({
+				                title: '删除收到的简历',
+				                content: result.data.html,
+				                border: false,
+				                yes: function () {
+				                    window.location.href = url;
+				                }
+				            });
+		                } else {
+		                	qsDialog.hide();
+		                    disapperTooltip('remind', result.msg);
+		                }
+		            });
+		        });
+				// 批量删除
+		        $('#deleteall').click(function () {
+		            var listCheckedArray = $('.J_allListBox .J_allList:checked');
+		            if (listCheckedArray.length) {
+		            	var url = "{:U('del_jobs_apply')}";
+		                var qsDialog = $(this).dialog({
+					        title: '删除收到的简历',
+			                loading: true,
+			                border: false,
+			                footer: false
+			            });
+		                $.getJSON(url, function (result) {
+		                    if (result.status == 1) {
+		                    	qsDialog.hide();
+				                var qsDialogSon = $(this).dialog({
+				                    title: '删除收到的简历',
+				                    content: result.data.html,
+				                    border: false,
+				                    yes: function () {
+				                    	$("#form1").attr('action',"{:U('del_jobs_apply')}");
+		                				$("#form1").attr('target',"_self");
+				                        $("#form1").submit();
+				                    }
+				                });
+		                    } else {
+		                    	qsDialog.hide();
+		                        disapperTooltip('remind', result.msg);
+		                    }
+		                });
+		            } else {
+		                disapperTooltip("remind", "请选择要删除的简历");
+		            }
+		        });
+				$('.J_interview').click(function(){
+					var qsDialog = $(this).dialog({
+		        		title: '邀请面试',
+						loading: true,
+						showFooter: false,
+						yes: function() {
+							var notesVal = $.trim($('input[name="notes"]').val());
+							if (notesVal.length > 40) {
+								$('input[name="notes"]').focus();
+								disapperTooltip('remind','最多输入40个字');
+								return false;
+							}
+							$('.J_btnyes').val('发送中...');
+							$.post("{:U('company/jobs_interview_add')}",$('#J_interviewWrap').serialize(),function(result){
+								if(result.status == 1){
+									disapperTooltip('success',result.msg);
+									setTimeout(function () {
+										window.location.reload();
+									}, 2000);
+								} else {
+									$('.J_btnyes').val('确定');
+									disapperTooltip('remind',result.msg);
+								}
+							},'json');
+						}
+					});
+					qsDialog.setCloseDialog(false);
+					var resume_id = $(this).attr('resume_id');
+					$.getJSON("{:U('company/jobs_interview_add')}",{id:resume_id},function(result){
+			    		if(result.status == 1){
+			    			qsDialog.setContent(result.data);
+        					qsDialog.showFooter(true);
+							laydate.render({
+								elem: '#date',
+                        		min: 0
+							})
+			    		}else{
+			    			qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+			    		}
+			    	});
+				});
+			});
+		</script>
+	</body>
+</html>

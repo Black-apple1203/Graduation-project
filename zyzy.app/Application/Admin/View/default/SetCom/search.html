@@ -1,0 +1,142 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>您可以根据网站的数据量来选择搜索方式。</p>
+    <p>全文搜索效率更高，精准搜索更加精准。</p>
+    <p>职位精准搜索只能搜索职位名称和公司名称。</p>
+    <p>全文搜索能搜索更多的内容，但搜索关键字取决于关键字的字典，字典位置：data/scws/dict.utf8.xdb， 您可以调整字典词语来优化全文搜索。</p>
+</div>
+<div class="toptit">基本设置</div>
+<form id="form1" action="{:U('search')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">关键字搜索首选类型:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="jobsearch_key_first_choice" type="hidden" value="{:C('qscms_jobsearch_key_first_choice')}">
+                <div class="radio <in name='Think.config.qscms_jobsearch_key_first_choice' value='1,2'>select</in>" data="1" title="搜职位名">搜职位名</div>
+                <div class="radio <eq name='Think.config.qscms_jobsearch_key_first_choice' value='0'>select</eq>" data="0" title="全文搜索">全文搜索</div>
+                <label class="note-radio">(全文搜索结果更多，职位名称更加精准，请根据不同的运营阶段设置不同的选项)</label>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">搜索登录限制:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <in name='Think.config.qscms_jobs_search_login' value='1,2'>select</in>"><input name="jobs_search_login" type="hidden" value="{:C('qscms_jobs_search_login')}" /></div>
+            <div class="note">(开启后，只有已登录会员可以搜索职位)</div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">搜索登录条数限制:</div>
+        <div class="fr">
+            <input name="jobs_search_num_login" type="text" class="input_text_default middle" maxlength="10" value="{:C('qscms_jobs_search_num_login')}" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">
+            <label class="no-fl-note">(未登录会员可以搜索职位条数)</label>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">全文搜索</div>
+<form id="form2" action="{:U('search')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">是否开启全文搜索:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <in name='Think.config.qscms_jobsearch_type' value='1,2'>select</in>"><input name="j_fulltext" type="hidden" value="{:C('qscms_jobsearch_type')}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div id="jobsearch_full_text_wrap" <if condition="C('qscms_jobsearch_type') eq 0">style="display:none"</if>>
+            <div class="fl">全文搜索类型:</div>
+            <div class="fr">
+                <div class="imgradio link_blue">
+                    <input name="j_fulltext" type="hidden" value="{:C('qscms_jobsearch_type')}">
+                    <div class="radio <in name='Think.config.qscms_jobsearch_type' value='0,1'>select</in>" data="1" title="系统内置">系统内置</div>
+                    <div class="radio <eq name='Think.config.qscms_jobsearch_type' value='2'>select</eq>" data="2" title="Sphinx">Sphinx</div>
+                    <div class="radio <eq name='Think.config.qscms_jobsearch_type' value='3'>select</eq>" data="3" title="迅搜(xunsearch)">迅搜(xunsearch)</div>
+                    <label class="note-radio">(Sphinx和xunsearch模式，需安装相应模块，<a href="http://www.74cms.com/app/lists.html" target="_blank">点击获取</a>)</label>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="fl">开启盲查询:</div>
+            <div class="fr">
+                <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_match_type' value='1'>select</eq>"><input name="match_type" type="hidden" value="{:C('qscms_match_type')}" /></div>
+                <div class="clear"></div>
+            </div>
+            <div class="fl">全文搜索默认排序:</div>
+            <div class="fr">
+                <div class="imgradio">
+                    <input name="fulltext_orderby" type="hidden" value="{:C('qscms_fulltext_orderby')}">
+                    <div class="radio <eq name='Think.config.qscms_fulltext_orderby' value='1'>select</eq>" data="1" title="相关度">相关度</div>
+                    <div class="radio <eq name='Think.config.qscms_fulltext_orderby' value='0'>select</eq>" data="0" title="更新时间">更新时间</div>
+                    <div class="clear"></div>
+                </div>
+                <div style="color: #999999; font-size: 12px;">(如设为相关度排序，结果可能有早期发布的信息排在前面，如设为更新时间可能会有不太相关的信息排在前面，且忽略盲查询功能！)</div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="jobsearch_type" id="jobsearch_type" value="{:C('qscms_jobsearch_type')}">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit1"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".j_type").live('click',function(){
+            if($("input[name='j_fulltext']").val() == 1){
+                $("#jobsearch_full_text_wrap").show();
+            }else{
+                $("#jobsearch_full_text_wrap").hide();
+            }
+            $('#jobsearch_type').val($(this).attr('data'));
+        });
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('search')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        $('#J_submit1').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('search')}",$('#form2').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

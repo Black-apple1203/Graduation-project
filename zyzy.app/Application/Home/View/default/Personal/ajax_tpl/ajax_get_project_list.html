@@ -1,0 +1,19 @@
+<empty name="list">
+	<div class="empty font_gray9">项目经历让你的简历超越99%的竞争者，快来说说令您难忘的项目经历吧！</div>
+<else/>
+	<volist name="list" id="list">
+		<div class="course J_listhover_edit" data-id="{$list.id}">
+			<div class="td1">
+				{$list.startyear}-{$list.startmonth} 至<if condition="$list['todate'] eq 1">今<br/>[{:ddate($list['startyear'].'-'.$list['startmonth'],date('Y-m',time()))}]<else/> {$list.endyear}-{$list.endmonth}<br/>[{:ddate($list['startyear'].'-'.$list['startmonth'],$list['endyear'].'-'.$list['endmonth'])}]</if>
+			</div>
+			<div class="td2"></div>
+			<div class="td3">
+				<div class="ltxt font_blue">{$list.projectname}<span>|</span>{$list.role}</div>
+				<div class="editbox link_yellow"><a class="J_editpro" href="javascript:;">修改</a>&nbsp;&nbsp;&nbsp;<a class="J_delpro" href="javascript:;">删除</a></div>
+				<div class="clear"></div>
+				<div class="txt">{$list.description}</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+	</volist>
+</empty>

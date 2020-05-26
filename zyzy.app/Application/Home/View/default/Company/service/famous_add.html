@@ -1,0 +1,152 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="Company:left_service" />
+			</div>
+			<div class="mright">
+			
+				<form target="_blank" id="cash_pay_form" method="post" action="{:U('famouns_add_save')}">
+				<div class="user_pagetitle">
+					<div class="pat_l">增值服务</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tip">
+					<div class="tiptit">小提示</div>
+					<div class="tiptxt link_blue">
+					开通 <strong>诚聘通</strong> 后，您可以随时申请退还保证金，退还后将不再享受 <strong>诚聘通</strong> 的所有招聘特权；<br />
+
+招聘过程中，如果您有向求职者收取押金等违规(或非法)行为，并经调查后情况属实，我们将扣除您一定额度的保证金先行赔付给求职者。
+					</div>
+				</div>
+				<div class="order_info_group first">
+					<div class="info_float_line1">
+						<div class="left_line">服务名称：</div>
+						<div class="right_line"><span class="service_title">诚聘通</span></div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="order_info_group">
+					<div class="info_float_line1">
+						<div class="left_line">支付方式：</div>
+						<div class="right_line">
+							<div class="rights J_forpaycash">
+								<!--默认是不做任何选择 没有select -->
+								<volist name="payment" id="vo">
+								<div typename="{$vo['typename']}" class="pays J_hoverbut"><img src="../public/images/pay_{$vo['typename']}.png"   border="0"/><div class="hook"></div></div>
+								</volist>
+								<div class="clear"></div>	
+						  	</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="forpay">
+					<div class="order_info_group">
+						<div class="info_float_line1">
+							<div class="left_line">保证金：</div>
+							<div class="right_line link_blue">
+								<div><span class="service_title"><span class="orange" id="pay_cash">{$amount}</span></span> 元</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<div class="order_info_group">
+						<div class="info_float_line1">
+							<div class="btn_yellow J_hoverbut btn_115_38" id="submit">立即购买</div>
+						</div>
+					</div>
+				</div>
+				<!--支付方式名称-->
+				<input type="hidden" name="payment_name" id="payment_name" value="">
+			</form>
+			</div>
+
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+		<script type="text/javascript">
+		$(document).ready(function(){
+			//选择payment
+			$(".pays").click(function(){
+				$(this).siblings().removeClass('select');
+				$(this).addClass('select');
+				$("#payment_name").val($(this).attr("typename"));
+			});
+			//现金支付提交
+		    $("#submit").click(function(){
+				if(!$("#payment_name").val()){
+					disapperTooltip("remind","请选择支付方式！");
+					return false;
+				}
+				if($("#payment_name").val()=='wxpay'){
+					var qsDialog = $(this).dialog({
+		        		title: '微信支付',
+						loading: true,
+						showFooter: false
+					});
+					$.ajax({
+		                cache: true,
+		                type: "POST",
+		                url:"{:U('famouns_add_save')}",
+		                data:$('#cash_pay_form').serialize(),
+		                dataType:"json",
+		                success: function(result) {
+		                    if(result.status==1){
+		                    	qsDialog.setContent("<img src='"+result.data+"' alt='扫描二维码' width='250' height='250' />");
+								window.setInterval(run, 5000);
+		                    }else{
+		                    	qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+								return false;
+		                    }
+		                }
+		            });
+				}else{
+					if($("#payment_name").val()=='remittance'){
+		        		$("#cash_pay_form").removeAttr('target');
+		        	}else{
+						var url = "{:U('CompanyService/confirm_pay_status')}";
+						var qsDialog=$(this).dialog({
+							title: '确认支付',
+							loading: true,
+							border: false,
+							yes: function() {
+								window.location.href="{:U('CompanyService/order_list')}";
+							},
+							cancel:function(){
+								window.location.href="{:U('CompanyService/order_list')}";
+							}
+						});
+						$.getJSON(url,function(result){
+			        		if(result.status == 1){
+			        			qsDialog.setContent(result.data.html);
+			        			qsDialog.setBtns(['支付完成', '遇到问题']);
+			        		}else{
+			        			disapperTooltip('remind',result.msg);
+			        		}
+			        	});
+			        }
+					$("#cash_pay_form").submit();
+				}
+			});
+			
+		    function run(){
+	            $.getJSON("{:U('check_weixinpay_notify')}",function(result){
+	                if(result.status==1){
+	                   location.href=result.data;
+	                }
+	            });
+	        }
+	    });
+		</script>
+	</body>
+</html>

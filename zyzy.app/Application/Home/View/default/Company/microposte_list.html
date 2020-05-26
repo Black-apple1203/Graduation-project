@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/whb_template.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_jobs" /> 
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">微海报</div>
+					<div class="clear"></div>
+				</div>
+				<div class="cutoff_line"></div>
+					<!-- 微海报选模板开始 -->
+				<div class="whb_template">
+					<div class="whb_template_top">
+						<div class="whb_template_top_left">选择模板</div>
+						<div class="whb_template_top_right">点击预览可在手机端查看并保存海报</div>
+					</div>
+					<div class="whb_template_bottom">
+						<ul>
+						
+							
+							<volist name="microposte_list" id="vo">
+								<li>
+									<div class="whb_template_img">
+										<a href="javascript:;"><img src="{:C('TPL_PUBLIC_DIR')}/images/microposte/{$vo['tpl_thumb']}" alt=""></a>
+									</div>
+									<div class="whb_template_imgtxt">
+										<a href="javascript:;">{$vo['tpl_name']}</a>
+										<a href="javascript:;" class="preview">
+											预览
+										<div class="whb_template_position">
+											<!-- <div class="whb_template_trangle"></div> -->
+											<div class="whb_template_sqr">
+												<!-- <img src="{:C('TPL_PUBLIC_DIR')}/css/company/img/whb5.png" alt=""> -->
+												<img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(build_mobile_url(array('c'=>'jobs','a'=>'microposte','params'=>'id='.$vo['jid'].'.'.$vo['tpl_dir'].'.'.'1')))}"/>
+											</div>
+											<div class="whb_template_sqrtext">
+												手机扫码保存海报
+											</div>
+										</div>
+										</a>
+									</div>
+									
+								</li>
+							</volist>
+						</ul>
+					</div>
+				</div>
+				<!-- 微海报选模板结束 -->
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script>
+			$(document).ready(function(){
+				// 最左边的海报margin-left:0
+				$(".whb_template_bottom ul li").each(function(index){
+					if((index)%3 ==0){
+						$(this).css("margin-left","0px");
+					}
+				});
+			});
+		</script>
+	</body>
+</html>

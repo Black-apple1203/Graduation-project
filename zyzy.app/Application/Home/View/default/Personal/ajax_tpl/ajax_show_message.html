@@ -1,0 +1,19 @@
+<div class="show_message_dialog">
+	<div class="content">
+		<div class="td1">时间：</div>
+		<div class="td2">{:date('Y-m-d H:i',$msg['dateline'])}</div>
+		<div class="clear"></div>
+		<div class="td1 p">内容：</div>
+		<div class="td2 multi link_blue">
+			{$msg.message}
+		</div>
+		<div class="clear"></div>
+		<if condition="$msg['reply']">
+			<div class="td1 p">回复：</div>
+			<div class="td2 multi link_blue">
+				{$msg.reply}
+			</div>
+		</if>
+		<div class="clear"></div>
+	</div>
+</div>

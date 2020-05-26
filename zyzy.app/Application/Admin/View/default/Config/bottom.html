@@ -1,0 +1,90 @@
+<include file="public:header"/>
+<form id="form1">
+    <div class="toptit">首页底部二维码引导关注</div>
+    <div class="form_main width200">
+        <div class="fl">标题：</div>
+        <div class="fr">
+            <input name="index_bottom_title" type="text" class="input_text_default" value="{:C('qscms_index_bottom_title')}"/>
+        </div>
+        <div class="fl">内容：</div>
+        <div class="fr">
+            <input name="index_bottom_info" type="text" class="input_text_default" value="{:C('qscms_index_bottom_info')}"/>
+        </div>
+        <div class="fl">二维码图片</div>
+        <div class="fr J-file-input-box">
+            <div class="file-input-block" id="J_upload_img" name="index_bottom_wx"><span class="o-txt">上传</span>二维码图片<span class="re-txt">(建议尺寸114*114)</span></div>
+             <input type="hidden" name="index_bottom_wx" id="index_bottom_wx" value="">
+        </div>
+  
+        <div id="J_img" <if condition="C('qscms_index_bottom_wx') eq '' ">style="display:none;"</if>>
+            <div class="fl">已上传：</div>
+            <div class="fr link_blue" id="J_img_list">&nbsp;
+                    <div style="float:left; text-align:center; margin-right: 15px; margin-bottom: 5px; border: 1px solid #CCCCCC;" class="img">
+                        <input type="hidden" name="index_bottom_wx" value="{:C('qscms_index_bottom_wx')}">
+                        <img src="{:attach(C('qscms_index_bottom_wx'),'resource')}?_t={:time()}" width="180" height="130" border="1" style="border: #CCCCCC;"/><br/>
+                        <a href="javascript:;" class="delete_img">删除</a>
+                    </div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" id="J_submit" class="admin_submit" value="保存修改"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+<script type="text/javascript">
+  var uploadUrl = "{:U('Upload/form_upload')}";
+</script>
+<script src="__ADMINPUBLIC__/js/ajaxfileupload.js"></script>
+<script src="__ADMINPUBLIC__/js/fileupload.js"></script>
+<script>
+    $.upload('#J_upload_img',{name:'index_bottom_wx',dir:'resource'},function(result){
+            if(result.error == 1){
+                var html = '<div style="float:left; text-align:center; margin-right: 15px; margin-bottom: 5px; border: 1px solid #CCCCCC;" class="img">';
+                html += '<input type="hidden" name="index_bottom_wx" value="' + result.url.savename + '">'
+                html += '<img src="' + result.url.src + '" width="180" height="130"><br/>';
+                html += '<a href="javascript:;" class="delete_img">删除</a>';
+                html += '</div>';
+                // $(html).prependTo($("#J_img_list"));
+                $("#J_img_list").html(html);
+                var j_img = $('#J_img');
+                if(j_img.is(":hidden")){
+                    j_img.show();
+                }
+            } else {
+                disapperTooltip("remind", "上传失败："+result.message);
+            }
+        });
+        // 删除照片
+        $(".delete_img").live('click', function () {
+            $(this).parent('.img').remove();
+            if($('#J_img_list').find('.img').length == 0){
+                $('#J_img').hide();
+                $('#index_bottom_wx').val();
+            }
+        });
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('config/edit')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

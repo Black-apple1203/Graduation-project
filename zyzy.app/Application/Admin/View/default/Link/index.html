@@ -1,0 +1,109 @@
+<include file="public:header"/>
+<div class="seltpye_x">
+    <div class="left">链接位置</div>
+    <div class="right">
+        <a href="{:P(array('alias'=>''))}" <if condition="$Think.get.alias eq ''">class="select"</if>>不限</a>
+        <volist name="category" id="vo">
+            <a href="{:P(array('alias'=>$vo['c_alias']))}" <if condition="$Think.get.alias eq $vo['c_alias']">class="select"</if>>{$vo['categoryname']}</a>
+        </volist>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<form id="form1" name="form1" method="post" action="{:U('delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:30%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>链接标题
+            </label>
+        </div>
+        <div class="td" style=" width:30%;">地址</div>
+        <div class="td center" style=" width:15%;">顺序</div>
+        <div class="td center" style=" width:15%;">位置</div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:30%;">
+                <div class="left_padding striking link_blue">
+                    <input name="link_id[]" type="checkbox" id="id" value="{$vo['link_id']}"/>
+                    <a href="{$vo['link_url']}" target="_blank"  <if condition="$vo['display'] neq '1'">style="color:#CCCCCC"</if>>{$vo['link_name']}</a>
+                    <if condition="$vo['notes'] neq ''">
+                        <span class="notestip vtip" title="备注：{$vo['notes']}">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </if>
+                    <if condition="$vo['link_logo'] neq ''">
+                        <span class="pictip vtip" title="<img src='{:attach($vo['link_logo'],'link_logo')}' border=0/>">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </if>
+                    <if condition="$vo['display'] neq '1'">
+                        <span style="color: #999999">[不显示]</span>
+                    </if>
+                </div>
+            </div>
+            <div class="td" style=" width:30%;"><a href="{$vo['link_url']}" target="_blank">{$vo['link_url']}</a></div>
+            <div class="td center" style=" width:15%;">{$vo['show_order']|default='0'}</div>
+            <div class="td center" style=" width: 15%;">{$vo['categoryname']|default='-'}</div>
+            <div class="td edit" style=" width:10%;">
+                <a href="{:U('edit',array('link_id'=>$vo['link_id']))}">修改</a>
+                <a href="{:U('delete',array('link_id'=>$vo['link_id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAdd" value="添加" onclick="window.location='{:U('add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除"/>
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='标题'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='标题'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="标题">标题</li>
+                        <li id="2" title="URL">URL</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //批量删除
+        $("#ButDel").click(function () {
+            var ids = $("input[name='link_id[]']:checked");
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择友情链接！');
+            } else {
+                if(confirm('确定删除吗？')){
+                    $("#form1").submit();
+                }
+            }
+        });
+    });
+</script>
+</html>

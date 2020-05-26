@@ -1,0 +1,119 @@
+<include file="public:header" />
+    <form action="{:U('ShareAllowance/rule',array('type'=>'sms'))}" method="post"   name="form1" id="form1">
+        <div class="toptit link_green_line">短信通知规则（如需开启短信通知，请先到<a href="{:U('Admin/Sms/config_edit')}">系统-短信设置</a>中配置短信参数。）</div>
+        <div class="form_main width320">
+            <div class="fl">企业开启分享红包:</div>
+            <div class="fr">
+              <div class="imgradio">
+                  <input name="set_share_allowance_publish" type="hidden" value="{$smsConfig['set_share_allowance_publish']}">
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_publish'] eq 1">select</if>" data="1" title="通知">通知</div>
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_publish'] eq 0">select</if>" data="0" title="不通知">不通知</div>
+                  <div class="note-radio">（通知企业）</div>
+                  <div class="clear"></div>
+              </div>
+            </div>
+            <div class="fl">推广人完成分享任务并领取红包:</div>
+            <div class="fr">
+              <div class="imgradio">
+                  <input name="set_share_allowance_pay_personal" type="hidden" value="{$smsConfig['set_share_allowance_pay_personal']}">
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_pay_personal'] eq 1">select</if>" data="1" title="通知">通知</div>
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_pay_personal'] eq 0">select</if>" data="0" title="不通知">不通知</div>
+                  <div class="note-radio">（通知个人）</div>
+                  <div class="clear"></div>
+              </div>
+            </div>
+            <div class="fl">推广人完成分享任务并领取红包:</div>
+            <div class="fr">
+              <div class="imgradio">
+                  <input name="set_share_allowance_pay_company" type="hidden" value="{$smsConfig['set_share_allowance_pay_company']}">
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_pay_company'] eq 1">select</if>" data="1" title="通知">通知</div>
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_pay_company'] eq 0">select</if>" data="0" title="不通知">不通知</div>
+                  <div class="note-radio">（通知企业）</div>
+                  <div class="clear"></div>
+              </div>
+            </div>
+            <div class="fl">任务红包全部发放完毕，信息汇总:</div>
+            <div class="fr">
+              <div class="imgradio">
+                  <input name="set_share_allowance_end" type="hidden" value="{$smsConfig['set_share_allowance_end']}">
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_end'] eq 1">select</if>" data="1" title="通知">通知</div>
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_end'] eq 0">select</if>" data="0" title="不通知">不通知</div>
+                  <div class="note-radio">（通知企业）</div>
+                  <div class="clear"></div>
+              </div>
+            </div>
+            <div class="fl">推广人加入黑名单或任务停止:</div>
+            <div class="fr">
+              <div class="imgradio">
+                  <input name="set_share_allowance_blacklist" type="hidden" value="{$smsConfig['set_share_allowance_blacklist']}">
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_blacklist'] eq 1">select</if>" data="1" title="通知">通知</div>
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_blacklist'] eq 0">select</if>" data="0" title="不通知">不通知</div>
+                  <div class="note-radio">（通知个人）</div>
+                  <div class="clear"></div>
+              </div>
+            </div>
+            <div class="fl">推广任务超时，结束单次推广:</div>
+            <div class="fr">
+              <div class="imgradio">
+                  <input name="set_share_allowance_deadline" type="hidden" value="{$smsConfig['set_share_allowance_deadline']}">
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_deadline'] eq 1">select</if>" data="1" title="通知">通知</div>
+                  <div class="radio <if condition="$smsConfig['set_share_allowance_deadline'] eq 0">select</if>" data="0" title="不通知">不通知</div>
+                  <div class="note-radio">（通知个人）</div>
+                  <div class="clear"></div>
+              </div>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+                <input type="submit" class="admin_submit" value="保存修改"/>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </form>
+    <if condition="C('apply.Weixin')">
+        <div class="toptit link_green_line">微信通知规则（如需开启微信通知，请先到<a href="{:U('Admin/Weixin/index')}">系统-微信公众平台</a>中配置微信参数。）</div>
+        <form action="{:U('ShareAllowance/rule',array('type'=>'weixin'))}" method="post" enctype="multipart/form-data" name="form3" id="form3">
+          <div class="list_th">
+            <div class="td" style=" width:25%;"><div class="left_padding">通知事件</div></div>
+            <div class="td" style=" width:15%;">状态</div>
+            <div class="td center" style=" width:10%;">模板名称</div>
+            <div class="td center" style=" width:15%;">所属行业</div>
+            <div class="td center" style=" width:15%;">模板编号</div>
+            <div class="td center" style=" width:20%;">模板ID</div>
+            <div class="clear"></div>
+        </div>
+        <volist name="weixin_config_list" id="list">
+            <div class="list_tr link_black">
+                <div class="td" style=" width:25%;">
+                    <div class="left_padding striking link_blue vtip"  title="{$list.name}">
+                        <input name="alias[]" type="hidden" value="{$list.alias}"/>
+                        {$list.name}
+                    </div>
+                </div>
+                <div class="td" style=" width:15%;">
+                  <div class="imgradio">
+                      <input name="{$list.alias}_value" type="hidden" value="{$list['value']}">
+                      <div class="radio <if condition="$list['value'] eq 1">select</if>" data="1" title="开启">开启</div>
+                      <div class="radio <if condition="$list['value'] eq 0">select</if>" data="0" title="关闭">关闭</div>
+                      <div class="clear"></div>
+                  </div>
+                </div>
+                <div class="td center" style=" width:10%;">{$list.template_title}</div>
+                <div class="td center" style=" width: 15%;">{$list.template_trade}</div>
+                <div class="td center" style=" width:15%;">{$list.template_no}</div>
+                <div class="td center" style=" width:20%;">
+                  <input type="text" class="input_text_default small" name="template_id[]" value="{$list['template_id']}">
+                </div>
+                <div class="clear"></div>
+            </div>
+        </volist>
+        <div class="list_foot">
+            <div class="btnbox">
+                <input type="submit" name="" value="保存" class="admin_submit"/>
+            </div>
+        </div>
+        </form>
+    </if>
+</div>
+<include file="public:footer" />
+</body>
+</html>

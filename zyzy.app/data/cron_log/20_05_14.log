@@ -1,0 +1,74 @@
+[ 2020-05-14T00:12:38+08:00 ] 127.0.0.1 /index.php?m=admin&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+INFO: Cron:ClearPromotion Runat 2020-05-14 00:12:38 Use 1.176196 s 
+Cron:AutoRefreshResume Runat 2020-05-14 00:12:38 Use -0.040478 s 
+Cron:AutoRefreshJobs Runat 2020-05-14 00:12:38 Use -0.073104 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-14 00:12:38 Use -0.075138 s 
+Cron:ClearShareAllowance Runat 2020-05-14 00:12:38 Use -0.081626 s 
+
+[ 2020-05-14T01:04:57+08:00 ] 127.0.0.1 /index.php?m=Admin&c=Article&a=index&menuid=112&child=1
+INFO: Cron:ClearPromotion Runat 2020-05-14 01:04:57 Use 0.155272 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-14 01:04:57 Use -0.008895 s 
+Cron:ClearOrder Runat 2020-05-14 01:04:57 Use -0.013268 s 
+Cron:ClearShareAllowance Runat 2020-05-14 01:04:57 Use -0.068766 s 
+
+[ 2020-05-14T01:10:15+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+INFO: Cron:AutoRefreshResume Runat 2020-05-14 01:10:15 Use 0.071116 s 
+Cron:AutoRefreshJobs Runat 2020-05-14 01:10:15 Use -0.000077 s 
+
+[ 2020-05-14T09:57:21+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+INFO: Cron:ClearPromotion Runat 2020-05-14 09:57:21 Use 0.232036 s 
+Cron:AutoRefreshResume Runat 2020-05-14 09:57:21 Use -0.007688 s 
+Cron:AutoRefreshJobs Runat 2020-05-14 09:57:21 Use -0.033120 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-14 09:57:21 Use -0.034242 s 
+Cron:ClearShareAllowance Runat 2020-05-14 09:57:21 Use -0.038239 s 
+
+[ 2020-05-14T10:01:05+08:00 ] 127.0.0.1 /index.php?m=Admin&c=Ad&a=edit
+INFO: Cron:ClearPromotion Runat 2020-05-14 10:01:05 Use 0.022271 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-14 10:01:05 Use -0.000074 s 
+Cron:ClearShareAllowance Runat 2020-05-14 10:01:05 Use -0.002475 s 
+
+[ 2020-05-14T10:16:44+08:00 ] 127.0.0.1 /index.php?m=Admin&c=Ad&a=index
+INFO: Cron:AutoRefreshResume Runat 2020-05-14 10:16:44 Use 0.025764 s 
+Cron:AutoRefreshJobs Runat 2020-05-14 10:16:44 Use -0.000354 s 
+
+[ 2020-05-14T11:01:01+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list
+INFO: Cron:ClearPromotion Runat 2020-05-14 11:01:01 Use 0.087273 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-14 11:01:01 Use -0.000077 s 
+Cron:ClearShareAllowance Runat 2020-05-14 11:01:01 Use -0.005145 s 
+
+[ 2020-05-14T11:10:33+08:00 ] 127.0.0.1 /index.php?m=Admin&c=Database&a=index&menuid=15&child=1
+INFO: Cron:AutoRefreshResume Runat 2020-05-14 11:10:33 Use 0.052031 s 
+Cron:AutoRefreshJobs Runat 2020-05-14 11:10:33 Use -0.000084 s 
+
+[ 2020-05-14T15:48:41+08:00 ] 127.0.0.1 /index.php?m=&c=personal&a=user_loginlog
+INFO: Cron:ClearPromotion Runat 2020-05-14 15:48:41 Use 0.056753 s 
+Cron:AutoRefreshResume Runat 2020-05-14 15:48:41 Use -0.000068 s 
+Cron:AutoRefreshJobs Runat 2020-05-14 15:48:41 Use -0.003694 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-14 15:48:41 Use -0.005322 s 
+Cron:ClearShareAllowance Runat 2020-05-14 15:48:41 Use -0.023745 s 
+
+[ 2020-05-14T16:53:45+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+INFO: Cron:ClearPromotion Runat 2020-05-14 16:53:45 Use 2.754469 s 
+Cron:AutoRefreshResume Runat 2020-05-14 16:53:45 Use -0.000091 s 
+Cron:AutoRefreshJobs Runat 2020-05-14 16:53:45 Use -0.186356 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-14 16:53:45 Use -0.249844 s 
+Cron:ClearShareAllowance Runat 2020-05-14 16:53:45 Use -0.297089 s 
+
+[ 2020-05-14T17:07:05+08:00 ] 127.0.0.1 /index.php?m=&c=notice&a=notice_show&id=1
+INFO: Cron:ClearPromotion Runat 2020-05-14 17:07:05 Use 0.047700 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-14 17:07:05 Use -0.000098 s 
+Cron:ClearShareAllowance Runat 2020-05-14 17:07:05 Use -0.005715 s 
+
+[ 2020-05-14T17:22:13+08:00 ] 127.0.0.1 /index.php?m=Admin&c=index&a=logout
+INFO: Cron:AutoRefreshResume Runat 2020-05-14 17:22:13 Use 0.019668 s 
+Cron:AutoRefreshJobs Runat 2020-05-14 17:22:13 Use -0.000096 s 
+
+[ 2020-05-14T18:01:59+08:00 ] 127.0.0.1 /index.php?m=Admin&c=index&a=index
+INFO: Cron:ClearPromotion Runat 2020-05-14 18:01:59 Use 0.120416 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-14 18:01:59 Use -0.000076 s 
+Cron:ClearShareAllowance Runat 2020-05-14 18:01:59 Use -0.005159 s 
+
+[ 2020-05-14T18:10:41+08:00 ] 127.0.0.1 /index.php?m=Admin&c=config&a=edit
+INFO: Cron:AutoRefreshResume Runat 2020-05-14 18:10:41 Use 0.076087 s 
+Cron:AutoRefreshJobs Runat 2020-05-14 18:10:41 Use -0.000070 s 
+

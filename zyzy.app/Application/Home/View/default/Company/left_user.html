@@ -1,0 +1,8 @@
+<div class="left_jobs">
+  <div class="li link_gray6 J_hoverbut t18 <if condition="ACTION_NAME eq 'com_info'">select</if>" onclick="window.location='{:U('company/com_info')}'"><a href="{:U('company/com_info')}">企业资料</a></div>
+  <div class="li link_gray6 J_hoverbut t19 <if condition="ACTION_NAME eq 'com_img'">select</if>" onclick="window.location='{:U('company/com_img')}'"><a href="{:U('company/com_img')}">企业风采</a></div>
+  <div class="li link_gray6 J_hoverbut t20 <if condition="ACTION_NAME eq 'com_auth'">select</if>" onclick="window.location='{:U('company/com_auth')}'"><a href="{:U('company/com_auth')}">企业认证</a></div>
+  <div class="li link_gray6 J_hoverbut t21 <if condition="ACTION_NAME eq 'user_security' || $left_nav eq 'user_security'">select</if>" onclick="window.location='{:U('company/user_security')}'"><a href="{:U('company/user_security')}">账号安全</a></div>
+  <div class="li link_gray6 J_hoverbut t22 <if condition="ACTION_NAME eq 'pms_sys' || ACTION_NAME eq 'pms_consult'">select</if>" onclick="window.location='{:U('company/pms_sys')}'"><a href="{:U('company/pms_sys')}">我的消息</a></div>
+  <include file="company/left_complaint" />
+</div>

@@ -1,0 +1,51 @@
+<include file="public:header" />
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>通过管理员设置，您可以进行编辑管理员资料、角色、密码以及删除管理员等操作；</p>
+    </div>
+<div class="list_th">
+    <div class="td" style="width:18%;"><label class="left_padding">用户名</label></div>
+    <div class="td" style="width:15%;">头衔</div>
+    <div class="td" style="width:15%;">创建时间</div>
+    <div class="td" style="width:15%;">最后登录时间</div>
+    <div class="td center" style="width:15%;">最后登录ip</div>
+    <div class="td" style=" width:22%;">
+        <div class="list_right">操作</div>
+    </div>
+    <div class="clear"></div>
+</div>
+<volist name="list" id="list">
+<div class="list_tr link_black">
+    <div class="td" style="width:18%;"><label class="left_padding">{$list.username}&nbsp;</label></div>
+    <div class="td" style="width:15%;">{$list.role.name}&nbsp;</div>
+    <div class="td" style="width:15%;">{:admin_date($list['add_time'])}&nbsp;</div>
+    <div class="td" style="width:15%;"><if condition="$list['last_login_time'] eq 0">从未<else/>{:admin_date($list['last_login_time'])}</if>&nbsp;</div>
+    <div class="td center" style="width:15%;">{$list.last_login_ip}&nbsp;</div>
+    <div class="td edit" style=" width:22%;">
+        <div class="list_right btn">
+            <a href="{:U('adminLog/index',array('admin_name'=>$list['username']))}" >日志</a>
+            <if condition="$list['role']['id'] neq 1">
+                <a href="{:U('admin/details',array('id'=>$list['id']))}" >详情</a>
+            </if>
+            <a href="{:U('admin/edit',array('id'=>$list['id']))}" >编辑</a>
+            <if condition="$list['id'] neq 1">
+                <a href="{:U('admin/delete',array('id'=>$list['id']))}" class="gray" onclick="return confirm('确定要删除吗？')">删除</a>
+            </if>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+</volist>
+<empty name="list">
+<div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="list_foot">
+    <div class="btnbox">
+        <input name="ButADD" id="ButADD" type="button" class="admin_submit" value="添加管理员" onclick="window.location='{:U('admin/add')}'"/>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

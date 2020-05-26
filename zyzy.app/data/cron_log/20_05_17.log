@@ -1,0 +1,15 @@
+[ 2020-05-17T07:54:40+08:00 ] 127.0.0.1 /
+INFO: Cron:ClearPromotion Runat 2020-05-17 07:54:39 Use 0.838983 s 
+Cron:AutoRefreshResume Runat 2020-05-17 07:54:39 Use -0.027651 s 
+Cron:AutoRefreshJobs Runat 2020-05-17 07:54:39 Use -0.113930 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-17 07:54:39 Use -0.115042 s 
+Cron:ClearOrder Runat 2020-05-17 07:54:40 Use -0.118725 s 
+Cron:ClearShareAllowance Runat 2020-05-17 07:54:40 Use -1.210818 s 
+
+[ 2020-05-17T09:20:51+08:00 ] 127.0.0.1 /index.php?m=&c=AjaxCommon&a=ajax_login
+INFO: Cron:ClearPromotion Runat 2020-05-17 09:20:50 Use 0.202058 s 
+Cron:AutoRefreshResume Runat 2020-05-17 09:20:50 Use -0.000065 s 
+Cron:AutoRefreshJobs Runat 2020-05-17 09:20:50 Use -0.003219 s 
+Cron:ClearExpiredSetmeal Runat 2020-05-17 09:20:51 Use -0.004120 s 
+Cron:ClearShareAllowance Runat 2020-05-17 09:20:51 Use -0.029353 s 
+

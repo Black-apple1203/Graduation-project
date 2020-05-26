@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="Company:left_service" />
+			</div>
+			<div class="mright">
+				<form target="_blank" id="cash_pay_form" method="post" action="{:U('points_add_save')}">
+				<div class="user_pagetitle">
+					<div class="pat_l">会员服务</div>
+					<div class="clear"></div>
+				</div>
+				<div class="order_info_group first">
+					<div class="info_float_line1">
+						<div class="left_line">服务名称：</div>
+						<div class="right_line"><span class="service_title">购买{:C('qscms_points_byname')}</span></div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="order_info_group">
+					<div class="info_float_line1">
+						<div class="left_line">购买数量：</div>
+						<div class="right_line">
+							<input type="text" value="0" class="input_205_34" name="points" id="points" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) {value=value.replace(/\D/g,'');}" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="order_info_group">
+					<div class="info_float_line1">
+						<div class="left_line">支付方式：</div>
+						<div class="right_line">
+							<div class="rights J_forpaycash">
+								<!--默认是不做任何选择 没有select -->
+								<volist name="payment" id="vo">
+								<div typename="{$vo['typename']}" class="pays J_hoverbut"><img src="../public/images/pay_{$vo['typename']}.png"   border="0"/><div class="hook"></div></div>
+								</volist>
+								<div class="clear"></div>	
+						  	</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="forpay">
+					<div class="order_info_group">
+						<div class="info_float_line1">
+							<div class="left_line">订单价格：</div>
+							<div class="right_line link_blue">
+								<div><span class="service_title"><span class="orange" id="pay_cash">0.0</span></span> 元</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<div class="order_info_group">
+						<div class="info_float_line1">
+							<div class="btn_yellow J_hoverbut btn_115_38" id="submit">立即购买</div>
+						</div>
+					</div>
+				</div>
+				<!--支付方式名称-->
+				<input type="hidden" name="payment_name" id="payment_name" value="">
+			</form>
+			</div>
+
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+		<script type="text/javascript">
+		$(document).ready(function(){
+			//选择payment
+			$(".pays").click(function(){
+				$(this).siblings().removeClass('select');
+				$(this).addClass('select');
+				$("#payment_name").val($(this).attr("typename"));
+			});
+			//现金支付提交
+		    $("#submit").click(function(){
+				if(!$("#payment_name").val()){
+					disapperTooltip("remind","请选择支付方式！");
+					return false;
+				}
+				if(parseInt($("#points").val())==0){
+					disapperTooltip("remind","请输入要购买的{:C('qscms_points_byname')}数量！");
+					return false;
+				}
+				if(parseInt($("#points").val())<parseInt("{:C('qscms_com_buy_points_min')}")){
+					disapperTooltip("remind","最小充值{:C('qscms_points_byname')}数为{:C('qscms_com_buy_points_min')}！");
+					return false;
+				}
+				if($("#payment_name").val()=='wxpay'){
+					var qsDialog = $(this).dialog({
+		        		title: '微信支付',
+						loading: true,
+						showFooter: false
+					});
+					$.ajax({
+		                cache: true,
+		                type: "POST",
+		                url:"{:U('points_add_save')}",
+		                data:$('#cash_pay_form').serialize(),
+		                dataType:"json",
+		                success: function(result) {
+		                    if(result.status==1){
+		                    	qsDialog.setContent("<img src='"+result.data+"' alt='扫描二维码' width='250' height='250' />");
+								window.setInterval(run, 5000);
+		                    }else{
+		                    	qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+								return false;
+		                    }
+		                }
+		            });
+				}else{
+					
+		        	if($("#payment_name").val()=='remittance'){
+		        		$("#cash_pay_form").removeAttr('target');
+		        	}else{
+		        		var url = "{:U('CompanyService/confirm_pay_status')}";
+						var qsDialog=$(this).dialog({
+							title: '确认支付',
+							loading: true,
+							border: false,
+							yes: function() {
+								window.location.href="{:U('CompanyService/order_list',array('type'=>'points'))}";
+							},
+							cancel:function(){
+								window.location.href="{:U('CompanyService/order_list',array('type'=>'points'))}";
+							}
+						});
+		        		$.getJSON(url,function(result){
+			        		if(result.status == 1){
+			        			qsDialog.setContent(result.data.html);
+			        			qsDialog.setBtns(['支付完成', '遇到问题']);
+			        		}else{
+			        			disapperTooltip('remind',result.msg);
+			        		}
+			        	});
+		        	}
+					$("#cash_pay_form").submit();
+				}
+			});
+			$('#points').keyup(function() {
+				$("#pay_cash").text(($('#points').val()/parseInt("{$payment_rate}")).toFixed(2));
+			});
+			
+		    function run(){
+	            $.getJSON("{:U('check_weixinpay_notify')}",function(result){
+	                if(result.status==1){
+	                   location.href=result.data;
+	                }
+	            });
+	        }
+	    });
+		</script>
+	</body>
+</html>

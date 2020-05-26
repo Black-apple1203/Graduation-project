@@ -1,0 +1,15 @@
+<volist name="new_jobs" id="company" key="k">
+    <div class="sjj-cell a{$k}">
+        <div class="sjj-cell-left">
+            <volist name="company['jobs']" id="jobs">
+                <div class="sj-cn"><a target="_blank" href="{$jobs.jobs_url}">{$jobs.jobs_name}</a></div>
+                <div class="c-sp-9"></div>
+                <div class="sj-line substring">学历：{$jobs['education_cn']}&nbsp;&nbsp;|&nbsp;&nbsp;经验：{$jobs['experience_cn']}&nbsp;&nbsp;|&nbsp;&nbsp;<span class="font_yellow">{$jobs['wage_cn']}</span></div>
+                <div class="c-sp-14"></div>
+                <div class="sj-line font_gray9 substring">更新时间：{:date("Y-m-d",$jobs['refreshtime'])}</div>
+            </volist>
+        </div>
+        <div class="sjj-cell-right"><a target="_blank" href="{$company.company_url}"><img src="<empty name="company['logo']">{:attach('no_logo.png','resource')}<else/>{:attach($company['logo'],'company_logo')}</empty>" alt=""></a></div>
+        <div class="clear"></div>
+    </div>
+</volist>

@@ -1,0 +1,38 @@
+﻿/*说明页*/
+.explain_topimg{margin:0 auto; width:1200px; margin-top:25px;}
+.explain_topimg img{ width:1200px; height:110px;}
+
+.explain{margin:0 auto; width:1200px; margin-top:25px;}
+.explain .el{float:left;width:180px;}
+.explain .el .enav{ width:179px; border-right:1px #EEEEEE solid; padding-top:20px; padding-bottom:300px;}
+.explain .el .enav .tli{ width:179px; border-bottom:1px #EEEEEE solid; text-align:center; font-size:22px; padding-bottom:20px; }
+.explain .el .enav .eli{ width:178px; border-bottom:1px #EEEEEE solid; border-left:1px #EEEEEE solid; text-align:center; font-size:14px; height:48px; line-height:48px; }
+.explain .el .enav .eli:hover{ background-color:#F7F7F7; color:#FF6600;}
+.explain .el .enav .eli:hover a{color:#FF6600;}
+.explain .el .enav .eli.select{ background-color:#F7F7F7; color:#FF6600; font-weight:bold}
+.explain .el .enav .eli.select a{color:#FF6600;}
+.explain .er{float:left;width:1020px;}
+.explain .er .main{ width:940px; margin:0 auto; padding-top:20px; padding-bottom:15px;}
+.explain .er .main .tit{font-size:22px; height:45px;}
+.explain .er .main .txt{font-size:14px; line-height:180%;}
+ /*新顶部搜索*/
+.new-search-box{width:100%;height:155px;background-image:url(../images/sebanner1.jpg);background-repeat:no-repeat;background-position:center center;}
+.new-search-box .ns-main{width:1025px;padding-left:175px;height:155px;margin:0 auto;}
+.new-search-box .ns-main .main-sty{height:56px;}
+.ns-main .main-sty .sty-cell{text-align:center;width:70px;height:56px;line-height:56px;float:left;position:relative;color:#bbbcbe;cursor:pointer;}
+.main-sty .sty-cell .sty-aow{display:none;width:16px;height:16px;background:url(../images/225.png) -8px -2px;position:absolute;left:27px;bottom:0;}
+.ns-main .main-sty .sty-cell:hover,.ns-main .main-sty .sty-cell.select{color:#FFF;}
+.ns-main .main-sty .sty-cell.select .sty-aow{display:block;}
+.new-search-box .ns-main .main-sip{height:56px;}
+.ns-main .main-sip .ip-group{background:#FFF;height:56px;width:824px;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px;*zoom:1;-webkit-box-shadow:0px 1px 5px 1px rgba(93,91,91,0.83);-moz-box-shadow:0px 1px 5px 1px rgba(93,91,91,0.83);box-shadow:0px 1px 5px 1px rgba(93,91,91,0.83);}
+.ns-main .main-sip .ip-box{float:left;padding-top:10px;width:680px;padding-left:17px;*zoom:1;}
+.main-sip .ip-box input{width:670px;height:36px;line-height:36px;border:0px;}
+.ns-main .main-sip .for-border{float:left;width:1px;height:36px;background:#e6e6e6;margin-top:10px;*zoom:1;}
+.ns-main .main-sip .ip-city{float:left;width:115px;height:56px;line-height:56px;text-align:center;color:#999;cursor:pointer;}
+.ns-main .main-sip .ip-btn{float:left;width:127px;height:56px;}
+.main-sip .ip-btn input{background-color:#00ae66;font-size:18px;text-align:center;width:127px;height:56px;line-height:56px;border:0px;color:#FFFFFF;cursor:pointer;border-radius:0px 5px 5px 0px;}
+.main-sip .ip-btn input.hover{background:#01a360;}
+/*注册协议*/
+.agreeBox{width:1200px;margin:0 auto;}
+.agreeBox .tit{text-align:center;font-size:28px;height:46px;line-height:46px;margin-bottom:15px;}
+.agreeBox .content{font-size:14px;line-height:180%;}

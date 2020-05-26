@@ -1,0 +1,171 @@
+<include file="public:header" />
+    <div class="toptip">
+        <h2>提示：</h2>
+        <p>非专业人员不得修改菜单信息。<br />删除顶级菜单将会自动删除此菜单下的子菜单。<br /></p>
+    </div>
+    <div class="classification_th">
+        <div class="th1">
+            <label><input type="checkbox" name=" " title="全选/反选" id="J_checkall" />系统菜单</label>
+        </div>
+        <div class="th2">
+            <div class="thorder">排序</div>
+            <div class="thedit">操作</div>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <form id="form1" name="form1" method="post" action="{:U('authAllSave')}">
+        <div class="classification">
+            <volist name="menu_list" id="menu">
+                <div class="menubg">
+                    <div class="linput">
+                        <div class="td1">
+                        </div>
+                        <div class="J_show td2" id="{$menu.id}" level="1"></div>
+                        <div class="td3">
+                            <input type="text" value="{$menu.name}" disabled="true" class="input_text_150"  />
+                        </div>
+                        <div class="td4">(id:{$menu.id})</div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="edit">
+                        <div class="order">
+                            
+                        </div>
+                        <div class="edittxt link_lan">
+                            <a href="{:U('AdminRole/group_add',array('pid'=>$menu['id']))}">此类下加子类</a>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </volist>
+        </div>
+        <table width="100%" border="0" cellspacing="10"  class="admin_list_btm">
+            <tr>
+                <td>
+                    <input name="ButSave" type="submit" class="admin_submit" id="ButSave" value="保存权限分组"/>
+                    <input type="button" class="admin_submit" value="初始化" onclick="window.location='{:U('AdminRole/group_init')}'"/>
+                    <input name="ButDel" type="button" class="admin_submit" id="ButDel"  value="删除所选" />
+                </td>
+                <td width="305" align="right"></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#ButSave").click(function(){
+
+    });
+var Maxlevel=2;//最多分类层数
+var menu_type = "{$Think.get.type}";
+//打开子菜单 
+$(".J_show").live('click',function()
+        {
+            var infobox=$(this).closest(".menubg").next('.j_smalldiv');
+            var level=$(this).attr('level');
+            infobox.is(':visible')?$(this).removeClass("close"):$(this).addClass("close");  
+            if (infobox.length == 0 && level<Maxlevel)
+            {
+             get_menu($(this).attr('id'),$(this).closest(".menubg"),level);
+            }
+            else
+            {
+            infobox.toggle();       
+            }
+          
+});
+//子菜单全选
+$(".J_select").live('click',function()
+{
+    var infobox=$(this).closest(".menubg,.j_smalldiv").next('.j_smalldiv');
+    if (infobox.length > 0)
+    {
+   infobox.find("input[type=checkbox]").attr("checked",this.checked);
+   }
+});
+//全选所有项目
+$("#J_checkall").live('click',function()
+{
+   $(".classification").find("input[type=checkbox]").attr("checked",this.checked);
+});
+//添加分类
+$(".J_add").live('click',function()
+{
+    var level=$(this).attr('level');
+    var parentid=$(this).attr('parentid');
+    var html='';
+    html+="<div class=\"menubg\">"; 
+    html+="<div class=\"linput\">";
+    if (level>1)
+    {
+    html+="<div class=\"sbg l"+level+"\"></div>";
+    }
+    html+="<div class=\"td1\"><input type=\"checkbox\" name=\"id[]\" value=\"\"/></div>"; 
+    html+="<div class=\"td3\"><input name=\"add_name[]\" type=\"text\"  class=\"input_text_150\"   /></div>";
+    html+="<input name=\"add_pid[]\" type=\"hidden\" value=\""+parentid+"\"/>";  
+    html+="<div class=\"td4\"></div>"; 
+    html+="<div class=\"clear\"></div>"; 
+    html+="</div>"; 
+    html+="<div class=\"edit\">"; 
+    html+="<div class=\"order\"><input name=\"add_ordid[]\" type=\"text\"  class=\"input_text_50\"/></div>"; 
+    html+="<div class=\"edittxt link_lan\">"; 
+    html+="</div>"; 
+    html+="<div class=\"clear\"></div>"; 
+    html+="</div>"; 
+    html+="</div>";
+    $(this).parent().before(html);
+});
+    //生成分类
+    function get_menu(pid,thisobj,level){
+        var tsTimeStamp= new Date().getTime();
+        $.getJSON("{:U('AdminRole/group')}", {"pid":pid,'type':menu_type},function(result){  
+            if (result.status==1){
+                 var html="";
+                 var leftbg="";
+                 var i=1;
+                 level++;
+                    for (x in result.data){
+                        html+="<div class=\"menubg\">"; 
+                        html+="<div class=\"linput\">";
+                        html+="<div class=\"sbg l"+level+"\"></div>";
+                        html+="<div class=\"td1\"><input type=\"checkbox\" name=\"id[]\" value=\""+result.data[x]['id']+"\" id=\""+result.data[x]['id']+"\"  class=\"J_select\"/></div>"; 
+                        html+="<input name=\"save_id[]\" type=\"hidden\" value=\""+result.data[x]['id']+"\"/>"; 
+                        html+="<div class=\"td3\"><input name=\"name[]\" type=\"text\" value=\""+result.data[x]['name']+"\" class=\"input_text_150\"  /></div>"; 
+                        html+="<div class=\"td4\">(id:"+result.data[x]['id']+")</div>"; 
+                        html+="<div class=\"clear\"></div>"; 
+                        html+="</div>"; 
+                        html+="<div class=\"edit\">"; 
+                        html+="<div class=\"order\"><input name=\"ordid[]\" type=\"text\"  value=\""+result.data[x]['ordid']+"\" class=\"input_text_50\"/></div>"; 
+                        html+="<div class=\"edittxt link_lan\">"; 
+                        html+="<a class=\"J_auth\" href=\"javascript:;\" parameter=\"id="+result.data[x]['id']+"\">选择权限</a>"; 
+                        html+="<a href=\"{:U('AdminRole/group_edit')}&id="+result.data[x]['id']+"\">修改</a>"; 
+                        html+="<a href=\"{:U('AdminRole/group_delete')}&id="+result.data[x]['id']+"\" onclick=\"return confirm('你确定要删除吗？')\" >删除</a>"; 
+                        html+="</div>"; 
+                        html+="<div class=\"clear\"></div>"; 
+                        html+="</div>"; 
+                        html+="</div>";
+                        i++;
+                    }
+                    html+="<div class=\"smalladd l"+level+"\"><div class=\"J_add adds \" level=\""+level+"\" parentid=\""+pid+"\">添加分类</div></div>";
+                    thisobj.after('<div class="j_smalldiv">'+html+'</div>'); 
+                }
+            }
+        );
+    }
+    $(".J_auth").QSdialog({
+        DialogTitle:"权限选择",
+        DialogContentType:"url",
+        DialogContent:"{:U('AdminRole/ajax_auth')}&"
+    });
+    $("#ButDel").click(function(){
+        if(confirm('确定删除选中的分类吗？')){
+          $("#FormData").attr("action","{:U('AdminRole/group_delete')}");
+          $("#FormData").submit();
+        }
+    });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,736 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<qscms:resume_show 列表名="info" 简历id="$_GET['id']"/>
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_RESUME_DIR')}/default/css/resume.css" rel="stylesheet" type="text/css" />
+	<style media="print" type="text/css"> 
+	.noprint{visibility:hidden} 
+	</style>
+</head>
+<body>
+<div class="noprint">
+<include file="public:header_other" />
+</div>
+<div class="new-search-box" style="background-image: url({:C('TPL_PUBLIC_DIR')}/images/sebanner{:rand(1,5)}.jpg);">
+	
+</div>
+<div class="rshow new" id="content">
+  <div class="l">
+    <div class="main">
+	<!--基本资料 -->
+	<div class="info">
+	  <div class="inl">
+  		  <div class="pic"><img src="{$info['photosrc']}" /></div>
+	  </div>
+	   <div class="inr">
+   		  <div class="rtime">更新时间：{$info['refreshtime_cn']}</div>
+			<div class="name_box">
+				<div class="name">{$info['fullname']}</div>
+                <if condition="$info['talent'] eq 1"><div class="adv"></div></if>
+				<if condition="$info['is_audit_mobile'] eq 1">
+					<div class="source">
+						手机已认证
+						<if condition="$info['resume_from_pc'] eq 0">
+							<span>(此简历发布自手机端)</span>
+						</if>
+					</div>
+				</if>
+				<if condition="$info['strong_tag']">
+					<div class="tag_cell_group">
+						<div class="tag_cell"><span>{$info['strong_tag']}</span></div>
+						<div class="clear"></div>
+					</div>
+				</if>
+				<div class="clear"></div>
+			</div>
+	      <div class="txt">
+	      {$info['sex_cn']}<span>|</span>
+	      {$info['age']}岁<span>|</span>
+	      {$info['education_cn']}<span>|</span>
+	      {$info['experience_cn']}工作经验
+	      <notempty name="info['height']">
+	      <span>|</span>身高{$info['height']}CM
+	      </notempty>
+	      <notempty name="info['marriage_cn']">
+	      <span>|</span>{$info['marriage_cn']}
+	      </notempty>
+	      <notempty name="info['major_cn']">
+	      <span>|</span>{$info['major_cn']}
+	      </notempty>
+	      </div>
+		  <!--如果有标签就显示 -->
+		  <if condition="$info['tag_cn']">
+		  <div class="txt">
+              <div class="for_address substring">现居住：{$info.residence|default="保密"}</div>
+              <notempty name="info['householdaddress']"><div class="for_address substring">户籍：{$info['householdaddress']}</div></notempty>
+              <div class="clear"></div>
+          </div>
+		   <div class="lab">
+		   <volist name="info['tag_cn']" id="vo">
+		   	 <div class="las">{$vo}</div>
+		   	 </volist>
+			 <div class="clear"></div>
+		   </div>
+		   <else />
+		    <!--如果没有标签就显示 -->
+			<div class="txt">户籍：{$info.householdaddress|default="保密"}</div>
+			<notempty name="info['residence']">
+		      <div class="txt">现居住：{$info['residence']}</div>
+		    </notempty>
+		   </if>
+	   </div>
+	   <div class="clear"></div>
+	</div>
+ 
+<!--求职意向 -->
+<div class="items">
+  <div class="tit">求职意向</div>
+  <div class="intention">
+    <span> 期望职位：</span>{$info['intention_jobs']}<br />
+    <span> 期望行业：</span><if condition="$info['trade_cn']">{$info['trade_cn']}<else />不限</if><br />
+    <span> 期望薪资：</span>{$info['wage_cn']}<u>|</u>想在{$info['district_cn']}工作<br />  
+	 <span> 求职状态：</span>{$info['current_cn']}<br /> 
+	</div>
+  <div class="contact">
+  	<if condition="$info['qq']">
+    <div class="it qq">{$info['qq']}</div>
+    </if>
+    <if condition="$info['weixin']">
+    <div class="it weixin">{$info['weixin']}</div>
+    </if>
+  	<if condition="$info['telephone']">
+    <div class="it tel">{$info['telephone']}</div>
+    </if>
+	<notempty name="info['email_']">
+		      <div class="it email">{$info['email']}</div>
+	</notempty>
+	<if condition="!$info['show_contact']">
+	<div class="J_downbtn downbtn" url="{:U('CompanyService/resume_download',array('rid'=>$info['id']))}">获取联系方式</div>
+	</if>
+	<div class="clear"></div>
+	<if condition="$info['show_contact'] && C('visitor.utype') eq 1">
+    <div class="invitation J_interview">发送面试邀请</div>
+    <neq name="info['label_resume']" value="">
+    <volist name="info['label_arr']" id="vo">
+	<div class="set label_resume <if condition="$key eq $info['label_id']">select</if>" data="{$key}" label_type="{$info['label_type']}">{$vo}</div>
+	</volist>
+	</neq>
+	<div class="clear"></div>
+	</if>
+  </div>
+</div>
+	  <!--自我描述 -->
+	  <if condition="$info['specialty']">
+		  <div class="items">
+			  <div class="tit t5">自我描述</div>
+			  <div class="evaluate">{$info['specialty']}</div>
+		  </div>
+	  </if>
+<if condition="$info['education_list']">
+<!--教育经历 -->
+<div class="items">
+  <div class="tit t2">教育经历</div>
+  <volist name="info['education_list']" id="vo">
+  <div class="edu">
+  		<div class="td1">
+		{$vo['startyear']}-{$vo['startmonth']} 
+		<eq name="vo['todate']" value="1">
+		至今
+		<else />
+		至 {$vo['endyear']}-{$vo['endmonth']} 
+		</eq>
+		<br />
+		<span class="cout">[{$vo['duration']}]</span>
+		</div>
+		<div class="td2 font_blue">{$vo['education_cn']}<span>|</span>{$vo['school']}<span>|</span>{$vo['speciality']}</div>
+		<div class="clear"></div>
+  </div>
+  </volist>
+</div>
+</if>
+<if condition="$info['work_list']">
+<!--工作经历 -->
+<div class="items">
+  <div class="tit t3">工作经历<span>(TA工作了{$info['work_duration']}，共做了{$info['work_count']}份工作)</span></div>
+  <volist name="info['work_list']" id="vo">
+  <div class="jobs">
+  		<div class="td1">
+		{$vo['startyear']}-{$vo['startmonth']} 
+		<eq name="vo['todate']" value="1">
+		至今
+		<else />
+		至 {$vo['endyear']}-{$vo['endmonth']} 
+		</eq>
+		<br />
+		<span class="cout">[{$vo['duration']}]</span>
+		</div>
+		<div class="td2">
+<span  class="font_blue">{$vo['jobs']}</span><span class="line">|</span><span class="font_blue">{$vo['companyname']}</span>
+<div class="txt"><strong>工作职责：</strong>{$vo['achievements']}</div>
+</div>
+		<div class="clear"></div>
+  </div>
+  </volist>
+   
+</div>
+</if>
+<!-- -->
+<if condition="$info['training_list']">
+<!--培训经历 -->
+<div class="items">
+  <div class="tit t4">培训经历</div>
+  <volist name="info['training_list']" id="vo">
+  <div class="tra">
+  		<div class="td1">
+		{$vo['startyear']}-{$vo['startmonth']} 
+		<eq name="vo['todate']" value="1">
+		至今
+		<else />
+		至 {$vo['endyear']}-{$vo['endmonth']} 
+		</eq>
+		<br />
+		<span class="cout">[{$vo['duration']}]</span>
+		</div>
+		<div class="td2">
+<span  class="font_blue">{$vo['course']}</span><span class="line">|</span><span class="font_blue">{$vo['agency']}</span>
+<div class="txt"><strong>培训内容：</strong>{$vo['description']}</div>
+</div>
+		<div class="clear"></div>
+  </div>
+  </volist>
+  
+</div>
+</if>
+<!-- -->
+
+<!-- -->
+<if condition="$info['project_list']">
+<!--项目经历 -->
+<div class="items">
+  <div class="tit t11">项目经历</div>
+  <volist name="info['project_list']" id="vo">
+  <div class="project">
+  		<div class="td1">
+		{$vo['startyear']}-{$vo['startmonth']} 
+		<eq name="vo['todate']" value="1">
+		至今
+		<else />
+		至 {$vo['endyear']}-{$vo['endmonth']} 
+		</eq>
+		<br />
+		<span class="cout">[{$vo['duration']}]</span>
+		</div>
+		<div class="td2">
+<span  class="font_blue">{$vo['projectname']}</span><span class="line">|</span><span class="font_blue">{$vo['role']}</span>
+<div class="txt"><strong>项目描述：</strong>{$vo['description']}</div>
+</div>
+		<div class="clear"></div>
+  </div>
+  </volist>
+  
+</div>
+</if>
+<!-- -->
+
+<if condition="$info['credent_list']">
+<!--获得证书 -->
+<div class="items">
+  <div class="tit t6">获得证书</div>
+   
+    <div class="certificate">
+	    <volist name="info['credent_list']" id="vo">
+		<div class="cer"><span>{$vo['year']}-{$vo['month']}</span>{$vo['name']}</div>
+		</volist>
+		<div class="clear"></div>
+	</div>
+</div>
+</if>
+<if condition="$info['language_list']">
+<!--语言能力 -->
+<div class="items">
+  <div class="tit t7">语言能力</div>
+  <div class="language">
+  	<volist name="info['language_list']" id="vo">
+  		<div class="lang"><span>{$vo['language_cn']}</span>{$vo['level_cn']}</div>
+  	</volist>
+	<div class="clear"></div>
+  </div>
+</div>
+</if>
+<if condition="$info['img_list']">
+<!--照片/作品 -->
+<div class="items">
+  <div class="tit t8">照片/作品</div>
+  <div class="pic">
+  	<volist name="info['img_list']" id="vo">
+  		<div class="pli" title="{$vo['title']}"><a class="J_for_bigimg" href="javascript:;" data-src="{$vo['img']}"><img src="{$vo['img']}" border="0" height="100%" width="100%"></a></div>
+  	</volist>
+		<div class="clear"></div>
+  </div>
+</div>
+</if>
+<if condition="$info['word_resume']">
+<!--附件简历 -->
+<div class="items">
+  <div class="tit t9">附件简历</div>
+  <div class="word">
+  	<div class="txt link_blue"><a href="<if condition="$info['show_contact']">{$info['word_resume']}<else/>javascript:;</if>">{$info['word_resume_title']}</a><neq name="info['preview']" value="1"><span>(获取简历联系方式以后方可下载)</span></neq></div>
+  </div>
+</div>
+</if>
+<if condition="$info['comment_content']">
+<!--附件简历 -->
+<div class="items">
+  <div class="tit t10">网站客服点评</div>
+  <div class="comment">
+  	<div class="txt link_blue">{$info['comment_content']}</div>
+  </div>
+</div>
+</if>
+ <!--简历项目结束 -->
+    </div>
+  </div>
+  <div id="navRight" class="noprint">
+	  <div class="r">
+		<div class="main">
+		  <div class="code">
+		  <img src="{$info['qrcode_url']}" />
+		  </div>
+		  <eq name="info['preview']" value="1">
+			<div class="downbtn" onclick="javascript:location.href='{:U('personal/index')}'">修改简历</div>
+		  <else />
+		  <if condition="$info['show_contact'] && C('visitor.utype') eq 1">
+		  	<div class="downbtn J_interview">面试邀请</div>
+		  <else/>
+		 	 <div class="J_downbtn downbtn" url="{:U('CompanyService/resume_download',array('rid'=>$info['id']))}">下载简历</div>
+		  </if>
+			</eq>
+		  <div class="split"><div class="txt">操作</div></div>
+		  <eq name="info['preview']" value="1">
+			<div class="cbtn" onclick="javascript:window.print();">打印简历</div>
+		 	<div class="cbtn" id="resume_doc">导出Word简历</div>
+		  <else />
+		 <div class="cbtn favor">加入人才库</div>
+		 <div class="cbtn" onclick="javascript:window.print();">打印简历</div>
+		 <div id="resume_doc" class="cbtn">导出Word简历</div>
+		 <div class="cbtn" id="report">投诉简历</div>
+		 </eq>
+		</div>
+		<iframe id="exportResumeIframe" style="display:none;"></iframe>
+	  </div>
+  </div>
+<!--左侧批量-->
+<notempty name="ids">
+    <div class="batch_resume_bar" id="batchResumeBar">
+    	<ul>
+            <li class="top_title">简历库</li>
+            <volist name="resumeList" id="vo" offset="0" length="9">
+				<li class="full_name <if condition="$vo['id'] eq $info['id']">current</if>">
+					<a href="{:url_rewrite('QS_resumeshow',array('id'=>$vo['id']))}&ids={$ids}"><span title="{$vo.fullname}">{$vo.fullname}</span></a>
+				</li>
+            </volist>
+            <if condition="count($resumeList) gt 10">
+            	<li class="full_name" id="moreResume">更多 &gt;&gt;</li>
+            	<ul id="batchResumeMore" class="batch_more">
+	                <volist name="resumeList" id="vo" offset="10">
+						<li class="full_name <if condition="$vo['id'] eq $info['id']">current</if>">
+							<a href="{:url_rewrite('QS_resumeshow',array('id'=>$vo['id']))}&ids={$ids}"><span title="{$vo.fullname}">{$vo.fullname}</span></a>
+						</li>
+		            </volist>
+	            </ul>
+            </if>
+            <li class="bot_close" id="botClose">关闭</li>
+        </ul>
+    </div>
+</notempty>
+  <div class="clear"></div>
+</div>
+<div class="down_resum_confirm_box"></div>
+<div class="noprint">
+<include file="Home@default/public/footer_min" />
+</div>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.modal.dialog.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.dropdown.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/laydate/laydate.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/personal/jquery.fixed.sidebar.js"></script>
+<script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		// 导出简历
+		function exportResume() {
+			var exportResumeUrl = "{:U('Resume/resume_doc',array('id'=>$info['id']))}";
+			document.getElementById('exportResumeIframe').src = exportResumeUrl;
+		}
+		// 右侧固定侧边栏
+		$('#navRight').stickySidebar({
+			sidebarTopMargin: 0,
+			footerThreshold: 100
+		});
+		<notempty name="ids">
+        // 左侧批量
+        $("#moreResume").mouseover(function(){
+            var moreBatchCss = $("#batchResumeMore");
+            moreBatchCss.css("position", "fixed");
+            moreBatchCss.show();
+            moreBatchCss.mouseleave(function(){
+                moreBatchCss.hide(300);
+            });
+            var offset = $("#moreResume").offset();
+            moreBatchCss.css("left", (offset.left + $("#batchResumeBar").width()) + "px");
+            var currentTop = offset.top - $(document).scrollTop();
+            moreBatchCss.css('top', currentTop - (parseInt($('.full_name').length -11) * 25) - 2 + "px");
+        });
+        //调整浮动框大小
+        $("#botClose").click(function(){
+            var h = $(window).height();
+            var fix_h = parseFloat(h / 3);
+            $(".full_name").hide();
+            $(".botClose").hide();
+            $("#batchResumeBar").animate({top: (h - 25 + 'px')});
+            $(".top_title").html("<b id='open'>打开</b>");
+            $(".top_title").find('#open').click(function(){
+                $("#batchResumeBar").animate({top: (fix_h + 'px')});
+                $(this).html("<b id='open'>简历库</b>");
+                $(".full_name").show();
+                $(".botClose").show();
+            })
+        });
+        function define_browse_resume(){
+            var w = document.body.clientWidth;
+            var h = $(window).height();
+            var fix_h = parseFloat(h / 3);
+            var obj = $("#batchResumeBar");
+            var fix_w = 0;
+            if(w > (999 + (obj.width() * 1.5)) + 15){
+                //可视界面 如果大于1200+元素宽1.5倍
+                fix_w = obj.width();
+            }else{
+                //小于则紧贴右边缘
+                fix_w = obj.width();
+            }
+            obj.css("left", fix_w + "px");
+            obj.css('top', fix_h + "px");
+            obj.show();
+        }
+        window.onload = function(){
+            window.onresize = define_browse_resume;
+            define_browse_resume();
+        }
+        </notempty>
+        
+		var isVisitor = "{$visitor['uid']}";
+		// 点击显示作品大图
+		$('.J_for_bigimg').die().live('click', function(event) {
+			var src = $(this).data('src');
+			var qsDialog = $(this).dialog({
+	    		title: '照片作品',
+	    		innerPadding: false,
+	    		border: false,
+				content: '<div style="max-width: 900px;max-height: 600px;"><img style="max-width: 900px;max-height: 600px;min-width: 200px;min-height: 200px;" src="'+src+'" /></div>',
+				showFooter: false
+			});
+		});
+		$('#resume_doc').click(function(){
+			if(!isVisitor){
+				$.getJSON("{:U('AjaxCommon/ajax_login')}", function(result){
+		            if(result.status==1){
+	            		var qsDialogSon = $(this).dialog({
+	                        header: false,
+							content: result.data.html,
+							footer: false,
+							border: false
+						});
+		    			qsDialogSon.setInnerPadding(false);
+		            }else{
+		            	qsDialog.hide();
+						disapperTooltip('remind',result.msg);
+		            }
+		        });
+		        return !1;
+			}else{
+				exportResume();
+			}
+		});
+		// 下载简历和获取联系方式点击事件绑定
+		$(".J_downbtn").die().live('click',function(){
+            var url = $(this).attr('url');
+			var qsDialog = $(this).dialog({
+				title: '下载简历',
+        		loading: true,
+				footer: false,
+				header: false,
+				border: false,
+				backdrop: false
+			});
+			if("{$info['ls']}"==1){
+				qsDialog.hide();
+				disapperTooltip('remind','您已被该求职者屏蔽');
+				return false;
+			}else{
+				$.getJSON(url,function(result){
+					if (eval(result.status)) {
+						qsDialog.hide();
+						var qsDialogSon = $(this).dialog({
+							title: '下载简历',
+							footer:false,
+							content: result.msg
+						});
+					} else {
+						if (eval(result.dialog)) {
+							var loginUrl = "{:U('AjaxCommon/ajax_login')}";
+							$.getJSON(loginUrl, function(result){
+					            if(result.status==1){
+									qsDialog.hide();
+				            		var qsDialogSon = $(this).dialog({
+	                                    header: false,
+										content: result.data.html,
+										footer: false,
+										border: false
+									});
+					    			qsDialogSon.setInnerPadding(false);
+					            } else {
+					            	qsDialog.hide();
+									disapperTooltip('remind',result.msg);
+					            }
+					        });
+						} else {
+							if(result.msg=='请登录企业帐号！'){
+								qsDialog.hide();
+								var qsDialogSec = $(this).dialog({
+			            			title: '账号切换',
+									content: '<div style="width:300px;text-align:center;">您当前账号为个人，是否切换为企业？</div>',
+									yes: function () {
+										var url = "{:U('Members/switch_utype',array('utype'=>1))}";
+										location.href = url;
+									},
+									footer: true,
+									header: true,
+									border: false
+								});
+								return false;
+							}else{
+								qsDialog.hide();
+								disapperTooltip('remind',result.msg);
+							}
+						}
+					}
+				});
+			}
+		});
+		
+        // 发送面试邀请
+        $('.J_interview').click(function(){
+        	var id = "{$info['id']}";
+        	var qsDialog = $(this).dialog({
+		        title: '发送面试邀请',
+        		loading: true,
+				footer: false,
+				header: false,
+				border: false,
+				backdrop: false
+			});
+            $.getJSON("{:U('Company/jobs_interview_add')}",{id:id},function(result){
+                if(result.status == 1){
+                	qsDialog.hide();
+                	var qsDialogSon = $(this).dialog({
+		        		title: '发送面试邀请',
+						content: result.data,
+						yes: function() {
+							var notesVal = $.trim($('input[name="notes"]').val());
+							if (notesVal.length > 40) {
+								$('input[name="notes"]').focus();
+								disapperTooltip('remind','最多输入40个字');
+								return false;
+							}
+							$('.J_btnyes').val('发送中...');
+							$.post("{:U('Company/jobs_interview_add')}",$('#J_interviewWrap').serialize(),function(result){
+		                        if(result.status == 1){
+		                        	qsDialogSon.hide();
+		                            disapperTooltip('success',result.msg);
+		                        } else {
+		                        	$('.J_btnyes').val('确定');
+		                            disapperTooltip('remind',result.msg);
+		                        }
+		                    },'json');
+						}
+					});
+					qsDialogSon.setCloseDialog(false);
+					// 时间插件
+                    laydate.render({
+                        elem: '#date',
+						min: 0
+                    })
+                } else {
+                    if (result.dialog==1) {
+						var loginUrl = "{:U('AjaxCommon/ajax_login')}";
+						$.getJSON(loginUrl, function(result){
+				            if(result.status==1){
+		                    	qsDialog.hide();
+		                		var qsDialogSon = $(this).dialog({
+                                    header: false,
+									content: result.data.html,
+									footer: false,
+									border: false
+								});
+				    			qsDialogSon.setInnerPadding(false);
+				            } else {
+				            	qsDialog.hide();
+				                disapperTooltip('remind',result.msg);
+				            }
+				        });
+                	} else {
+                		qsDialog.hide();
+						disapperTooltip('remind',result.msg);
+                	}
+                }
+            });
+        });
+			
+
+		$(".label_resume").live('click',function(){
+			var thisObj = $(this);
+			$(".label_resume").removeClass('select');
+			thisObj.addClass('select');
+			var label = thisObj.attr('data');
+			var label_type = thisObj.attr('label_type');
+			var url = "{:U('AjaxCompany/resume_label')}";
+			var resume_id = "{$info['id']}";
+			$.getJSON(url,{resume_id:resume_id,label:label,label_type:label_type},function(result){
+				if(result.status == 1){
+					disapperTooltip('success',result.msg);
+				}else{
+					disapperTooltip('remind',result.msg);
+				}
+			});
+		});
+
+		// 加入人才库
+		$(".favor").die().live('click',function(){
+			var url = "{:U('AjaxCompany/resume_favor')}";
+			var rid = "{$info['id']}";
+			if ((isVisitor > 0)) {
+				$.getJSON(url,{rid:rid},function(result){
+					if(result.status==1){
+						disapperTooltip('success',result.msg);
+					} else {
+						if(result.msg=='请登录企业帐号！'){
+							var qsDialogSec = $(this).dialog({
+		            			title: '账号切换',
+								content: '<div style="width:300px;text-align:center;">您当前账号为个人，是否切换为企业？</div>',
+								yes: function () {
+									var url = "{:U('Members/switch_utype',array('utype'=>1))}";
+									location.href = url;
+								},
+								footer: true,
+								header: true,
+								border: false
+							});
+							return false;
+						}else{
+							var qsDialog = $(this).dialog({
+				        		loading: true,
+								footer: false,
+								header: false,
+								border: false,
+								backdrop: false
+							});
+						 	qsDialog.hide();
+				            disapperTooltip('remind',result.msg);
+						}
+					}
+				});
+			} else {
+				var qsDialog = $(this).dialog({
+	        		loading: true,
+					footer: false,
+					header: false,
+					border: false,
+					backdrop: false
+				});
+				var loginUrl = "{:U('AjaxCommon/ajax_login')}";
+				$.getJSON(loginUrl, function(result){
+		            if(result.status==1){
+						qsDialog.hide();
+	            		var qsDialogSon = $(this).dialog({
+                            header: false,
+							content: result.data.html,
+							footer: false,
+							border: false
+						});
+		    			qsDialogSon.setInnerPadding(false);
+		            } else {
+		            	qsDialog.hide();
+		                disapperTooltip('remind',result.msg);
+		            }
+		        });
+			}
+		});
+		
+		// 投诉简历
+		$("#report").die().live('click', function(){
+			var resume_id = "{$info['id']}";
+			var url = "{:U('AjaxCompany/report_resume')}";
+			var qsDialog = $(this).dialog({
+        		loading: true,
+				footer: false,
+				header: false,
+				border: false,
+				backdrop: false
+			});
+			$.getJSON(url,{resume_id:resume_id},function(result){
+				if(result.status==1){
+					qsDialog.hide();
+					var qsDialogSon = $(this).dialog({
+						title:'举报简历',
+		        		content: result.data,
+						footer: false
+					});
+				} else {
+					if (eval(result.dialog)) {
+						var loginUrl = "{:U('AjaxCommon/ajax_login')}";
+						$.getJSON(loginUrl, function(result){
+				            if(result.status==1){
+								qsDialog.hide();
+			            		var qsDialogSon = $(this).dialog({
+                                    header: false,
+									content: result.data.html,
+									footer: false,
+									border: false
+								});
+				    			qsDialogSon.setInnerPadding(false);
+				            } else {
+				            	qsDialog.hide();
+				                disapperTooltip('remind',result.msg);
+				            }
+				        });
+					} else {
+						if(result.msg=='请登录企业帐号！'){
+							qsDialog.hide();
+							var qsDialogSec = $(this).dialog({
+		            			title: '账号切换',
+								content: '<div style="width:300px;text-align:center;">您当前账号为个人，是否切换为企业？</div>',
+								yes: function () {
+									var url = "{:U('Members/switch_utype',array('utype'=>1))}";
+									location.href = url;
+								},
+								footer: true,
+								header: true,
+								border: false
+							});
+						return false;
+						}else{
+							qsDialog.hide();
+							disapperTooltip('remind',result.msg);
+						}
+					}
+				}
+			});
+		});
+	});
+</script>
+</body>
+</html>

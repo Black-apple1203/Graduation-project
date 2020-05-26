@@ -1,0 +1,41 @@
+[ 2020-04-12T09:38:40+08:00 ] 127.0.0.1 /
+INFO: Cron:ClearCache Runat 2020-04-12 09:38:34 Use 0.632456 s 
+Cron:ClearPromotion Runat 2020-04-12 09:38:39 Use -0.036628 s 
+Cron:AutoRefreshResume Runat 2020-04-12 09:38:40 Use -4.705146 s 
+Cron:AutoRefreshJobs Runat 2020-04-12 09:38:40 Use -5.583488 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-12 09:38:40 Use -5.594546 s 
+Cron:ClearOrder Runat 2020-04-12 09:38:40 Use -5.693735 s 
+Cron:ClearShareAllowance Runat 2020-04-12 09:38:40 Use -5.870249 s 
+
+[ 2020-04-12T10:01:22+08:00 ] 127.0.0.1 /index.php?m=admin&c=upload&a=index
+INFO: Cron:ClearPromotion Runat 2020-04-12 10:01:22 Use 0.490139 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-12 10:01:22 Use -0.186952 s 
+Cron:ClearShareAllowance Runat 2020-04-12 10:01:22 Use -0.234215 s 
+
+[ 2020-04-12T10:14:54+08:00 ] 127.0.0.1 /index.php?m=admin&c=company&a=add
+INFO: Cron:AutoRefreshResume Runat 2020-04-12 10:14:54 Use 0.046645 s 
+Cron:AutoRefreshJobs Runat 2020-04-12 10:14:54 Use -0.000107 s 
+
+[ 2020-04-12T15:01:16+08:00 ] 127.0.0.1 /index.php?m=admin&c=explain&a=edit
+INFO: Cron:ClearPromotion Runat 2020-04-12 15:01:15 Use 0.083816 s 
+Cron:AutoRefreshResume Runat 2020-04-12 15:01:16 Use -0.000077 s 
+Cron:AutoRefreshJobs Runat 2020-04-12 15:01:16 Use -0.058769 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-12 15:01:16 Use -0.059765 s 
+Cron:ClearShareAllowance Runat 2020-04-12 15:01:16 Use -0.062679 s 
+
+[ 2020-04-12T16:05:40+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=wenyuan
+INFO: Cron:ClearPromotion Runat 2020-04-12 16:05:39 Use 1.143141 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-12 16:05:40 Use -0.000161 s 
+Cron:ClearShareAllowance Runat 2020-04-12 16:05:40 Use -0.109791 s 
+
+[ 2020-04-12T16:16:23+08:00 ] 127.0.0.1 /index.php?m=admin&c=business_setmeal&a=index
+INFO: Cron:AutoRefreshResume Runat 2020-04-12 16:16:23 Use 0.144271 s 
+Cron:AutoRefreshJobs Runat 2020-04-12 16:16:23 Use -0.000137 s 
+
+[ 2020-04-12T17:14:46+08:00 ] 127.0.0.1 /index.php?m=&c=company&a=jobs_add
+INFO: Cron:ClearPromotion Runat 2020-04-12 17:14:46 Use 0.143801 s 
+Cron:AutoRefreshResume Runat 2020-04-12 17:14:46 Use -0.000149 s 
+Cron:AutoRefreshJobs Runat 2020-04-12 17:14:46 Use -0.003711 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-12 17:14:46 Use -0.005781 s 
+Cron:ClearShareAllowance Runat 2020-04-12 17:14:46 Use -0.028917 s 
+

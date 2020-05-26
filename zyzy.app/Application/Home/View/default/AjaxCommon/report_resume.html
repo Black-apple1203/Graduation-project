@@ -1,0 +1,44 @@
+<div class="report_resume">
+    <div class="report_resume_line">
+        <div class="line_left">举报原因：</div>
+        <div class="line_right">
+            <div class=""><label><input type="radio" name="reason" class="report_type" checked value="1">{$type_arr[1]}</label></div>
+            <div class="reason_last"><label><input type="radio" name="reason" class="report_type" value="2">{$type_arr[2]}</label></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="report_resume_line">
+        <div class="line_left">一经核实我们立即：</div>
+        <div class="clear"></div>
+    </div>
+    <div class="txt_center">
+        <div class="do_some">
+            <div class="do">删除简历，为民除害</div>
+            <div class="do">站内信通知您并奖励 <span class="yellow_light">{$taskinfo['points']}</span> {:C('qscms_points_byname')}</div>
+        </div>
+    </div>
+    <div class="guide_btn_group txt_center">
+        <div class="btn_guide">立即举报</div>
+    </div>
+    <div class="txt_center ft_12">温馨提示：找份工作不容易，请您如实举报哦！</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".btn_guide").click(function(){
+            var url = "{:U('AjaxCompany/report_resume')}";
+            var report_type = $(".report_type:checked").val();
+            var resume_id = "{$resume_id}";
+            $.post(url,{report_type:report_type,resume_id:resume_id},function(result){
+                if(result.status==1){
+                    disapperTooltip('success',result.msg);
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+                }else{
+                    disapperTooltip('remind',result.msg);
+                }
+            },'json');
+        });
+    });
+</script>
+            

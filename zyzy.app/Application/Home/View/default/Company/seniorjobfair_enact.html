@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_jobfair.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_seniorjobfair" />
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">我的定展记录</div>
+					<div class="clear"></div>
+				</div>
+				<div class="jobfairWrap">
+					<div class="jobfair_th">
+						<div class="th1">招聘会</div>
+						<div class="th2">展位号</div>
+						<div class="th2">预定时间</div>
+						<div class="th3">预定状态</div>
+						<div class="clear"></div>
+					</div>
+					<notempty name="jobfair['list']">
+						<volist name="jobfair['list']" id="jobfair">
+							<div class="jobfair_td">
+								<div class="td1 link_blue substring">
+									<a target="_blank" href="{:url_rewrite('QS_seniorjobfairshow',array('id'=>$jobfair['jobfair_id']))}" title="{$jobfair.title}">{$jobfair.title}</a>
+								</div>
+								<div class="td2">{$jobfair.position}</div>
+								<div class="td2">{:date('Y-m-d',$jobfair['eaddtime'])}</div>
+								<if condition="$jobfair['audit'] eq 1">
+									<div class="td3 font_green">预定成功</div>
+								<elseif condition="$jobfair['audit'] eq 2" />
+									<div class="td3 font_yellow">等待审核</div>
+								<else/>
+									<div class="td3 font_red">审核未通过</div>
+								</if>
+								<div class="clear"></div>
+							</div>
+						</volist>
+					<else/>
+						<div class="res_empty">
+							您还没有参加过任何招聘会，请及时关注招聘会动态，获取更多资讯！
+						</div>
+					</notempty>
+				</div>
+				<div class="qspage">{$jobfair.page}</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+	</body>
+</html>

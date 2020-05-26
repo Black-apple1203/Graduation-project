@@ -1,0 +1,91 @@
+<!-- public:header 以下内容 -->
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>网站后台管理中心- Powered by 74cms.com</title>
+	<link rel="shortcut icon" href="{:C('qscms_site_dir')}favicon.ico"/>
+	<meta name="author" content="骑士CMS" />
+	<meta name="copyright" content="74cms.com" />
+	<!-- <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">  -->
+	<link href="__ADMINPUBLIC__/css/common.css?v={:strtotime('today')}" rel="stylesheet" type="text/css">
+	<script src="__ADMINPUBLIC__/js/jquery.min.js"></script>
+	<script src="__ADMINPUBLIC__/js/jquery.highlight-3.js"></script>
+	<script src="__ADMINPUBLIC__/js/jquery.vtip-min.js"></script>
+	<script src="__ADMINPUBLIC__/js/jquery.modal.dialog.js"></script>
+	<script type="text/javascript" src="__ADMINPUBLIC__/js/laydate/laydate.js"></script>
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="__ADMINPUBLIC__/js/PIE.js"></script>
+	<script type="text/javascript">
+		(function ($) {
+			$.pie = function (name, v) {
+				// 如果没有加载 PIE 则直接终止
+				if (!PIE) return false;
+				// 是否 jQuery 对象或者选择器名称
+				var obj = typeof name == 'object' ? name : $(name);
+				// 指定运行插件的 IE 浏览器版本
+				var version = 9;
+				// 未指定则默认使用 ie10 以下全兼容模式
+				if (typeof v != 'number' && v < 9) {
+					version = v;
+				}
+				// 可对指定的多个 jQuery 对象进行样式兼容
+				if ($.browser.msie && obj.size() > 0) {
+					if ($.browser.version * 1 <= version * 1) {
+						obj.each(function () {
+							PIE.attach(this);
+						});
+					}
+				}
+			}
+		})(jQuery);
+		if ($.browser.msie) {
+			$.pie('.pie_about');
+		};
+	</script>
+	<![endif]-->
+	<script src="__ADMINPUBLIC__/js/jquery.disappear.tooltip.js"></script>
+	<script src="__ADMINPUBLIC__/js/common.js"></script>
+	<script>
+		var URL = '__URL__',
+			SELF = '__SELF__',
+			ROOT_PATH = '__MODULE__',
+			APP	 =	 '__APP__';
+
+		var qscms = {
+			district_level : "{:C('qscms_category_district_level')}",
+			default_district : "{:C('qscms_default_district')}"
+		};
+	</script>
+	{$synsitegroupunbindmobile}
+	{$synsitegroupregister}
+	{$synsitegroupedit}
+	{$synsitegroup}
+</head>
+<body>
+
+<!-- public:header 以上内容 -->
+<empty name="menu_title">
+	<div class="allpagetop">后台管理中心<strong>/</strong>首页</div>
+	<else/>
+	<div class="allpagetop">{$menu_title}<strong>/</strong>{$sub_menu_title}</div>
+</empty>
+<div class="mains">
+	<div class="h1tit">
+		<div class="h1">
+            <if condition="$sub_menu['pageheader']">
+                {$sub_menu.pageheader}
+                <else/>
+                <!--欢迎登录 {:C('qscms_site_name')} 管理中心！-->
+            </if>
+        </div>
+        <notempty name="sub_menu['menu']">
+            <div class="topnav">
+                <volist name="sub_menu['menu']" id="val">
+                    <a href="{:U($val['module_name'].'/'.$val['controller_name'].'/'.$val['action_name'])}{$val.data}<if condition="$isget and $_GET">{:get_first()}</if><if condition="$_GET['_k_v']">&_k_v={$Think.get._k_v}</if>" class="{$val.class}">{$val.name}</a>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </notempty>
+		<div class="clear"></div>
+	</div>

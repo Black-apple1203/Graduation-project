@@ -1,0 +1,55 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>系统将自动取消到期的企业推广。</p>
+</div>
+<div class="toptit">修改企业推广</div>
+<div class="form_main width150 link_blue">
+    <form action="{:U('edit')}" method="post" name="FormData" id="FormData">
+        <div class="fl">推广职位:</div>
+        <div class="fr txt">
+            <a href="{$info['jobs']['jobs_url']}" target="_blank">{$info['jobs']['jobs_name']}</a>
+        </div>
+        <div class="fl">所属企业:</div>
+        <div class="fr txt">
+            <a href="{$info['jobs']['company_url']}" target="_blank">{$info['jobs']['companyname']}</a>
+        </div>
+        <div class="fl">会员UID:</div>
+        <div class="fr txt">{$info['jobs']['uid']}</div>
+        <div class="fl">推广方案:</div>
+        <div class="fr txt">
+            <span style="color:#FF0000"><if condition="$info['cp_ptype'] eq 'stick'">置顶<else />紧急</if></span>
+        </div>
+        <div class="fl">推广期限:</div>
+        <div class="fr txt">
+            <if condition="$info['cp_endtime'] lt $now">
+                <span style="color:#FF6600">已经到期</span>
+                <else />
+                {$info.cp_starttime|date="Y年m月d日",###} ≈ {$info.cp_endtime|date="Y年m月d日",###}
+            </if>
+        </div>
+        <div class="fl">延长推广时间:</div>
+        <div class="fr">
+            <input name="cp_endtime" type="hidden" value="{$info.cp_endtime}" />
+            <input name="cp_days" type="text" class="input_text_default small" maxlength="3"/> 天
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="cp_jobid" type="hidden" value="{$info.cp_jobid}" />
+            <input name="cp_ptype" type="hidden" value="{$info.cp_ptype}" />
+            <input name="cp_id" type="hidden" value="{$info.cp_id}" />
+            <input type="submit" class="admin_submit" value="修改"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </form>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+</script>
+</html>

@@ -1,0 +1,82 @@
+<include file="public:header"/>
+
+<div class="seltpye_y">
+    <div class="tit">操作时间</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.settr' value=''>select</neq>">{$Think.get.settr_cn|default='不限'}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('settr'=>'','settr_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('settr'=>'3','settr_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('settr'=>'7','settr_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('settr'=>'30','settr_cn'=>'一月内'))}">一月内</li>
+        <li url="{:P(array('settr'=>'180','settr_cn'=>'半年内'))}">半年内</li>
+        <li url="{:P(array('settr'=>'360','settr_cn'=>'一年内'))}">一年内</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">日志类型</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.log_type' value=''>select</neq>" title="{$Think.get.log_type_cn}">{$Think.get.log_type_cn|default='不限'}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('log_type'=>'','log_type_cn'=>'不限'))}">不限</li>
+        <volist name="type_arr" id="vo">
+            <li url="{:P(array('log_type'=>$key,'log_type_cn'=>$vo['type']))}" title="{$vo['type']}">{$vo['type']}</li>
+        </volist>
+    </div>
+</div>
+<div class="clear"></div>
+
+<form id="form1" name="form1" method="post" action="{:U('MembersLog/delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:20%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>会员名
+            </label>
+        </div>
+        <div class="td center" style=" width:10%;">会员类型</div>
+        <div class="td center" style=" width:10%;">操作时间</div>
+        <div class="td center" style=" width:10%;">IP</div>
+        <div class="td center" style=" width:10%;">地址</div>
+        <div class="td" style=" width:40%;">描述</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:20%;">
+                <div class="left_padding striking">
+                    <input name="log_id[]" type="checkbox" id="id" value="{$vo.log_id}"/>
+                    {$vo.log_username}<span style="color: #999999;">[uid:{$vo.log_uid}]</span>
+                </div>
+            </div>
+            <div class="td center" style=" width:10%;">
+                <switch name="vo['log_utype']">
+                    <case value="1" break="1">企业会员</case>
+                    <case value="2" break="1">个人会员</case>
+                </switch>
+            </div>
+            <div class="td center" style=" width:10%;">{:admin_date($vo['log_addtime'])}</div>
+            <div class="td center" style=" width: 10%;">{$vo.log_ip|default='- - - -'}</div>
+            <div class="td center" style=" width:10%;">{$vo.log_address|default='&nbsp;'}</div>
+            <div class="td vtip" style=" width:40%;" title="{$vo.log_value}">{$vo.log_value}</div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+    });
+</script>
+</html>

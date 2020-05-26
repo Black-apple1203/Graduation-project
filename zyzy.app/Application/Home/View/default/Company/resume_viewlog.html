@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/company/company_resumes.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+	<include file="index_header" />
+	<div class="user_main">
+		<div class="mleft">
+			<include file="left_resumes" /> 
+		</div>
+		<div class="mright">
+			<div class="user_pagetitle">
+				<div class="pat_l">我浏览过的简历</div>
+				<!--<div class="pat_r">系统保留三个月的记录，共<strong> {$view_resume['count']} </strong>条</div>-->
+				<div class="clear"></div>
+			</div>
+				
+			<div class="resume_attention_th">
+    			<div class="th1">姓名</div>
+    			<div class="th2">基本信息</div>
+    			<div class="th3">期望职位</div>
+    			<div class="th4">
+	    			<div class="input_90_30_div J_hoverinput J_dropdown J_listitme_parent">
+						<span class="J_listitme_text">
+							<if condition="$Think.get.settr eq 0">
+								查看时间
+							<else />
+								{$Think.get.settr}天内
+							</if>
+						</span>
+						<div class="dropdowbox11 J_dropdown_menu">
+				            <div class="dropdow_inner11">
+				                <ul class="nav_box">
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>0))}" >不限时间</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>3))}" >3天内</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>7))}" >7天内</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>15))}" >15天内</a></li>
+				                	<li><a class="J_listitme" href="{:P(array('settr'=>30))}" >30天内</a></li>
+				                </ul>
+				            </div>
+				        </div>
+					</div>
+    			</div>
+    			<div class="th5">操作</div>
+    			<div class="clear"></div>
+    		</div>
+			<form id="form1" action="{:U('del_resume_viewlog')}" method="post" class="J_allListBox">
+			<notempty name="view_resume['list']">
+			<volist name="view_resume['list']" id="vo">		
+			<div class="resume_attention">
+				<div class="td1 link_blue substring">
+					<input name="y_id[]" class="J_allList" type="checkbox" value="{$vo['id']}"> &nbsp;<a target="_blank" href="{$vo['resume_url']}" title="{$vo['fullname']}">{$vo['fullname']}</a>
+    			</div>
+    			<div class="td2">{$vo['age']}岁/{$vo['sex_cn']}/{$vo['education_cn']}/{$vo['experience_cn']}</div>
+    			<div class="td3 substring" title="{$vo['intention_jobs']}">{$vo['intention_jobs']}</div>
+    			<div class="td4 <if condition="$vo['hasfavorites'] eq 1">had</if>">{:fdate($vo['addtime'])}</div>
+    			<div class="td5 link_blue">
+    				<if condition="$vo['hasfavorites'] eq 1">
+    				<a href="javascript:;" class="favorite had">已收藏</a>&nbsp;&nbsp;
+    				<else />
+    				<a href="{:U('resume_favorites_add',array('rid'=>$vo['resumeid']))}" class="favorite">收藏</a>&nbsp;&nbsp;
+    				</if>
+    				<a href="javascript:;" url="{:U('del_resume_viewlog',array('y_id'=>$vo['id']))}" class="del">删除</a>
+    			</div>
+    			<div class="clear"></div>					
+			</div>
+			</volist>
+			<div class="resume_but">
+		 		<div class="td1"><input class="J_allSelected" type="checkbox" value="" /></div>
+		 		<div class="td2">
+					<div class="btn_lightgray J_hoverbut btn_inline" id="delete">删除</div>
+		 		</div>
+		 		<div class="clear"></div>
+	    	</div>
+			<div class="qspage">{$view_resume['page']}</div>
+			<else />
+				<if condition="$hasget">
+				<div class="res_empty">
+					抱歉，没有找到符合您条件的简历   建议您修改筛选条件后重试
+				</div>
+				<else />
+				<div class="res_empty link_blue">
+					您还没有浏览过简历，建议您主动出击找人才！<br />
+					海量优质简历任您选，快速招人不再难。立即 <a href="{:url_rewrite('QS_resume')}" target="_blank">搜索人才</a>
+				</div>
+				</if>
+			</notempty>
+			</form>
+			
+		</div>	
+	</div>
+	<include file="index_footer" />
+	<script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#delete").click(function(){
+				var listCheckedArray = $('.J_allListBox .J_allList:checked');
+	            if (listCheckedArray.length) {
+	                var url = $("#form1").attr('action');
+	                var qsDialog = $(this).dialog({
+	                    title: '删除浏览过的简历',
+	                    loading: true,
+	                    border: false,
+	                    yes: function () {
+	                        $("#form1").submit();
+	                    }
+	                });
+	                $.getJSON(url, function (result) {
+	                    if (result.status == 1) {
+	                        qsDialog.setContent(result.data.html);
+	                    } else {
+	                        disapperTooltip('remind', result.msg);
+	                    }
+	                });
+	            } else {
+	                disapperTooltip("remind", "请选择要删除的简历");
+	            }
+			});
+			$(".del").click(function () {
+	            var url = $(this).attr('url');
+	            var qsDialog = $(this).dialog({
+	                title: '删除简历',
+	                loading: true,
+	                border: false,
+	                yes: function () {
+	                    window.location.href = url;
+	                }
+	            });
+	            $.getJSON(url, function (result) {
+	                if (result.status == 1) {
+	                    qsDialog.setContent(result.data.html);
+	                } else {
+	                    disapperTooltip('remind', result.msg);
+	                }
+	            });
+	        });
+		});
+	</script>
+</body>
+</html>

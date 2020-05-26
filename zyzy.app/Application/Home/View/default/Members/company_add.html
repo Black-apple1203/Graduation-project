@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/members/common.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/members/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+	<include file="header" />
+	<div class="find_pwd">
+		<div class="steptxt">
+			 <div class="tit" style="font-size: 28px;margin-top: 30px;text-align: center;width: 524px;">企业信息</div>
+			<div class="clear"></div>
+		</div>
+		<div class="rl J_focus">
+				<div class="mobileshow J_listitme_group">
+					<form class="J_passwordalert_group" id="registerForms" action="{:U('members/company_add')}" method="post" onkeydown="if(event.keyCode==13){return false;}">
+						<div class="J_validate_group">
+							<div class="td1">
+								<input class="input_295_34" name="companyname" id="companyname" type="text" placeholder="请输入企业名称" autocomplete="off" />
+					        </div>
+							<div class="td2 J_showtip_box"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="J_validate_group">
+							<div class="td1">
+								<input class="input_295_34" name="contact" id="contact" type="text" placeholder="请输入企业联系人" autocomplete="off" />
+							</div>
+							<div class="td2 J_showtip_box"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="btnbox">
+							<input type="hidden" name="type" value="1" />
+							<input type="submit"   value="下一步" class="btn_reg J_hoverbut" />
+						</div>
+					</form>
+				</div>
+		</div>
+	</div>		
+		<!--下方阴影 -->
+		<div class="find_pwd_bg">
+			<div class="bl"></div>
+			<div class="br"></div>
+			<div class="clear"></div>
+		</div>	
+<include file="public:footer_min" />
+<script type="text/javascript" src="../public/js/jquery.validate.js"></script>
+<script type="text/javascript" src="../public/js/members/jquery.pwdalert.js"></script>
+<script type="text/javascript" src="../public/js/members/jquery.validate.regcompany.js"></script>
+<script type="text/javascript" src="../public/js/jquery.modal.dialog.js"></script>
+<script type="text/javascript" src="../public/js/emailAutoComplete.js"></script>
+<script type="text/javascript" src="../public/js/jquery.placeholder.min.js"></script>
+<script src="../public/js/members/jquery.common.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript">
+
+  	$('#registerForms').validate({
+     	submitHandler: function(form) {
+     		 $.ajax({
+                url: qscms.root + '?m=Home&c=Members&a=company_add',
+                type: 'post',
+                dataType: 'json',
+                data: $('#registerForms').serialize(),
+                success: function(result) {
+                    if (result.status == 1) {
+                        window.location.href = result.data.url;
+                    } else {
+                        disapperTooltip("remind", '企业信息添加错误');
+                    }
+                }
+            });
+  		},
+        rules: {
+            companyname: {
+                required: true,
+                rangelength: [4, 25],
+                IsRegistered: true
+            },
+            contact: {
+                required: true,
+                rangelength: [1, 10]
+            },
+        },
+        messages: {
+            companyname: {
+                required: '<div class="ftxt">请输入企业名称</div><div class="fimg"></div>',
+                rangelength: '<div class="ftxt">4-25个字组成</div><div class="fimg"></div>',
+                IsRegistered: '<div class="ftxt">该企业名称已被注册</div><div class="fimg"></div>'
+            },
+            contact: {
+                required: '<div class="ftxt">请输入企业联系人</div><div class="fimg"></div>',
+                rangelength: '<div class="ftxt">1-10个字组成</div><div class="fimg"></div>'
+            },
+            
+        },
+        errorClasses: {
+            companyname: {
+                required: 'tip err',
+                rangelength: 'tip err',
+                IsRegistered: 'tip err'
+            },
+            contact: {
+                required: 'tip err',
+                rangelength: 'tip err'
+            },
+            
+        },
+        tips: {
+            companyname: '<div class="ftxt">名称与企业营业执照保持一致</div><div class="fimg"></div>',
+            contact: '<div class="ftxt">请填写全名</div><div class="fimg"></div>'
+        },
+        tipClasses: {
+            companyname: 'tip',
+            contact: 'tip'
+        },
+        errorElement: 'div',
+        errorPlacement: function(error, element) {
+            if (element.attr('name') == 'landline_tel_last' || element.attr('name') == 'landline_tel_next' || element.attr('name') == 'landline_tel_first') {
+                element.closest('.J_validate_group').find('.J_showtip_box').append(error);
+            }  else {
+                element.closest('.J_validate_group').find('.J_showtip_box').append(error);
+            }
+        },
+        success: function(label) {
+            label.append('<div class="ok"></div>');
+        }
+    });
+		</script>
+	</body>
+</html>

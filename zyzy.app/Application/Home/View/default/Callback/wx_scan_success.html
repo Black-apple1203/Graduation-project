@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>微信扫描登录</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name = "format-detection" content="telephone=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<script src="{:C('TPL_PUBLIC_DIR')}/js/rem.js"></script>
+		<style type="text/css">
+			html{font-family:"microsoft yahei","宋体";-webkit-text-size-adjust:100%;font-size:100px;}
+			body{margin:0;max-width:750px;min-height:100%;min-width:320px;margin:0 auto;color:#666666;background-color:#f0f2f5;-webkit-overflow-scrolling:touch;font-size:.3rem;}
+			body div{box-sizing:border-box;-webkit-box-sizing:border-box;}
+			.set-success-tip-box{padding-top:2rem;padding-bottom:.2rem;}
+			.set-success-tip{display:inline-block;line-height:.94rem;padding-left:1.2rem;background-image:url({:C('TPL_PUBLIC_DIR')}/images/197.png);background-repeat:no-repeat;background-size:.94rem;}
+			.set-success-tip.waring{background-image:url({:C('TPL_PUBLIC_DIR')}/images/196.png);}
+			.font13{font-size:.27857142rem}
+			.font16{font-size:.34285714rem}
+			.qs-center{text-align:center;}
+			.txt-color-9{color:#999;}
+			.mt2{margin-top:.2rem;}
+		</style>
+	</head>
+	<body>
+        <div class="set-success-tip-box qs-center">
+        <eq name="success" value="1">
+            <div class="set-success-tip font16">扫描登录成功！</div>
+        <else />
+			<div class="set-success-tip waring font16">扫描登录失败！</div>
+        </eq>
+        </div>
+        <eq name="success" value="0">
+        <div class="qs-center font13 txt-color-9 mt2">请重新操作！如有问题请联系网站客服！</div>
+        </eq>
+        <div class="qs-center font13 txt-color-9 mt2">客户服务热线：{:C('qscms_bootom_tel')}</div>
+	</body>
+</html>

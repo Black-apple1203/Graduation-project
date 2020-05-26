@@ -1,0 +1,102 @@
+<include file="public:header"/>
+<form id="form1" name="form1" method="post" action="{:U('set_audit')}">
+    <div class="list_th">
+        <div class="td" style=" width:35%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>发放时间
+            </label>
+        </div>
+        <div class="td center" style=" width:20%;">操作管理员</div>
+        <div class="td center" style=" width:25%;">发放企业个数</div>
+        <div class="td" style=" width:20%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:35%;">
+                <div class="left_padding striking">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['id']}"/>
+                    <a href="javascript:;" target="_blank">{:admin_date($vo['addtime'])}</a>
+                </div>
+            </div>
+            <div class="td center" style=" width:20%;">
+                {$vo['admin_name']}
+            </div>
+            <div class="td center" style=" width:25%;">
+                {$vo['uidcount']}
+            </div>
+            <div class="td edit" style=" width:20%;">
+                <a href="javascript:;" class="detail" static_id="{$vo['id']}">查看详情</a>
+                <a href="{:U('static_delete',array('id'=>$vo['id']))}" onClick="return confirm('你确定要删除该优惠券吗？')" class="gray">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <!-- <input type="button" class="admin_submit" id="ButAdd" value="发放" onclick="window.location.href='{:U('issue')}'"/> -->
+        <input type="button" class="admin_submit" id="ButDel" value="删除"/>
+    </div>
+
+    <!-- <div class="footso"> -->
+        <!-- <form action="?" method="get"> -->
+            <!-- <div class="sobox"> -->
+                <!-- <input type="hidden" name="m" value="{:C('admin_alias')}"> -->
+                <!-- <input type="hidden" name="c" value="{:CONTROLLER_NAME}"> -->
+                <!-- <input type="hidden" name="a" value="{:ACTION_NAME}"> -->
+                <!-- <input name="key" type="text" class="sinput" value="{$Think.get.key}"/> -->
+                <!-- <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" /> -->
+                <!-- <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='姓名'}"/> -->
+                <!-- <input name="" type="submit" value="" class="sobtn"/> -->
+                <!-- <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='名称'}</div> -->
+                <!-- <div class="mlist" id="J_mlist"> -->
+                    <!-- <ul> -->
+                        <!-- <li id="1" title="名称">名称</li> -->
+                    <!-- </ul> -->
+                <!-- </div> -->
+            <!-- </div> -->
+        <!-- </form> -->
+    <!-- </div> -->
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.entrustinfotip-min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //点击批量删除
+        $("#ButDel").click(function () {
+            if (confirm('你确定要删除吗？')) {
+                $("form[name=form1]").attr("action", "{:U('static_delete')}");
+                $("form[name=form1]").submit();
+            }
+        });
+		
+        //业务
+        $(".detail").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '发放详情',
+                loading: true,
+                footer : false
+            });
+            var static_id = $(this).attr('static_id');
+            var url = "{:U('Ajax/issue_list')}&static_id=" + static_id;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+    });
+</script>
+</html>

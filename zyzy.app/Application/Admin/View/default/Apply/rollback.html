@@ -1,0 +1,79 @@
+<include file="public:header" />
+	<div class="toptip link_g">
+		<h2>提示：</h2>
+		<p>系统检测 “<strong>{$module.version.module_name}</strong>” 已经安装，当前版本号为 <strong>[{$module.version.version}]</strong> ，<span>将回滚至上一版本</span></p>
+		<p><font color="red">回滚会导致当前修改的程序被覆盖，请谨慎操作！</font></p>
+	</div>
+	<div class="toptit">应用详情</div>
+	<table width="800"  border="0" cellpadding="2" cellspacing="2"  class="apply_show" style="margin-bottom:15px;" >
+		<tr>
+			<td width="80" align="center">
+				<img src="{$module.ico}" border="0" width="58" height="58">
+			</td>
+			<td style="line-height:230%;color:#999999" class="J_mod" m="{$module.module}" v="{$module.version.version}">
+			<strong style="color: #0066CC; font-size:14px; padding-right:10px;">{$module.version.module_name}</strong>（{$module.module}）&nbsp;&nbsp;&nbsp;
+			<span class="J_v">当前版本：{$module.version.version}</span>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;<span class="J_t">更新时间：{$module['version']['update_time']}</span><br />
+			{$module.version.explain}
+		  </td>
+		</tr>
+</table>
+	<form id="J_install_form" action="{:U('apply/rollback')}" method="post" style="display:none">
+		<div class="toptit">回滚进程</div>
+		<div id="J_process" style="padding:20px; padding-top:10px; height:160px;overflow:auto;margin-bottom: 10px;"></div>
+		<input name="mod" value="{$module.module}" type="hidden">
+		<iframe src="about:blank" style="width:500px; height:300px;display:none;" name="post_target"></iframe>
+	</form>
+	<table width="100%" border="0" cellspacing="10">
+		<tr id="J_run">
+			<td>
+				<eq name="enable_rollback" value="1">
+				<input type="button" class="admin_submit" id="UpdaterBtn" value="开始回滚" onclick="updater();"/>
+				</eq>
+				<input type="button" class="admin_submit" value="返回"  onclick="window.location='{:U('apply/index')}'"/>
+			</td>
+		</tr>
+		<tr id="J_end" style="display:none">
+			<td>
+				<input type="button" class="admin_submit" value="回滚完成"  onclick="window.location='{:U('apply/index')}'"/>
+			</td>
+		</tr>
+	</table>
+</div>
+<include file="public:footer" />
+<script>
+	function updater(){
+		$('#J_process').empty();
+		$('#J_install_form').show().attr('target','post_target');
+	    $('#J_install_form').submit();
+	    $('#J_run').hide();
+	}
+	function show_process(html){
+	    $('#J_process').html($('#J_process').html() + html);
+	    var _t = $('#J_process').get(0);
+	    _t.scrollTop = _t.scrollHeight;
+	}
+	function install_failure(){
+	    $('#J_run').show();
+	}
+	function install_successed(){
+	    $('#J_end').show();
+	}
+	function install_updater_auth(a){
+		window.location.href=a;
+	}
+	function callback(a){
+	    $.each(a.data,function(k,v){
+			var version = $('.J_mod[m="'+k+'"]').attr('v');
+			if(v.version && version != v.version){
+				v.update_time = v.update_time ? v.update_time : '未发布';
+				$('.J_mod[m="'+k+'"] .J_v').after('<a href="https://www.74cms.com/app/lists.html" class="newsv">有新版</a>');
+				$('.J_mod[m="'+k+'"] .J_t').html('更新时间：'+v.update_time);
+				$('.J_tip').html('最新版本号为 <strong>['+v.version+']</strong>');
+				$('#UpdaterBtn').show();
+			}
+	    });
+	}
+</script>
+<script src="https://www.74cms.com/plus/check_module.php?module_name={$module.module}" language="javascript"></script>
+</body>
+</html>

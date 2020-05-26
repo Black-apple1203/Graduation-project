@@ -1,0 +1,87 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>数据备份功能根据您的选择备份网站数据库的数据，导出的数据文件可用“数据恢复”功能导入。</p>
+    <p>全部备份均不包含模板文件和附件文件。模板、附件的备份只需通过 FTP 等下载，74cms 不提供单独备份。</p>
+</div>
+<div class="toptit">生成备份数据库</div>
+<form id="form1" name="form1" method="post" action="{:U('database/index')}">
+    <input type="hidden" name="initBackup" value="1">
+    <div id="backupshow">
+        <table width="100%" border="0" cellspacing="0" cellpadding="4" style="padding-left:20px;">
+            <tr>
+                <td style=" line-height:180%; color:#666666; padding-left:20px;font-size:13px;">
+                    <ul style="margin:0px; padding:3px;">
+                        <volist name="list" id="vo">
+                            <li style=" list-style:none; padding:0px; margin:0px; float:left; width:260px; height:26px; display:block">
+                                <label>
+                                    <input name="tables[{$vo}]" type="checkbox" style=" vertical-align: middle" value="-1"
+                                           checked="checked"/>{$vo}
+                                </label>
+                            </li>
+                        </volist>
+                        <li class="clear" style="list-style:none"></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td style=" line-height:180%; padding-left:25px;">
+                    <input type="button" class="admin_submit small gray" value="全选" id="selectAll">
+                    <input type="button" class="admin_submit small gray" value="全不选" id="uncheckAll">
+                    <input type="button" class="admin_submit small gray" value="反选" id="opposite">
+                    分卷备份：
+                    <input name="sizelimit" type="text" id="sizelimit" value="{$sizelimit|default=1024}" maxlength="20"
+                           onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"
+                           onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"
+                           class="input_text_default small"/> K
+                </td>
+            </tr>
+        </table>
+        <div class="list_foot" style="margin-top: 10px;">
+            <div class="btnbox">
+                <input type="submit" class="admin_submit" id="ButAudit" value="开始备份" onclick="document.getElementById('backupshow').style.display='none';document.getElementById('hide').style.display='block';"/>
+            </div>
+        </div>
+    </div>
+
+    <table width="600" height="100" border="0" cellpadding="5" cellspacing="0" id="hide"
+           style="display:none;padding-left:20px;font-size:12px;">
+        <tr>
+            <td align="center" valign="bottom"><img src="__ADMINPUBLIC__/images/ajax_loader.gif" border="0"/></td>
+        </tr>
+        <tr>
+            <td align="center" valign="top" style="color: #009900">正在备份，请稍候......</td>
+        </tr>
+    </table>
+</form>
+</div>
+<include file="public:footer"/>
+<script type="text/javascript">
+    function CheckAll(form) {
+        for (var i = 0; i < form.elements.length; i++) {
+            var e = form.elements[i];
+            if (e.Name != "chkAll" && e.disabled != true)
+                e.checked = form.chkAll.checked;
+        }
+    }
+</script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#selectAll").click(function () {
+            $("form :checkbox").attr("checked", true);
+            setbg();
+        });
+        $("#uncheckAll").click(function () {
+            $("form :checkbox").attr("checked", false);
+            setbg();
+        });
+        $("#opposite").click(function () {
+            $("form :checkbox").each(function () {
+                $(this).attr("checked") ? $(this).attr("checked", false) : $(this).attr("checked", true);
+            });
+            setbg();
+        });
+    });
+</script>
+</body>
+</html>

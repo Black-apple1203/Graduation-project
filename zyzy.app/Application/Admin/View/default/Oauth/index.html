@@ -1,0 +1,59 @@
+<include file="public:header" />
+<div class="toptip"  >
+    <div class="toptit">提示：</div>
+  <p>网站接入QQ登录后，用户只需要使用QQ账号密码就可登录，简化用户注册流程，更有效率的提高转化用户流量</p>
+<p class="link_green_line">接入QQ登录前，网站需首先进行申请，获得对应的appid与appkey，以保证后续流程中可正确对网站与用户进行验证与授权。 
+现在就去<a href="https://connect.qq.com/" target="_blank">申请</a></p>
+<p style="color:red;font-size:16px">网站接入QQ登录后，为了用户信息同步，请站长在网站应用和移动端应用审核通过后，在各自的<font size="5">应用--应用接口（申请unionid开启）</font>，否则用户信息将不会同步给使用者带来不必要的麻烦</p>
+</div>
+<div class="toptit">QQ互联设置</div>
+<form action="{:U('oauth/index')}" method="post" name="form1" id="form1">
+    <div class="form_main width150">
+        <div class="fl">开启QQ登录：</div>
+        <div class="fr">
+          <div data-code="0,1" class="imgchecked_small <if condition="$info['status'] eq 1">select</if>"><input name="status" type="hidden" value="{$info.status}" /></div>
+          <div class="clear"></div>
+        </div>
+        <div class="fl">appid：</div>
+        <div class="fr">
+            <input name="config[app_id]" type="text" maxlength="40" class="input_text_default middle" value="{$info['config']['app_id']}"/>
+        </div>
+        <div class="fl">appkey：</div>
+        <div class="fr">
+            <input name="config[app_key]" type="text" maxlength="40" class="input_text_default middle" value="{$info['config']['app_key']}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+			<input type="hidden" name="id" value="{$info['id']}">
+            <input name="submit" type="submit" class="admin_submit" value="保存"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </form>
+	<!-- <if condition="C('apply.Appapi')">
+	<div class="toptit">APP QQ互联设置</div>
+	<form action="{:U('oauth/index')}" method="post" name="form1" id="form1">
+    <div class="form_main width150">
+        
+        <div class="fl">appid：</div>
+        <div class="fr">
+            <input name="app_config[app_id]" type="text" maxlength="40" class="input_text_default middle" value="{$info['app_config']['app_id']}"/>
+        </div>
+        <div class="fl">appkey：</div>
+        <div class="fr">
+            <input name="app_config[app_key]" type="text" maxlength="40" class="input_text_default middle" value="{$info['app_config']['app_key']}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+			<input type="hidden" name="id" value="{$info['id']}">
+            <input name="submit" type="submit" class="admin_submit" value="保存"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </form>
+		</if> -->
+</div>
+<include file="public:footer" />
+
+</body>
+</html>

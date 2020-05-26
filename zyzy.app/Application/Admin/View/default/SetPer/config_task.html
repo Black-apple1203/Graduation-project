@@ -1,0 +1,161 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>不同的运营阶段您可以选择不同的设置。</p>
+</div>
+<form id="form1" action="{:U('config_task')}" method="post" name="FormData">
+    <div class="list_th">
+        <div class="td" style=" width:40%;">
+            <div class="left_padding">任务名称</div>
+        </div>
+        <div class="td" style=" width:20%;">是否启用</div>
+        <div class="td" style=" width:20%;">增加{:C('qscms_points_byname')}</div>
+        <div class="td center" style=" width:20%;">每天赠送积分上限</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_blue">
+            <div class="td" style=" width:40%;">
+                <div class="left_padding striking">
+                    <input type="hidden" name="id[]" value="{$vo.id}">{$vo.title}
+                </div>
+            </div>
+            <div class="td" style=" width:20%;">
+                <if condition="$vo['t_alias'] eq 'sign'">
+                    <span>该项不允许关闭</span>
+                    <input name="status_{$vo['id']}" type="hidden" value="1">
+                <else />
+                    <div data-code="0,1" class="imgchecked_small <eq name='vo.status' value='1'>select</eq>">
+                        <input name="status_{$vo['id']}" type="hidden" value="{$vo.status}" />
+                    </div>
+                    <div class="clear"></div>
+                </if>
+            </div>
+            <div class="td" style=" width: 20%;">
+                <input type="text" class="input_text_default small" name="points[]" value="{$vo.points}" maxlength="4" style="width: 50px;">
+            </div>
+            <div class="td center" style=" width:20%;">
+                <if condition="$vo['once'] eq '0' && $vo['times'] neq '-1' && $vo['dayly'] eq 0">
+                    <input name="times[]" type="text" class="input_text_default small" value="{$vo.times}" maxlength="4" style="width: 50px;"/> 次
+                <else/>
+                    --<input type="hidden" name="times[]" value="{$vo.times}">
+                </if>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButSave" value="保存"/>
+    </div>
+    <div class="footso"></div>
+</div>
+<div class="toptip" style="margin-top: 10px;">
+    <div class="toptit">提示：</div>
+    <p>个人公共设置，一端设置同步到另一端</p>
+</div>
+<form id="form2" action="{:U('config_task')}" method="post" name="FormData">
+    <div class="list_th">
+        <div class="td" style=" width:40%;">
+            <div class="left_padding">任务名称</div>
+        </div>
+        <div class="td" style=" width:20%;">是否启用</div>
+        <div class="td" style=" width:20%;">增加{:C('qscms_points_byname')}</div>
+        <div class="td center" style=" width:20%;">每天赠送积分上限</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="commonlist" id="vo">
+        <div class="list_tr link_blue">
+            <div class="td" style=" width:40%;">
+                <div class="left_padding striking">
+                    <input type="hidden" name="id[]" value="{$vo.id}">{$vo.title}
+                </div>
+            </div>
+            <div class="td" style=" width:20%;">
+                <if condition="$vo['t_alias'] eq 'sign'">
+                    <span>该项不允许关闭</span>
+                    <input name="status_{$vo['id']}" type="hidden" value="1">
+                <else />
+                    <div data-code="0,1" class="imgchecked_small <eq name='vo.status' value='1'>select</eq>">
+                        <input name="status_{$vo['id']}" type="hidden" value="{$vo.status}" />
+                    </div>
+                    <div class="clear"></div>
+                </if>
+            </div>
+            <div class="td" style=" width: 20%;">
+                <input type="text" class="input_text_default small" name="points[]" value="{$vo.points}" maxlength="4" style="width: 50px;">
+            </div>
+            <div class="td center" style=" width:20%;">
+                <if condition="$vo['once'] eq '0' && $vo['times'] neq '-1' && $vo['dayly'] eq 0">
+                    <input name="times[]" type="text" class="input_text_default small" value="{$vo.times}" maxlength="4" style="width: 50px;"/> 次
+                <else/>
+                    --<input type="hidden" name="times[]" value="{$vo.times}">
+                </if>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButcomSave" value="保存"/>
+    </div>
+    <div class="footso"></div>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //保存
+        $('#ButSave').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('config_task')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("config_task")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+		$('#ButcomSave').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('config_task')}",$('#form2').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("config_task")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

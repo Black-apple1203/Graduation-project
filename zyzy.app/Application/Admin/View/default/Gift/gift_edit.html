@@ -1,0 +1,63 @@
+<include file="public:header"/>
+
+<div class="toptit">添加优惠券</div>
+<form id="form1" action="{:U('gift_edit')}" method="post">
+    <div class="form_main width150">
+        <div class="fl">优惠券名称:</div>
+        <div class="fr">
+            <input name="gift_name" type="text" class="input_text_default middle" value="{$info.gift_name}"/>
+        </div>
+        <div class="fl">抵扣金额:</div>
+        <div class="fr">
+            <input name="price" type="text" class="input_text_default small" maxlength="10" value="{$info.price}"/>&nbsp;&nbsp;元
+        </div>
+        <div class="fl">绑定套餐:</div>
+        <div class="fr">
+            <div class="imgradio J_company_scale">
+				<input name="setmeal_id" type="hidden" value="{$info.setmeal_id}">
+				<input name="setmeal_name" type="hidden" value="{$info.setmeal_name}" id="setmeal_name"/>
+				<volist name="setmeal" id="setmeal">
+					<div class="radio <eq name='info.setmeal_id' value='$setmeal["id"]'>select</eq>" data="{$setmeal['id']}" title="{$setmeal['setmeal_name']}">{$setmeal['setmeal_name']}</div>
+				</volist>
+				<div class="clear"></div>
+			</div>
+        </div>
+        <div class="fl">有效期:</div>
+        <div class="fr">
+            <input name="effectivetime" type="effectivetime" class="input_text_default small" maxlength="25" value="{$info.effectivetime}"/>&nbsp;&nbsp;天
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="id" type="hidden" value="{$info.id}">
+			<input type="button" class="admin_submit" value="保存" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onclick="window.location.href='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('gift_edit')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存修改').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+</script>
+</html>

@@ -1,0 +1,180 @@
+<include file="public:header" />
+<div class="toptit">新增分站</div>
+<form action="{:U('Subsite/add')}" method="post" enctype="multipart/form-data" name="form1" id="form1">
+    <div class="form_main width150">
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 分站名称:</div>
+        <div class="fr">
+            <input name="s_sitename" type="text" class="input_text_default small" maxlength="100" value=""/>
+            <label class="no-fl-note">如：太原站</label>
+        </div>
+        <div class="fl"> 分站状态:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="s_display" type="hidden" value="1">
+                <div class="radio select" data="1">可用</div>
+                <div class="radio" data="0">禁用</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 域名绑定:</div>
+        <div class="fr">
+            <div class="select_input_new ws J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">http://</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <li><a class="J_listitme" href="javascript:;" data-code="0">http://</a></li>
+                            <li><a class="J_listitme" href="javascript:;" data-code="1">https://</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="pc_type" id="category" type="hidden" value="0" />
+            </div>
+            <input name="s_domain" type="text" class="input_text_default small" maxlength="100" value=""/>
+            <label class="no-fl-note">请选择'http://'或者'https://'，二级域名，如：0351.rencai.com</label>
+        </div>
+	   <div class="fl">触屏版域名绑定:</div>
+        <div class="fr">
+			 <div class="select_input_new ws J_hoverinput J_dropdown J_listitme_parent">
+				<span class="J_listitme_text">http://</span>
+				<div class="dropdowbox_sn J_dropdown_menu">
+					<div class="dropdow_inner_sn">
+						<ul class="nav_box">
+							<li><a class="J_listitme" href="javascript:;" data-code="0">http://</a></li>
+							<li><a class="J_listitme" href="javascript:;" data-code="1">https://</a></li>
+						</ul>
+					</div>
+				</div>
+				<input class="J_listitme_code" name="mobile_type" id="category" type="hidden" value="0" />
+            </div>
+            <input name="s_m_domain" type="text" class="input_text_default small" maxlength="100" value=""/>
+            <label class="no-fl-note">请选择'http://'或者'https://'，二级域名，如：m0351.rencai.com</label>
+        </div>
+        <div class="fl">网站pc端Logo：</div>
+        <div class="fr J-file-input-box">
+            <if condition="$info['s_pc_logo']">
+                <div class="file-input-src">
+                    <div class="img"><img src="" align=absmiddle></div>
+                    <div class="del file-input-del" id="J_upload_logo_home_btn" name="s_pc_logo">点击更换</div>
+                    <div class="r-note">(建议尺寸240*70)</div>
+                </div>
+            <else/>
+                <div class="file-input-src hid">
+                    <div class="img"></div>
+                    <div class="del file-input-del" id="" name="s_pc_logo">点击更换</div>
+                    <div class="r-note">(建议尺寸240*70)</div>
+                </div>
+                <div class="file-input-block" id="J_upload_logo_home_btn" name="s_pc_logo"><span class="o-txt">上传</span>网站pc端Logo<span class="re-txt">(建议尺寸240*70)</span></div>
+            </if>
+            <input type="hidden" class="file-input-save-name" name="s_pc_logo" value="">
+        </div>
+        <div class="fl">网站触屏端Logo：</div>
+        <div class="fr J-file-input-box">
+            <if condition="$info['s_mobile_logo']">
+                <div class="file-input-src">
+                    <div class="img"><img src="" align=absmiddle></div>
+                    <div class="del file-input-del" id="J_upload_logo_other_btn" name="s_mobile_logo">点击更换</div>
+                    <div class="r-note">(建议尺寸190*45)</div>
+                </div>
+            <else/>
+                <div class="file-input-src hid">
+                    <div class="img"></div>
+                    <div class="del file-input-del" id="" name="s_mobile_logo">点击更换</div>
+                    <div class="r-note">(建议尺寸190*45)</div>
+                </div>
+                <div class="file-input-block" id="J_upload_logo_other_btn" name="s_mobile_logo" ><span class="o-txt">上传</span>网站触屏端Logo<span class="re-txt">(建议尺寸190*45)</span></div>
+            </if>
+            <input type="hidden" class="file-input-save-name" name="s_mobile_logo" value="">
+        </div>
+        <div class="fl">分站排序:</div>
+        <div class="fr">
+            <input name="s_order" id="s_order" type="text" class="input_text_default small" maxlength="8" value="255" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            <label class="no-fl-note">数字越大越靠前</label>
+        </div>
+		<div class="fl">title：</div>
+        <div class="fr">
+            <input name="s_title" type="text" class="input_text_default" value=""/>
+        </div>
+        <div class="fl">Keywords：</div>
+        <div class="fr">
+            <input name="s_keywords" type="text" class="input_text_default" value=""/>
+        </div>
+        <div class="fl">seo_description：</div>
+        <div class="fr">
+            <textarea name="s_description" class="input_text_default" id="s_description" style="line-height:200%; height:150px;"></textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="submit" class="admin_submit" value="添加"/>
+            <input type="button" class="admin_submit" value="返回" onclick="Javascript:window.history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<script type="text/javascript">
+  var uploadUrl = "{:U('Upload/form_upload_subsite_logo')}";
+</script>
+<script src="__ADMINPUBLIC__/js/ajaxfileupload.js"></script>
+<script src="__ADMINPUBLIC__/js/fileupload.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<include file="public:footer" />
+<script>
+	// 上传网站首页Logo
+    $.upload('#J_upload_logo_home_btn',{name:'s_pc_logo',dir:'subsite'},function(result){
+        if(result.error == 1){
+            var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+            $('#J_upload_logo_home_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+            $('#J_upload_logo_home_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+            if ($('#J_upload_logo_home_btn').hasClass('file-input-block')) {
+              $('#J_upload_logo_home_btn').closest('.J-file-input-box').find('.file-input-src').removeClass('hid');
+              var $delObj = $('#J_upload_logo_home_btn').closest('.J-file-input-box').find('.file-input-del');
+              $('#J_upload_logo_home_btn').remove();
+              $delObj.attr('id', "J_upload_logo_home_change_btn");
+              $.upload('#J_upload_logo_home_change_btn',{name:'s_pc_logo',dir:'subsite'},function(result){
+                if(result.error == 1){
+                  var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+                  $('#J_upload_logo_home_change_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+                  $('#J_upload_logo_home_change_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+                } else {
+                  disapperTooltip("remind", "上传失败："+result.message);
+                }
+              })
+            }
+        } else {
+            disapperTooltip("remind", "上传失败："+result.message);
+        }
+    })
+
+    // 上传网站其它页Logo
+    $.upload('#J_upload_logo_other_btn',{name:'s_mobile_logo',dir:'subsite'},function(result){
+      if(result.error == 1){
+        var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+        $('#J_upload_logo_other_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+        $('#J_upload_logo_other_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+        if ($('#J_upload_logo_other_btn').hasClass('file-input-block')) {
+          $('#J_upload_logo_other_btn').closest('.J-file-input-box').find('.file-input-src').removeClass('hid');
+          var $delObj = $('#J_upload_logo_other_btn').closest('.J-file-input-box').find('.file-input-del');
+          $('#J_upload_logo_other_btn').remove();
+          $delObj.attr('id', "J_upload_logo_other_change_btn");
+          $.upload('#J_upload_logo_other_change_btn',{name:'s_mobile_logo',dir:'subsite'},function(result){
+            if(result.error == 1){
+              var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+              $('#J_upload_logo_other_change_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+              $('#J_upload_logo_other_change_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+            } else {
+              disapperTooltip("remind", "上传失败："+result.message);
+            }
+          })
+        }
+      } else {
+        disapperTooltip("remind", "上传失败："+result.message);
+      }
+    })
+
+
+</script>
+</body>
+</html>

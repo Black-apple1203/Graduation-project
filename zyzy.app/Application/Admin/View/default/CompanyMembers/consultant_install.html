@@ -1,0 +1,36 @@
+<include file="public:header" />
+    <table width="100%" border="0" cellpadding="0" cellspacing="0"  id="list" class="link_lan">
+      <tr>
+        <td  class="admin_list_tit admin_list_first">
+          <label id="chkAll"><input type="checkbox" name=" " title="全选/反选" id="chk"/>顾问姓名</label>
+        </td>
+ 
+        <td  width="12%" class="admin_list_tit">顾问QQ</td>
+        <td width="15%" align="center" class="admin_list_tit">操作</td>
+      </tr>
+      <volist name="list" id="vo">
+      <tr >
+        <td class="admin_list admin_list_first" >
+          <input name="id[]" type="checkbox" value="{$vo.id}" />
+           {$vo.name}
+        </td>
+ 
+        <td class="admin_list">
+          {$vo.qq}
+        </td>
+        
+        <td width="15%" align="center" class="admin_list">
+          <a href="{:U('consultant_install_save',array('id'=>$vo['id'],'tuid'=>$tuid))}">保存</a>
+        </td>
+      </tr>
+      </volist>
+    </table>
+  <if condition="!$list">
+  <div class="admin_list_no_info">没有任何信息！</div>
+  </if>
+  
+  <div class="qspage">{$page}</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

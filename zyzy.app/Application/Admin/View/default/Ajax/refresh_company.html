@@ -1,0 +1,23 @@
+<div class="dialog_box">
+    <form action="{:U('Company/refresh_company')}" method="post" name="form" id="form">
+        <volist name="ids" id="vo">
+            <input name="y_id[]" type="hidden" value="{$vo}"/>
+        </volist>
+        <table width="300" border="0" align="center" cellpadding="0" cellspacing="6">
+            <tr>
+                <td height="30" colspan="2"><strong style="color:#0066CC; font-size:14px;">刷新企业的职位：</strong></td>
+            </tr>
+            <tr>
+                <td width="20" height="25">&nbsp;</td>
+                <td>
+                    <label style="color: rgb(0, 153, 0);"><input name="refresh_jobs" type="checkbox" id="refresh_jobs" value="yes" checked/>
+                        同时刷新所选企业的职位</label>
+                </td>
+            </tr>
+            <tr>
+                <td height="25">&nbsp;</td>
+                <td><input type="submit" name="set_audit" value="确定" class="admin_submit"/></td>
+            </tr>
+        </table>
+    </form>
+</div>

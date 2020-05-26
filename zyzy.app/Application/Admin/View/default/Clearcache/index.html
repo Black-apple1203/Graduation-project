@@ -1,0 +1,41 @@
+<include file="public:header" />
+  <div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>当进行了数据恢复、升级或者工作出现异常的时候，您可以使用本功能重新生成缓存。</p>
+    <p>数据缓存：更新网站设置、{:C('qscms_points_byname')}规则、邮件设置等缓存 </p>
+    <p>模板缓存：更新模板、风格等缓存文件，当您修改了模板或者风格，但是没有立即生效的时候使用 </p>
+  </div>
+<form id="form1" name="form1" method="post" action="{:U('index')}"> 
+    <div class="toptit">更新选项</div>
+    <div class="form_main width120" id="selecttplcache">
+        <div class="fl" style="width:50px;"></div>
+        <div class="fr txt ">
+            <label><input  type="checkbox" checked="checked" value="datacache" name="type[]"/> 数据缓存</label> 
+            <label><input id="tplcache" type="checkbox"   value="tplcache" name="type[]" checked="checked"/> 模板缓存</label>
+            <label><input id="logcache" type="checkbox"   value="logcache" name="type[]" checked="checked"/> 日志缓存</label>
+            <label><input id="pagecache" type="checkbox"   value="pagecache" name="type[]" checked="checked"/> 页面缓存</label>
+        </div>
+        <div class="clear"></div>
+        <div class="fl" style="width:50px;"></div>
+        <div class="fr txt">
+            <input name="submit" type="submit" class="admin_submit"    value="清除缓存" onclick="document.getElementById('selecttplcache').style.display='none';document.getElementById('hide').style.display='block';"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="form_main width120" id="hide" style="display:none">
+        <div class="fl" style="width:50px;"></div>
+        <div class="fr txt ">
+            <img src="__ADMINPUBLIC__/images/ajax_loader.gif"  border="0" />
+        </div>
+        <div class="clear"></div>
+        <div class="fl" style="width:50px;"></div>
+        <div class="fr txt"style="color: #009900">
+            正在清除缓存，请稍候......
+        </div>
+        <div class="clear"></div>
+    </div>
+  </form>  
+</div>
+<include file="public:footer" />
+</body>
+</html>

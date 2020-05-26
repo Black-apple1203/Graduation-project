@@ -1,0 +1,283 @@
+<include file="public:header"/>
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>上传大文件建议通过FTP上传在填写远程地址的时候，建议使用“/”或“http://”或“https://”  开头的绝对路径。</p>
+    </div>
+
+<form id="form1" action="{:U('add')}" method="post" enctype="multipart/form-data">
+    <div class="toptit">新增广告</div>
+    <div class="form_main width150">
+        <div class="fl">广告标题(必填):</div>
+        <div class="fr">
+            <input name="title" type="text" class="input_text_default middle" maxlength="50" value=""/>
+            <label class="no-fl-note">(区分不同广告条目，建议填写企业简称)</label>
+        </div>
+        <div class="fl">显示状态:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small select"><input name="is_display" type="hidden" value="1" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">选择分类:</div>
+        <div class="fr">
+            <div class="select_input_new w400 J_hoverinput J_dropdown J_listitme_parent">
+                <span class="J_listitme_text">选择分类</span>
+                <div class="dropdowbox_sn J_dropdown_menu">
+                    <div class="dropdow_inner_sn">
+                        <ul class="nav_box">
+                            <volist name="category_list" id="category">
+                                <li><a class="J_listitme <if condition="$Think.get.alias==$category.alias">list_sel</if>" href="javascript:;" data-code="{$category.id},{$category.type_id},{$category.alias}">{$category.categoryname}</a></li>
+                            </volist>
+                        </ul>
+                    </div>
+                </div>
+                <input class="J_listitme_code" name="category" id="category" type="hidden" value="" />
+            </div>
+            <!-- <select name="category" id="category">
+                <volist name="category_list" id="category">
+                    <option value="{$category.id},{$category.type_id},{$category.alias}" <if condition="$Think.get.alias==$category.alias">selected="selected"</if>>{$category.categoryname}</option>
+                </volist>
+            </select> -->
+            <input name="category_id" id="category_id" type="hidden" value="" />
+            <input name="type_id" id="type_id" type="hidden" value="" />
+            <input name="alias" id="alias" type="hidden" value="" />
+        </div>
+		<if condition="C('qscms_subsite_open') eq 1">
+           <div class="fl">分站:</div>
+		   <div class="fr">
+			   <div class="imgradio">
+				   <input name="subsite_id" type="hidden" value="0">
+				   <volist name="subsite_list" id="subsite">
+					<div class="radio <if condition="$i eq 1">select</if>" data="{$subsite.s_id}">{$subsite.s_sitename}</div>
+					</volist>
+				   <div class="clear"></div>
+			   </div>
+		   </div>
+		</if>
+        <div class="fl">显示顺序:</div>
+        <div class="fr">
+            <input name="show_order" type="text" class="input_text_default small" maxlength="3" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            <label class="no-fl-note">(数字越大越靠前)</label>
+        </div>
+        <div class="fl">开始时间:</div>
+        <div class="fr">
+            <input name="starttime" type="text" class="input_text_default small " id="starttime" maxlength="10" value="{:date('Y-m-d',time())}" autocomplete="off"/>
+            <label class="no-fl-note">(设置广告起始时间，格式yyyy-mm-dd，留空为不限制起始时间)</label>
+        </div>
+        <div class="fl">结束时间:</div>
+        <div class="fr">
+            <input name="deadline" type="text" class="input_text_default small " id="deadline" maxlength="10" value="" autocomplete="off"/>
+            <label class="no-fl-note">(设置广告结束时间，格式yyyy-mm-dd，留空为不限制结束时间)</label>
+        </div>
+        <div class="fl">备注:</div>
+        <div class="fr">
+            <textarea name="note" class="input_text_default middle" style="height: 100px; line-height: 20px;"></textarea>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="adshow" id="show"></div>
+    <div class="form_main width150">
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id" value="{$info.id}">
+            <input type="button" class="admin_submit" value="保存" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script id="adType1" type="text/html">
+    <div class="toptit">文字广告</div>
+    <div class="form_main width150">
+        <div class="fl">文字内容(必填):</div>
+        <div class="fr">
+            <input name="content" type="text" class="input_text_default middle" maxlength="50" value=""/>
+            <label class="no-fl-note">(文字广告的显示内容)</label>
+        </div>
+        <div class="fl">文字链接:</div>
+        <div class="fr">
+            <input name="url" type="text" class="input_text_default middle" maxlength="250" value=""/>
+            <label class="no-fl-note">(如:http://www.74cms.com)</label>
+        </div>
+        <div class="fl">文字颜色:</div>
+        <div class="fr txt">
+            <div class="color_layer">
+                <div id="color_box" onclick="color_box_display()"></div>
+                <input type="hidden" name="text_color" id="tit_color" value="">
+                <include file="public:select_color" />
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+<script id="adType2" type="text/html">
+    <div class="toptit">图片广告</div>
+    <div class="form_main width150">
+        <div class="fl">本地上传:</div>
+        <div class="fr J-file-input-box">
+            <div class="file-input-src hid">
+                <div class="img"></div>
+                <div class="del file-input-del" id="" name="attach_file">点击更换</div>
+            </div>
+            <div class="file-input-block" id="J_upload_ad_img" name="attach_file"><span class="o-txt">上传</span>图片</div>
+            <label class="no-fl-note">(允许格式为gif/jpg/bmp/png，文件大小1000KB)</label>
+            <input type="hidden" class="file-input-save-name" name="attach_file" value="">
+        </div>
+        <div class="fl">或图片地址:</div>
+        <div class="fr">
+            <input name="attach_path" type="text" class="input_text_default small" maxlength="250" value=""/>
+            <label class="no-fl-note">(如/images/logo.gif 或 http://www.baidu.com/img/baidu_logo.gif)</label>
+        </div>
+        <div class="fl">图片链接:</div>
+        <div class="fr">
+            <input name="url" type="text" class="input_text_default middle" maxlength="250" value=""/>
+            <label class="no-fl-note">(如:http://www.74cms.com)</label>
+        </div>
+        <div class="fl">图片说明文字:</div>
+        <div class="fr">
+            <input name="explain" type="text" class="input_text_default middle" maxlength="250" value=""/>
+            <label class="no-fl-note">(如:http://www.74cms.com)</label>
+        </div>
+        <div class="fl">会员UID:</div>
+        <div class="fr">
+            <input name="uid" type="text" class="input_text_default small" maxlength="10" value=""/>
+            <label class="no-fl-note">(设置会员UID后，当鼠标移动到图片上将会显示相关的职位和企业信息)</label>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+<script id="adType3" type="text/html">
+    <div class="toptit">代码广告</div>
+    <div class="form_main width150">
+        <div class="fl">代码(必填):</div>
+        <div class="fr">
+            <textarea name="content" class="input_text_default middle" style="height: 100px; line-height: 20px;"></textarea>
+            <div style=" color: #999999; margin-top: 10px; font-size: 12px;">(请直接输入需要展现的广告代码)</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+<script id="adType4" type="text/html">
+    <div class="toptit">Flash广告</div>
+    <div class="form_main width150">
+        <div class="fl">本地上传:</div>
+        <div class="fr txt">
+            <input name="attach_file" type="file" style="width:200px; height:22px; border:1px #DFDFDF solid; font-size:12px;" id="flash_file" value=""/>
+            <label class="no-fl-note">(允许格式为swf，文件大小1000KB)</label>
+        </div>
+        <div class="fl">或者Flash地址:</div>
+        <div class="fr">
+            <input name="attach_path" type="text" class="input_text_default middle" maxlength="250" value=""/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+<script id="adType5" type="text/html">
+    <div class="toptit">视频广告</div>
+    <div class="form_main width150">
+        <div class="fl">本地上传:</div>
+        <div class="fr txt">
+            <input name="attach_file" type="file" style="width:200px; height:22px; border:1px #DFDFDF solid; font-size:12px;" id="flash_file" value=""/>
+            <label class="no-fl-note">(允许格式为swf/flv/f4v，文件大小5000KB，大文件FTP上传)</label>
+        </div>
+        <div class="fl">或填写路径:</div>
+        <div class="fr">
+            <input name="attach_path" type="text" class="input_text_default middle" maxlength="250" value=""/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</script>
+<script type="text/javascript">
+  var uploadUrl = "{:U('Upload/form_upload')}";
+</script>
+<script src="__ADMINPUBLIC__/js/ajaxfileupload.js"></script>
+<script src="__ADMINPUBLIC__/js/fileupload.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //日期
+        laydate.render({
+            elem: '#starttime' //指定元素
+        });
+        laydate.render({
+            elem: '#deadline' //指定元素
+        });
+        var add_alias="{$Think.get.alias}";
+        //判断是不是添加后继续添加 的，如果是，则恢复广告分类
+        /*if (add_alias==""){
+            selChange($(".J_listitme").eq(0).data('code'));
+        }else{
+            selChange("{$Think.get.category_id},{$Think.get.type_id},{$Think.get.alias}");
+        }*/
+        if ($('.J_listitme.list_sel').length) {
+            var listSelCn = $('.J_listitme.list_sel').text();
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_text').text(listSelCn);
+            selChange($('.J_listitme.list_sel').data('code'));
+        }
+        $(".J_listitme").live('click', function(){
+            selChange($(this).data('code'));
+        })
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('add')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        function selChange(obj){
+            var str=obj.split(",");
+            $("#category_id").val(str[0]);
+            $("#type_id").val(str[1]);
+            $("#alias").val(str[2]);
+            if(str[1] != $('#show').attr('type_id')){
+                $('#show').empty().append($('#adType'+str[1]).html()).attr('type_id',str[1]);
+                upload();
+            }
+        }
+        function upload(){
+            // 上传网站首页Logo
+            $.upload('#J_upload_ad_img',{name:'attach_file',dir:'attach_img'},function(result){
+                if(result.error == 1){
+                  var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+                  $('#J_upload_ad_img').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+                  $('#J_upload_ad_img').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+                  if ($('#J_upload_ad_img').hasClass('file-input-block')) {
+                    $('#J_upload_ad_img').closest('.J-file-input-box').find('.file-input-src').removeClass('hid');
+                    var $delObj = $('#J_upload_ad_img').closest('.J-file-input-box').find('.file-input-del');
+                    $('#J_upload_ad_img').remove();
+                    $delObj.attr('id', "J_upload_ad_img_change_btn");
+                    $.upload('#J_upload_ad_img_change_btn',{name:'attach_file',dir:'attach_img'},function(result){
+                      if(result.error == 1){
+                        var htmlResult = '<img src="'+ result.url.src +'" align=absmiddle>';
+                        $('#J_upload_ad_img_change_btn').closest('.J-file-input-box').find('.file-input-src .img').html(htmlResult);
+                        $('#J_upload_ad_img_change_btn').closest('.J-file-input-box').find('.file-input-save-name').val(result.url.savename);
+                      } else {
+                        disapperTooltip("remind", "上传失败："+result.message);
+                      }
+                    })
+                  }
+                } else {
+                  disapperTooltip("remind", "上传失败："+result.message);
+                }
+            });
+        }
+        upload();
+    });
+</script>
+</html>

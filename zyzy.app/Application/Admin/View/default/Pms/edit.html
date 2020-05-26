@@ -1,0 +1,68 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>此修改无法影响已经收到消息的用户</p>
+</div>
+<div class="toptit">修改消息<if condition="C('qscms_subsite_open') eq 1">({$subsite_list[$info['subsite_id']]['s_sitename']|default="总站"})</if><!--分站标识--></div>
+<div class="form_main width120">
+    <form action="{:U('edit')}" method="post" name="FormData" id="FormData">
+        <div class="fl">接受会员:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="spms_usertype" type="hidden" value="$info['spms_usertype']">
+                <div class="radio <eq name='info.spms_usertype' value='0'>select</eq>" data="0" title="全部会员">全部会员</div>
+                <div class="radio <eq name='info.spms_usertype' value='1'>select</eq>" data="1" title="企业会员">企业会员</div>
+                <div class="radio <eq name='info.spms_usertype' value='2'>select</eq>" data="2" title="个人会员">个人会员</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">消息类型:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="spms_type" type="hidden" value="$info['spms_type']">
+                <div class="radio <eq name='info.spms_type' value='1'>select</eq>" data="1" title="普通消息">普通消息</div>
+                <div class="radio <eq name='info.spms_type' value='2'>select</eq>" data="2" title="注册提醒">注册提醒</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">消息内容:</div>
+        <div class="fr">
+            <textarea name="message" class="input_text_default middle" style="height: 80px; line-height: 20px;">{$info['message']}</textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="spmid" type="hidden" value="{$info.spmid}" />
+            <input type="button" class="admin_submit" value="保存" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </form>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('edit')}",$('#FormData').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

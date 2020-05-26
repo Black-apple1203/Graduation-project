@@ -1,0 +1,340 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>不同的运营阶段您可以选择不同的设置。</p>
+</div>
+<div class="toptit">基本设置</div>
+<form id="form1" action="{:U('index')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">每天允许申请职位:</div>
+        <div class="fr">
+            <input name="apply_jobs_max" type="text" class="input_text_default middle" maxlength="10" value="{:C('qscms_apply_jobs_max')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 个
+        </div>
+        <div class="fl">申请职位要求简历完整度:</div>
+        <div class="fr">
+            <input name="apply_job_min_percent" type="text" class="input_text_default middle" maxlength="10" value="{:C('qscms_apply_job_min_percent')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> %
+            <label class="no-fl-note">(0表示不限制)</label>
+        </div>
+        <div class="fl">上传简历照片大小限制:</div>
+        <div class="fr">
+            <input name="resume_photo_max" type="text" class="input_text_default middle" maxlength="10" value="{:C('qscms_resume_photo_max')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> kb
+        </div>
+        <div class="fl">简历列表数最大为:</div>
+        <div class="fr">
+            <input name="resume_list_max" type="text" class="input_text_default middle" maxlength="10" value="{:C('qscms_resume_list_max')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 条
+            <label class="no-fl-note">(0表示不限制)</label>
+        </div>
+        <div class="fl">刷新简历时间间隔:</div>
+        <div class="fr">
+            <input name="per_refresh_resume_space" type="text" class="input_text_default middle" maxlength="10" value="{:C('qscms_per_refresh_resume_space')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 分钟
+            <label class="no-fl-note">(0表示不限制)</label>
+        </div>
+        <div class="fl">每天刷新简历次数限制:</div>
+        <div class="fr">
+            <input name="per_refresh_resume_time" type="text" class="input_text_default middle" maxlength="10" value="{:C('qscms_per_refresh_resume_time')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 次
+            <label class="no-fl-note">(0表示不限制)</label>
+        </div>
+        <div class="fl">简历姓名默认显示方式:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="default_display_name" type="hidden" value="{:C('qscms_default_display_name')}">
+                <div class="radio <eq name='Think.config.qscms_default_display_name' value='1'>select</eq>" data="1" title="公开">公开</div>
+                <div class="radio <eq name='Think.config.qscms_default_display_name' value='2'>select</eq>" data="2" title="简历编号">简历编号</div>
+                <div class="radio <eq name='Think.config.qscms_default_display_name' value='3'>select</eq>" data="3" title="先生/女士">先生/女士</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">登录后自动刷新简历:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_login_refresh_resume' value='1'>select</eq>">
+                <input name="login_refresh_resume" type="hidden" value="{:C('qscms_login_refresh_resume')}" />
+            </div>
+            <div class="note">（自动刷新默认简历）</div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">是否允许快捷注册简历:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_rapid_registration_resume' value='1'>select</eq>">
+                <input name="rapid_registration_resume" type="hidden" value="{:C('qscms_rapid_registration_resume')}" />
+            </div>
+            <div class="note">（申请职位是否允许前台快捷注册简历）</div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">完善简历送随机红包</div>
+<form id="form2" action="{:U('index')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">是否开启完善简历送红包:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_perfected_resume_allowance_open' value='1'>select</eq>">
+                <input name="perfected_resume_allowance_open" type="hidden" value="{:C('qscms_perfected_resume_allowance_open')}" />
+            </div>
+            <div class="note">（如需开启，请先正确配置微信支付参数）</div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">要求简历完整度达到:</div>
+        <div class="fr">
+            <input name="perfected_resume_allowance_percent" type="text" class="input_text_default small" maxlength="10" value="{:C('qscms_perfected_resume_allowance_percent')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> %
+            <label class="no-fl-note">(完整度达到设定值后自动发放，每个用户ID只发放一次)</label>
+        </div>
+        <div class="fl">红包金额随机范围:</div>
+        <div class="fr">
+            <input name="perfected_resume_allowance_value_min" type="text" class="input_text_default small" maxlength="10" value="{:C('qscms_perfected_resume_allowance_value_min')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> -
+            <input name="perfected_resume_allowance_value_max" type="text" class="input_text_default small" maxlength="10" value="{:C('qscms_perfected_resume_allowance_value_max')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 元
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit2"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">显示设置</div>
+<form id="form3" action="{:U('index')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">简历显示:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="resume_display" type="hidden" value="{:C('qscms_resume_display')}">
+                <div class="radio <eq name='Think.config.qscms_resume_display' value='1'>select</eq>" data="1" title="先审核再显示">先审核再显示</div>
+                <div class="radio <eq name='Think.config.qscms_resume_display' value='2'>select</eq>" data="2" title="先显示再审核">先显示再审核</div>
+                <label class="note-radio">（先显示后审核可提高用户体验和程序执行效率)</label>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">简历照片/作品:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="resume_img_display" type="hidden" value="{:C('qscms_resume_img_display')}">
+                <div class="radio <eq name='Think.config.qscms_resume_img_display' value='1'>select</eq>" data="1" title="先审核再显示">先审核再显示</div>
+                <div class="radio <eq name='Think.config.qscms_resume_img_display' value='2'>select</eq>" data="2" title="先显示再审核">先显示再审核</div>
+                <label class="note-radio">（先显示后审核可提高用户体验和程序执行效率)</label>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">简历列表默认显示方式:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="resume_list_show_type" type="hidden" value="{:C('qscms_resume_list_show_type')}">
+                <div class="radio <if condition="C('qscms_resume_list_show_type') eq 1">select</if>" data="1" title="先审核再显示">详细</div>
+                <div class="radio <if condition="C('qscms_resume_list_show_type') eq 2">select</if>" data="2" title="先显示再审核">列表</div>
+                <label class="note-radio">（简历搜索页，简历显示方式)</label>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit3"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">查看联系方式设置<span style="color: #999999; font-size: 12px;">（如此项为“游客”或“已登录会员”，网站将会失去重要赢利点）</span></div>
+<form id="form4" action="{:U('index')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">web端允许查看联系方式:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="showresumecontact" type="hidden" value="{:C('qscms_showresumecontact')}">
+                <div class="radio <eq name='Think.config.qscms_showresumecontact' value='0'>select</eq>" data="0" title="游客">游客</div>
+                <div class="radio <eq name='Think.config.qscms_showresumecontact' value='1'>select</eq>" data="1" title="已登录会员">已登录会员</div>
+                <div class="radio <eq name='Think.config.qscms_showresumecontact' value='2'>select</eq>" data="2" title="下载后可见">下载后可见</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">移动端允许查看联系方式:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="showresumecontact_wap" type="hidden" value="{:C('qscms_showresumecontact_wap')}">
+                <div class="radio <eq name='Think.config.qscms_showresumecontact_wap' value='0'>select</eq>" data="0" title="游客">游客</div>
+                <div class="radio <eq name='Think.config.qscms_showresumecontact_wap' value='1'>select</eq>" data="1" title="已登录会员">已登录会员</div>
+                <div class="radio <eq name='Think.config.qscms_showresumecontact_wap' value='2'>select</eq>" data="2" title="下载后可见">下载后可见</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit4"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">联系方式图形化<span style="color: #999999; font-size: 12px;">（图形化需要将中文字体文件上传到data/contactimgfont/，字体文件命名为“cn.ttc”)</span></div>
+<form id="form5" action="{:U('index')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">简历联系方式:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="contact_img_resume" type="hidden" value="{:C('qscms_contact_img_resume')}">
+                <div class="radio <eq name='Think.config.qscms_contact_img_resume' value='1'>select</eq>" data="1" title="文字">文字</div>
+                <div class="radio <eq name='Think.config.qscms_contact_img_resume' value='2'>select</eq>" data="2" title="图形化">图形化</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit5"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">简历下载设置</div>
+<form id="form6" action="{:U('index')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">简历下载要求:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="down_resume_limit" type="hidden" value="{:C('qscms_down_resume_limit')}">
+                <div class="radio <eq name='Think.config.qscms_down_resume_limit' value='1'>select</eq>" data="1" title="已登录且有发布职位的企业">已登录且有发布职位的企业</div>
+                <div class="radio <eq name='Think.config.qscms_down_resume_limit' value='3'>select</eq>" data="3" title="已认证企业">已认证企业</div>
+                <div class="radio <eq name='Think.config.qscms_down_resume_limit' value='0'>select</eq>" data="0" title="已认证企业">不限</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit6"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit6').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('index')}",$('#form6').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        $('#J_submit5').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('index')}",$('#form5').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        $('#J_submit4').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('index')}",$('#form4').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        $('#J_submit3').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('index')}",$('#form3').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        $('#J_submit2').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('index')}",$('#form2').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('index')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,81 @@
+<include file="public:header"/>
+
+<div class="toptit">修改新闻分类</div>
+<form id="form1" action="{:U('edit')}" method="post" name="FormData">
+    <div class="form_main width150">
+        <div class="fl">名称:</div>
+        <div class="fr">
+            <input name="categoryname" type="text" class="input_text_default middle" maxlength="30" value="{$info.categoryname}"/>
+        </div>
+        <div class="fl">所属分类:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="parentid" type="hidden" value="{$info.parentid}">
+                <div class="radio <eq name='info.parentid' value='0'>select</eq>" data="0" title="顶级分类">顶级分类</div>
+                <volist name="article_category" id="category">
+                    <div class="radio <eq name='info.parentid' value='$key'>select</eq>" data="{$key}" title="{$category}">{$category}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+            <!--<select name="type_id" id="type_id">
+                <option value="0" <eq name='info.parentid' value='0'>selected="selected"</eq>>顶级分类</option>
+                <volist name="article_category" id="category">
+                    <option value="{$key}" <eq name='info.parentid' value='$key'>selected="selected"</eq>>{$category}</option>
+                </volist>
+            </select>-->
+        </div>
+        <div class="fl">排序:</div>
+        <div class="fr">
+            <input name="category_order" type="text" class="input_text_default middle" maxlength="3" value="{$info.category_order}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" placeholder="数字越大越靠前，默认是0"/>
+            <label class="no-fl-note">(数字越大越靠前)</label>
+        </div>
+        <div class="fl">Title:</div>
+        <div class="fr">
+            <input name="title" type="text"  class="input_text_default middle" maxlength="30" value="{$info.title}"/>
+            <label class="no-fl-note">(不填则为分类名称)</label>
+        </div>
+        <div class="fl">Keywords:</div>
+        <div class="fr">
+            <input name="keywords" type="text"  class="input_text_default middle" maxlength="150" value="{$info.keywords}" placeholder="合理设置Keywords有利于搜索引擎排名"/>
+        </div>
+        <div class="fl">Description:</div>
+        <div class="fr">
+            <textarea name="description" type="text" class="input_text_default middle" style="height: 100px; line-height: 180%;" maxlength="150" placeholder="合理设置Description有利于搜索引擎排名"/>{$info.description}</textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="id" type="hidden" value="{$info.id}" />
+            <input type="button" class="admin_submit" value="保存" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('edit')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存修改').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

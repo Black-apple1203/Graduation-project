@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<qscms:help_show 列表名="info" id="$_GET['id']"/>
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/help.css" rel="stylesheet" type="text/css" />
+	<script src="{:C('TPL_PUBLIC_DIR')}/js/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="help_banner"></div>
+<div class="helpshow">
+
+  <div class="l">
+	<div class="catbox">
+	<qscms:help_category 列表名="category" 大类="0" />
+	<volist name="category" id="vo">
+	  <div class="titl">{$vo['title_']}</div>
+	  <ul class="link_gray6">
+	  <qscms:help_category 列表名="subcate" 大类="$vo['id']" />
+	  <volist name="subcate" id="v">
+	  <li><a href="{$v['url']}">{$v['title_']}</a></li>
+	  </volist>
+	  </ul>
+	</volist>
+	</div>
+  </div>
+  <div class="r">
+    <div class="main">
+  	  <div class="titl">{$info['title']}</div>
+      <div class="txt">
+        {$info['content']}
+	  </div>
+    </div>
+  </div>
+  <div class="clear"></div>
+</div>
+<include file="public:footer_min" />
+<script type="text/javascript">
+	$(document).ready(function(){
+		$.getJSON("{:U('ajaxCommon/help_click')}",{id:"{$info['id']}"},function(result){
+			if(result.status==1){
+				$(".click").html(result.data);
+			}
+		});
+	});
+</script>
+</body>
+</html>

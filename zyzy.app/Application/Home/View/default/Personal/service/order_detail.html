@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/personal/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/personal/personal_user.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+    <include file="public:header_other" />
+    <div class="us-top">
+        <div class="us-main">
+            <div class="us-top-box">
+                <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                    <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                    <div class="se-btn"><input type="submit" value="搜 索"></div>
+                    <div class="clear"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+		<div class="user_main">
+			<include file="Personal:index_left_nav" />
+			<div class="mainbox">
+				<!--职位切换卡 -->
+				<div class="tab">
+					<a class="li J_hoverbut" href="{:U('task')}" >我的{:C('qscms_points_byname')}</a>
+					<a class="li J_hoverbut " href="{:U('task')}" >我的任务</a>
+					<a class="li J_hoverbut " href="{:U('increment')}">增值服务</a>
+					<a class="li select ">服务订单</a>
+					<notempty name="apply['Mall']">
+						<a class="li J_hoverbut " href="{:U('order_list_goods')}">商城订单</a>
+					</notempty>
+				  	<div class="clear"></div>
+				</div>
+				<!--切换卡结束 -->
+				<div class="point_title_group1">
+					<div><div class="left_border"></div></div>
+					<div class="title_left">订单概要</div>
+					<div class="title_right link_blue">
+						订单状态：
+						<if condition="$order['is_paid'] eq 3">
+						<span class="grey">已取消</span>  
+						<elseif condition="$order['is_paid'] eq 2" />
+						<span class="grean">已支付</span>
+						<else />
+						<span class="red">待付款</span>
+						</if>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="order_info_group">
+					<div class="info_float_line">
+						<div class="left_line">订单编号：{$order['oid']}</div>
+						<div class="right_line">订单类型：{$order_type_cn}</div>
+						<div class="clear"></div>
+					</div>
+					<div class="info_float_line">
+						<div class="left_line">创建时间：{:date('Y-m-d H:i:s',$order['addtime'])}</div>
+						<div class="right_line">支付时间：<eq name="order['payment_time']" value="0">未支付<else />{:date('Y-m-d H:i:s',$order['payment_time'])}</eq></div>
+						<div class="clear"></div>
+					</div>
+					<div class="info_all_line">
+						支付状态：
+						<if condition="$order['is_paid'] eq 3">
+						<span class="grey">已取消</span>  
+						<elseif condition="$order['is_paid'] eq 1" />
+						<span class="red">待付款</span>
+						<else />
+							<span class="grean">已支付</span>  
+							<span class="orange">￥{$order['amount']}</span>
+							 = 
+							<span class="small">
+							<if condition="$order['pay_type'] eq 2">
+							（{$order['payment_cn']}：￥{$order['pay_amount']}）
+							<elseif condition="$order['pay_type'] eq 1" />
+							（{:C('qscms_points_byname')}支付：{$order['pay_points']}{:C('qscms_points_byname')}）
+							<else />
+							（{$order['payment_cn']}：￥{$order['pay_amount']}） + 
+							（{:C('qscms_points_byname')}支付：{$order['pay_points']}{:C('qscms_points_byname')}）
+							</if>
+							</span>
+						</if>
+					</div>
+				</div>
+				<div class="point_title_group1">
+					<div><div class="left_border"></div></div>
+					<div class="title_left">订单内容</div>
+					<div class="clear"></div>
+				</div>
+				<div class="order_info_group">
+					<div class="info_float_line line_head">
+						<div class="line line1">服务类型</div>
+						<div class="line line2">服务项目内容</div>
+						<div class="line line3">服务价格</div>
+						<if condition="$order['is_paid'] eq 1 || $order['is_paid'] eq 3">
+							<div class="line line4">服务时长</div>
+							<else/>
+							<div class="line line4">服务到期时间</div>
+						</if>
+						<div class="clear"></div>
+					</div>
+					<div class="info_float_line">
+						<div class="line line1">{$order_type_cn}</div>
+						<div class="line line2">
+						<if condition="$order['order_type'] neq 4">
+						{$order['service_name']}
+						<else />
+						<div class="lab">{$order['service_name']}</div>
+						</if>
+						</div>
+						<div class="line line3">￥{$order['amount']}</div>
+						<div class="line line4">
+							<if condition="$order['is_paid'] eq 1 || $order['is_paid'] eq 3">
+								{$order['params']['days']}天
+							<elseif condition="$order['params']['days']"/>
+								{:date('Y-m-d',$order['payment_time']+$order['params']['days']*3600*24)}
+							<else />
+							--
+							</if>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<eq name="order['is_paid']" value="1">
+				<div class="point_title_group1">
+					<div><div class="left_border"></div></div>
+					<div class="title_left">订单支付</div>
+					<div class="clear"></div>
+				</div>
+				<div class="order_info_group">
+					<div class="info_float_line1">
+						<div class="left_line">支付方式：</div>
+						<div class="right_line">
+							<if condition="$order['pay_type'] eq 2 || $order['pay_type'] eq 3">
+							<div class="rights J_forpaycash">
+								<div typename="{$order['payment']}" class="select pays J_hoverbut"><img src="../public/images/pay_{$order['payment']}.png" border="0"/><div class="hook"></div></div>
+								<div class="clear"></div>	
+						  	</div>
+						  	<elseif condition="$order['pay_type'] eq 1"/>
+							<span class="service_title">{$order['payment_cn']}</span>
+						  	</if>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+				<div class="order_info_group forpay" style="display:block">
+					<div class="info_float_line1">
+						<div class="left_line">应付金额：</div>
+						<div class="right_line link_blue"><span class="service_title"><span class="orange">{$order['pay_amount']}</span></span> 元&nbsp;&nbsp;&nbsp;&nbsp;
+						<if condition="$order['fee'] gt 0">
+						<span class="font_gray6">含手续费<span class="orange">{$order['fee']}</span>元</span>&nbsp;&nbsp;
+						</if>
+						<if condition="$order['pay_type'] eq 3">
+						(使用 <span class="orange">{$order['pay_points']}</span> {:C('qscms_points_byname')}抵扣 <span class="orange">{:floatval($order['pay_points']/$payment_rate)}</span> 元)
+						</if>
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="order_info_group">
+						<div class="info_float_line1">
+							<div class="btn_yellow J_hoverbut btn_115_38 fl" id="pay_submit">立即支付</div>
+							<div class="btn_lightgray J_hoverbut btn_115_38 btn_border fl cancel_order">取消订单</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+				</eq>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="Personal:index_footer" />
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#pay_submit").click(function(){
+					if("{$order['payment']}"=='wxpay'){
+						var qsDialog = $(this).dialog({
+			        		title: '微信支付',
+							loading: true,
+							showFooter: false
+						});
+						$.ajax({
+			                cache: true,
+			                type: "GET",
+			                url:"{:U('order_pay_repeat',array('id'=>$order['id']))}",
+			                dataType:"json",
+			                success: function(result) {
+			                    if(result.status==1){
+			                    	qsDialog.setContent("<img src='"+result.data+"' alt='扫描二维码' width='250' height='250' />");
+									window.setInterval(run, 5000);
+			                    }else{
+			                    	qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+									return false;
+			                    }
+			                }
+			            });
+					}else{
+						var url = "{:U('PersonalService/confirm_pay_status')}";
+						var qsDialog=$(this).dialog({
+							title: '确认支付',
+							loading: true,
+							border: false,
+							yes: function() {
+								window.location.href="{:U('PersonalService/order_list')}";
+							},
+							cancel:function(){
+								window.location.reload();
+							}
+						});
+						$.getJSON(url,function(result){
+			        		if(result.status == 1){
+			        			qsDialog.setContent(result.data.html);
+			        			qsDialog.setBtns(['支付完成', '遇到问题']);
+			        		}else{
+			        			disapperTooltip('remind',result.msg);
+			        		}
+			        	});
+						window.open("{:U('order_pay_repeat',array('id'=>$order['id']))}");
+					}
+				});
+				function run(){
+		            $.getJSON("{:U('check_weixinpay_notify')}",function(result){
+		                if(result.status==1){
+		                   location.href=result.data;
+		                }
+		            });
+		        }
+		        $(".cancel_order").click(function(){
+					var url = "{:U('order_cancel')}";
+					var id = "{$order['id']}";
+					var qsDialog=$(this).dialog({
+						title: '取消订单',
+						loading: true,
+						border: false,
+						yes: function() {
+							$.post(url,{id:id},function(result){
+				        		if(result.status == 1){
+				        			disapperTooltip('success',result.msg);
+				        			setTimeout(function () {
+				                        window.location.href="{:U('PersonalService/order_list')}";
+				                    }, 2000);
+				        		}else{
+				        			disapperTooltip('remind',result.msg);
+				        		}
+				        	},'json');
+						}
+					});
+					$.getJSON(url,{id:id},function(result){
+		        		if(result.status == 1){
+		        			qsDialog.setContent(result.data.html);
+		        		}else{
+		        			disapperTooltip('remind',result.msg);
+		        		}
+		        	});
+				});
+			});
+		</script>
+	</body>
+</html>

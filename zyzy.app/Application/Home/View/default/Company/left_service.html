@@ -1,0 +1,18 @@
+<div class="left_jobs">
+  <div class="li link_gray6 J_hoverbut t11 <if condition="$left_nav eq 'setmeal'">select</if>" onclick="window.location='{:U('CompanyService/index')}'"><a href="{:U('CompanyService/index')}">我的套餐</a></div>
+  <div class="li link_gray6 J_hoverbut t12 <if condition="$left_nav eq 'points'">select</if>" onclick="window.location='{:U('CompanyService/points')}'"><a href="{:U('CompanyService/points')}">我的{:C('qscms_points_byname')}</a></div>
+  <div class="li link_gray6 J_hoverbut t13 <if condition="$left_nav eq 'increment'">select</if>" onclick="window.location='{:U('CompanyService/increment')}'"><a href="{:U('CompanyService/increment')}">增值服务</a></div>
+  <div class="li link_gray6 J_hoverbut t14 <if condition="$left_nav eq 'order_list'">select</if>" onclick="window.location='{:U('CompanyService/order_list')}'"><a href="{:U('CompanyService/order_list')}">我的订单</a></div>
+  <div class="li link_gray6 J_hoverbut t15 <if condition="$left_nav eq 'company_tpl'">select</if>" onclick="window.location='{:U('company/company_tpl')}'"><a href="{:U('company/company_tpl')}">模板切换</a></div>
+  <notempty name="apply['Rpo']">
+    <div class="li link_gray6 J_hoverbut t23 <if condition="$left_nav eq 'rpo'">select</if>" onclick="window.location='{:U('Home/CompanyService/rpo')}'"><a href="{:U('Home/CompanyService/rpo')}">招聘外包</a></div>
+  </notempty>
+  <if condition="C('qscms_open_give_gift') eq 1">
+  <div class="li link_gray6 J_hoverbut t25 <if condition="$left_nav eq 'gifts'">select</if>" onclick="window.location='{:U('CompanyService/gifts')}'"><a href="{:U('CompanyService/gifts')}">优惠券<span style="color:red">({$gift_issue_count})<span></a></div>
+  </if>
+  <div class="li link_gray6 J_hoverbut t25 <if condition="$left_nav eq 'subject_list'">select</if>" onclick="window.location='{:U('Company/subject_list')}'"><a href="{:U('Company/subject_list')}">网络招聘会</a></div>
+  <!-- -->
+  <include file="Company:left_complaint" />
+ <!-- -->
+</div>
+

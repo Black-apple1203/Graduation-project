@@ -1,0 +1,26 @@
+<div class="mantit" style="margin-top:15px; margin-bottom: 8px;"><strong>营业执照</strong></div>
+<if condition="$info['certificate_img']">
+<table width="460" border="0" cellspacing="12" cellpadding="0" class="link_blue" style="margin-left: 30px; margin-bottom: 20px;">
+    <tr>
+        <td width="225">
+            <a href="{:attach($info['certificate_img'],'certificate_img')}" target="_blank"><img src="{:attach($info['certificate_img'],'certificate_img')}" width="225" height="136" border="1"  style="border: #CCCCCC;" /></a>
+        </td>
+        <td width="220" style="line-height:180%;">
+            企业全称：{$info['companyname']}<br />
+            认证状态：
+            <eq name='info.audit' value='1'>认证通过</eq>
+            <eq name='info.audit' value='2'>等待认证</eq>
+            <eq name='info.audit' value='3'>认证未通过</eq>
+            <br />
+        </td>
+    </tr>
+</table>
+<else />
+<table width="460" border="0" cellspacing="12" cellpadding="0" class="link_blue" style="margin-left: 30px; margin-bottom: 20px;">
+    <tr>
+        <td width="225">
+            该企业未上传营业执照
+        </td>
+    </tr>
+</table>
+</if>

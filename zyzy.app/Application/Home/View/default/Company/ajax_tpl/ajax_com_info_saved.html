@@ -1,0 +1,18 @@
+<div class="batch_delivery">
+    <div class="result_info">
+    <div class="top_txt">企业资料保存成功!</div>
+    </div>
+    <if condition="$points">
+        <div class="tips_info">
+            完善企业资料获得 <span class="yellow_light">+{$points}</span> {:C('qscms_points_byname')}！
+        </div>
+    </if>
+    <div class="txt_center">
+        <div class="tabs_group">
+            <a href="{:U('Company/jobs_add')}" class="tab_box"><span class="txt">发布职位</span></a>
+            <a href="{:U('Company/index')}" class="tab_box"><span class="txt icon2">会员中心</span></a>
+            <a href="{:U('Company/com_info')}" class="tab_box last"><span class="txt icon1">继续修改</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

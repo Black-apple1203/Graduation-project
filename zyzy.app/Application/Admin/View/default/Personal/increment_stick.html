@@ -1,0 +1,70 @@
+<include file="public:header"/>
+
+<div class="seltpye_x">
+    <div class="left">推广类型</div>
+    <div class="right">
+        <a href="{:P(array('type'=>'stick'))}" <if condition="$Think.get.type eq '' OR $Think.get.type eq 'stick'">class="select"</if>>置顶</a>
+        <a href="{:P(array('type'=>'tag'))}" <eq name='Think.get.type' value='tag'>class="select"</eq>>醒目标签</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<form action="{:U('increment_stick_save_sort')}" method="post" name="FormData">
+    <div class="list_th">
+        <div class="td" style=" width:30%;">
+            <div class="left_padding">服务名称</div>
+        </div>
+        <div class="td" style=" width:20%;">类型</div>
+        <div class="td" style=" width:20%;">服务价</div>
+        <div class="td" style=" width:20%;">排序<span style="color: #999999;">(数字越大越靠前)</span></div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_blue">
+            <div class="td" style=" width:30%;">
+                <div class="left_padding striking">
+                    <a href="{:U('increment_stick_edit',array('id'=>$vo['id']))}">置顶 {$vo.days} 天</a>
+                </div>
+            </div>
+            <div class="td" style=" width:20%;">置顶</div>
+            <div class="td" style=" width:20%;"><strong style="color:#FF6600">{$vo['points']}</strong> {:C('qscms_points_byname')}</div>
+            <div class="td" style=" width: 20%;">
+                <input type="hidden" name="id[]" value="{$vo['id']}">
+                <input type="text" class="input_text_default small" name="sort[]" value="{$vo['sort']}" maxlength="3" style="width: 50px;">
+            </div>
+            <div class="td edit" style=" width:10%;">
+                <a href="{:U('increment_stick_edit',array('id'=>$vo['id']))}">修改</a>
+                <a href="{:U('increment_stick_del',array('id'=>$vo['id']))}" onclick="return confirm('你确定要删除吗？')" class="gray">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButSort" value="保存排序"/>
+        <input type="button" class="admin_submit" id="ButAdd" value="新增" onclick="window.location.href='{:U('increment_stick_add')}'"/>
+    </div>
+    <div class="footso"></div>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //保存排序
+        $("#ButSort").click(function () {
+            $("form[name=FormData]").submit();
+        });
+    });
+</script>
+</html>

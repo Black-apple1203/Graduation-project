@@ -1,0 +1,34 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p><font color="red">请严格按照以下3种规则书写，否则可能造成后台无法访问！</font></p>
+    <p>多个规则自上而下依次匹配</p>
+    <p>ip规则不限制请留空</p>
+    <p>系统自动根据ip地址获取归属城市，与白名单城市比较，符合条件时可以访问。多个用“|”隔开，不限制城市请留空</p>
+    <p>【规则1】：<font color="red">192.168.1.1</font></p>
+    <p>【规则2】：<font color="red">192.168.1.*</font></p>
+    <p>【规则3】：<font color="red">192.168.1.1-192.168.1.100</font></p>
+    <p>多个ip地址规则请用“|”隔开：<font color="red">192.168.1.1|192.168.1.2|192.168.1.3-192.168.1.100|192.168.2.*</font></p>
+</div>
+<form action="{:U('safety/backend_allow_ip')}" method="post"  name="form1" id="form1">
+    <div class="toptit">后台访问IP白名单</div>
+    <div class="form_main width200">
+        <div class="fl">ip规则：</div>
+        <div class="fr">
+            <textarea name="backend_allow_ip" class="input_text_default" style="height:100px;" id="agreement">{:C('qscms_backend_allow_ip')}</textarea>
+        </div>
+        <div class="fl">允许城市：</div>
+        <div class="fr">
+            <input name="backend_allow_city" type="text" class="input_text_default" maxlength="150" value="{:C('qscms_backend_allow_city')}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit2" type="submit" class="admin_submit" value="保存修改"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+</body>
+</html>

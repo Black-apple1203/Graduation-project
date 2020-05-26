@@ -1,0 +1,59 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>短信内容不能超过70个字！</p>
+</div>
+<div class="toptit">新增短信任务</div>
+<form id="form1" name="form1" method="post"   action="{:U('smsqueue_batchadd')}" >
+    <div class="form_main width150">
+        <div class="fl">发送内容：</div>
+        <div class="fr">
+            <textarea name="s_body" class="input_text_default" id="s_body" style="height:80px;width:300px;"  onpropertychange="if(this.value.length&gt;70){this.value=this.value.slice(0,70)}"></textarea> 内容超过70个字符将自动截取
+        </div>
+        <div class="fl">短信模板ID：</div>
+        <div class="fr">
+            <input name="s_tplid" type="text" maxlength="100" class="input_text_default middle" value=""/> 
+            如需报备请填写报备后的模板ID，否则留空
+        </div>
+        <div class="fl">收件会员：</div>
+        <div class="fr">
+          <div class="imgradio">
+              <input name="selutype" type="hidden" value="">
+              <div class="radio select" data="0" title="不限">不限</div>
+              <div class="radio" data="1" title="企业会员">企业会员</div>
+              <div class="radio" data="2" title="个人会员">个人会员</div>
+              <div class="clear"></div>
+          </div>
+        </div>
+        <div class="fl">登录时间：</div>
+        <div class="fr">
+          <div class="imgradio">
+              <input name="selsettr" type="hidden" value="">
+              <div class="radio select" data="0" title="不限">不限</div>
+              <div class="radio" data="7" title="一周未登录">一周未登录</div>
+              <div class="radio" data="30" title="一月未登录">一月未登录</div>
+              <div class="clear"></div>
+          </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+         <input name="submit3" type="submit" class="admin_submit"    value="添加"/>
+                        <input name="submit22" type="button" class="admin_submit"    value="返回" onclick="Javascript:window.history.go(-1)"/>
+                        <input name="submit22" type="button" class="admin_submit"  action="{:U('export_info')}"  id="export_info" value="导出信息" />
+        </div>
+        <div class="clear"></div>
+    </div>
+        </form>
+    </div>
+    <include file="public:footer" />
+    <script type="text/javascript">
+    $(document).ready(function(){
+    $("#export_info").click(function(){
+    
+    $("form[id=form1]").attr("action",$(this).attr("action"));
+    $("form[id=form1]").submit();
+    })
+    })
+    </script>
+</body>
+</html>

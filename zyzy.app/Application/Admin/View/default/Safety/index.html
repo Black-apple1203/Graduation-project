@@ -1,0 +1,153 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p class="link_green_line">骑士人才系统已集成多种渠道安全验证，使用验证需正确配置相关渠道信息。</p>
+    <p class="link_green_line">配置极验渠道请先<a href="http://www.geetest.com" target="_blank">申请极验密钥</a>，配置Vaptcha手势验证请先<a href="https://www.vaptcha.com/" target="_blank">申请Vaptcha密钥</a>，配置腾讯验证请先<a href="https://cloud.tencent.com/product/captcha" target="_blank">申请腾讯密钥</a>。</p>
+</div>
+<form id="form1">
+    <div class="toptit">PC端极验设置</div>
+    <div class="form_main width150">
+        <div class="fl">开启验证：</div>
+        <div class="fr">
+            <div data-code="0,1" class="J_gt imgchecked_small <if condition="C('qscms_captcha_open') eq 1">select</if>"><input name="captcha_open" type="hidden" value="{:C('qscms_captcha_open')}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div id="gtBox" <if condition="C('qscms_captcha_open') eq 0">style="display:none;"</if>>
+            <div class="fl">验证渠道：</div>
+            <div class="fr">
+                <div class="imgradio J_job_pw_type">
+                    <input name="captcha_type" type="hidden" value="{:C('qscms_captcha_type')}">
+                    <div class="radio {:C('qscms_captcha_type')=='geetest' ? 'select' : ''}" data="geetest" title="极验">极验</div>
+                    <div class="radio {:C('qscms_captcha_type')=='vaptcha' ? 'select' : ''}" data="vaptcha" title="vaptcha">vaptcha(手势验证)</div>
+                    <div class="radio {:C('qscms_captcha_type')=='tencent' ? 'select' : ''}" data="tencent" title="tencent">腾讯</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="J_type" data="geetest" <if condition="C('qscms_captcha_type') neq 'geetest'">style="display:none"</if>>
+                <div class="fl">验证ID：</div>
+                <div class="fr">
+                    <input name="captcha_geetest[id]" type="text" class="input_text_default" value="{:C('qscms_captcha_geetest.id')}"/>
+                </div>
+                <div class="fl">验证KEY：</div>
+                <div class="fr">
+                    <input name="captcha_geetest[key]" type="text" class="input_text_default" value="{:C('qscms_captcha_geetest.key')}"/>
+                </div>
+            </div>
+            <div class="J_type" data="vaptcha" <if condition="C('qscms_captcha_type') neq 'vaptcha'">style="display:none"</if>>
+                <div class="fl">验证ID：</div>
+                <div class="fr">
+                    <input name="captcha_vaptcha[id]" type="text" class="input_text_default" value="{:C('qscms_captcha_vaptcha.id')}"/>
+                </div>
+                <div class="fl">验证KEY：</div>
+                <div class="fr">
+                    <input name="captcha_vaptcha[key]" type="text" class="input_text_default" value="{:C('qscms_captcha_vaptcha.key')}"/>
+                </div>
+            </div>
+            <div class="J_type" data="tencent" <if condition="C('qscms_captcha_type') neq 'tencent'">style="display:none"</if>>
+                <div class="fl">验证ID：</div>
+                <div class="fr">
+                    <input name="captcha_tencent[id]" type="text" class="input_text_default" value="{:C('qscms_captcha_tencent.id')}"/>
+                </div>
+                <div class="fl">验证KEY：</div>
+                <div class="fr">
+                    <input name="captcha_tencent[key]" type="text" class="input_text_default" value="{:C('qscms_captcha_tencent.key')}"/>
+                </div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit1" id="J_submit1" type="button" class="admin_submit" value="保存"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<form id="form2" >
+    <div class="toptit">验证项目</div>
+    <div class="form_main width150">
+        <div class="fl">手机验证：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_captcha_config.varify_mobile') eq 1">select</if>"><input name="captcha_config[varify_mobile]" type="hidden" value="{:C('qscms_captcha_config.varify_mobile')}" /></div>
+            <div class="note">（开启后，用户在注册、验证手机号发送短信时发起验证）</div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">意见/建议：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_captcha_config.varify_suggest') eq 1">select</if>"><input name="captcha_config[varify_suggest]" type="hidden" value="{:C('qscms_captcha_config.varify_suggest')}" /></div>
+            <div class="note">（开启后，用户在提交意见建议时发起验证）</div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">会员登录：</div>
+        <div class="fr">
+            <input name="captcha_config[user_login]" type="text" class="input_text_default small" value="{:C('qscms_captcha_config.user_login')}"/>
+            <label class="no-fl-note">（填写数字，0为开启验证码，如设置为3，则错误3次才发起验证）</label>
+        </div>
+        <div class="fl">后台登录：</div>
+        <div class="fr">
+            <input name="captcha_config[admin_login]" type="text" class="input_text_default small" value="{:C('qscms_captcha_config.admin_login')}"/>
+            <label class="no-fl-note">（填写数字，0为开启验证码，如设置为3，则错误3次才发起验证）</label>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit2" id="J_submit2" type="button" class="admin_submit" value="保存"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+<script src="https://static.geetest.com/static/tools/gt.js"></script>
+<script type="text/javascript">
+      $(".J_gt").click(function(){
+        if($(this).hasClass('select')){
+          $("#gtBox").hide();
+        }else{
+          $("#gtBox").show();
+        }
+      })
+    $('.J_job_pw_type .radio').click(function(){
+        var type = $(this).attr('data');
+        $('.J_type').hide();
+        $('.J_type[data="'+type+'"]').show();
+    });
+    $('#J_submit1').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('safety/index')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+    $('#J_submit2').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('safety/index')}",$('#form2').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

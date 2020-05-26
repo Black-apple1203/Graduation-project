@@ -1,0 +1,58 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>不同的运营阶段您可以选择不同的设置。</p>
+</div>
+<div class="toptit">{:C('qscms_points_byname')}设置</div>
+<form id="form1" action="{:U('set_points')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">允许企业充值{:C('qscms_points_byname')}:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_enable_com_buy_points' value='1'>select</eq>"><input name="enable_com_buy_points" type="hidden" value="{:C('qscms_enable_com_buy_points')}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">充值比例（1元等于）:</div>
+        <div class="fr">
+            <input name="payment_rate" type="text" class="input_text_default small" maxlength="10" value="{:C('qscms_payment_rate')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> {:C('qscms_points_quantifier')}{:C('qscms_points_byname')}
+            <span class="no-fl-note">(充值人民币与积分兑换比例，在购买服务时积分抵扣现金也是此比例)</span>
+        </div>
+        <div class="fl">充值下限:</div>
+        <div class="fr">
+            <input name="com_buy_points_min" type="text" class="input_text_default small" maxlength="10" value="{:C('qscms_com_buy_points_min')}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> {:C('qscms_points_quantifier')}{:C('qscms_points_byname')}
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('set_points')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

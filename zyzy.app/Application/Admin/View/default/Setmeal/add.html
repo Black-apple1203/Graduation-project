@@ -1,0 +1,155 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>服务套餐模式是指会员可以购买不同等级服务，如普通会员，VIP会员等，每个等级都有不同的使用权限</p>
+</div>
+<div class="toptit">新增服务套餐</div>
+<form id="form1" action="{:U('add')}" method="post" enctype="multipart/form-data">
+    <div class="form_main width200">
+        <div class="fl">套餐名称:</div>
+        <div class="fr">
+            <input name="setmeal_name" type="text" class="input_text_default middle" maxlength="15" value=""/>
+        </div>
+        <div class="fl">有效时间:</div>
+        <div class="fr">
+            <input name="days" type="text" class="input_text_default middle" maxlength="10" value="" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 天
+            <label class="no-fl-note">(0表示不限制)</label>
+        </div>
+        <div class="fl">价格:</div>
+        <div class="fr">
+            <input name="expense" type="text" class="input_text_default middle" maxlength="10" value="0"/> 元
+            <label class="no-fl-note">(0表示免费)</label>
+        </div>
+        <div class="fl">职位最大并发数:</div>
+        <div class="fr">
+            <input name="jobs_meanwhile" type="text" class="input_text_default middle" maxlength="10" value="1" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 条
+        </div>
+        <div class="fl">每天免费刷新职位次数:</div>
+        <div class="fr">
+            <input name="refresh_jobs_free" type="text" class="input_text_default middle" maxlength="10" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 次
+        </div>
+        <div class="fl">下载简历点数:</div>
+        <div class="fr">
+            <input name="download_resume" type="text" class="input_text_default middle" maxlength="10" value="1" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 点
+            <label class="no-fl-note">(0为不允许)</label>
+        </div>
+        <div class="fl">每天下载简历数上限:</div>
+        <div class="fr">
+            <input name="download_resume_max" type="text" class="input_text_default middle" maxlength="10" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 条
+            <label class="no-fl-note">(0表示不限制)</label>
+        </div>
+        <div class="fl">下载简历增值包折扣:</div>
+        <div class="fr">
+            <input name="discount_download_resume" type="text" class="input_text_default middle" maxlength="10" value="0" /> 折
+            <label class="no-fl-note">(0为无折扣)</label>
+        </div>
+        <div class="fl">短信增值包折扣:</div>
+        <div class="fr">
+            <input name="discount_sms" type="text" class="input_text_default middle" maxlength="10" value="0" /> 折
+            <label class="no-fl-note">(0为无折扣)</label>
+        </div>
+        <div class="fl">职位置顶折扣:</div>
+        <div class="fr">
+            <input name="discount_stick" type="text" class="input_text_default middle" maxlength="10" value="0" /> 折
+            <label class="no-fl-note">(0为无折扣)</label>
+        </div>
+        <div class="fl">职位紧急折扣:</div>
+        <div class="fr">
+            <input name="discount_emergency" type="text" class="input_text_default middle" maxlength="10" value="0" /> 折
+            <label class="no-fl-note">(0为无折扣)</label>
+        </div>
+        <div class="fl">企业模板折扣:</div>
+        <div class="fr">
+            <input name="discount_tpl" type="text" class="input_text_default middle" maxlength="10" value="0" /> 折
+            <label class="no-fl-note">(0为无折扣)</label>
+        </div>
+        <div class="fl">职位预约刷新折扣:</div>
+        <div class="fr">
+            <input name="discount_auto_refresh_jobs" type="text" class="input_text_default middle" maxlength="10" value="0" /> 折
+            <label class="no-fl-note">(0为无折扣)</label>
+        </div>
+        <div class="fl">显示顺序:</div>
+        <div class="fr">
+            <input name="show_order" type="text" class="input_text_default middle" maxlength="3" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            <label class="no-fl-note">(数字越大越靠前)</label>
+        </div>
+        <div class="fl">赠送短信条数:</div>
+        <div class="fr">
+            <input name="set_sms" type="text" class="input_text_default middle" maxlength="10" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 条
+        </div>
+        <div class="fl">赠送{:C('qscms_points_byname')}:</div>
+        <div class="fr">
+            <input name="set_points" type="text" class="input_text_default middle" maxlength="10" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+        </div>
+        <div class="fl">收到简历的联系方式免费查看:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small select"><input name="show_apply_contact" type="hidden" value="1" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">显示状态:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="display" type="hidden" value="1">
+                <div class="radio select" data="1" title="正常">正常</div>
+                <div class="radio" data="0" title="屏蔽">屏蔽</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">允许会员申请此服务:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small select"><input name="apply" type="hidden" value="1" /></div>
+            <div class="clear"></div>
+        </div>
+		
+		<div class="fl">允许会员使用微海报:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small select"><input name="allow_look" type="hidden" value="1" /></div>
+            <div class="clear"></div>
+        </div>
+		<div class="fl">允许会员使用视频面试:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small select"><input name="enable_video" type="hidden" value="1" /></div>
+            <div class="clear"></div>
+        </div>
+		
+        <div class="fl">其他说明:</div>
+        <div class="fr">
+            <textarea name="added" class="input_text_default middle" style="height: 80px; line-height: 20px;"/></textarea>
+            <div style="color: #999999; font-size: 12px;">(可填写：赠送广告位或者其他特殊推荐等)</div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="提交" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('add')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("SetCom/set_meal")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,67 @@
+<graph divlinecolor='FEDD69' numdivlines='4' showAreaBorder='1' areaBorderColor='cccccc' numberPrefix='' showNames='1' numVDivLines='29' vDivLineAlpha='30' formatNumberScale='0' rotateNames='1'  decimalPrecision='0' bgColor='' yAxisName=''  showAlternateVGridColor='0' canvasBorderThickness='0' decimalPrecision='0' areaBorderColor='cccccc'>
+>
+<categories fontSize='9'>
+<category name='03/23'/>
+<category name='03/24'/>
+<category name='03/25'/>
+<category name='03/26'/>
+<category name='03/27'/>
+<category name='03/28'/>
+<category name='03/29'/>
+<category name='03/30'/>
+<category name='03/31'/>
+<category name='04/01'/>
+<category name='04/02'/>
+<category name='04/03'/>
+<category name='04/04'/>
+<category name='04/05'/>
+<category name='04/06'/>
+<category name='04/07'/>
+<category name='04/08'/>
+<category name='04/09'/>
+<category name='04/10'/>
+<category name='04/11'/>
+<category name='04/12'/>
+<category name='04/13'/>
+<category name='04/14'/>
+<category name='04/15'/>
+<category name='04/16'/>
+<category name='04/17'/>
+<category name='04/18'/>
+<category name='04/19'/>
+<category name='04/20'/>
+<category name='04/21'/>
+</categories>
+<dataset  color='00CC00' showValues='0' areaAlpha='30' showAreaBorder='1' areaBorderThickness='1' areaBorderColor='006600'>
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+<set value='0' />
+</dataset>
+</graph>

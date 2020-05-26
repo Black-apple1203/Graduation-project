@@ -1,0 +1,12 @@
+[ 2020-04-20T10:14:07+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT `spid` FROM `qs_menu` WHERE `id` = 718    LIMIT 1  [RunTime:0.2186s] [IP:127.0.0.1:21458] [AddTime:1587348847] [qscms]
+[ 2020-04-20T10:14:09+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=ajax&a=affair','127.0.0.1:21458','本机地址','1587348848','1','admin','0') [RunTime:1.5276s] [IP:127.0.0.1:21458] [AddTime:1587348849] [qscms]
+[ 2020-04-20T10:14:10+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_order_invoice` WHERE `audit` = 2    LIMIT 1  [RunTime:0.2297s] [IP:127.0.0.1:21458] [AddTime:1587348850] [qscms]
+[ 2020-04-20T10:14:10+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_resume_img` WHERE `audit` = 2    LIMIT 1  [RunTime:0.2144s] [IP:127.0.0.1:21458] [AddTime:1587348850] [qscms]
+[ 2020-04-20T10:14:11+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_feedback` WHERE `audit` = 1    LIMIT 1  [RunTime:0.6167s] [IP:127.0.0.1:21458] [AddTime:1587348851] [qscms]
+[ 2020-04-20T10:14:11+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_members_appeal` WHERE `status` = 0    LIMIT 1  [RunTime:0.3305s] [IP:127.0.0.1:21458] [AddTime:1587348851] [qscms]

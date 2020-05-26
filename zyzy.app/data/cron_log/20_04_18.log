@@ -1,0 +1,16 @@
+[ 2020-04-18T21:45:58+08:00 ] 127.0.0.1 /
+INFO: Cron:ClearCache Runat 2020-04-18 21:45:57 Use 0.575499 s 
+Cron:ClearPromotion Runat 2020-04-18 21:45:58 Use -0.027839 s 
+Cron:AutoRefreshResume Runat 2020-04-18 21:45:58 Use -1.467610 s 
+Cron:AutoRefreshJobs Runat 2020-04-18 21:45:58 Use -1.471635 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-18 21:45:58 Use -1.473394 s 
+Cron:ClearOrder Runat 2020-04-18 21:45:58 Use -1.530248 s 
+Cron:ClearShareAllowance Runat 2020-04-18 21:45:58 Use -1.682208 s 
+
+[ 2020-04-18T22:53:59+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=index
+INFO: Cron:ClearPromotion Runat 2020-04-18 22:53:59 Use 0.289123 s 
+Cron:AutoRefreshResume Runat 2020-04-18 22:53:59 Use -0.000072 s 
+Cron:AutoRefreshJobs Runat 2020-04-18 22:53:59 Use -0.011426 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-18 22:53:59 Use -0.013101 s 
+Cron:ClearShareAllowance Runat 2020-04-18 22:53:59 Use -0.049980 s 
+

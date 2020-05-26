@@ -1,0 +1,51 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>不同的运营阶段您可以选择不同的设置。</p>
+</div>
+<div class="toptit">审核状态设置</div>
+<form id="form1" action="{:U('set_audit')}" method="post">
+    <div class="form_main width250">
+        <div class="fl">修改简历后审核状态变为:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="audit_edit_resume" type="hidden" value="{:C('qscms_audit_edit_resume')}">
+                <div class="radio <eq name='Think.config.qscms_audit_edit_resume' value='-1'>select</eq>" data="-1" title="保持不变">保持不变</div>
+                <div class="radio <eq name='Think.config.qscms_audit_edit_resume' value='2'>select</eq>" data="2" title="审核中">审核中</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('set_audit')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("set_audit")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,54 @@
+[ 2020-04-12T09:38:37+08:00 ] 127.0.0.1 /
+SQL: SHOW COLUMNS FROM `qs_promotion` [RunTime:1.3514s] [IP:127.0.0.1:24719] [AddTime:1586655517] [qscms]
+[ 2020-04-12T09:38:38+08:00 ] 127.0.0.1 /
+SQL: SELECT * FROM `qs_promotion` WHERE `cp_endtime` < 1586655517    [RunTime:0.6764s] [IP:127.0.0.1:24719] [AddTime:1586655518] [qscms]
+[ 2020-04-12T09:38:39+08:00 ] 127.0.0.1 /
+SQL: SHOW COLUMNS FROM `qs_personal_service_stick_log` [RunTime:0.2841s] [IP:127.0.0.1:24719] [AddTime:1586655519] [qscms]
+[ 2020-04-12T09:38:40+08:00 ] 127.0.0.1 /
+SQL: UPDATE `qs_resume` SET `refreshtime`='1586655520',`stime`='1586655520' WHERE `id` IN ('1','1','2','2','3','3','4','4','5','5','6','6','7','7','8','8') [RunTime:0.3259s] [IP:127.0.0.1:24719] [AddTime:1586655520] [qscms]
+[ 2020-04-12T09:38:47+08:00 ] 127.0.0.1 /index.php?m=Home&c=Qrcode&a=index&url=http%3A%2F%2Fzyzy.app%2F%3Fm%3DMobile
+SQL: SHOW COLUMNS FROM `qs_config` [RunTime:0.4264s] [IP:127.0.0.1:24736] [AddTime:1586655527] [qscms]
+[ 2020-04-12T09:40:08+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=com_jobs_list&id=1
+SQL: SHOW COLUMNS FROM `qs_company_profile` [RunTime:0.2528s] [IP:127.0.0.1:24996] [AddTime:1586655608] [qscms]
+[ 2020-04-12T09:40:13+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=index
+SQL: SHOW COLUMNS FROM `qs_admin_log` [RunTime:0.5203s] [IP:127.0.0.1:24995] [AddTime:1586655613] [qscms]
+[ 2020-04-12T09:40:15+08:00 ] 127.0.0.1 /index.php?m=home&c=resume&a=resume_show&id=1&validation=1
+SQL: SHOW COLUMNS FROM `qs_resume_education` [RunTime:0.398s] [IP:127.0.0.1:25024] [AddTime:1586655615] [qscms]
+[ 2020-04-12T09:40:16+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SHOW COLUMNS FROM `qs_jobs_tmp` [RunTime:0.3563s] [IP:127.0.0.1:24996] [AddTime:1586655616] [qscms]
+[ 2020-04-12T09:40:17+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SHOW COLUMNS FROM `qs_order_invoice` [RunTime:0.2607s] [IP:127.0.0.1:24996] [AddTime:1586655617] [qscms]
+[ 2020-04-12T09:45:48+08:00 ] 127.0.0.1 /index.php?m=admin&c=company&a=index
+SQL: SHOW COLUMNS FROM `qs_setmeal` [RunTime:0.4017s] [IP:127.0.0.1:26161] [AddTime:1586655948] [qscms]
+[ 2020-04-12T09:46:29+08:00 ] 127.0.0.1 /index.php?m=admin&c=company&a=add
+SQL: SHOW COLUMNS FROM `qs_category_district` [RunTime:0.5844s] [IP:127.0.0.1:26894] [AddTime:1586655989] [qscms]
+[ 2020-04-12T09:57:34+08:00 ] 127.0.0.1 /index.php?m=admin&c=company&a=add
+SQL: SELECT `name`,`value` FROM `qs_config`    [RunTime:0.5027s] [IP:127.0.0.1:28701] [AddTime:1586656654] [qscms]
+[ 2020-04-12T09:57:35+08:00 ] 127.0.0.1 /index.php?m=admin&c=company&a=add
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=company&a=add','127.0.0.1:28701','本机地址','1586656655','1','admin','0') [RunTime:0.2284s] [IP:127.0.0.1:28701] [AddTime:1586656655] [qscms]
+[ 2020-04-12T09:57:36+08:00 ] 127.0.0.1 /index.php?m=admin&c=company&a=add
+SQL: SHOW COLUMNS FROM `qs_badword` [RunTime:0.9064s] [IP:127.0.0.1:28701] [AddTime:1586656656] [qscms]
+[ 2020-04-12T09:59:12+08:00 ] 127.0.0.1 /index.php?m=admin&c=company&a=index
+SQL: SELECT COUNT(*) AS tp_count FROM `qs_company_profile` WHERE `audit` = 2    LIMIT 1  [RunTime:0.2494s] [IP:127.0.0.1:28797] [AddTime:1586656752] [qscms]
+[ 2020-04-12T15:01:39+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=index
+SQL: SHOW COLUMNS FROM `qs_jobs_search` [RunTime:0.3412s] [IP:127.0.0.1:37891] [AddTime:1586674899] [qscms]
+[ 2020-04-12T16:37:13+08:00 ] 127.0.0.1 /index.php?m=admin&c=jobs&a=index&menu_id=194&sub_menu_id=195
+SQL: SELECT COUNT(*) AS tp_count FROM `qs_jobs_tmp`    LIMIT 1  [RunTime:0.3747s] [IP:127.0.0.1:44753] [AddTime:1586680633] [qscms]
+[ 2020-04-12T17:41:51+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=index
+SQL: SELECT `spid` FROM `qs_menu` WHERE `id` = 0    LIMIT 1  [RunTime:0.2205s] [IP:127.0.0.1:54662] [AddTime:1586684511] [qscms]
+[ 2020-04-12T17:42:10+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=left_menu
+SQL: SELECT `spid` FROM `qs_menu` WHERE `id` = 0    LIMIT 1  [RunTime:0.563s] [IP:127.0.0.1:54719] [AddTime:1586684530] [qscms]
+[ 2020-04-12T17:42:14+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_report` WHERE `audit` = 1    LIMIT 1  [RunTime:0.2368s] [IP:127.0.0.1:54722] [AddTime:1586684534] [qscms]
+[ 2020-04-12T17:42:15+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_report_resume` WHERE `audit` = 1    LIMIT 1  [RunTime:0.3094s] [IP:127.0.0.1:54722] [AddTime:1586684535] [qscms]
+[ 2020-04-12T17:42:15+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_members_appeal` WHERE `status` = 0    LIMIT 1  [RunTime:0.356s] [IP:127.0.0.1:54722] [AddTime:1586684535] [qscms]
+[ 2020-04-12T17:42:16+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT `spid` FROM `qs_menu` WHERE `id` = 0    LIMIT 1  [RunTime:0.2284s] [IP:127.0.0.1:54716] [AddTime:1586684536] [qscms]
+[ 2020-04-12T17:42:16+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT COUNT(id) AS tp_count FROM `qs_jobs_tmp` WHERE `addtime` >= 1586620800    LIMIT 1  [RunTime:0.523s] [IP:127.0.0.1:54716] [AddTime:1586684536] [qscms]
+[ 2020-04-12T17:42:17+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT COUNT(did) AS tp_count FROM `qs_company_down_resume` WHERE `down_addtime` >= 1586620800    LIMIT 1  [RunTime:0.208s] [IP:127.0.0.1:54716] [AddTime:1586684537] [qscms]
+[ 2020-04-12T17:42:18+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT COUNT(id) AS tp_count FROM `qs_report` WHERE `audit` = 1    LIMIT 1  [RunTime:0.2765s] [IP:127.0.0.1:54716] [AddTime:1586684538] [qscms]

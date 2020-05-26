@@ -1,0 +1,127 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>过多的项目设置短信通知会消耗系统资源。</p>
+</div>
+    <form action="{:U('sms/rule')}" method="post"   name="form1" id="form1">
+        <div class="toptit">短信发送规则</div>
+        <div class="form_main width150">
+            <div class="fl">获得优惠券：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_gift'] eq 1">select</if>"><input name="set_gift" type="hidden" value="{$smsConfig.set_gift}" /></div>
+              <div class="note">(企业获得套餐优惠券是否通知企业)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">优惠券到期提醒：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_gift_expire_remind'] eq 1">select</if>"><input name="set_gift_expire_remind" type="hidden" value="{$smsConfig.set_gift_expire_remind}" /></div>
+              <div class="note">(企业获得的套餐优惠券即将到期是否通知企业)</div>
+              <div class="clear"></div>
+            </div>
+			<div class="fl">申请职位：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_applyjobs'] eq 1">select</if>"><input name="set_applyjobs" type="hidden" value="{$smsConfig.set_applyjobs}" /></div>
+              <div class="note">(个人申请了职位是否通知企业)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">邀请面试：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_invite'] eq 1">select</if>"><input name="set_invite" type="hidden" value="{$smsConfig.set_invite}" /></div>
+              <div class="note">(企业邀请个人面试是否通知个人)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">新增订单：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_order'] eq 1">select</if>"><input name="set_order" type="hidden" value="{$smsConfig.set_order}" /></div>
+              <div class="note">(会员下充值订单是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">充值成功：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_payment'] eq 1">select</if>"><input name="set_payment" type="hidden" value="{$smsConfig.set_payment}" /></div>
+              <div class="note">(会员充值成功是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">修改密码：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_editpwd'] eq 1">select</if>"><input name="set_editpwd" type="hidden" value="{$smsConfig.set_editpwd}" /></div>
+              <div class="note">(会员修改密码后是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">职位审核通过：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_jobsallow'] eq 1">select</if>"><input name="set_jobsallow" type="hidden" value="{$smsConfig.set_jobsallow}" /></div>
+              <div class="note">(职位审核通过是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">职位审核未通过：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_jobsnotallow'] eq 1">select</if>"><input name="set_jobsnotallow" type="hidden" value="{$smsConfig.set_jobsnotallow}" /></div>
+              <div class="note">(职位审核未通过是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">营业执照审核通过：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_licenseallow'] eq 1">select</if>"><input name="set_licenseallow" type="hidden" value="{$smsConfig.set_licenseallow}" /></div>
+              <div class="note">(营业执照审核通过是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">营业执照审核未通过：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_licensenotallow'] eq 1">select</if>"><input name="set_licensenotallow" type="hidden" value="{$smsConfig.set_licensenotallow}" /></div>
+              <div class="note">(营业执照审核未通过是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">简历审核通过：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_resumeallow'] eq 1">select</if>"><input name="set_resumeallow" type="hidden" value="{$smsConfig.set_resumeallow}" /></div>
+              <div class="note">(个人简历审核通过是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">简历审核未通过：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_resumenotallow'] eq 1">select</if>"><input name="set_resumenotallow" type="hidden" value="{$smsConfig.set_resumenotallow}" /></div>
+              <div class="note">(个人简历审核未通过是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">简历头像审核通过：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_resume_photoallow'] eq 1">select</if>"><input name="set_resume_photoallow" type="hidden" value="{$smsConfig.set_resume_photoallow}" /></div>
+              <div class="note">(个人简历头像审核通过是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">简历头像审核未通过：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_resume_photonotallow'] eq 1">select</if>"><input name="set_resume_photonotallow" type="hidden" value="{$smsConfig.set_resume_photonotallow}" /></div>
+              <div class="note">(个人简历头像审核未通过是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">简历头像审核未通过：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_resume_photonotallow'] eq 1">select</if>"><input name="set_resume_photonotallow" type="hidden" value="{$smsConfig.set_resume_photonotallow}" /></div>
+              <div class="note">(个人简历头像审核未通过是否通知)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">视频面试邀请：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_video_invite'] eq 1">select</if>"><input name="set_video_invite" type="hidden" value="{$smsConfig.set_video_invite}" /></div>
+              <div class="note">(企业邀请个人视频面试是否通知个人)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl">邀请视频面试提醒企业：</div>
+            <div class="fr">
+              <div data-code="0,1" class="imgchecked_small <if condition="$smsConfig['set_video_notice_com'] eq 1">select</if>"><input name="set_video_notice_com" type="hidden" value="{$smsConfig.set_video_notice_com}" /></div>
+              <div class="note">(视频面试求职者提醒企业上线)</div>
+              <div class="clear"></div>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+                <input type="submit" class="admin_submit" value="保存修改"/>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </form>
+</div>
+<include file="public:footer" />
+</body>
+</html>

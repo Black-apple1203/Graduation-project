@@ -1,0 +1,80 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/help.css" rel="stylesheet" type="text/css" />
+	<script src="{:C('TPL_PUBLIC_DIR')}/js/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="help_banner"></div>
+<div class="help">
+  <div class="l">
+	<div class="catbox">
+	<qscms:classify 列表名="category_info" 类型="QS_help"/>
+	<qscms:help_category 列表名="category" 大类="0" 显示数目="15"/>
+	<volist name="category" id="vo">
+		<div class="J_helplist help_category <if condition="$i eq 1">open</if>">
+		  <div class="titl J_helplistT">{$vo['title_']}</div>
+		  <ul class="link_gray6 help_category_list J_helplistG">
+		  <qscms:help_category 列表名="subcate" 大类="$vo['id']" 显示数目="15"/>
+		  <volist name="subcate" id="v">
+		  	<li><a href="{$v['url']}">{$v['title_']}</a></li>
+		  </volist>
+		  </ul>
+		 </div>
+	</volist>
+	</div>
+  </div>
+  <div class="r">
+    <div class="main">
+	  <div class="topso">
+  				<div class="t">搜索您的问题</div>
+	            <div class="lso">
+				  <div class="sobg">
+			  		<form action="{:url_rewrite('QS_helplist')}" method="post">
+						<input name="key" type="text" class="sinput" value=""/>
+						<input type="submit" value="" class="btn"/>
+					</form>
+				  </div>
+				</div>
+				<div class="rhot link_gray6">常见问题：<a href="{:url_rewrite('QS_helplist',array('key'=>'找回密码'))}">找回密码</a><a href="{:url_rewrite('QS_helplist',array('key'=>'置顶'))}">置顶</a><a href="{:url_rewrite('QS_helplist',array('key'=>'推荐模板'))}">推荐模版</a><a href="{:url_rewrite('QS_helplist',array('key'=>'电子地图'))}">电子地图</a></div>
+				<div class="clear"></div>
+	  </div>
+	 	<volist name="category" id="vo">
+	  <div class="lbox link_gray6">
+			<div class="tit">{$vo['title_']}</div>
+			<ul>
+			<qscms:help_list 列表名="list" 大类="$vo['id']" 显示数目="8"/>
+			<volist name="list['list']" id="v">
+			  <li><a href="{$v['url']}">{$v['title_']}</a></li>
+			</volist>
+		  </ul>
+          <if condition="count($list['list']) eq 8">
+              <div class="more"><a href="{:url_rewrite('QS_helplist',array('parentid'=>$vo['id']))}">更多</a></div>
+          </if>
+	  </div>
+	  </volist>
+
+	  <div class="clear"></div>
+    </div>
+  </div>
+
+  <div class="clear"></div>
+</div>
+<include file="public:footer_min" />
+<script type="text/javascript">
+	// 左侧菜单展开收起
+	$('.J_helplistT').click(function() {
+		var $thisParent = $(this).closest('.J_helplist');
+		$thisParent.toggleClass('open');
+		if ($thisParent.hasClass('open')) {
+			$('.J_helplist.open').not($thisParent).each(function(index, el) {
+				$(this).removeClass('open');
+			});
+		};
+	});
+</script>
+</body>
+</html>

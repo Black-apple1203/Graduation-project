@@ -1,0 +1,365 @@
+<div class="ajax_reg">
+    <div class="title">
+        <div class="logo">{:C('qscms_site_name')}&nbsp;&middot;&nbsp;注册</div>
+        <div class="close J_btncancel"></div>
+    </div>
+    <div class="reg_select_box J_reg_select_box">
+        <div class="tit">请选择注册类型</div>
+        <div class="sbox">
+            <div class="slisit1 J_hoverbut" id="J_reg_select_com">
+                <div class="stitle">企业注册</div>
+                <div class="stxt">
+                    √&nbsp;发布招聘信息<br />
+                    √&nbsp;收取简历投递<br />
+                    √&nbsp;多种职位分享
+                </div>
+            </div>
+            <div class="slisitc">&nbsp;</div>
+            <div class="slisit2 J_hoverbut" id="J_reg_select_per">
+                <div class="stitle">个人注册</div>
+                <div class="stxt">
+                    √&nbsp;免费创简历<br />
+                    √&nbsp;职位海量淘<br />
+                    √&nbsp;简历轻松投<br />
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="do_box J_do_box">
+        <div class="lmain">
+            <div class="frombox J_reg_per_box">
+                <div class="tit link_blue"><span class="J_top_reg_type_txt">企业</span>注册 <a class="change_type J_top_change_reg_type" href="javascript:;">切换为个人注册</a></div>
+                <div class="ce">
+                    <div class="input_text_inside t5 reginput">
+                        <div class="inputtit">输入手机号：</div>
+                        <input name="mobile" type="text" class="minput reginput" maxlength="11"/>
+                    </div>
+                </div>
+                <div class="err link_blue J_top_has_remind">
+                    该手机号已存在，可以使用此手机号 <a id="J_site_login" href="javascript:;">立即登录</a>
+                </div>
+                <div class="ce">
+                    <div class="input_text_inside t5 reginput">
+                        <div class="inputtit">手机验证码：</div>
+                        <input name="mobile_vcode" type="text"  class="minput reginput" maxlength="4"/>
+                        <div class="sendbtn" id="J_top_get_code">获取验证码</div>
+                    </div>
+                </div>
+                <if condition="C('qscms_register_password_open')">
+                    <div class="J_passwordalert_group">
+                        <div class="ce password">
+                            <div class="input_text_inside t5 reginput">
+                                <div class="inputtit">帐户密码：</div>
+                                <input name="password" class="minput reginput J_passwordalert" maxlength="16" type="password" placeholder="请输入账户密码" autocomplete="off"/>
+                            </div>
+                        </div>
+                        <div class="ce safety">
+                            <div class="slist t1">危险</div>
+                            <div class="slist t2">一般</div>
+                            <div class="slist t3">安全</div>
+                            <div class="clear"></div>
+                        </div>
+                        <div class="ce">
+                            <div class="input_text_inside t5 reginput">
+                                <div class="inputtit">确认密码：</div>
+                                <input name="passwordVerify" class="minput reginput" maxlength="16" type="password" placeholder="请确认账户密码" autocomplete="off"/>
+                            </div>
+                        </div>
+                    </div>
+                </if>
+                <div class="ce">
+                    <input type="hidden" name="utype" class="J_u_type" value="2">
+                    <input class="btn" type="button" name="submit" id="J_top_reg_btn" value="立即注册" />
+                </div>
+                <div class="ace link_blue">点击注册即表示您同意<a target="_blank" href="{:U('Members/members_agreement')}">《用户注册协议》</a></div>
+            </div>
+        </div>
+        <div class="rmain">
+            <div class="tit">使用第三方账号登录</div>
+            <div class="api_login">
+                <volist name="oauth_list" id="oauth">
+                    <a class="uu_api_login_btn {$key}" href="{:U('callback/index',array('mod'=>$key,'type'=>'login'))}"></a>
+                </volist>
+                <div class="clear"></div>
+            </div>
+            <div class="btnbox">
+                <div class="btn_yellow_api btn_inline  btn_border J_top_reg_user_log">有账号？直接登录</div>
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <div id="topCaptchaBox"></div>
+    <input type="button" id="btnTopCheck" style="display:none;">
+</div>
+<script type="text/javascript" src="../public/js/members/jquery.pwdalert.js"></script>
+<script type="text/javascript">
+    // 选择注册个人
+    $('#J_reg_select_per').die().live('click', function() {
+        $('.J_reg_select_box').hide();
+        $('.J_u_type').val('2');
+        $('.J_top_reg_type_txt').html('个人');
+        $('.J_top_change_reg_type').html('切换为企业注册');
+        $('.J_do_box').show();
+    });
+    // 选择注册企业
+    $('#J_reg_select_com').die().live('click', function() {
+        $('.J_reg_select_box').hide();
+        $('.J_u_type').val('1');
+        $('.J_top_reg_type_txt').html('企业');
+        $('.J_top_change_reg_type').html('切换为个人注册');
+        $('.J_do_box').show();
+    });
+    // 切换注册类型
+    $('.J_top_change_reg_type').die().live('click', function() {
+        if ($('.J_u_type').val() == '1') {
+            $('.J_top_reg_type_txt').html('个人');
+            $('.J_top_change_reg_type').html('切换为企业注册');
+            $('.J_u_type').val('2');
+        } else {
+            $('.J_top_reg_type_txt').html('企业');
+            $('.J_top_change_reg_type').html('切换为个人注册');
+            $('.J_u_type').val('1');
+        }
+    });
+    // 注册时检测手机号是否存在
+    var regularMobile = qscms.regularMobile;
+    $('.J_reg_per_box input[name=mobile]').keyup(function () {
+        var currentValue = $(this).val();
+        if (currentValue.length == 11) {
+            if(regularMobile.test(currentValue) && !remoteValid(currentValue,this)) {
+                $('.J_top_has_remind').show();
+                $('#J_top_get_code').addClass('btn_disabled');
+            } else {
+                $('.J_top_has_remind').hide();
+                $('#J_top_get_code').removeClass('btn_disabled');
+            }
+        } else {
+            $('.J_top_has_remind').hide();
+            $('#J_top_get_code').removeClass('btn_disabled');
+        }
+    });
+    // 检测账号是否存在
+    function remoteValid(value, element) {
+        var result = false, eletype = element.name;
+        $.ajax({
+            url: qscms.root + '?m=Home&c=Members&a=ajax_check',
+            cache: false,
+            async: false,
+            type: 'post',
+            dataType: 'json',
+            data: { type: eletype, param: value },
+            success: function(json) {
+                if (json && json.status) {
+                    result = true;
+                } else {
+                    result = false;
+                }
+            }
+        });
+        return result;
+    }
+    function remoteValidNew(value, eletype) {
+        var result = false, eletype = eletype;
+        $.ajax({
+            url: qscms.root + '?m=Home&c=Members&a=ajax_check',
+            cache: false,
+            async: false,
+            type: 'post',
+            dataType: 'json',
+            data: { type: eletype, param: value },
+            success: function(json) {
+                if (json && json.status) {
+                    result = true;
+                } else {
+                    result = false;
+                }
+            }
+        });
+        return result;
+    }
+    // 获取验证码
+    $('#J_top_get_code').die().live('click', function () {
+        if ($(this).hasClass('btn_disabled')) {
+            return false;
+        }
+        var mobileValue = $.trim($('.J_reg_per_box input[name=mobile]').val());
+        if (mobileValue == '') {
+            disapperTooltip("remind", "请输入手机号码");
+            $('.J_reg_per_box input[name=mobile]').focus();
+            return false;
+        }
+        if (mobileValue != "" && !regularMobile.test(mobileValue)) {
+            disapperTooltip("remind", "请输入正确的手机号码");
+            $('.J_reg_per_box input[name=mobile]').focus();
+            return false;
+        }
+        if ($('.J_top_has_remind').is(':hidden')) {
+            if(!remoteValidNew(mobileValue,'mobile')) {
+                $('.J_top_has_remind').show();
+                $('#J_top_get_code').addClass('btn_disabled');
+                return false;
+            } else {
+                $('.J_top_has_remind').hide();
+                $('#J_top_get_code').removeClass('btn_disabled');
+            }
+        }
+        if (eval(qscms.smsTatus)) {
+            if (eval(qscms.varify_mobile) && eval(qscms.captcha_open)) {
+                qsCaptchaHandler(function(callBackArr) {
+                    var mobileValue = $.trim($('.J_reg_per_box input[name=mobile]').val());
+                    var dataArr = {mobile: mobileValue};
+                    $.extend(dataArr, callBackArr);
+                    $('#J_top_get_code').text('发送中...').addClass('btn_disabled');
+                    $.ajax({
+                        url: qscms.root + '?m=Home&c=Members&a=reg_send_sms',
+                        cache: false,
+                        async: false,
+                        type: 'post',
+                        dataType: 'json',
+                        data: dataArr,
+                        success: function(result) {
+                            if (result.status) {
+                                disapperTooltip("success", "验证码已发送，请注意查收");
+                                // 开始倒计时
+                                var countdown = 60;
+                                function settime() {
+                                    if (countdown == 0) {
+                                        $('#J_top_get_code').text('获取验证码').removeClass('btn_disabled');
+                                        countdown = 60;
+                                        return;
+                                    } else {
+                                        $('#J_top_get_code').text('重发' + countdown + '秒').addClass('btn_disabled');
+                                        countdown--;
+                                    }
+                                    setTimeout(function() {
+                                        settime()
+                                    },1000)
+                                }
+                                settime();
+                            } else {
+                                $('#J_top_get_code').text('获取验证码').removeClass('btn_disabled');
+                                disapperTooltip("remind", result.msg);
+                            }
+                        }
+                    });
+                });
+            } else {
+                topSendSms();
+            }
+        } else {
+            disapperTooltip("remind", "短信未开启");
+        }
+    })
+    // 发送验证码
+    function topSendSms() {
+        $('#J_top_get_code').text('发送中...').addClass('btn_disabled');
+        var mobileValue = $.trim($('.J_reg_per_box input[name=mobile]').val());
+        $.ajax({
+            url: qscms.root + '?m=Home&c=Members&a=reg_send_sms',
+            cache: false,
+            async: false,
+            type: 'post',
+            dataType: 'json',
+            data: { mobile: mobileValue},
+            success: function(result) {
+                if (result.status) {
+                    disapperTooltip("success", "验证码已发送，请注意查收");
+                    // 开始倒计时
+                    var countdown = 60;
+                    function settime() {
+                        if (countdown == 0) {
+                            $('#J_top_get_code').text('获取验证码').removeClass('btn_disabled');
+                            countdown = 60;
+                            return;
+                        } else {
+                            $('#J_top_get_code').text('重发' + countdown + '秒').addClass('btn_disabled');
+                            countdown--;
+                        }
+                        setTimeout(function() {
+                            settime()
+                        },1000)
+                    }
+                    settime();
+                } else {
+                    $('#J_top_get_code').text('获取验证码').removeClass('btn_disabled');
+                    disapperTooltip("remind", result.msg);
+                }
+            }
+        });
+    }
+    // 注册验证
+    $('#J_top_reg_btn').die().live('click', function () {
+        var mobileValue = $.trim($('.J_reg_per_box input[name=mobile]').val());
+        var mobileCodeValue = $.trim($('.J_reg_per_box input[name=mobile_vcode]').val());
+        if (mobileValue == '') {
+            disapperTooltip("remind", "请输入手机号码");
+            $('.J_reg_per_box input[name=mobile]').focus();
+            return false;
+        }
+        if (mobileValue != "" && !regularMobile.test(mobileValue)) {
+            disapperTooltip("remind", "请输入正确的手机号码");
+            $('.J_reg_per_box input[name=mobile]').focus();
+            return false;
+        }
+        if (mobileCodeValue == '') {
+            disapperTooltip("remind", "请输入手机验证码");
+            $('.J_reg_per_box input[name=mobile_vcode]').focus();
+            return false;
+        }
+        var dataValue = {mobile: mobileValue, mobile_vcode: mobileCodeValue, utype: $('.J_u_type').val()};
+        <if condition="C('qscms_register_password_open')">
+            var password = $.trim($('.J_passwordalert_group input[name=password]').val());
+            var passwordVerify = $.trim($('.J_passwordalert_group input[name=passwordVerify]').val());
+            if (password == '') {
+                disapperTooltip("remind", "请输入帐户密码");
+                $('.J_passwordalert_group input[name=password]').focus();
+                return false;
+            }
+            if (passwordVerify == '') {
+                disapperTooltip("remind", "请输入确认密码");
+                $('.J_passwordalert_group input[name=passwordVerify]').focus();
+                return false;
+            }
+            if(password.length<6 || password.length>16){
+                disapperTooltip("remind", "密码长度要求为6-16个字符");
+                $('.J_passwordalert_group input[name=password]').focus();
+                return false;
+            }
+            if(password != passwordVerify){
+                disapperTooltip("remind", "两次输入的密码不一致");
+                $('.J_passwordalert_group input[name=passwordVerify]').focus();
+                return false;
+            }
+            dataValue['password'] = password;
+            dataValue['passwordVerify'] = passwordVerify;
+        </if>
+        $('#J_top_reg_btn').val('注册中...').prop('disabled', !0);
+        $.ajax({
+            url: qscms.root+'?m=Home&c=Members&a=register',
+            type: 'POST',
+            dataType: 'json',
+            data: dataValue,
+            success: function (data) {
+                if(data.status == 1){
+                    window.location.href = data.data.url;
+                }else{
+                    $('#J_top_reg_btn').val('立即注册').prop('disabled', 0);
+                    disapperTooltip("remind", data.msg);
+                }
+            },
+            error:function(data){
+                $('#J_top_reg_btn').val('立即注册').prop('disabled', 0);
+                disapperTooltip("remind", data.msg);
+            }
+        });
+    })
+    // 直接登录
+    $('.J_top_reg_user_log').die().live('click', function () {
+        $(".modal,.modal_backdrop").remove();
+        siteLoginModelShow();
+    }) 
+    $('.J_btncancel').die().live('click', function() {
+        $(".modal,.modal_backdrop").remove();
+    });
+</script>

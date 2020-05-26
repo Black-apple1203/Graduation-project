@@ -1,0 +1,60 @@
+<include file="public:header" />
+<div class="toptip">
+  <div class="toptit">提示：</div>
+  <p>开启百度提交链接功能可以缩短百度爬虫发现您站点新链接的时间，使新发布的页面可以在第一时间被百度收录</p>
+    <p>并且对于网站的最新原创内容，可以快速通知到百度，使内容可以在转发之前被百度发现</p>
+    <p class="link_green_line">请输入准入密钥并配置开启项，系统会在信息录入时自动把生成的链接地址发送给百度。<a href="http://zhanzhang.baidu.com/" target="_blank">现在就去申请</a></p>
+</div>
+<div class="toptit">配置</div>
+<form action="{:U('BaiduSubmiturl/index')}" method="post"  name="form1" id="form1">
+    <div class="form_main width150">
+        <div class="fl">准入密钥：</div>
+        <div class="fr">
+            <input name="token" type="text" maxlength="16" class="input_text_default middle" value="{$info.token}"/>
+        </div>
+        <div class="fl">职位：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="$info['addjob'] eq 1">select</if>"><input name="addjob" type="hidden" value="{$info.addjob}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">简历：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="$info['addresume'] eq 1">select</if>"><input name="addresume" type="hidden" value="{$info.addresume}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">新闻资讯：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="$info['addarticle'] eq 1">select</if>"><input name="addarticle" type="hidden" value="{$info.addarticle}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">企业：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="$info['addcompany'] eq 1">select</if>"><input name="addcompany" type="hidden" value="{$info.addcompany}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">招聘会：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="$info['addjobfair'] eq 1">select</if>"><input name="addjobfair" type="hidden" value="{$info.addjobfair}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">说明页：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="$info['addexplain'] eq 1">select</if>"><input name="addexplain" type="hidden" value="{$info.addexplain}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">公告：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="$info['addnotice'] eq 1">select</if>"><input name="addnotice" type="hidden" value="{$info.addnotice}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit" type="submit" class="admin_submit" value="保存修改"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+</body>
+</html>

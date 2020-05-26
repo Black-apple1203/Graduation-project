@@ -1,0 +1,94 @@
+<volist name="list" id="vo">
+    <section class="_editor">
+    <section style="width: 90%;margin-right: auto;margin-left: auto;" data-width="90%">
+        <section style="width:65px;height:65px;background:#fefefe;margin-bottom: -56px;margin-left: -10px;transform: rotate(0deg);-webkit-transform: rotate(0deg);-moz-transform: rotate(0deg);-ms-transform: rotate(0deg);-o-transform: rotate(0deg);">
+            <section style="width: 8px;height: 8px;border-radius: 100%;background: #f7d749;float: right;margin-top: 6px;box-sizing: border-box;"></section>
+            <section style="text-align: left;font-size: 24px;letter-spacing: 3px;font-weight: bold;">
+                诚聘
+            </section>
+            <section style="text-align: left;font-size: 12px;font-weight: bold;">
+                JOIN US
+            </section>
+            <section style="width: 8px;height: 8px;border-radius: 100%;background: #f7d749;margin-top: 5px;margin-left: 2px;box-sizing: border-box;"></section>
+        </section>
+        <section data-bgopacity="1%" style="padding-bottom: 5px;border-radius: 8px;background-color: #ffeea4;box-sizing: border-box;">
+            <section style="border-width: 2px;border-style: solid;border-color: #f7d749;padding-top: 10px;padding-bottom: 20px;background-color: #ffffff;border-radius: 8px;margin-left: -5px;margin-top: -10px;margin-right: 4px;box-sizing: border-box;">
+                <section style="text-align: center;margin-top:15px;">
+                    <section style="display: inline-block;background: #f7d749;padding: 6px 1em;font-size: 16px;letter-spacing: 1.5px;box-sizing: border-box;">
+                        {$vo.jobs_name}
+                    </section>
+                </section>
+                <section style="text-align: center;font-size: 14px;letter-spacing: 1.5px;margin: 15px auto;">
+                    <if condition="$vo['negotiable'] eq 1">面议<else />{$vo.minwage}-{$vo.maxwage}元/月</if>
+                </section>
+                <section style="padding-right: 1.5em;padding-left: 1.5em;font-size: 14px;letter-spacing: 1.5px;margin: 12px auto;line-height: 1.75em;box-sizing: border-box;">
+                    <p>
+                        {$vo.contents}
+                    </p>
+                    <p>
+                        <br/>
+                    </p>
+                </section>
+                <section style="text-align: center;">
+                        &gt;&gt;&gt;<a href="{$vo.jobs_url}" style="text-decoration:none"><span style="color: #ffda51;"><strong><span style="font-size: 15px;">点击申请职位</span></strong></span></a>&lt;&lt;&lt;
+                </section>
+            </section>
+        </section>
+    </section>
+</section>
+<section class="_editor">
+    <p>
+        <br/>
+    </p>
+</section>
+<!-- <section data-tools="74cmszw1">
+    <section style="border: 0px currentColor; border-image: none;">
+        <p>
+            <br>
+        </p>
+        <section style="width: 100%;" data-width="100%">
+            <section style="margin: 0px auto; text-align: center; transform: translateZ(10px); -webkit-transform: translateZ(10px);">
+                <section style="padding: 0px 6px; width: auto; display: inline-block; background-color: rgb(254, 254, 254);">
+                    <section style="display: flex;">
+                        <section style="padding: 0px 15px; border-radius: 8px; height: 35px; color: rgb(254, 254, 254); line-height: 35px; font-size: 18px; transform: translateZ(10px); background-color: rgb(253, 192, 16); -webkit-transform: translateZ(10px);">
+                            <p style="margin: 0px; white-space: nowrap;">
+                                <strong data-brushtype="text">{$vo.jobs_name}</strong>
+                            </p>
+                        </section>
+                        <section style="background-position: center; margin: -14px 0px 0px 3px; width: 20px; height: 25px; background-image: url(../public/images/job1.png); background-repeat: no-repeat; background-size: 100% 100%; background-color: rgb(253, 192, 16);">
+                            <br>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section style="padding: 15px; border: 1px solid rgb(253, 192, 16); margin-top: -18px; text-align: center;">
+                <section style="margin: 7px auto; width: auto; display: inline-block;">
+                    <p style="margin: 0px;">
+                        <strong style="white-space: normal; color: rgb(255, 169, 0); text-align: right;"><if condition="$vo['negotiable'] eq 1">面议<else />{$vo.minwage}-{$vo.maxwage}元/月</if></strong>
+                    </p>
+                    <p style="margin: 0px;">
+                        <strong>职位描述：</strong><br>
+                    </p>
+                </section>
+                <section style="line-height: 30px;">
+                    <p style="margin: 0px;">
+                        <span style="font-size: 16px;">{$vo.contents}</span>
+                    </p>
+                    <p style="margin: 0px;">
+                        <strong>职位要求：</strong>
+                    </p>
+                    <p style="margin: 0px;">
+                        <span style="font-size: 16px;">{$vo.education_cn}、{$vo.experience_cn}、<if condition="$vo.age">{$vo.age}岁<else />年龄不限</if></span>
+                    </p>
+                    <section style="text-align:center">
+                        <span style="font-size: 16px;"><img src="{:C('qscms_site_domain')}/index.php?m=Mobile&c=Qrcode&a=index&url={:urlencode(build_mobile_url(array('c'=>'jobs','a'=>'show','params'=>'id='.$vo['id'])))}" title="1572605696153048.png" alt="saf.png" style=";width: 25%;"></span>
+                    </section>
+                    <section style="text-align: center;">
+                        <span style="font-size: 16px;">长按识别获取更多职位信息</span>
+                    </section>
+                </section>
+            </section>
+        </section>
+    </section>
+</section> -->
+</volist>

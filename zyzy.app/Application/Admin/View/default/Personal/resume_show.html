@@ -1,0 +1,279 @@
+<include file="public:header" />
+  <div class="toptit">基本设置</div>
+  <table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF"  >
+    <tr>
+      <td  height="30" align="right" width="100" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">简历名称：</td>
+      <td bgcolor="#FFFFFF"  width="100" style=" border-bottom:1px #CCCCCC dashed">
+        {$resume['title']}
+      </td>
+      <td  height="30" align="right" width="100" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">公开设置：</td>
+      <td bgcolor="#FFFFFF"  width="100" style=" border-bottom:1px #CCCCCC dashed">
+        <if condition="$resume['display'] eq '1'">
+        公开
+        <else />
+        半公开
+        </if>
+      </td>
+      <td  height="30" align="right" width="100" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">照片公开设置：</td>
+      <td bgcolor="#FFFFFF"   colspan="3" style=" border-bottom:1px #CCCCCC dashed">
+        <if condition="$resume['photo_img'] neq ''">
+          <if condition="$resume['photo_display'] eq '1'">
+          公开
+          <else />
+          不公开
+          </if>
+        <else />
+        未上传照片
+        </if>
+      </td>
+    </tr>
+    <tr>
+      <td align="right" width="100"  height="30" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">简历完整度：</td>
+      <td bgcolor="#FFFFFF"  width="100" style=" border-bottom:1px #CCCCCC dashed">
+        {$resume['complete_percent']}%
+      </td>
+      <td align="right" width="100" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">简历审核：</td>
+      <td bgcolor="#FFFFFF" width="100" style=" border-bottom:1px #CCCCCC dashed">
+        <if condition="$resume['audit'] eq '1'">
+        已通过审核
+        <elseif condition="$resume['audit'] eq '2'"/>
+        正在审核中
+        <elseif condition="$resume['audit'] eq '3'"/>
+        审核未通过请修改
+        </if>
+      </td>
+      <td align="right" width="100" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">简历等级：</td>
+      <td bgcolor="#FFFFFF"  style=" border-bottom:1px #CCCCCC dashed">
+        <if condition="$resume['talent'] eq '2'">
+        <span style="color:#FF6600">高级</span>
+        <else />
+        普通
+        </if>
+      </td>
+    </tr>
+    <tr>
+      <td  height="30" align="right" width="100" bgcolor="#FFFFFF" >创建时间：</td>
+      <td bgcolor="#FFFFFF"  width="100" >
+        {$resume['addtime']|date="Y.m.d H:i",###}
+      </td>
+      <td  height="30" align="right" width="100" bgcolor="#FFFFFF" >刷新时间：</td>
+      <td bgcolor="#FFFFFF"  width="100" >
+        {$resume['refreshtime']|date="Y.m.d H:i",###}
+      </td>
+      <td  height="30" align="right" width="100" bgcolor="#FFFFFF" >点击次数：</td>
+      <td bgcolor="#FFFFFF"  >
+        {$resume['click']}
+      </td>
+    </tr>
+  </table>
+  <div class="toptit">基本信息 </div>
+  <table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF"  >
+    <tr>
+      <td  height="30" align="right" width="80" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">姓名：</td>
+      <td bgcolor="#FFFFFF"  width="100" style=" border-bottom:1px #CCCCCC dashed">
+        {$resume['fullname']}
+      </td>
+      <td  height="30" align="right" width="80" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">性别：</td>
+      <td bgcolor="#FFFFFF"  width="100" style=" border-bottom:1px #CCCCCC dashed">
+        {$resume['sex_cn']}
+      </td>
+      <td align="right" width="80" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">年龄：</td>
+      <td bgcolor="#FFFFFF"   width="100" style=" border-bottom:1px #CCCCCC dashed">
+        {$resume['age']}
+      </td>
+      <td align="right" width="80" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">身高：</td>
+      <td bgcolor="#FFFFFF"  width="350" style=" border-bottom:1px #CCCCCC dashed">
+        <if condition="$resume['height'] eq '0'">未填写<else />{$resume['height']}</if>
+      </td>
+      <td bgcolor="#FFFFFF" rowspan="4" width="80" style="border:1px solid #ccc;padding:3px">
+      <notempty name="resume['photo_img']">
+        <img src="{:attach($resume['photo_img'],'avatar')}"/>
+      <else/>
+        <img src="<if condition="$resume['sex'] eq 1">{:attach('no_photo_male.png','resource')}<else/>{:attach('no_photo_female.png','resource')}</if>"/>
+      </notempty>
+      </td>
+    </tr>
+    <tr>
+      <td align="right" width="80" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">学历：</td>
+      <td bgcolor="#FFFFFF"  style=" border-bottom:1px #CCCCCC dashed">
+        {$resume['education_cn']}
+      </td>
+      <td height="30" width="80" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">婚姻状况：</td>
+      <td bgcolor="#FFFFFF" width="100" style=" border-bottom:1px #CCCCCC dashed;">
+        {$resume['marriage_cn']}
+      </td>
+      <td align="right" width="80" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">工作经验：</td>
+      <td bgcolor="#FFFFFF"  colspan="3" style=" border-bottom:1px #CCCCCC dashed">
+        {$resume['experience_cn']}
+      </td>
+    </tr>
+    <tr>
+      <td height="30"  align="right" width="80"  bgcolor="#FFFFFF" >特长标签：</td>
+      <td bgcolor="#FFFFFF"  colspan="7" >
+        {$resume['tag_cn']}
+      </td>
+    </tr>
+  </table>
+  <div class="toptit">求职意向</div>
+  <table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF"  >
+    <tr>
+      <td height="30" width="130" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">期望岗位性质：</td>
+      <td bgcolor="#FFFFFF"  style=" border-bottom:1px #CCCCCC dashed;">
+        {$resume['nature_cn']}
+      </td>
+    </tr>
+    <tr>
+      <td height="30" width="130" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">期望工作地：</td>
+      <td bgcolor="#FFFFFF"  style=" border-bottom:1px #CCCCCC dashed;">
+        {$resume['district_cn']}
+      </td>
+    </tr>
+    <tr>
+      <td height="30" width="130" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">期望月薪：</td>
+      <td bgcolor="#FFFFFF"  style=" border-bottom:1px #CCCCCC dashed;">
+        {$resume['wage_cn']}
+      </td>
+    </tr>
+    <tr>
+      <td height="30" width="130" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed;">期望从事的岗位：</td>
+      <td bgcolor="#FFFFFF"  style=" border-bottom:1px #CCCCCC dashed;">
+        {$resume['intention_jobs']}
+      </td>
+    </tr>
+    <tr>
+      <td height="30" width="130" align="right" bgcolor="#FFFFFF" >期望从事的行业：</td>
+      <td bgcolor="#FFFFFF" >
+        {$resume['trade_cn']}
+      </td>
+    </tr>
+  </table>
+  <div class="toptit">个人简介</div>
+  <if condition="$resume['specialty']">
+  <table width="98%" border="0" align="center" cellpadding="0" cellspacing="10">
+    <tr>
+      <td style="line-height:180%"> {$resume['specialty']}</td>
+    </tr>
+  </table>
+  <else />
+  <div style="height:40px; line-height:40px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您没有填写特长描述。</div>
+  </if>
+  <div class="toptit">教育经历</div>
+  <if condition="$resume_education">
+  <table width="100%" border="0" cellspacing="1" cellpadding="5"  class="link_lan">
+    <tr>
+      <td width="180" height="23" align="center" style=" border-bottom:1px #CCCCCC dashed; color:#003399; ">起止年月</td>
+      <td align="center" style=" border-bottom:1px #CCCCCC dashed; color:#003399;">学校名称</td>
+      <td align="center" style=" border-bottom:1px #CCCCCC dashed; color:#003399;">专业名称</td>
+      <td align="center" style=" border-bottom:1px #CCCCCC dashed; color:#003399;">学历</td>
+    </tr>
+    <volist name="resume_education" id="list">
+    <tr>
+      <td height="23" align="center">{$list['startyear']}年{$list['startmonth']}月至{$list['endyear']}年{$list['endmonth']}</td>
+      <td align="center">{$list['school']}</td>
+      <td align="center">{$list['speciality']}</td>
+      <td align="center">{$list['education_cn']}</td>
+    </tr>
+    </volist>
+  </table>
+ <else />
+  <div style="height:40px; line-height:40px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您没有填写教育经历。</div>
+  </if>
+  <div class="toptit">工作经历</div>
+  <if condition="$resume_work">
+  <table width="100%" border="0" cellspacing="1" cellpadding="5"  class="link_lan">
+    <tr>
+      <td width="180" height="23" align="center" style=" border-bottom:1px #CCCCCC dashed; color:#003399; ">起止年月</td>
+      <td  width="540"  align="center" style=" border-bottom:1px #CCCCCC dashed; color:#003399;">公司名称</td>
+      <td align="center" style=" border-bottom:1px #CCCCCC dashed; color:#003399;">职位名称</td>
+    </tr>
+    <volist name="resume_work" id="list">
+    <tr>
+      <td height="23" align="center">{$list['startyear']}年{$list['startmonth']}月至{$list['endyear']}年{$list['endmonth']}</td>
+      <td align="center">{$list['companyname']}</td>
+      <td align="center">{$list['jobs']}</td>
+    </tr>
+    </volist>
+  </table>
+ <else />
+  <div style="height:40px; line-height:40px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您没有填写工作经历。</div>
+  </if>
+  <div class="toptit">培训经历</div>
+  <if condition="$resume_training">
+  <table width="100%" border="0" cellspacing="1" cellpadding="5"  class="link_lan">
+    <tr>
+      <td width="180" height="23" align="center" style=" border-bottom:1px #CCCCCC dashed; color:#003399; ">起止年月</td>
+      <td width="540" align="center" style=" border-bottom:1px #CCCCCC dashed; color:#003399;">机构名称</td>
+      <td align="center" style=" border-bottom:1px #CCCCCC dashed; color:#003399;">培训课程</td>
+    </tr>
+    <volist name="resume_training" id="list">
+    <tr>
+      <td height="23" align="center">{$list['startyear']}年{$list['startmonth']}月至{$list['endyear']}年{$list['endmonth']}</td>
+      <td align="center">{$list['agency']}</td>
+      <td align="center">{$list['course']}</td>
+    </tr>
+     </volist>
+  </table>
+ <else />
+  <div style="height:40px; line-height:40px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;您没有填写培训经历。</div>
+  </if>
+  <div class="toptit">联系方式</div>
+  <table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF"  >
+    <tr>
+      <td height="30" width="80" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">联系电话：</td>
+      <td bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">
+        {$resume['telephone']}
+      </td>
+    </tr>
+    <tr>
+      <td height="30" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">联系邮箱：</td>
+      <td bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed" class="link_lan">
+        {$resume['email']}
+      </td>
+    </tr>
+    <tr>
+      <td height="30" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">户籍所在地：</td>
+      <td bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed" class="link_lan">
+        {$resume['householdaddress']}
+      </td>
+    </tr>
+  </table>
+  <if condition="$resumeaudit">
+  <form id="Form2" name="Form2" method="post" action="{:U('del_auditreason')}">
+    <div class="toptit">简历审核日志</div>
+    <table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF"  >
+      <volist name="resumeaudit" id="list">
+      <tr>
+        <td height="30" width="180" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">
+          <label>
+            <input type="checkbox" name="a_id[]" value="{$list['id']}">
+            <span style="font-weight:bold">{$list['addtime']|date="Y-m-d H:i:s",###}</span>
+            <label>
+        </td>
+        <td bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">
+          {$list['reason']}
+        </td>
+      </tr>
+      </volist>
+      <tr>
+        <td height="30" align="right" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed">&nbsp;</td>
+        <td height="50" bgcolor="#FFFFFF" style=" border-bottom:1px #CCCCCC dashed"><span style="font-size:14px;">
+          <input name="submit3" type="submit" class="admin_submit"    value="删除所选"/>
+          <input name="submit22" type="button" class="admin_submit"    value="返 回" onclick="javascript:history.back(-1)"/>
+        </span></td>
+      </tr>
+      </table>
+      </form>
+      <else />
+      <table width="100%" border="0" cellpadding="4" cellspacing="0" bgcolor="#FFFFFF"  >
+        <tr>
+          <td height="30" align="right" bgcolor="#FFFFFF" >&nbsp;</td>
+          <td height="50" bgcolor="#FFFFFF" ><span style="font-size:14px;">
+            <input name="submit22" type="button" class="admin_submit"    value="返 回" onclick="javascript:history.back(-1)"/>
+          </span></td>
+        </tr>
+      </table>
+      </if>
+    </div>
+    <include file="public:footer" />
+  </body>
+</html>

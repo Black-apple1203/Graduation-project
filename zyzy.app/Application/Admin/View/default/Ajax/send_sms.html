@@ -1,0 +1,63 @@
+<div class="dialog_box">
+    <if condition="$need_tpl">
+        <div style="margin-left:20px;margin-bottom:10px;">
+            <strong style="color:#FF6600">
+                您当前配置的短信接口是【{$service_info['name']}】。<br/>
+                需要在短信服务平台报备模板后，将模板ID填入下方才可发送。（不支持变量）
+            </strong>
+        </div>
+    </if>
+    <form action="{:U('Ajax/ajax_send_sms')}" method="post" name="form" id="form">
+        <input type="hidden" name="uid" value="{$uid}">
+        <table width="100%" border="0" cellspacing="10" cellpadding="1" style=" margin-bottom:3px;">
+            <tr>
+                <td width="60" align="right">接收手机:</td>
+                <td>
+                    <input name="mobile" type="text" class="input_text_default small" value="{$mobile}"/>
+                </td>
+            </tr>
+            <tr>
+                <td width="60" align="right">发送内容:</td>
+                <td width="420">
+                    <textarea name="txt" class="input_text_default middle" style="height:80px;"></textarea><br>
+                    <span style="color: #999999;">内容超过70个字符将自动截取</span></td>
+            </tr>
+            <if condition="$need_tpl">
+                <tr>
+                    <td width="60" align="right">模板ID:</td>
+                    <td>
+                        <input name="tplid" type="text" class="input_text_default small" value=""/>
+                    </td>
+                </tr>
+            </if>
+            <tr>
+                <td align="right">&nbsp;</td>
+                <td>
+                    <input name="check" type="button" class="admin_submit" id="check" value="立即发送"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#check').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('Ajax/ajax_send_sms')}",$('#form').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>

@@ -1,0 +1,22 @@
+<div class="dialog_box log">
+    <table width="550" border="0" cellpadding="0" cellspacing="0" id="list" class="link_blue">
+        <tr>
+            <td width="100" class="admin_list_tit admin_list_first">投递时间</td>
+            <td width="75" class="admin_list_tit">操作人</td>
+            <td class="admin_list_tit">职位/公司</td>
+        </tr>
+        <if condition="$list">
+            <volist name="list" id="vo">
+                <tr>
+                    <td class="admin_list admin_list_first">{:date('m-d H:i',$vo['apply_addtime'])}</td>
+                    <td class="admin_list">{$vo['admin_username']|default='-'}</td>
+                    <td class="admin_list"><strong>{$vo['jobs_name']}</strong>({$vo['company_name']})</td>
+                </tr>
+            </volist>
+        <else/>
+            <tr>
+                <td colspan="3" class="admin_list admin_list_first">没有任何信息！</td>
+            </tr>
+        </if>
+    </table>
+</div>

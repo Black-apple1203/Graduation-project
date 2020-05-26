@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta" />
+    <link href="../public/css/personal/common.css?v={:strtotime('today')}" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_job.css?v={:strtotime('today')}" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+    <include file="public:header_other" />
+    <div class="us-top">
+        <div class="us-main">
+            <div class="us-top-box">
+                <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                    <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                    <div class="se-btn"><input type="submit" value="搜 索"></div>
+                    <div class="clear"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="user_main">
+        <include file="index_left_nav"/>
+        <div class="mainbox">
+            <div class="tab">
+                <if condition="C('qscms_share_allowance_open')">
+                    <a class="li select" href="{:U('share_allowance_partake')}">分享红包</a>
+                </if>
+                <if condition="C('qscms_inviter_perfected_resume_allowance_open')">
+                    <a class="li J_hoverbut" href="{:U('invite_friend')}">邀请赚钱</a>
+                </if>
+                <div class="clear"></div>
+            </div>
+            <div class="share_alo_list_th">
+                <div class="th1">分享的职位</div>
+                <div class="th2">任务红包</div>
+                <div class="th3">任务进度</div>
+                <div class="th4">
+                    <div class="input_100_30_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text"><switch name="Think.get.completion_status"><case value="1">已完成</case><case value="2">已停止</case><case value="3">已过期</case><case value="0">分享中</case><default />任务状态</case></switch></span>
+                        <div class="dropdowbox7 J_dropdown_menu">
+                            <div class="dropdow_inner7">
+                                <ul class="nav_box">
+                                    <li><a class="J_listitme" href="{:P(array('completion_status'=>''))}">全部</a></li>
+                                    <li><a class="J_listitme" href="{:P(array('completion_status'=>1))}">已完成</a></li>
+                                    <li><a class="J_listitme" href="{:P(array('completion_status'=>2))}">已停止</a></li>
+                                    <li><a class="J_listitme" href="{:P(array('completion_status'=>3))}">已过期</a></li>
+                                    <li><a class="J_listitme" href="{:P(array('completion_status'=>0))}">分享中</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="th5">
+                    <div class="input_100_30_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text"><switch name="Think.get.pay_status"><case value="1">已发放</case><case value="2">未发放</case><case value="3">已发完</case><case value="0">未发放</case><default />红包状态</case></switch></span>
+                        <div class="dropdowbox7 J_dropdown_menu">
+                            <div class="dropdow_inner7">
+                                <ul class="nav_box">
+                                    <li><a class="J_listitme" href="{:P(array('pay_status'=>''))}">全部</a></li>
+                                    <li><a class="J_listitme" href="{:P(array('pay_status'=>1))}">已发放</a></li>
+                                    <li><a class="J_listitme" href="{:P(array('pay_status'=>2))}">未发放</a></li>
+                                    <li><a class="J_listitme" href="{:P(array('pay_status'=>3))}">已发完</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="th6">分享时间</div>
+                <div class="clear"></div>
+            </div>
+            <form id="form1" action="{:U('share_allowance_partake_del')}" method="post" class="J_allListBox">
+                <notempty name="partake['list']">
+                <volist name="partake['list']" id="vo">
+                    <div class="share_alo_list">
+                        <div class="th1 link_blue substring">
+                            <input class="J_allList" name="id[]" type="checkbox" value="{$vo.id}"/>
+                            <a target="_blank" href="{$vo.jobs_url}" title="">{$vo.jobs_name}</a>
+                        </div>
+                        <div class="th2"><span class="yellow_txt">{$vo.amount}元</span></div>
+                        <div class="th3">{$vo.views}/{$vo.task_views} 人</div>
+                        <div class="th4"><span class="<switch name="vo['completion_status']"><case value="1">green_txt</case><case value="2">red_txt</case><case value="3">gray_txt</case><case value="0">gray_txt</case></switch>">{$vo.completion_status_cn}</span></div>
+                        <div class="th5"><span class="<if condition="$vo['pay_status'] eq 1">green_txt<else/>gray_txt</if>">{$vo.pay_status_cn}</span></div>
+                        <div class="th6">{:date('Y-m-d',$vo['addtime'])}</div>
+                    </div>
+                </volist>
+                <else />
+                    <div class="res_empty">
+                        抱歉，您还没做过分享任务呢！
+                </div>
+                </notempty>
+                <!-- <div class="share_alo_list_but">
+                    <div class="td1"><input name="" class="J_allSelected" type="checkbox" value=""/></div>
+                    <div class="td3">
+                        <div class="but_gray_80_32 J_hoverbut" id="delall">删除</div>
+                    </div>
+                    <div class="clear"></div>
+                </div> -->
+            </form>
+        </div>
+    </div>
+    <include file="index_footer"/>
+    <script type="text/javascript" src="../public/js/jquery.listitem.js"></script>
+    <script type="text/javascript" src="../public/js/jquery.dropdown.js"></script>
+    <script type="text/javascript" src="../public/js/jquery.allselected.js"></script>
+    <script>
+        // 删除
+        $("#delall").click(function(){
+            var listCheckedArray = $('.J_allListBox .J_allList:checked');
+            if (listCheckedArray.length) {
+                var url = $("#form1").attr('action');
+                var qsDialog = $(this).dialog({
+                    title: '删除分享红包任务',
+                    loading: true,
+                    border: false,
+                    yes: function () {
+                        $("#form1").submit();
+                    }
+                });
+                $.getJSON(url, function (result) {
+                    if (result.status == 1) {
+                        qsDialog.setContent(result.data.html);
+                    } else {
+                        disapperTooltip('remind', result.msg);
+                    }
+                });
+            } else {
+                disapperTooltip("remind", "请选择要删除的记录");
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_jobfair.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+			<include file="left_seniorjobfair" /> 
+				 
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">近期招聘会</div>
+					<div class="clear"></div>
+				</div>
+				<div class="jobfairWrap">
+					<notempty name="jobfair_list['list']">
+						<volist name="jobfair_list['list']" id="jobfair">
+							<div class="jobfairList">
+								<div class="timeWrap">
+									<div class="week">周{$week[date('w',$jobfair['holddate_start'])]}</div>
+									<div class="time">{:date('m.d',$jobfair['holddate_start'])}</div>
+									<div class="arrow"></div>
+								</div>
+								<div class="info">
+									<div class="title substring">
+										<a target="_blank" href="{:url_rewrite('QS_seniorjobfairshow',array('id'=>$jobfair['id']))}" title="{$jobfair.title}">{$jobfair.title}</a>
+									</div>
+									<div class="addressWrap">
+										<span>举办时间：{:date('Y-m-d',$jobfair['holddate_start'])}至{:date('Y-m-d',$jobfair['holddate_end'])}</span><br>
+									</div>
+									<div class="addressWrap">
+										<span class="address">举办地点：{:cut_str($jobfair['address'],30,0)}</span>
+									</div>
+								</div>
+								<div class="btns">
+									<if condition="$jobfair['audit'] eq 2">
+										<span class="font_yellow">等待审核</span>
+									<elseif condition="$jobfair['audit'] eq 1" />
+										<span class="font_green">预订成功</span>
+									<elseif condition="$jobfair['holddate_start'] gt time()" />
+										<div class="btn_blue J_hoverbut btn_90_38" onclick="window.open('{:url_rewrite('QS_seniorjobfairshow',array('id'=>$jobfair['id']))}')">我要参会</div>
+									<else />
+										<div class="btn_lightgray J_hoverbut btn_90_38">已结束</div>
+									</if>
+								</div>
+								<div class="clear"></div>
+							</div>
+						</volist>
+					<else/>
+						<div class="res_empty link_blue">
+							近期暂无招聘会，建议您主动出击找人才！<br />
+							海量优质简历任您选，快速招人不再难。立即 <a href="{:url_rewrite('QS_resume')}" target="_blank">搜人才</a>
+						</div>
+					</notempty>
+				</div>
+				<div class="qspage">{$jobfair_list['page']}</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+	</body>
+</html>

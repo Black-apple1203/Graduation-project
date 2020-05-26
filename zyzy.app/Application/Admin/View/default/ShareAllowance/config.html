@@ -1,0 +1,127 @@
+<include file="public:header"/>
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>分享红包一旦开启中途不可取消。请勿随意切换开启关闭状态，请根据实际运营配置，开启分享红包需正确配置微信支付参数。</p>
+    </div>
+<form id="form1">
+    <div class="toptit">分享红包配置</div>
+    <div class="form_main width200">
+        <div class="fl">开启分享红包：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_share_allowance_open') eq 1">select</if>"><input name="share_allowance_open" type="hidden" value="{:C('qscms_share_allowance_open')}" /></div>
+            <div class="clear"></div>
+            <div style="padding-top:10px;color: #999999;">分享红包的某些功能可能被微信视为诱导分享拦截域名，请谨慎开启！</div>
+        </div>
+        <div class="fl">任务有效期设置：</div>
+        <div class="fr">
+            <input name="share_allowance_deadline" type="text" class="input_text_default small" value="{:C('qscms_share_allowance_deadline')}" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 天
+        </div>
+        <div class="fl">服务费收取设置：</div>
+        <div class="fr">
+            <input name="share_allowance_service_charge" type="text" class="input_text_default small" maxlength="100" value="{:C('qscms_share_allowance_service_charge')}" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"> % 
+            <label class="no-fl-note">（0为不收取）</label>
+        </div>
+        <div class="fl">个人简历完整度限制：</div>
+        <div class="fr">
+            <input name="share_allowance_complete_percent" type="text" class="input_text_default small" maxlength="100" value="{:C('qscms_share_allowance_complete_percent')}" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"> % 
+        </div>
+        <div class="fl">新用户多长时间不能参与：</div>
+        <div class="fr">
+            <input name="share_allowance_new_timespace" type="text" class="input_text_default small" maxlength="100" value="{:C('qscms_share_allowance_new_timespace')}" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"> 天 
+            <label class="no-fl-note">（0为不限）</label>
+        </div>
+        <div class="fl">每天分享红包任务限制数：</div>
+        <div class="fr">
+            <input name="share_allowance_maxtime_perday" type="text" class="input_text_default small" maxlength="100" value="{:C('qscms_share_allowance_maxtime_perday')}" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"> 次 
+            <label class="no-fl-note">（0为不限）</label>
+        </div>
+        <div class="fl">允许参与的手机号归属地：</div>
+        <div class="fr">
+            <textarea name="share_allowance_signon_mobile_address" class="input_text_default" style="line-height:200%; height:70px;">{:C('qscms_share_allowance_signon_mobile_address')}</textarea>
+            <label class="no-fl-note">（请输入城市名，多个请用英文半角逗号“,”隔开，如：北京,太原。留空则为不限制）</label>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" id="J_submit" value="保存修改"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<div class="toptit">黑名单列表</div>
+<div class="list_th">
+    <div class="td" style=" width:15%;">
+         <label id="chkAll" class="left_padding">用户名</label>
+    </div>
+    <div class="td center" style=" width:10%;">添加时间</div>
+    <div class="td" style=" width:60%;">备注</div>
+    <div class="td" style=" width:10%;">操作</div>
+    <div class="clear"></div>
+</div>
+<volist name="list" id="vo">
+    <div class="list_tr link_black">
+        <div class="td" style=" width:15%;">
+            <div class="left_padding striking">
+                {$vo['username']}
+                <if condition="$vo['avatars'] neq ''">
+                    &nbsp;<span class="vtip" title="<img src='{:attach($vo['avatars'],'avatar')}' border=0 align=absmiddle width=120 height=120>">
+                        <img class="avatar small" src="{:attach($vo['avatars'],'avatar')}" align="absmiddle">
+                    </span>
+                </if>
+            </div>
+        </div>
+        <div class="td center" style=" width:10%;">
+            {:admin_date($vo['addtime'])}
+        </div>
+        <div class="td" style=" width:60%;">{$vo.note}</div>
+        <div class="td edit" style=" width:10%;">
+            <a href="javascript:;" class="J_delete" data-uid="{$vo.uid}">移除</a>
+        </div>
+        <div class="clear"></div>
+    </div>
+</volist>
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+</div>
+<include file="public:footer"/>
+<script>
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('ShareAllowance/config')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+    $('.J_delete').click(function(){
+        var uid = $(this).data('uid');
+        layer.confirm('移除后会员将恢复职位分享红包功能，确定从黑名单中移除吗？', {
+            btn: ['确定','取消'] //按钮
+        }, function(){
+            $.post("{:U('ShareAllowance/ajax_blacklist_delete')}", {uid:uid}, function (result) {
+                if(result.status == 1){
+                    layer.msg(result.msg, {icon: 1});
+                    setTimeout(function () {
+                        window.location.reload();
+                    }, 2000);
+                } else {
+                    layer.msg(result.msg, {icon: 0});
+                }
+            });
+        }, function(){
+        });
+    });
+</script>
+</body>
+</html>

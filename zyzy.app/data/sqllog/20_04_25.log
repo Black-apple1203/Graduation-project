@@ -1,0 +1,12 @@
+[ 2020-04-25T16:45:58+08:00 ] 127.0.0.1 /index.php?m=&c=members&a=logout
+SQL: SELECT * FROM `qs_promotion` WHERE `cp_endtime` < 1587804357    [RunTime:0.3897s] [IP:127.0.0.1:49203] [AddTime:1587804358] [qscms]
+[ 2020-04-25T16:45:59+08:00 ] 127.0.0.1 /index.php?m=&c=members&a=logout
+SQL: SELECT * FROM `qs_personal_service_stick_log` WHERE `endtime` < 1587804358    [RunTime:0.3384s] [IP:127.0.0.1:49203] [AddTime:1587804359] [qscms]
+[ 2020-04-25T16:46:00+08:00 ] 127.0.0.1 /index.php?m=&c=members&a=logout
+SQL: SELECT * FROM `qs_members_setmeal` WHERE ( `endtime` <= 1587804359 AND `endtime` <> 0  ) AND `setmeal_id` > 1    [RunTime:0.277s] [IP:127.0.0.1:49203] [AddTime:1587804360] [qscms]
+[ 2020-04-25T16:46:26+08:00 ] 127.0.0.1 /index.php?m=admin&c=order&a=index_per
+SQL: SHOW COLUMNS FROM `qs_menu` [RunTime:0.9342s] [IP:127.0.0.1:49296] [AddTime:1587804386] [qscms]
+[ 2020-04-25T21:38:22+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair_stat
+SQL: SELECT `spid` FROM `qs_menu` WHERE `id` = 717    LIMIT 1  [RunTime:0.2766s] [IP:127.0.0.1:32827] [AddTime:1587821902] [qscms]
+[ 2020-04-25T21:39:27+08:00 ] 127.0.0.1 /index.php?m=admin&c=business_setmeal&a=index
+SQL: SELECT qs_company_profile.*,m.username,m.mobile,m.email as memail,s.starttime,s.endtime,if(s.endtime>0,s.endtime,(s.endtime+10000000000)) as sort_endtime FROM `qs_company_profile` left join qs_members as m on qs_company_profile.uid=m.uid left join qs_members_setmeal as s on qs_company_profile.uid=s.uid    ORDER BY starttime desc ,id asc  LIMIT 0,10  [RunTime:0.2203s] [IP:127.0.0.1:33056] [AddTime:1587821967] [qscms]

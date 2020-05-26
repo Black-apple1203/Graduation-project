@@ -1,0 +1,71 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>数据表优化可以去除数据文件中的碎片，使记录排列紧密，提高读写速度。</p>
+</div>
+<form id="form1" name="form1" method="post" action="{:U('database/doOptimize')}">
+    <div class="list_th">
+        <div class="td" style=" width:40%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>数据表
+            </label>
+        </div>
+        <div class="td center" style=" width:5%;">类型</div>
+        <div class="td center" style=" width:10%;">记录数</div>
+        <div class="td center" style=" width:20%;">数据大小</div>
+        <div class="td center" style=" width:10%;">碎片byte</div>
+        <div class="clear"></div>
+    </div>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0"  id="list" class="link_lan" >
+        <volist name="list" id="vo">
+            <div class="list_tr link_lan">
+                <div class="td" style=" width:40%;">
+                    <div class="left_padding striking">
+                        <input name="tables[]" type="checkbox"   value="{$vo.name}" checked="checked"/>{$vo.name}
+                    </div>
+                </div>
+                <div class="td center" style=" width:5%;">{$vo.engine}</div>
+                <div class="td center" style=" width:10%;">{$vo.rows}</div>
+                <div class="td center" style=" width:20%;">{$vo.data_length}</div>
+                <div class="td center" style=" width:10%;">{$vo.data_free}</div>
+                <div class="clear"></div>
+            </div>
+        </volist>
+    </table>
+    <empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="list_foot">
+        <div class="btnbox">
+            <input name="ButAudit" type="submit" class="admin_submit" id="ButDelOrder"  value="优化表"  />
+        </div>
+    </div>
+</form>
+<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+$(document).ready(function()
+{
+$("#selectAll").click(function()
+{
+$("form :checkbox").attr("checked",true);
+setbg();
+});
+$("#uncheckAll").click(function()
+{
+$("form :checkbox").attr("checked",false);
+setbg();
+});
+$("#opposite").click(function()
+{
+$("form :checkbox").each(function()
+{
+$(this).attr("checked")?$(this).attr("checked",false):$(this).attr("checked",true);
+});
+setbg();
+});
+});
+</script>
+</body>
+</html>

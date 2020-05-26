@@ -1,0 +1,173 @@
+<include file="public:header"/>
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>系统将自动下架到期广告。</p>
+        <p>按广告位显示广告请点击右下角按钮</p>
+    </div>
+<div class="seltpye_y">
+    <div class="tit">到期时间</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.settr' value=''>select</neq>">{$Think.get.settr_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('settr'=>'','settr_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('settr'=>'0','settr_cn'=>'已经到期'))}">已经到期</li>
+        <li url="{:P(array('settr'=>'3','settr_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('settr'=>'7','settr_cn'=>'一周内'))}">一周内</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">显示状态</div>
+    <div class="ct">
+        <div class="txt <neq name='Think.get.is_display' value=''>select</neq>">{$Think.get.is_display_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('is_display'=>'','is_display_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('is_display'=>'1','is_display_cn'=>'正常'))}">正常</li>
+        <li url="{:P(array('is_display'=>'0','is_display_cn'=>'停止'))}">停止</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">广告位</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.alias'>select</notempty>">{$Think.get.alias_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('alias'=>'','alias_cn'=>'不限'))}">不限</li>
+        <volist name="category_list" id="vo">
+            <li url="{:P(array('alias'=>$vo['alias'],'alias_cn'=>$vo['categoryname']))}" title="{$vo.categoryname}">{$vo.categoryname}</li>
+        </volist>
+    </div>
+</div>
+<if condition="C('qscms_subsite_open') eq 1">
+<div class="seltpye_y">
+    <div class="tit">分站</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.subsite_id'>select</notempty>">{$Think.get.s_sitename|default="不限"}</div>
+    </div>
+    <div class="downlist">
+		<li url="{:P(array('subsite_id'=>'',s_sitename=>'不限'))}" <if condition="$Think.get.subsite_id eq ''">class="select"</if>>不限</a>
+			<volist name="subsite_list" id="subsite">
+				<li url="{:P(array('subsite_id'=>$subsite['s_id'],s_sitename=>$subsite['s_sitename']))}" <if condition="$Think.get.subsite_id eq $subsite['s_id']">class="select"</if>>{$subsite.s_sitename}</a>
+			</volist>
+    </div>
+</div>
+</if>
+<div class="clear"></div>
+
+<form id="form1" name="form1" method="post" action="{:U('delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:32%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>广告标题
+            </label>
+        </div>
+        <div class="td" style=" width:20%;">所属广告位</div>
+        <div class="td center" style=" width:6%;">类型</div>
+        <div class="td center" style=" width:10%;">开始时间</div>
+        <div class="td center" style=" width:10%;">到期时间</div>
+        <div class="td center" style=" width:6%;">状态</div>
+        <div class="td center" style=" width:6%;">排序</div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_blue">
+            <div class="td" style=" width:32%;">
+                <div class="left_padding striking">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['id']}"/>
+                    <a href="{:U('edit',array('id'=>$vo['id']))}" <if condition="$vo['text_color']">style="color:{$vo.text_color}</if> <if condition="$vo['type_id'] eq 1"> class="vtip" title="{$vo.content}"</if> <if condition="$vo['type_id'] eq 2"> class="vtip" title='<img src="{:attach($vo['content'],'attach_img')}"/>'</if>>{$vo.title}<if condition="C('qscms_subsite_open') eq 1">({$subsite_list[$vo['subsite_id']]['s_sitename']|default="总站"})</if><!--分站标识--></a>
+                    <if condition="$vo['note'] neq ''">
+                        <img src="__ADMINPUBLIC__/images/comment_alert.gif" border="0" class="vtip" title="{$vo.note}"/>
+                    </if>
+                </div>
+            </div>
+            <div class="td" style=" width:20%;">{$category_list[$vo['alias']]['categoryname']|default="-"}</div>
+            <div class="td center" style=" width:6%;">
+                <switch name="vo['type_id']">
+                    <case value="1">文字</case>
+                    <case value="2">图片</case>
+                    <case value="3">代码</case>
+                    <case value="4">FLASH</case>
+                    <case value="5">浮动</case>
+                    <case value="6">视频</case>
+                </switch>
+            </div>
+            <div class="td center" style=" width:10%;">
+                <if condition="$vo['starttime'] eq 0">无限制<else/>{:date('Y-m-d',$vo['starttime'])}</if>
+            </div>
+            <div class="td center" style=" width:10%;">
+                <if condition="$vo['deadline'] eq 0">
+                    无限制
+                    <elseif condition="$vo['deadline'] elt time()"/>
+                    <span style="color:#FF6600">已经到期</span>
+                    <else/>
+                    {:date('Y-m-d',$vo['deadline'])}
+                </if>
+            </div>
+            <div class="td center" style=" width:6%;">
+                <if condition="$vo['is_display'] eq 1">正常<else/><span style="color:#999999">暂停</span></if>
+            </div>
+            <div class="td center" style=" width:6%;">{$vo.show_order}</div>
+            <div class="td edit" style=" width:10%;">
+                <a href="{:U('edit',array('id'=>$vo['id']))}">修改</a>
+                <a href="{:U('delete',array('id'=>$vo['id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAdd" value="添加广告" onclick="window.location='{:U('add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除所选"/>
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='标题'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='标题'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="标题">标题</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //点击批量删除
+        $("#ButDel").click(function () {
+            var ids = $("input[name='id[]']:checked");
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择广告！');
+            } else {
+                if(confirm('确定删除吗？')){
+                    $("form[name=form1]").submit();
+                }
+            }
+        });
+    });
+</script>
+</html>

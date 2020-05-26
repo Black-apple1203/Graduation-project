@@ -1,0 +1,140 @@
+<include file="public:header"/>
+<div class="seltpye_y">
+    <div class="tit">所属分类</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.infotype'>select</notempty>">{$Think.get.infotype_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('infotype'=>'','infotype_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('infotype'=>'1','infotype_cn'=>'意见'))}">意见</li>
+        <li url="{:P(array('infotype'=>'2','infotype_cn'=>'建议'))}">建议</li>
+        <li url="{:P(array('infotype'=>'3','infotype_cn'=>'求助'))}">求助</li>
+        <li url="{:P(array('infotype'=>'4','infotype_cn'=>'投诉'))}">投诉</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">处理状态</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.audit'>select</notempty>">{$Think.get.audit_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('audit'=>'','audit_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('audit'=>'1','audit_cn'=>'未处理'))}">未处理<if condition="$count"><span style="color: #ff0000;">({$count})</span></if></li>
+        <li url="{:P(array('audit'=>'2','audit_cn'=>'已处理'))}">已处理</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">添加时间</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.settr'>select</notempty>">{$Think.get.settr_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('settr'=>'','settr_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('settr'=>'3','settr_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('settr'=>'7','settr_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('settr'=>'30','settr_cn'=>'一月内'))}">一月内</li>
+        <li url="{:P(array('settr'=>'180','settr_cn'=>'半年内'))}">半年内</li>
+        <li url="{:P(array('settr'=>'360','settr_cn'=>'一年内'))}">一年内</li>
+    </div>
+</div>
+<div class="clear"></div>
+
+<form id="form1" name="form1" method="post" action="{:U('delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:10%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>类型
+            </label>
+        </div>
+        <div class="td" style=" width:10%;">核实情况</div>
+        <div class="td" style=" width:45%;">内容</div>
+        <div class="td" style=" width:15%;">联系方式</div>
+        <div class="td center" style=" width:15%;">添加时间</div>
+        <div class="td" style=" width:5%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_blue">
+            <div class="td" style=" width:10%;">
+                <div class="left_padding striking">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['id']}"/>
+                    <switch name="vo['infotype']">
+                        <case value="1">意见</case>
+                        <case value="2">建议</case>
+                        <case value="3">求助</case>
+                        <case value="4">投诉</case>
+                    </switch>
+                </div>
+            </div>
+            <div class="td" style=" width:10%;">
+                <if condition="$vo['audit'] eq 2">已处理
+                    <else /><span style="color: #ff0000;">未处理</span>
+                </if>
+            </div>
+            <div class="td vtip" style=" width:45%;" title="{:str_replace(array('&lt;','&gt;','/','<','>','script'),'',nl2br($vo['feedback']))}">{$vo.feedback|default='-'}</div>
+            <div class="td" style=" width:15%;">{$vo.tel|default='-'}</div>
+            <div class="td center" style=" width:15%;">{:admin_date($vo['addtime'])}</div>
+            <div class="td edit" style=" width:5%;">
+                <a href="{:U('delete',array('id'=>$vo['id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAudit" value="处理"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除所选"/>
+    </div>
+    <div class="footso"></div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //处理
+        $("#ButAudit").click(function () {
+            var data = $("form[name=form1]").serialize();
+            if(data.length == 0){
+                disapperTooltip('remind','请选择意见建议！');
+            } else {
+                var qsDialog = $(this).dialog({
+                    title: '处理意见建议',
+                    loading: true,
+                    footer : false
+                });
+                var url = "{:U('Ajax/feedback_audit')}";
+                $.post(url, data, function (result) {
+                    if(result.status == 1){
+                        qsDialog.setContent(result.data);
+                    } else {
+                        qsDialog.hide();
+                        disapperTooltip('remind',result.msg);
+                    }
+                });
+            }
+        });
+        //点击批量删除
+        $("#ButDel").click(function () {
+            var ids = $("input[name='id[]']:checked");
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择意见建议！');
+            } else {
+                if(confirm('确定删除吗？')){
+                    $("form[name=form1]").submit();
+                }
+            }
+        });
+    });
+</script>
+</html>

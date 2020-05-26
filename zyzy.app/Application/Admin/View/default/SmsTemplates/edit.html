@@ -1,0 +1,48 @@
+<include file="public:header" />
+	<div class="toptip">
+		<h2>提示：</h2>
+		<p>短信模板请勿添加HTML。<br />短信内容不能超过60个字符，超过将会自动删除多余字符。</p>
+	</div>
+	<div class="toptit">编辑短信模板 <span style="color:#0033CC">{$info.name}</span></div>
+	<form action="{:U('SmsTemplates/edit')}" method="post"   name="form1" id="form1">
+		<table width="500" border="0" cellspacing="0" cellpadding="5" style=" margin-top:6px; margin-left:15px;">
+		  <tr>
+            <td>
+            	<div id="{sitename}" class="sellabel">网站名称</div>
+            	<div id="{sitedomain}" class="sellabel">网站域名</div>
+	            <volist name="info['variate']" id="variate">		
+					<div id="{$key}" class="sellabel">{$variate}</div>
+				</volist>		
+				<div class="clear"></div>
+			</td>
+          </tr>
+		  <tr>
+            <td><textarea name="value" class="input_textarea_400" id="templates_value">{$info.value}</textarea></td>
+          </tr>
+          <tr>
+            <td height="50">
+			  <input name="id" type="hidden" value="{$info.id}" />
+              <input type="submit" class="admin_submit" value="保存修改"/>
+			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input name="submit22" type="button" class="admin_submit" value="返 回" onclick="window.location='{:U('SmsTemplates/index')}'"/></td>
+          </tr>
+        </table>
+	</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.caretInsert.js"></script>
+<script language="JavaScript" type="text/javascript"> 
+	$(function(){
+		$('.sellabel').hover(function(){
+			$(this).css("background-color","#ffffff");
+		},function(){
+			$(this).css("background-color","#F4FAFF");
+		});
+		$('.sellabel').unbind("click").click(function(){ 
+			$('#templates_value').setCaret();
+			$('#templates_value').insertAtCaret($(this).attr("id"));
+		});
+	});  
+</script> 
+</body>
+</html>

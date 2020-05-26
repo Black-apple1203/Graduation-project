@@ -1,0 +1,129 @@
+*{
+	margin: 0;
+	padding: 0;
+}
+ul li{
+	list-style: none;
+}
+
+a{
+	text-decoration: none;
+}
+img{
+	border: 0;
+}
+/* 以上为通用样式 */
+
+/* 微海报选模板开始 */
+.whb_template{
+	width: 938px;
+	height: 500px;
+	margin: 20px auto 0;
+}
+.whb_template_top{
+	width: 938px;
+	height: 39px;
+	background: #efefef;
+	margin: 0 auto 22px;
+}
+.whb_template_top_left{
+	width: 60px;
+	height: 39px;
+	line-height: 39px;
+	text-align: center;
+	font-size: 14px;
+	color: #666666;
+	margin-left: 18px;
+	float: left;
+}
+.whb_template_top_right{
+	float: right;
+	font-size: 14px;
+	color: #999999;
+	height: 39px;
+	line-height: 39px;
+	margin-right: 18px;
+}
+.whb_template_bottom{
+	width: 938px;
+	margin: 0 auto;
+	height: auto;
+	background: red;
+}
+.whb_template_bottom ul li{
+	width: 300px;
+	height: 435px;
+	float: left;
+	position: relative;
+	margin-left: 18px;
+	box-shadow: 0 0 6px 0 rgba(0,0,0,.19);
+}
+.whb_template_bottom ul li:hover{
+	box-shadow: 0 0 6px 0 rgba(0,0,0,.19);
+}
+
+.whb_template_img{
+	width: 300px;
+	height: 370px;
+	margin: 0 auto;
+	overflow:hidden;
+}
+.whb_template_img img{
+	width: 300px;
+
+}
+.whb_template_imgtxt{
+	width: 300px;
+	height: 53px;
+	line-height: 53px;
+	font-size: 14px;
+}
+.whb_template_imgtxt a:first-child{
+	color: #666666;
+	display: block;
+	float: left;
+	margin-left: 16px;
+}
+.whb_template_imgtxt a:first-child+a{
+	display: block;
+	float: right;
+	color: #666666;
+	width: 44px;
+	background: url(./img/whb3.png) no-repeat left;
+	padding-left: 21px;
+}
+.whb_template_imgtxt a:first-child+a:hover .whb_template_position{
+	display: block;
+}
+.whb_template_imgtxt a:hover{
+	text-decoration: underline;
+}
+.whb_template_position{
+	width:300px;
+	height: 380px;
+	position: absolute;
+	left: 0;
+	top: 0;
+	background: url(./img/whb4.png) no-repeat center;
+	background-size: 300px 380px;
+	display: none;
+}
+.whb_template_sqr{
+	width: 130px;
+	height: 130px;
+	background: #fff;
+	margin: 100px auto 5px;
+}
+.whb_template_sqr img{
+	width: 130px;
+	height: 130px;
+}
+.whb_template_sqrtext{
+	font-size: 16px;
+	color: #fff;
+	text-align: center;
+}
+.whb_template_bottom ul li:hover .whb_template_position{
+	display:block;
+}
+/* 微海报选模板结束 */

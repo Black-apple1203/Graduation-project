@@ -1,0 +1,81 @@
+<include file="public:header" />
+<form id="form2">
+    <div class="toptit">关键词过滤</div>
+    <div class="form_main width200">
+        <div class="fl">是否开启：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_badword_status') eq 1">select</if>"><input name="badword_status" type="hidden" value="{:C('qscms_badword_status')}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit2" type="button" id="J_submit" class="admin_submit" value="保存修改"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<form id="form1" name="form1" method="post" action="{:U('safety/badword_delete')}">
+    <div class="list_th">
+        <div class="td" style="width:35%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>关键词
+            </label>
+        </div>
+        <div class="td center" style="width:15%;">替换词&nbsp;&nbsp;&nbsp;</div>
+        <div class="td center" style="width:15%;">状态</div>
+        <div class="td center" style="width:22%;">添加时间</div>
+        <div class="td" style=" width:13%;">操作</div>
+        <div class="clear"></div>
+    </div>
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style="width:35%;">
+                <div class="left_padding striking">
+                    <label> <input name="tables[]" type="checkbox" value="{$vo.id}" />{$vo.badword}&nbsp;</label>
+                </div>
+            </div>
+            <div class="td center" style="width:15%;">{$vo.replace}&nbsp;</div>
+            <div class="td center" style="width:15%;"><eq name="vo.status" value='1'>可用<else/><span style="color: #FF0000;">不可用</span></eq></div>
+            <div class="td center" style="width:22%;">{:admin_date($vo['add_time'])}&nbsp;</div>
+            <div class="td edit" style="width:13%;">
+                <a href="{:U('safety/badword_edit',array('id'=>$vo['id']))}">编辑</a>
+                <a href="{:U('safety/badword_delete',array('id'=>$vo['id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+            </div>
+        </div>
+    </volist>
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="list_foot">
+    <div class="btnbox">
+        <input name="ButAudit" type="button" class="admin_submit" value="添加关键词"  onclick="javascript:location.href='{:U('safety/badword_add',array('menuid'=>$menuid))}'"/>
+        <input name="ButAudit" type="submit" class="admin_submit" value="删除关键词"/>
+    </div>
+</div>
+</form>
+<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('safety/badword_index')}",$('#form2').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

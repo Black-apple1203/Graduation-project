@@ -1,0 +1,108 @@
+<div class="modify_user_dialog">
+	<div class="tip">
+		短信到达需要1~2分钟，若长时间未收到请点击重新发送！
+	</div>
+	<div id="J_mobileWrap" class="content">
+		<div class="err J_errbox"></div>
+		<div class="td1"><span class="asterisk"></span>&nbsp;原手机号：</div>
+		<div class="td2">
+			<input type="text" data-original="{$visitor.mobile}" value="{$visitor.mobile}" class="input_245_34" name="old_mobile">
+		</div>
+		<div class="clear"></div>
+		<div class="td1"><span class="asterisk"></span>&nbsp;新手机号：</div>
+		<div class="td2">
+			<input type="text" data-original="" value="" class="input_245_34" name="mobile">
+		</div>
+		<div class="clear"></div>
+		<div class="td1"><span class="asterisk"></span>&nbsp;验证码：</div>
+		<div class="td2">
+			<div class="code">
+				<input type="text" class="" name="verifycode">
+			</div>
+	        <div class="codebtn"><input type="button" id="J_mobileVerifyCode" class="btn_verficode J_hoverbut" value="获取验证码"></div>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<div id="popup-captcha"></div>
+<input type="hidden" id="btnCheck" />
+<script type="text/javascript">
+	var timer,ountdownVal = 60,
+	ountdown = function(){
+		ountdownVal--;
+		if(ountdownVal<=0){
+			clearInterval(timer);
+			$('#J_mobileVerifyCode').val('获取验证码').removeClass('disabled').prop('disabled', 0);
+		}else{
+			$('#J_mobileVerifyCode').val('重发'+ ountdownVal +'秒').addClass('disabled').prop('disabled', !0);
+		}
+	};
+	var regularMobileAuth = qscms.regularMobile; // 验证手机号正则
+	$('#J_mobileVerifyCode').click(function(){
+		var mobile = $.trim($('#J_mobileWrap input[name="mobile"]').val());
+		if(mobile == ''){
+			$('#J_mobileWrap .J_errbox').text('新手机号不能不空！').show();
+			return false;
+		}
+		if (mobile != "" && !regularMobileAuth.test(mobile)) {
+			$('#J_mobileWrap .J_errbox').text('手机号码格式不正确！').show();
+			return false;
+		}
+		$('#J_mobileWrap .J_errbox').text('').hide();
+		<if condition="C('qscms_captcha_open') eq 1 && C('qscms_captcha_config.varify_mobile') eq 1">
+            qsCaptchaHandler(function(callBackArr) {
+                var mobileValue = $.trim($('input[name=mobile]').val());
+                var dataArr = {mobile: mobileValue};
+                $.extend(dataArr, callBackArr);
+                $.ajax({
+                    url: qscms.root + '?m=Home&c=Members&a=send_mobile_code',
+                    cache: false,
+                    async: false,
+                    type: 'post',
+                    dataType: 'json',
+                    data: dataArr,
+                    success: function(result) {
+                    if (result.status) {
+                            disapperTooltip("success", "验证码已发送，请注意查收");
+                            // 开始倒计时
+                            var countdown = 60;
+                            function settime() {
+                                if (countdown == 0) {
+                                    $('#J_mobileVerifyCode').prop("disabled", 0);
+                                    $('#J_mobileVerifyCode').removeClass('btn_disabled');
+                                    $('#J_mobileVerifyCode').val('获取验证码');
+                                    countdown = 60;
+                                    return;
+                                } else {
+                                    $('#J_mobileVerifyCode').prop("disabled", !0);
+                                    $('#J_mobileVerifyCode').addClass('btn_disabled');
+                                    $('#J_mobileVerifyCode').val('重发' + countdown + '秒');
+                                    countdown--;
+                                }
+                                setTimeout(function() {
+                                    settime()
+                                },1000)
+                            }
+                            settime();
+                        } else {
+                            $('#J_mobileVerifyCode').prop("disabled", 0);
+                            $('#J_mobileVerifyCode').removeClass('btn_disabled');
+                            $('#J_mobileVerifyCode').val('获取验证码');
+                            disapperTooltip('remind', result.msg);
+                        }
+                    }
+                });
+            });
+        <else/>
+            $.post("{:U('Members/send_mobile_code')}",{mobile:mobile},function(result){
+				if(result.status == 1){
+					disapperTooltip('success',result.msg);
+					timer=setInterval(ountdown,1000);
+				}else{
+					$('#J_mobileWrap .J_errbox').text(result.msg).show();
+				}
+			},'json');
+        </if>
+	});
+</script>

@@ -1,0 +1,148 @@
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="renderer" content="webkit">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{$page_seo.title}</title>
+<meta name="keywords" content="{$page_seo.keywords}"/>
+<meta name="description" content="{$page_seo.description}"/>
+<meta name="author" content="zy拉钩人才系统"/>
+<meta name="copyright" content="74cms.com"/>
+<link rel="shortcut icon" href="{:C('qscms_site_dir')}favicon.ico"/>
+<if condition="$canonical neq ''">
+<link rel="canonical" href="{$canonical}"/>
+</if>
+<script src="{:C('TPL_HOME_PUBLIC_DIR')}/js/jquery.min.js"></script>
+<script src="{:C('TPL_HOME_PUBLIC_DIR')}/js/htmlspecialchars.js"></script>
+<switch name="captcha_type = C('qscms_captcha_type')">
+    <case value="geetest">
+		<script src="https://static.geetest.com/static/tools/gt.js"></script>
+    </case>
+    <case value="vaptcha">
+		<script src="https://v.vaptcha.com/v3.js"></script>
+    </case>
+    <case value="tencent">
+		<script src="https://ssl.captcha.qq.com/TCaptcha.js"></script>
+    </case>
+</switch>
+<script type="text/javascript">
+	var app_spell = "<?php echo APP_SPELL;?>";
+	var qscms = {
+		base : "",
+		keyUrlencode:"{:C('qscms_key_urlencode')}",
+		domain : "http://{$_SERVER['HTTP_HOST']}",
+		root : "__ROOT__/index.php",
+		companyRepeat:"{:C('qscms_company_repeat')}",
+		regularMobile: /^13[0-9]{9}$|14[0-9]{9}$|15[0-9]{9}$|18[0-9]{9}$|17[0-9]{9}$|16[0-9]{9}$|19[0-9]{9}$/,
+		district_level : "{:C('qscms_category_district_level')}",
+		smsTatus: "1",
+		captcha_open:"{:C('qscms_captcha_open')}",
+		varify_mobile:"{:C('qscms_captcha_config.varify_mobile')}",
+		varify_suggest:"{:C('qscms_captcha_config.varify_suggest')}",
+        varify_user_login:"{$verify_userlogin}",
+		is_login:"<if condition="$visitor">1<else/>0</if>",
+		default_district : "{:C('qscms_default_district')}",
+		default_district_spell : "{:C('qscms_default_district_spell')}",
+        subsite: "{:C('qscms_subsite_open')}"
+	};
+    /*ie兼容 Promise*/
+    isIE();
+    function isIE() {
+        if ( !! window.ActiveXObject || "ActiveXObject" in window) {
+            var script = document.createElement("script");
+            script.type = "text/javascript";
+            script.src = "{:C('TPL_HOME_PUBLIC_DIR')}/js/bluebird.js";
+            document.getElementsByTagName('head')[0].appendChild(script);
+        }
+    }
+    /*ie兼容 Promise end*/
+	$(function(){
+	    if (eval(qscms.subsite)) {
+	        // 开启分站
+            $.getJSON("{:U('Home/AjaxCommon/get_sub_header_min')}",function(result){
+                if(eval(result.status) === 1){
+                    $('#J_header_sub').html(result.data.html);
+                }
+            });
+        } else {
+            $.getJSON("{:U('Home/AjaxCommon/get_header_min')}",function(result){
+                if(eval(result.status) === 1){
+                    $('#J_header').html(result.data.html);
+                }
+            });
+        }
+	})
+	// 验证码统一处理
+	function qsCaptchaHandler(passCallback) {
+		var callBackArr = new Array();
+		$.ajax({
+			url: qscms.root + '?m=Home&c=captcha&t=' + (new Date()).getTime(),
+			type: 'get',
+			dataType: 'json',
+			success: function(config) {
+				if (config.verify_type == 'vaptcha') {
+					// 手势验证码
+					vaptcha({
+					    vid: config.vid,
+					    type: 'invisible',
+					    scene: 1,
+					    https: config.https,
+					    offline_server:qscms.root+'?m=Home&c=captcha&a=vaptcha_outage',
+					}).then(function (vaptchaObj) {
+					    obj = vaptchaObj;
+					    vaptchaObj.listen('pass', function() {
+							callBackArr['token'] = vaptchaObj.getToken();
+							passCallback(callBackArr);
+						});
+					    vaptchaObj.listen('close', function() {});
+					    vaptchaObj.validate();
+					});
+				} else if (config.verify_type == 'tencent') {
+					// 腾讯云验证码
+					var TCaptchaObj = new TencentCaptcha(config.vid, function(res) {
+						if(res.ret === 0){
+							callBackArr['Ticket'] = res.ticket;
+							callBackArr['Randstr'] = res.randstr;
+							passCallback(callBackArr);
+						}
+					});
+					TCaptchaObj.show();
+				} else {
+					// 极验
+					initGeetest({
+					    gt: config.gt,
+					    challenge: config.challenge,
+					    offline: !config.success,
+					    new_captcha: config.new_captcha,
+					    product: 'bind',
+						https: true
+					}, function(captchaObj) {
+					    captchaObj.appendTo("#pop");
+					    captchaObj.onSuccess(function() {
+							var captChaResult = captchaObj.getValidate();
+							callBackArr['geetest_challenge'] = captChaResult.geetest_challenge;
+							callBackArr['geetest_validate'] = captChaResult.geetest_validate;
+							callBackArr['geetest_seccode'] = captChaResult.geetest_seccode;
+							if ($('.J_gee_cha')) {
+								$('.J_gee_cha').val(captChaResult.geetest_challenge);
+								$('.J_gee_val').val(captChaResult.geetest_validate);
+								$('.J_gee_sec').val(captChaResult.geetest_seccode);
+							}
+					        passCallback(callBackArr);
+					    })
+					    captchaObj.onReady(function() {
+					        captchaObj.verify();
+					    });
+					    $('#btnCheck').on('click', function() {
+					        captchaObj.verify();
+					    })
+					    window.captchaObj = captchaObj;
+					});
+				}
+			}
+		})
+	}
+</script>
+{$synsitegroupregister}
+{$synsitegroupunbindmobile}
+{$synsitegroupedit}
+{$synsitegroup}

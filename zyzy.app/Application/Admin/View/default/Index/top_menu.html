@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>网站后台管理中心- zy拉钩人才系统</title>
+    <link rel="shortcut icon" href="{:C('qscms_site_dir')}favicon.ico"/>
+    <meta name="author" content="骑士CMS" />
+    <meta name="copyright" content="74cms.com" />
+    <link href="__ADMINPUBLIC__/css/common.css" rel="stylesheet" type="text/css">
+    <script src="__ADMINPUBLIC__/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".frame_top .navmenu a").click(function () {
+                $(".frame_top .navmenu a").removeClass("select");
+                $(this).addClass("select");
+                $(this).blur();
+                if (!$(this).hasClass('for_more')) {
+                    window.parent.frames["leftFrame"].location.href = $(this).attr('frame-url');
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+
+<div class="frame_top">
+    <div class="logo">
+        <img src="__ADMINPUBLIC__/images/admin_logo_in.png" border="0"/>
+    </div>
+    <div class="navmenu">
+        <a href="{:U('index/panel')}" class="select" target="mainFrame" id="index" data-id="0" frame-url="{:U('Index/left_menu')}&menuid=0">首页</a>
+        <volist name="menus" id="menu">
+            <a href="{:U($menu['module_name'].'/'.$menu['controller_name'].'/'.$menu['action_name'],array('menuid'=>$menu['id'],'child'=>1))}{$menu.data}" target="mainFrame" frame-url="{:U('Index/left_menu')}&menuid={$menu.id}" data-id="{$menu.id}" title="{$menu.name}" <if condition="$menu['stat']">stat="{$menu.stat}"</if>>{$menu.name}</a>
+        </volist>
+        <div class="clear"></div>
+    </div>
+    <div class="links">
+        <a href="{:C('qscms_site_domain')}{:C('qscms_site_dir')}" target="_blank" class="home" title="网站首页"></a>
+        <a href="{:U('index/logout')}" target="_top" class="logout" title="退出登录"></a>
+        <a href="http://ask.74cms.com/" target="_blank" class="qscms" title="官方问答"></a>
+        <div class="clear"></div>
+    </div>
+    <div class="adminname">
+        <div class="unamestr">{$visitor.username}<span style=" padding-left:10px; color:#009900">({$visitor.role_cn})</span></div>
+        <div class="useravatar"><img src="__ADMINPUBLIC__/images/avatar.jpg" border="0"/></div>
+        <div class="clear"></div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    function refresh_affair(){
+        var affair = $('.navmenu a[stat]').map(function(){
+            return $(this).attr('stat');
+        }).get();
+        $.post("{:U('Ajax/affair')}",{affair:affair},function(result){
+            if(result.status == 1){
+                result.data = result.data || {};
+                $('.navmenu a[stat]').each(function(){
+                    var h = result.data[$(this).attr('stat')];
+                    h = h ? '<div class="count"></div>' : '';
+                    $(this).html($(this).attr('title')+h);
+                });
+            }
+        },'json');
+    }
+    refresh_affair();
+</script>
+</html>

@@ -1,0 +1,129 @@
+<include file="public:header"/>
+<div class="seltpye_x">
+    <div class="left">接收会员</div>
+    <div class="right">
+        <a href="{:P(array('spms_usertype'=>''))}" <if condition="$Think.get.spms_usertype eq ''">class="select"</if>>不限</a>
+        <a href="{:P(array('spms_usertype'=>'0'))}" <if condition="$Think.get.spms_usertype eq '0'">class="select"</if>>所有会员</a>
+        <a href="{:P(array('spms_usertype'=>'1'))}" <if condition="$Think.get.spms_usertype eq '1'">class="select"</if>>企业会员</a>
+        <a href="{:P(array('spms_usertype'=>'2'))}" <if condition="$Think.get.spms_usertype eq '2'">class="select"</if>>个人会员</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="seltpye_x">
+    <div class="left">消息类型</div>
+    <div class="right">
+        <a href="{:P(array('spms_type'=>''))}" <eq name='Think.get.spms_type' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('spms_type'=>'1'))}" <eq name='Think.get.spms_type' value='1'>class="select"</eq>>普通消息</a>
+        <a href="{:P(array('spms_type'=>'2'))}" <eq name='Think.get.spms_type' value='2'>class="select"</eq>>注册提醒</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<if condition="C('qscms_subsite_open') eq 1">
+	 <div class="seltpye_x">
+		<div class="left">分站</div>
+		<div class="right">
+			<a href="{:P(array('subsite_id'=>''))}" <if condition="$Think.get.subsite_id eq ''">class="select"</if>>不限</a>
+			<volist name="subsite_list" id="subsite">
+				<a href="{:P(array('subsite_id'=>$subsite['s_id']))}" <if condition="$Think.get.subsite_id eq $subsite['s_id']">class="select"</if>>{$subsite.s_sitename}</a>
+			</volist>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</if>
+<form id="form1" name="form1" method="post" action="{:U('delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:50%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>消息
+            </label>
+        </div>
+        <div class="td" style=" width:15%;">接收会员</div>
+        <div class="td center" style=" width:10%;">类型</div>
+        <div class="td center" style=" width:15%;">添加日期</div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:50%;">
+                <div class="left_padding striking link_blue">
+                    <input name="spmid[]" type="checkbox" id="id" value="{$vo['spmid']}"/>{$vo.message}<if condition="C('qscms_subsite_open') eq 1">({$subsite_list[$vo['subsite_id']]['s_sitename']|default="总站"})</if><!--分站标识-->
+                </div>
+            </div>
+            <div class="td" style=" width:15%;">
+                <if condition="$vo['spms_usertype'] eq '0'">所有会员</if>
+                <if condition="$vo['spms_usertype'] eq '1'">企业会员</if>
+                <if condition="$vo['spms_usertype'] eq '2'">个人会员</if>
+            </div>
+            <div class="td center" style=" width:10%;">
+                <if condition="$vo['spms_type'] eq '1'">普通消息
+                    <elseif condition="$vo['spms_type'] eq '2'"/>注册提醒
+                    <else/>-
+                </if>
+            </div>
+            <div class="td center" style=" width: 15%;">{:admin_date($vo['dateline'])}</div>
+            <div class="td edit" style=" width:10%;">
+                <a href="{:U('edit',array('spmid'=>$vo['spmid']))}">修改</a>
+                <a href="{:U('delete',array('spmid'=>$vo['spmid']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAdd" value="添加" onclick="window.location='{:U('add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除"/>
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='消息'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='消息'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="消息">消息</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //批量删除
+        $("#ButDel").click(function () {
+            var ids = $("input[name='spmid[]']:checked");
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择消息！');
+            } else {
+                if(confirm('确定删除吗？')){
+                    $("#form1").submit();
+                }
+            }
+        });
+    });
+</script>
+</html>

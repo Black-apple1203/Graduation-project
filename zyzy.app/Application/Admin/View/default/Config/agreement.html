@@ -1,0 +1,52 @@
+<include file="public:header" />
+<form id="form1">
+    <div class="toptit">会员注册协议</div>
+    <div class="form_main">
+        <div class="fl"></div>
+        <div class="fr">
+            <textarea name="value" class="input_text_default" style=" width:700px;height:400px; font-size:12px; line-height:180%" id="agreement">{$agreement.value}</textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id" value="{$agreement.id}">
+            <input type="button" id="J_submit" class="admin_submit" value="保存修改"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" href="__ADMINPUBLIC__/js/kindeditor/themes/default/default.css" />
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/lang/zh_CN.js"></script>
+<script>
+  var editor;
+  KindEditor.ready(function(K) {
+    editor = K.create('textarea[name="value"]', {
+      uploadJson : "?m={:C('admin_alias')}&c=upload&a=index",
+      afterBlur: function () { this.sync(); },
+      allowFileManager : true});
+  });
+    $('#J_submit').click(function(){
+        editor.sync();
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('text/edit')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

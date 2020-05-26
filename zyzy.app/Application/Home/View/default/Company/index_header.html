@@ -1,0 +1,89 @@
+<include file="Home@default/public/header_min" />
+<div class="other_top_nav">
+    <div class="ot_nav_box">
+        <div class="ot_nav_logo"><a href="__ROOT__/"><if condition="C('qscms_subsite_open') eq 1 && C('subsite_info.s_id') gt 0">
+			<img src="<if condition="C('subsite_info.s_pc_logo')">{:attach(C('subsite_info.s_pc_logo'),'subsite')}<else/>{:C('TPL_HOME_PUBLIC_DIR')}/images/logo.gif</if>" alt="">
+		<else/>
+		<img src="<if condition="C('qscms_logo_home')">{:attach(C('qscms_logo_home'),'resource')}<else/>{:C('TPL_HOME_PUBLIC_DIR')}/images/logo.gif</if>" border="0"/></if></a></div>
+        <div class="ot_nav_sub">
+            <notempty name="sitegroup">
+                <div class="ot_sub_group" id="J-choose-subcity">
+                    <div class="ot_sub_icon"></div>
+                    <div class="ot_sub_txt">{$sitegroup_org.name}</div>
+                    <div class="clear"></div>
+                </div>
+            </notempty>
+        </div>
+        <div class="ot_nav_link <if condition="$sitegroup">has_sub</if>">
+        <ul class="link_gray6 nowrap">
+            <li class="on_li J_hoverbut <if condition="$company_nav eq 'index'">select</if>"><a href="{:U('company/index',array('uid'=>$visitor['uid']))}">企业中心</a></li>
+            <li class="on_li J_hoverbut <if condition="$company_nav eq 'jobs_list'">select</if>"><a href="{:U('company/jobs_list',array('type'=>1))}">职位管理</a></li>
+            <li class="on_li J_hoverbut <if condition="$company_nav eq 'jobs_apply'">select</if>"><a href="{:U('company/jobs_apply')}">简历管理</a></li>
+            <li class="on_li J_hoverbut <if condition="CONTROLLER_NAME eq 'CompanyService' || $company_nav  eq 'service'">select</if>"><a href="{:U('companyService/index')}">会员服务</a></li>
+            <notempty name="apply['Jobfair']">
+            <li class="on_li J_hoverbut <if condition="$company_nav eq 'jobfair_list'">select</if>"><a href="{:U('company/jobfair_list')}">招聘会</a></li>
+            </notempty>
+            <notempty name="apply['Seniorjobfair']">
+            <li class="on_li J_hoverbut <if condition="$company_nav eq 'seniorjobfair_list'">select</if>"><a href="{:U('company/seniorjobfair_list')}">招聘会</a></li>
+            </notempty>
+            <notempty name="apply['School']">
+                <li class="on_li J_hoverbut <if condition="$company_nav eq 'school_talk_list'">select</if>"><a href="{:U('home/school/talk_list')}">校园宣讲会</a></li>
+            </notempty>
+            <li class="on_li J_hoverbut <if condition="$company_nav eq 'com_info'">select</if>"><a href="{:U('company/com_info')}">账号管理</a></li>
+            <if condition="C('qscms_beidiao_status') eq '1'">
+            <li class="on_li J_hoverbut"><a target = "_blank" href="{:U('home/Beidiao/index')}">背景调查</a></li>
+            </if>
+        </ul>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+</div>
+<script type="text/javascript" src="{:C('TPL_HOME_PUBLIC_DIR')}/js/jquery.modal.dialog.js"></script>
+<notempty name="sitegroup">
+    <script id="J-sub-dialog-content" type="text/html">
+        <div class="sub-dialog-group">
+            <div class="sdg-title">亲爱的用户您好：</div>
+            <div class="sdg-split-20"></div>
+            <div class="sdg-h-tips">请您切换到对应的分站，让我们为您提供更准确的职位信息。</div>
+            <div class="sdg-split-30"></div>
+            <div class="sdg-h-line"></div>
+            <div class="sdg-split-20"></div>
+            <div class="sdg-master-group">
+                <div class="sdg-txt-right">切换到以下城市</div>
+                <div class="clear"></div>
+            </div>
+            <div class="sdg-split-20"></div>
+            <div class="sdg-sub-city-group">
+                <volist name="sitegroup" id="dis" offset="0" length="10">
+                    <a href="{$dis.domain}" class="sdg-sub-city">{$dis.name}</a>
+                </volist>
+                <if condition="count($sitegroup) gt 11">
+                    <a href="{:U('Home/Subsite/index')}" class="sdg-sub-city more">更多分站</a>
+                </if>
+                <div class="clear"></div>
+            </div>
+            <div class="sdg-split-16"></div>
+            <div class="sdg-bottom-tips">如果您在使用中遇到任何问题，请随时联系 <if condition="C('qscms_top_tel')">{:C('qscms_top_tel')}<else/>{:C('qscms_bootom_tel')}</if> 寻求帮助</div>
+            <div class="sdg-split-11"></div>
+        </div>
+    </script>
+    <script type="text/javascript">
+      $('#J-choose-subcity').click(function () {
+        showSubDialog();
+      });
+      function showSubDialog() {
+        var qsDialog = $(this).dialog({
+          title: '切换地区',
+          showFooter: false,
+          border: false
+        });
+        qsDialog.setContent($('#J-sub-dialog-content').html());
+        $('.sdg-sub-city').each(function (index, value) {
+          if ((index + 1) % 4 == 0) {
+            $(this).addClass('no-mr');
+          }
+        });
+      }
+    </script>
+</notempty>

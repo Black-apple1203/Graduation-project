@@ -1,0 +1,2599 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/personal/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css" />
+    <link href="../public/css/common_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+	<script src="../public/js/jquery.cookie.js" type="text/javascript" language="javascript"></script>
+	<qscms:load type="category" search="1"/>
+</head>
+<body>
+	<include file="public:header_other" />
+    <div class="us-top">
+        <div class="us-main">
+            <div class="us-top-box">
+            	<form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+	                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+	                <div class="se-btn"><input type="submit" value="搜 索"></div>
+	                <div class="clear"></div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="user_main">
+        <include file="Personal:index_left_nav" />
+        <div class="index-right">
+			<div class="ph-28"></div>
+			<div class="res_name_group">
+				<div class="rg1 link_gray6">高级简历</div>
+				<div class="clear"></div>
+			</div>
+			<div class="ph-30"></div>
+			<div class="re_l">
+				<!--基本信息 -->
+				<input type="hidden" name="pid" id="pid" value="{$resume_info.id}">
+				<div id="positionInfo" class="J_itemsbox">
+					<div class="items J_hoverbut">
+					  	<div class="il">基本资料</div>
+					    <div class="ir"> <div class="but_gray_70_res_edit J_hoverbut J_showitems"><if condition="$resume_info['id']">修改<else />新增</if></div> </div>
+						<div class="clear"></div>
+						<div class="photobox">
+							<div class="pright">
+								<div class="sex_age">
+                                    <div class="td1">姓名：
+									<notempty name="resume_info['fullname']">
+									<span data-sub="fullname">{$resume_info.fullname}</span>
+									<else />
+									<span data-sub="fullname">未填写</span>
+									</notempty>
+                                    </div>
+									<div class="td1">性别：
+									<notempty name="resume_info['sex_cn']">
+									<span data-sub="sex">{$resume_info.sex_cn}</span>
+									<else />
+									<span data-sub="sex">未填写</span>
+									</notempty>
+									</div>
+									<div class="td1">年龄：
+									<notempty name="resume_info['birthdate']">
+									<span data-sub="birthdate">{:Date('Y')-$resume_info['birthdate']}</span>
+									<else />
+									<span data-sub="birthdate">未填写</span>
+									</notempty>
+									</div>
+									<div class="td1">婚否：
+									<notempty name="resume_info['marriage_cn']">
+									<span data-sub="marriage">{$resume_info.marriage_cn}</span>
+									<else />
+									<span data-sub="marriage">未填写</span>
+									</notempty>
+									</div>
+									<div class="td1">身高：
+									<notempty name="resume_info['height']">
+									<span data-sub="height">{$resume_info.height}</span>cm
+									<else />
+									<span data-sub="height">未填写</span>
+									</notempty>
+									</div>
+									<div class="td1">学历：
+									<notempty name="resume_info['education_cn']">
+									<span data-sub="education">{$resume_info.education_cn}</span>
+									<else />
+									<span data-sub="education">未填写</span>
+									</notempty>
+									</div>
+									<div class="td1">工作经验：
+									<notempty name="resume_info['experience_cn']">
+									<span data-sub="experience">{$resume_info.experience_cn}</span>
+									<else />
+									<span data-sub="experience">未填写</span>
+									</notempty>
+									</div>
+									<div class="td1 substring">居住地：
+									<notempty name="resume_info['residence']">
+									<span data-sub="residence" title="{$resume_info.residence}">{$resume_info.residence}</span>
+									<else />
+									<span data-sub="major">未填写</span>
+									</notempty>
+									</div>
+									<div class="td1">专业：
+									<notempty name="resume_info['major_cn']">
+									<span data-sub="major">{$resume_info.major_cn}</span>
+									<else />
+									<span data-sub="major">未填写</span>
+									</notempty>
+									</div>
+									<div class="td1 substring">籍贯：
+									<notempty name="resume_info['householdaddress']">
+									<span data-sub="householdaddress" title="{$resume_info.householdaddress}">{$resume_info.householdaddress}</span>
+									<else />
+									<span data-sub="householdaddress">未填写</span>
+									</notempty>
+									</div>
+									<div class="td1 substring">QQ：
+									<notempty name="resume_info['qq']">
+									<span data-sub="qq" title="{$resume_info.qq}">{$resume_info.qq}</span>
+									<else />
+									<span data-sub="qq">未填写</span>
+									</notempty>
+									</div>
+									<div class="td1 substring">微信号：
+									<notempty name="resume_info['weixin']">
+									<span data-sub="weixin" title="{$resume_info.weixin}">{$resume_info.weixin}</span>
+									<else />
+									<span data-sub="weixin">未填写</span>
+									</notempty>
+									</div>
+									<div class="td1 substring">手机号：
+									    <span class="font_blue" id="mobileWap" data-sub="mobile" title="{$resume_info['telephone']}">{$resume_info['telephone']|default='未填写'}</span>
+                                        <div class="i_edit" id="J_auth_mobile"></div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<div class="itemsform J_itemsmenu">
+						<div class="ftit">基本资料<div class="close J_hoverbut J_closeitems"></div></div>
+						<div class="fbody">
+							<table class="b_table" border="0" align="center" cellpadding="0" cellspacing="0">
+								<tr>
+									<td class="w1"><span>&nbsp;</span>姓名：</td>
+									<td>
+										<input name="fullname" id="fullname" type="text" value="{$resume_info.householdaddress}" class="input_205_34"/>
+									</td>
+									<td  class="w1"><span>&nbsp;</span>性别：</td>
+									<td>
+										<div class="sex_radio_list J_radioitme_parent">
+										    <div class="n <if condition="$resume_info['sex'] eq 1">checked</if> for_sex J_radioitme" data-code="1">男</div>
+											<div class="w <if condition="$resume_info['sex'] eq 2">checked</if> for_sex J_radioitme" data-code="2">女</div>
+											<div class="clear"></div>
+											<input class="J_radioitme_code" name="sex" id="sex" type="hidden" value="{$resume_info.sex}" />
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="w1"><span>&nbsp;</span>出生年份：</td>
+									<td>
+										<div class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+											<span class="J_listitme_text">{$resume_info['birthdate']}</span>
+											<div class="dropdowbox9 J_dropdown_menu">
+									            <div class="dropdow_inner9">
+									                <ul class="nav_box J_birthdy">
+									                	<div class="J_birthday_box active"></div>
+									                	<div class="J_birthday_box"></div>
+									                	<div class="J_birthday_box"></div>
+									                </ul>
+								                	<a href="javascript:;" class="prev J_birthday_prev"></a>
+								                	<a href="javascript:;" class="next J_birthday_next"></a>
+									            </div>
+									        </div>
+											<input class="J_listitme_code" name="birthdate" id="birthdate" type="hidden" value="{$resume_info.birthdate}">
+										</div>
+									</td>
+									<td class="w1">现居住地：</td>
+									<td><input name="residence" id="residence" type="text" class="input_205_34" value="{$resume_info.residence}"/></td>
+								</tr>
+								<tr>
+									<td class="w1"><span>&nbsp;</span>最高学历：</td>
+									<td>
+										<div class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+											<span class="J_listitme_text for_education">{$resume_info.education_cn|default='请选择'}</span>
+											<div class="dropdowbox10 J_dropdown_menu">
+									            <div class="dropdow_inner10">
+									                <ul class="nav_box">
+									                	<volist name="category['QS_education']" id="education">
+									                		<li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$education}</a></li>
+														</volist>
+									                </ul>
+									            </div>
+									        </div>
+									        <input class="J_listitme_code" name="education" id="education" type="hidden" value="{$resume_info.education}" />
+										</div>
+									</td>
+									<td class="w1"><span>&nbsp;</span>工作经验：</td>
+									<td>
+										<div class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+											<span class="J_listitme_text for_experience">{$resume_info.experience_cn|default='请选择'}</span>
+											<div class="dropdowbox10 J_dropdown_menu">
+									            <div class="dropdow_inner10">
+									                <ul class="nav_box">
+									                	<volist name="category['QS_experience']" id="experience">
+									                		<li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$experience}</a></li>
+														</volist>
+									                </ul>
+									            </div>
+									        </div>
+									        <input class="J_listitme_code" name="experience" id="experience" type="hidden" value="{$resume_info.experience}" />
+										</div>
+									</td>
+								</tr>
+							</table>
+							<div class="imgtitleshow font_blue" id="J_addmore">展开更多信息</div>
+							<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" id="J_addmore_show" style="display:none">
+								<tr>
+									<td class="w1">所学专业：</td>
+									<td>
+										<div class="input_205_34_div1 J_hoverinput" id="J_showmodal_major" data-title="请选择所学专业" data-multiple="false" data-maxnum="3" data-width="520">
+											<span title="" class="for_major result J_resuletitle_major">{$resume_info.major_cn|default='请选择'}</span>
+											<input class="J_resultcode_major" name="major" id="major" type="hidden" value="{$resume_info.major}" />
+											<div class="clear"></div>
+										</div>
+									</td>
+									<td class="w1">身高：</td>
+									<td>
+									<div class="input_205_34_div3">
+										<input name="height" id="height" type="text"  dir="no_focus" class="inputst" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" value="<if condition="$resume_info['height'] eq 0"><else />{$resume_info.height}</if>"/>
+										<div class="righttxt">CM</div>
+									  </div>
+									</td>
+								</tr>
+								<tr>
+									<td class="w1">籍贯：</td>
+									<td>
+										<input name="householdaddress" id="householdaddress" type="text" value="{$resume_info.householdaddress}" class="input_205_34"/>
+									</td>
+									<td class="w1"><span>&nbsp;</span>婚姻状况：</td>
+									<td>
+										<div class="radio_list J_radioitme_parent">
+										    <div class="rli <if condition="$resume_info['marriage'] eq 1">checked</if> for_marriage J_radioitme" data-code="1">未婚</div>
+											<div class="rli <if condition="$resume_info['marriage'] eq 2">checked</if> for_marriage J_radioitme" data-code="2">已婚</div>
+											<div class="rli <if condition="$resume_info['marriage'] eq 3">checked</if> for_marriage J_radioitme" data-code="3">保密</div>
+											<div class="clear"></div><input class="J_radioitme_code" name="marriage" id="marriage" type="hidden" value="{$resume_info.marriage}" />
+										</div>
+								    </td>
+								</tr>
+								<tr>
+									<td class="w1">QQ：</td>
+									<td>
+										<input name="qq" id="qq" type="text" value="{$resume_info.qq}" class="input_205_34"/>
+									</td>
+									<td class="w1">微信号：</td>
+									<td>
+										<input name="weixin" id="weixin" type="text" value="{$resume_info.weixin}" class="input_205_34"/>
+								    </td> 
+								</tr> 
+								<tr>
+								    <td class="w1"><span>&nbsp;</span>手机：</td>
+										<td class="we">
+											<if condition="$visitor['mobile']">
+												<span><input disabled name="telephone" id="telephone" type="text" class="input_205_34" value="{$visitor.mobile}"/></span>
+					
+											<else/>
+												<input name="telephone" id="telephone" type="text" class="input_205_34" value="{$resume_info.telephone}"/>
+											</if>
+									</td>
+									<td class="w1">邮箱：</td>
+									<td>
+										<input name="email" id="email" type="text" value="{$resume_info.email}" class="input_205_34"/>
+									</td>
+								</tr> 
+								<input name="audit" id="audit" type="hidden" value="{$resume_info.audit}"> 
+							</table>
+							<div class="butbox">
+						   		<div class="td1"><input type="button"  class="but_blue_115 J_hoverbut J_saveitems_baseinfo" value="保存" /></div>
+								<div class="td1"><input type="reset"  class="but_gray_115 J_hoverbut J_closeitems" value="取消" /></div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--求职意向 -->
+				<div id="positionJobintention" class="J_itemsbox">
+					<div class="items J_hoverbut">
+					  	<div class="il">求职意向</div>
+					    <div class="ir"><div class="but_gray_70_res_edit J_hoverbut J_showitems">修改</div></div>
+						<div class="clear"></div>
+						<table  border="0" align="center" cellpadding="0" cellspacing="0" class="b_table">
+							<tr>
+								<td width="50%"><div class="overhide">求职状态：</div><span class="overhide" data-sub="current" title="{$resume_info.current_cn}"><if condition="$resume_info['current_cn']">{$resume_info.current_cn}<else />未填写</if></span></td>
+								<td><div class="overhide">工作性质：</div><span class="overhide" data-sub="nature" title="{$resume_info.nature_cn}"><if condition="$resume_info['nature_cn']">{$resume_info.nature_cn}<else />未填写</if></span></td>
+							</tr>
+							<tr>
+								<td><div class="overhide">期望行业：</div><span class="overhide" data-sub="trade" title="{$resume_info.trade_cn}"><if condition="$resume_info['trade_cn']">{$resume_info.trade_cn}<else />不限</if></span></td>
+								<td><div class="overhide">期望职位：</div><span class="overhide" data-sub="intention_jobs" title="{$resume_info.intention_jobs}"><if condition="$resume_info['intention_jobs']">{$resume_info.intention_jobs}<else />未填写</if></span></td>
+							</tr>
+							<tr>
+								<td><div class="overhide">工作地区：</div><span class="overhide" data-sub="district" title="{$resume_info.district_cn}"><if condition="$resume_info['district_cn']">{$resume_info.district_cn}<else />未填写</if></span></td>
+								<td><div class="overhide">期望薪资：</div><span class="overhide" data-sub="wage" title="{$resume_info.wage_cn}"><if condition="$resume_info['wage_cn']">{$resume_info.wage_cn}<else />未填写</if></span></td>
+							</tr>
+						</table>
+					</div>
+					<div class="itemsform J_itemsmenu">
+						<div class="ftit">求职意向<div class="close J_hoverbut J_closeitems"></div></div>
+						<div class="fbody">
+							<table width="100%" border="0" align="center" cellpadding="0" cellspacing="0" class="b_table">
+								<tr>
+									<td class="w1"><span>&nbsp;</span>目前状态：</td>
+									<td>
+										<div class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+											<span class="result J_listitme_text for_current">{$resume_info.current_cn|default='请选择'}</span>
+											<div class="dropdowbox10 J_dropdown_menu">
+									            <div class="dropdow_inner10">
+									                <ul class="nav_box">
+									                	<volist name="category['QS_current']" id="current">
+									                		<li><a class="J_listitme" href="javascript:;" data-code="{$key}" title="{$current}">{$current}</a></li>
+														</volist>
+									                </ul>
+									            </div>
+									        </div>
+									        <input class="J_listitme_code" name="current" id="current" type="hidden" value="{$resume_info.current}">
+										</div>
+									</td>
+									<td  class="w1"><span>&nbsp;</span>工作性质：</td>
+									<td>
+										<div class="radio_list J_radioitme_parent">
+											<volist name="category['QS_jobs_nature']" id="nature">
+												<div class="rli <if condition="$key eq $resume_info['nature']">checked</if> J_radioitme for_nature" data-code="{$key}">{$nature}</div>
+											</volist>
+											<div class="clear"></div>
+											<input class="J_radioitme_code" name="nature" id="nature" type="hidden" value="{$resume_info.nature}" />
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="w1">期望行业：</td>
+									<td>
+										<div class="input_205_34_div1 J_hoverinput" id="J_showmodal_trade" data-title="请选择期望行业" data-multiple="true" data-maxnum="3" data-width="682">
+											<span title="" class="for_trade result J_resuletitle_trade">{$resume_info.trade_cn|default='不限'}</span>
+											<input class="J_resultcode_trade" name="trade" id="trade" type="hidden" value="{$resume_info.trade}" />
+											<div class="clear"></div>
+										</div>
+									</td>
+									<td class="w1"><span>&nbsp;</span>期望职位：</td>
+									<td>
+										<div class="input_205_34_div1 J_hoverinput" id="J_showmodal_jobs" data-title="请选择期望职位" data-multiple="true" data-maxnum="5" <if condition="C('qscms_category_jobs_level') gt 2">data-width="667"<else/>data-width="520"</if> data-category="{:C('qscms_category_jobs_level')}">
+											<span title="" class="for_intention_jobs result J_resuletitle_jobs">{$resume_info.intention_jobs|default='请选择'}</span>
+											<input class="J_resultcode_jobs" name="intention_jobs_id" id="intention_jobs_id" type="hidden" value="{$resume_info.intention_jobs_id}" />
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td class="w1"><span>&nbsp;</span>工作地区：</td>
+									<td>
+										<div class="input_205_34_div1 J_hoverinput" data-toggle="funCityModal" data-title="请选择工作地区" data-multiple="true" data-maximum="3" data-width="760">
+			                <span title="" class="for_district result J_resuletitle_city">{$resume_info.district_cn|default='请选择'}</span>
+			                <input class="J_resultcode_city" name="district" id="district" type="hidden" value="{$resume_info.district}" keep="{$resume_info.district}" />
+			              </div>
+									</td>
+									<td class="w1"><span>&nbsp;</span>期望薪资：</td>
+									<td>
+										<div class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+											<span class="J_listitme_text for_wage">{$resume_info.wage_cn|default='请选择'}</span>
+											<div class="dropdowbox10 J_dropdown_menu">
+									            <div class="dropdow_inner10">
+									                <ul class="nav_box">
+									                	<volist name="category['QS_wage']" id="wage">
+									                		<li><a class="J_listitme" href="javascript:;" data-code="{$key}" title="{$wage}">{$wage}</a></li>
+														</volist>
+									                </ul>
+									            </div>
+									        </div>
+									        <input class="J_listitme_code" name="wage" id="wage" type="hidden" value="{$resume_info.wage}">
+										</div>
+									</td>
+								</tr>
+							</table>
+							<div class="butbox">
+						   		<div class="td1"><input type="submit"  class="but_blue_115 J_hoverbut J_saveitems_intention" value="保存" /></div>
+								<div class="td1"><input type="reset"  class="but_gray_115 J_hoverbut J_closeitems" value="取消" /></div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--自我描述 -->
+				<div id="positionSpecialty" class="J_itemsbox">
+					<div class="items J_hoverbut">
+						<div class="il">自我描述</div>
+						<div class="ir"><div class="but_gray_70_res_edit J_hoverbut J_showitems">修改</div></div>
+						<div class="clear"></div>
+						<empty name="resume_info['specialty']">
+							<div class="empty font_gray9 specialty_box">自我描述是你客观认识自己的基石，快来填写吧！</div>
+						<else/>
+							<div class="describe font_gray6 specialty_box">{$resume_info.specialty}</div>
+						</empty>
+					</div>
+					<div class="itemsform J_itemsmenu" data-waitsome="specialty">
+						<div class="ftit">自我描述<div class="close J_hoverbut J_closeitems"></div></div>
+						<div class="fbody J_focus">
+							<table class="b_table" border="0" align="center" cellpadding="0" cellspacing="0" >
+								<tr>
+									<td colspan="2" ><div class="toptip">客观全面的自我评价更容易获得企业的好感，快来完善以获得HR的亲睐！</div></td>
+								</tr>
+								<tr>
+									<td class="w1">自我描述：</td>
+									<td><textarea name="specialty" id="specialty" class="textarea_638_80">{$resume_info.specialty}</textarea></td>
+								</tr>	  
+							</table>
+							<div class="butbox">
+						   		<div class="td1"><input type="submit"  class="but_blue_115 J_hoverbut J_saveitems_specialty" value="保存" /></div>
+								<div class="td1"><input type="reset"  class="but_gray_115 J_hoverbut J_closeitems" value="取消" /></div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--自我描述结束 -->
+				<!--教育经历 -->
+				<div id="positionEducation" class="J_itemsbox">
+					<div class="items J_hoverbut">
+						<div class="il">教育经历</div>
+						<div class="ir"><div class="but_gray_70_res_add J_hoverbut J_showitems" id="J_clearinput_edu">添加</div></div>
+						<div class="clear"></div>
+						<div id="educationListBox"></div>
+					</div>
+					<div class="itemsform J_itemsmenu" data-waitsome="education">
+						<div class="ftit">教育经历<div class="close J_hoverbut J_closeitems"></div></div>
+						<div class="fbody J_focus">
+						<table class="b_table" border="0" align="center" cellpadding="0" cellspacing="0" >
+								<input type="hidden" class="J_listid" value="" />
+								  <tr>
+									<td class="w1"><span>&nbsp;</span>学校名称：</td>
+									<td><input name="school" id="school" type="text"    class="input_245_34"/></td>
+								  </tr>
+								  <tr>
+									<td class="w1"><span>&nbsp;</span>专业名称：</td>
+									<td><input name="speciality" id="speciality" type="text"    class="input_245_34"/></td>
+								  </tr>
+								  	 <tr>
+									<td class="w1"><span>&nbsp;</span>学历：</td>
+									<td>
+										<div name="education" class="input_245_34_div J_hoverinput J_dropdown J_listitme_parent">
+											<span class="J_listitme_text for_education1">请选择</span>
+											<div class="dropdowbox4 J_dropdown_menu">
+									            <div class="dropdow_inner4">
+									                <ul class="nav_box">
+									                	<volist name="category['QS_education']" id="education">
+									                		<li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$education}</a></li>
+														</volist>
+									                </ul>
+									            </div>
+									        </div>
+											<input class="J_listitme_code" name="education1" id="education1" type="hidden" value="" />
+										</div>
+									</td>
+								  </tr>
+								   <tr>
+									<td class="w1"><span>&nbsp;</span>就读时间：</td>
+									<td>
+										  <table border="0" cellpadding="0" cellspacing="0">
+											<tr>
+											  <td width="100" style="padding-left:0px;">
+											  	<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+											  		<span class="J_listitme_text">年份</span>
+											  		<div class="dropdowbox9 J_dropdown_menu">
+											            <div class="dropdow_inner9">
+											                <ul class="nav_box J_birthdy_exp">
+											                	<div class="J_birthday_box_exp active"></div>
+											                	<div class="J_birthday_box_exp"></div>
+											                	<div class="J_birthday_box_exp"></div>
+											                </ul>
+										                	<a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+										                	<a href="javascript:;" class="next J_birthday_next_exp"></a>
+											            </div>
+											        </div>
+											  		<input class="J_listitme_code" type="hidden" name="startyearEdu" id="startyearEdu" value="">
+											  	</div>
+											  </td>
+											  <td width="100">
+											  	<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+											  		<span class="J_listitme_text">月份</span>
+											  		<div class="dropdowbox11 J_dropdown_menu">
+											            <div class="dropdow_inner11">
+											                <ul class="nav_box J_month">
+											                	<div class="J_month_box active"></div>
+											                </ul>
+											            </div>
+											        </div>
+											  		<input class="J_listitme_code" type="hidden" name="startmonthEdu" id="startmonthEdu" value="">
+											  	</div>
+											  </td>
+											  <td class="J_fortonow" width="30">至</td>
+											  <td class="J_fortonow" width="100">
+											  	<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+											  		<span class="J_listitme_text">年份</span>
+											  		<div class="dropdowbox9 J_dropdown_menu">
+											            <div class="dropdow_inner9">
+											                <ul class="nav_box J_birthdy_exp">
+											                	<div class="J_birthday_box_exp active"></div>
+											                	<div class="J_birthday_box_exp"></div>
+											                	<div class="J_birthday_box_exp"></div>
+											                </ul>
+										                	<a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+										                	<a href="javascript:;" class="next J_birthday_next_exp"></a>
+											            </div>
+											        </div>
+											  		<input class="J_listitme_code" type="hidden" name="endyearEdu" id="endyearEdu" value="">
+											  	</div>
+											  </td>
+											  <td class="J_fortonow" width="100">
+											  	<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+											  		<span class="J_listitme_text">月份</span>
+											  		<div class="dropdowbox11 J_dropdown_menu">
+											            <div class="dropdow_inner11">
+											                <ul class="nav_box J_month">
+											                	<div class="J_month_box active"></div>
+											                </ul>
+											            </div>
+											        </div>
+											  		<input class="J_listitme_code" type="hidden" name="endmonthEdu" id="endmonthEdu" value="">
+											  	</div>
+											  </td>
+											  <td width="100"><label><input class="J_tonow" name="tonowEdu" id="tonowEdu" type="checkbox" value="" />&nbsp;至今</label>
+									          </td>
+											</tr>
+							  		  </table>
+								     </td>
+								  </tr>
+						  </table>
+							 <div class="butbox">
+							   		<div class="td1"><input type="submit"  class="but_blue_115 J_hoverbut J_saveitems_education" value="保存" /></div>
+									<div class="td1"><input type="reset"  class="but_gray_115 J_hoverbut J_closeitems" value="取消" /></div>
+									<div class="clear"></div>
+							 </div>
+						</div>
+					</div>
+				</div>
+				<!--教育经历结束 -->
+				<!--工作经历 -->
+				<div id="positionExperience" class="J_itemsbox">
+					<div class="items J_hoverbut">
+						<div class="il">工作经历</div>
+						<div class="ir"><div class="but_gray_70_res_add J_hoverbut J_showitems" id="J_clearinput_exp">添加</div></div>
+						<div class="clear"></div>
+						<div id="experienceListBox"></div>
+					</div>
+					<div class="itemsform J_itemsmenu" data-waitsome="experience">
+					  <div class="ftit">工作经历<div class="close J_hoverbut J_closeitems"></div></div>
+					  <div class="fbody J_focus">
+					  <table class="b_table" border="0" align="center" cellpadding="0" cellspacing="0" >
+					  	<input type="hidden" class="J_listid" value="" />
+						  <tr>
+							<td class="w1"><span>&nbsp;</span>公司名称：</td>
+							<td><input name="companyname" id="companyname" type="text"    class="input_245_34"/></td>
+						  </tr>
+						  <tr>
+							<td class="w1"><span>&nbsp;</span>职位名称：</td>
+							<td><input name="jobs" id="experienceJobname" type="text"    class="input_245_34"/></td>
+						  </tr>
+						   <tr>
+							<td class="w1"><span>&nbsp;</span>任职时间：</td>
+							<td>
+							  <table border="0" cellpadding="0" cellspacing="0">
+								<tr>
+								  <td width="100" style="padding-left:0px;">
+								  	<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+								  		<span class="J_listitme_text">年份</span>
+								  		<div class="dropdowbox9 J_dropdown_menu">
+								            <div class="dropdow_inner9">
+								                <ul class="nav_box J_birthdy_exp">
+								                	<div class="J_birthday_box_exp active"></div>
+								                	<div class="J_birthday_box_exp"></div>
+								                	<div class="J_birthday_box_exp"></div>
+								                </ul>
+							                	<a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+							                	<a href="javascript:;" class="next J_birthday_next_exp"></a>
+								            </div>
+								        </div>
+								  		<input class="J_listitme_code" type="hidden" name="startyearExp" id="startyearExp" value="">
+								  	</div>
+								  </td>
+								  <td width="100">
+								  	<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+								  		<span class="J_listitme_text">月份</span>
+								  		<div class="dropdowbox11 J_dropdown_menu">
+								            <div class="dropdow_inner11">
+								                <ul class="nav_box J_month">
+								                	<div class="J_month_box active"></div>
+								                </ul>
+								            </div>
+								        </div>
+								  		<input class="J_listitme_code" type="hidden" name="startmonthExp" id="startmonthExp" value="">
+								  	</div>
+								  </td>
+								  <td class="J_fortonow" width="30">至</td>
+								  <td class="J_fortonow" width="100">
+								  	<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+								  		<span class="J_listitme_text">年份</span>
+								  		<div class="dropdowbox9 J_dropdown_menu">
+								            <div class="dropdow_inner9">
+								                <ul class="nav_box J_birthdy_exp">
+								                	<div class="J_birthday_box_exp active"></div>
+								                	<div class="J_birthday_box_exp"></div>
+								                	<div class="J_birthday_box_exp"></div>
+								                </ul>
+							                	<a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+							                	<a href="javascript:;" class="next J_birthday_next_exp"></a>
+								            </div>
+								        </div>
+								  		<input class="J_listitme_code" type="hidden" name="endyearExp" id="endyearExp" value="">
+								  	</div>
+								  </td>
+								  <td class="J_fortonow" width="100">
+								  	<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+								  		<span class="J_listitme_text">月份</span>
+								  		<div class="dropdowbox11 J_dropdown_menu">
+								            <div class="dropdow_inner11">
+								                <ul class="nav_box J_month">
+								                	<div class="J_month_box active"></div>
+								                </ul>
+								            </div>
+								        </div>
+								  		<input class="J_listitme_code" type="hidden" name="endmonthExp" id="endmonthExp" value="">
+								  	</div>
+								  </td>
+								  <td width="100"><label><input class="J_tonow" name="tonowExp" id="tonowExp" type="checkbox" value="" />&nbsp;至今</label>
+								  </td>
+								</tr>
+							  </table>
+							</td>	  
+						<tr>
+							<td class="w1"><span>&nbsp;</span>工作职责：</td>
+							<td><textarea name="jobrespons" id="jobrespons" class="textarea_438_34"></textarea></td>
+					    </tr>  
+						</table>
+						<div class="butbox">
+							<div class="td1"><input type="button" class="but_blue_115 J_hoverbut J_saveitems_experience" value="保存" /></div>
+							<div class="td1"><input type="reset"  class="but_gray_115 J_hoverbut J_closeitems" value="取消" /></div>
+							<div class="clear"></div>
+						</div>
+					  </div>
+					</div>
+				</div>
+				<!--工作经历结束 -->
+				<!--培训经历 -->
+				<div id="positionTrain" class="J_itemsbox">
+					<div class="items J_hoverbut">
+						<div class="il">培训经历</div>
+						<div class="ir"><div class="but_gray_70_res_add J_hoverbut J_showitems" id="J_clearinput_tra">添加</div></div>
+						<div class="clear"></div>
+						<div id="trainListBox"></div>
+					</div>
+					<div class="itemsform J_itemsmenu" data-waitsome="train">
+						<div class="ftit">培训经历<div class="close J_hoverbut J_closeitems"></div></div>
+						<div class="fbody J_focus">
+							<table class="b_table" border="0" align="center" cellpadding="0" cellspacing="0" >
+								<input type="hidden" class="J_listid" value="" />
+								  <tr>
+									<td class="w1"><span>&nbsp;</span>培训机构：</td>
+									<td><input name="agency" id="agency" type="text"    class="input_245_34"/></td>
+								  </tr>
+								  <tr>
+									<td class="w1"><span>&nbsp;</span>培训课程：</td>
+									<td><input name="course" id="course" type="text"    class="input_245_34"/></td>
+								  </tr>
+								   <tr>
+									<td class="w1"><span>&nbsp;</span>培训时间：</td>
+									<td>
+										<table border="0" cellpadding="0" cellspacing="0">
+											<tr>
+												<td width="100" style="padding-left:0px;">
+													<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+														<span class="J_listitme_text">年份</span>
+														<div class="dropdowbox9 J_dropdown_menu">
+												            <div class="dropdow_inner9">
+												                <ul class="nav_box J_birthdy_exp">
+												                	<div class="J_birthday_box_exp active"></div>
+												                	<div class="J_birthday_box_exp"></div>
+												                	<div class="J_birthday_box_exp"></div>
+												                </ul>
+											                	<a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+											                	<a href="javascript:;" class="next J_birthday_next_exp"></a>
+												            </div>
+												        </div>
+														<input class="J_listitme_code" type="hidden" name="startyearTra" id="startyearTra" value="">
+													</div>
+												</td>
+												<td width="100">
+													<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+														<span class="J_listitme_text">月份</span>
+														<div class="dropdowbox11 J_dropdown_menu">
+												            <div class="dropdow_inner11">
+												                <ul class="nav_box J_month">
+												                	<div class="J_month_box active"></div>
+												                </ul>
+												            </div>
+												        </div>
+														<input class="J_listitme_code" type="hidden" name="startmonthTra" id="startmonthTra" value="">
+													</div>
+												</td>
+												<td class="J_fortonow" width="30">至</td>
+												<td class="J_fortonow" width="100">
+													<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+														<span class="J_listitme_text">年份</span>
+														<div class="dropdowbox9 J_dropdown_menu">
+												            <div class="dropdow_inner9">
+												                <ul class="nav_box J_birthdy_exp">
+												                	<div class="J_birthday_box_exp active"></div>
+												                	<div class="J_birthday_box_exp"></div>
+												                	<div class="J_birthday_box_exp"></div>
+												                </ul>
+											                	<a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+											                	<a href="javascript:;" class="next J_birthday_next_exp"></a>
+												            </div>
+												        </div>
+														<input class="J_listitme_code" type="hidden" name="endyearTra" id="endyearTra" value="">
+													</div>
+												</td>
+												<td class="J_fortonow" width="100">
+													<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+														<span class="J_listitme_text">月份</span>
+														<div class="dropdowbox11 J_dropdown_menu">
+												            <div class="dropdow_inner11">
+												                <ul class="nav_box J_month">
+												                	<div class="J_month_box active"></div>
+												                </ul>
+												            </div>
+												        </div>
+														<input class="J_listitme_code" type="hidden" name="endmonthTra" id="endmonthTra" value="">
+													</div>
+												</td>
+												<td width="100"><label><input class="J_tonow" name="tonowTra" id="tonowTra" type="checkbox" value="" />&nbsp;至今</label>
+												</td>
+											</tr>
+										</table>
+									</td>	  
+							  <tr>
+									<td class="w1"><span>&nbsp;</span>培训内容：</td>
+									<td><textarea name="description" id="description" class="textarea_438_34"></textarea></td>
+							  </tr>
+							</table>
+							<div class="butbox">
+						   		<div class="td1"><input type="submit"  class="but_blue_115 J_hoverbut J_saveitems_train" value="保存" /></div>
+								<div class="td1"><input type="reset"  class="but_gray_115 J_hoverbut J_closeitems" value="取消" /></div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--培训经历结束 -->
+				<!--获得证书 -->
+				<div id="positionCredent" class="J_itemsbox">
+					<div class="items J_hoverbut">
+						<div class="il">获得证书</div>
+						<div class="ir"><div class="but_gray_70_res_add J_hoverbut J_showitems" id="J_clearinput_cre">添加</div></div>
+						<div class="clear"></div>
+						<div id="credentListBox"></div>
+					</div>
+					<div class="itemsform J_itemsmenu" data-waitsome="credent">
+						<div class="ftit">获得证书<div class="close J_hoverbut J_closeitems"></div></div>
+						<div class="fbody J_focus">
+							<table class="b_table" border="0" align="center" cellpadding="0" cellspacing="0" >
+								<input type="hidden" class="J_listid" value="" />
+								<tr>
+									<td colspan="2"><div class="toptip">添加你获得的专业技能、职业证书或职称；最多可以添加6份证书</div></td>
+								</tr>
+								<tr>
+									<td class="w1"><span>&nbsp;</span>证书名称：</td>
+									<td><input name="credent" id="credent" type="text"    class="input_205_34"/></td>
+								</tr>
+								<tr>
+									<td class="w1">
+										<span>&nbsp;</span>获得时间：
+									</td>
+									<td>
+										<table border="0" cellpadding="0" cellspacing="0">
+											<input type="hidden" class="J_listid" value="" />
+											<tr>
+												<td width="110" style="padding-left:0px;">
+													<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+														<span class="J_listitme_text">年份</span>
+														<div class="dropdowbox9 J_dropdown_menu">
+															<div class="dropdow_inner9">
+																<ul class="nav_box J_birthdy_exp">
+																	<div class="J_birthday_box_exp active"></div>
+																	<div class="J_birthday_box_exp"></div>
+																	<div class="J_birthday_box_exp"></div>
+																</ul>
+																<a href="javascript:;" class="prev J_birthday_prev_exp"></a>
+																<a href="javascript:;" class="next J_birthday_next_exp"></a>
+															</div>
+														</div>
+														<input class="J_listitme_code" type="hidden" name="yearCredent" id="yearCredent" value="">
+													</div>
+												</td>
+												<td width="100">
+													<div class="input_90_34_div J_hoverinput J_dropdown J_listitme_parent">
+														<span class="J_listitme_text">月份</span>
+														<div class="dropdowbox11 J_dropdown_menu">
+															<div class="dropdow_inner11">
+																<ul class="nav_box J_month">
+																	<div class="J_month_box active"></div>
+																</ul>
+															</div>
+														</div>
+														<input class="J_listitme_code" type="hidden" name="monthCredent" id="monthCredent" value="">
+													</div>
+												</td>
+											</tr>
+										</table>
+									</td>
+								</tr>
+							</table>
+							<div class="butbox">
+								<div class="td1">
+									<input type="submit"  class="but_blue_115 J_hoverbut J_saveitems_credent" value="保存" />
+								</div>
+								<div class="td1">
+									<input type="reset"  class="but_gray_115 J_hoverbut J_closeitems" value="取消" />
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--获得证书结束 -->
+				<!--语言能力 -->
+				<div id="positionLanguage" class="J_itemsbox">
+					<div class="items J_hoverbut">
+						<div class="il">语言能力</div>
+						<div class="ir"><div class="but_gray_70_res_add J_hoverbut J_showitems_edit" id="JLanguageStatus">添加</div></div>
+						<div class="clear"></div>
+						<div id="languageListBox"></div>
+				    </div>
+					<div class="itemsform J_itemsmenu" data-waitsome="language">
+						<div class="ftit">语言能力 <div class="close J_hoverbut J_closeitems"></div></div>
+						<div class="fbody J_focus" id="ajaxEditLanguageListBox"></div>
+					</div>
+					<input type="hidden" id="J-for-last-del" value="0">
+				</div>
+				<!--语言能力结束 -->
+				<!--特长标签 -->
+				<div id="positionTag" class="J_itemsbox">
+					<div class="items J_hoverbut">
+						<div class="il">特长标签</div>
+						<div class="ir"><div class="but_gray_70_res_add J_hoverbut J_showitems"><if condition="$resume_info['tag']">修改<else />添加</if></div></div>
+						<div class="clear"></div>
+						<div id="tagListBox">
+							<empty name="resume_info['tag_cn']">
+								<div class="empty font_gray9">快来秀出你的亮点！不要被别人比下去啦！</div>
+							<else/>
+								<volist name="resume_info['tag_cn']" id="tag">
+									<div class="label_speciality <if condition="in_array($tag,$category['QS_resumetag'])">sys</if>">{$tag}</div>
+								</volist>
+							</empty>
+						</div>
+						<input name="tag" type="hidden" id="tag" value="{$resume_info.tag}" />
+						<div class="clear"></div>
+					</div>
+					<div class="itemsform J_itemsmenu" data-waitsome="tag">
+						<div class="ftit">特长标签<div class="close J_hoverbut J_closeitems"></div></div>
+						<div class="fbody J_focus">
+							<table class="b_table" border="0" align="center" cellpadding="0" cellspacing="0" >
+								<tr>
+									<td colspan="2" ><div class="toptip">是金子总会发光的，快主动秀出你的闪光点！</div></td>
+								</tr>
+								<tr>
+									<td valign="top" class="w1">特长标签：</td>
+									<td id="ajaxtagListBox">
+										<volist name="category['QS_resumetag']" id="tag">
+											<div class="sp_label J_hoverbut nowrap J_taglist <if condition="in_array($tag,$resume_info['tag_cn'])">select</if>" data-code="{$key}" data-title="{$tag}" data-type="1">
+												{$tag}
+												<div class="choose"></div>
+											</div>
+										</volist>
+										<volist name="resume_info['tag_cn']" id="tag">
+											<if condition="!in_array($tag,$category['QS_resumetag'])">
+												<div class="sp_label J_hoverbut nowrap J_taglist select" data-title="{$tag}" data-type="0">
+													{$tag}
+													<div class="choose"></div>
+												</div>
+											</if>
+										</volist>
+								  	</td>
+									<div class="clear"></div>
+								</tr>
+							 
+								<tr>
+									<td   ></td>
+									<td>
+									  <div class="addtag">
+								  			<div class="tagleft"><input name="selftag" id="" type="text"    class="input_205_34" placeholder="输入特长，不超过8个汉字"/></div>
+											<div class="tagright">
+											  <div class="but_yellow_115 J_hoverbut" id="J_add_selftag">添加特长</div>
+											</div>
+											<div class="clear"></div>
+									  </div>
+								  </td>
+								</tr>	 
+						  </table>
+							<div class="sp_label_butbox">
+						   		<div class="td1"><input type="submit"  class="but_blue_115 J_hoverbut J_saveitems_tag" value="保存" /></div>
+								<div class="td1"><input type="reset"  class="but_gray_115 J_hoverbut J_closeitems" value="取消" /></div>
+								<div class="clear"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--特长标签结束 -->
+				<!--附件上传 -->
+				<div id="positionResumeimg" class="J_itemsbox">
+				  <div class="items J_hoverbut">
+						<div class="il">照片/作品</div>
+						<div class="ir"><div class="but_gray_70_res_add J_hoverbut J_showitems_saveimg J_scan_img">上传</div></div>
+						<div class="clear"></div>
+						<div class="photo link_blue">
+							<div id="J_resumeimg_box">
+								<empty name="resume_img">
+									<div class="empty font_gray9">最多上传6张，每张最大800KB,支持jpg/gif/bmp/png格式，建议上传清晰自然生活照，或者您的专业代表作品。</div>
+								<else/>
+									<volist name="resume_img" id="resume_info_img">
+										<div class="plist J_resumeimg_group" data-code="{$resume_info_img.id}"  data-img="{$resume_info_img.img}">
+											<div class="bg J_hoverbut">
+												<div class="pic"><img src="{:attach($resume_info_img['img'],'top_resume_img')}" alt="" height="100%" width="100%" /></div>
+												<switch name="resume_info_img['audit']">
+													<case value="1"><div class="audit font_green">审核通过</div></case>
+													<case value="2"><div class="audit font_yellow">等待审核</div></case>
+													<case value="3"><div class="audit font_red">审核未通过</div></case>
+												</switch>
+												<div class="edit J_resumeimg_edit"></div>
+												<div class="picdel J_resumeimg_del"><a href="javascript:;">删除</a></div>
+												<div class="clear"></div>
+											</div>
+										</div>
+									</volist>
+								</empty>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<div class="itemsform J_itemsmenu" data-waitsome="resumeimg">
+						<div class="ftit">照片/作品<div class="close J_hoverbut J_closeitems"></div></div>
+						<div class="fbody J_focus new-up">
+			                <div class="new-up-cell">
+			                    <div class="img-box">
+									<img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(build_mobile_url(array('c'=>'ScanUpload','a'=>'resume_img','params'=>'uname='.$visitor['username'].'&pwd='.$visitor['password'].'&utype='.$visitor['utype'].'&rid='.$resume_info['id'])))}" />
+								</div>
+			                    <div class="sp-line-16"></div>
+			                    <div class="l-txt co-333 ft-16">方式一：手机扫码上传</div>
+			                    <div class="sp-line-13"></div>
+			                    <div class="l-txt co-b9 ft-14">推荐使用手机扫码上传图片，更方便</div>
+			                </div>
+			                <div class="new-up-cell last">
+			                    <div class="img-box local-up J_hoverbut" id="top_resume_img" name="top_resume_img">
+			                        <div class="i-ic"></div>
+			                        <div class="sp-line-19"></div>
+			                        <div class="l-txt ft-16">点击上传</div>
+			                    </div>
+			                    <div class="sp-line-16"></div>
+			                    <div class="l-txt co-333 ft-16">方式二：本地上传</div>
+			                    <div class="sp-line-13"></div>
+			                    <div class="l-txt co-b9 ft-14">支持jpg/gif/bmp/png格式（文件大小800K以内）</div>
+			                </div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+				<!--附件上传结束 -->
+				<!--word简历 -->
+				<div id="positionResumeword" class="J_itemsbox">
+					<div class="items J_hoverbut" >
+						<div class="il">附件简历</div>
+						<div class="ir"><div class="but_gray_70_res_add J_hoverbut J_show_itemsform" id="J_has_resume_word_sub">上传</div></div>
+						<div class="clear"></div>
+						<div class="doc" id="J_resumeword_box">
+							<empty name="resume_info['word_resume']">
+								<div class="empty font_gray9">请上传.DOC格式的附件(文件大小2M以内)</div>
+							<else/>
+								<div class="dleft_tit link_gray6 substring">{$resume_info.word_resume_title}</div>
+								<div class="dtime">上传于：{:date('Y-m-d H:i',$resume_info['word_resume_addtime'])}</div>
+								<div class="ddown link_yellow">
+									<a href="javascript:;" class="J_resumeword_update">更换</a>&nbsp;&nbsp;&nbsp;
+									<a href="{:U('download/adv_word_resume',array('id'=>$resume_info))}">下载</a>&nbsp;&nbsp;&nbsp;
+									<a href="javascript:;" class="J_resumeword_del">删除</a>
+								</div>
+								<div class="clear"></div>
+							</empty>
+						</div>
+					</div>
+					<div class="itemsform J_itemsmenu" data-waitsome="resumeword">
+						<div class="ftit">附件简历<div class="close J_hoverbut J_closeitems"></div></div>
+						<div class="fbody J_focus">
+							<table class="b_table b_resume_word" border="0" align="center" cellpadding="0" cellspacing="0" >
+								<tr>
+									<td colspan="2" ><div class="toptip">请上传.DOC格式的附件(文件大小2M以内)</div></td>
+								</tr>
+								<tr>
+									<td valign="top" class="w1">上传文件：</td>
+									<td>
+										<a href="javascript:;" name="top_word_resume" id="top_word_resume" class="upload J_hoverbut J_upload_wordarea">点击上传文件</a>
+									</td>
+								</tr>	  
+							</table>
+							<!-- <div class="butbox">
+										   		<div class="td1"><input type="submit"  class="but_blue_115 J_hoverbut J_saveitems_wordresume" value="保存" /></div>
+								<div class="td1"><input type="reset"  class="but_gray_115 J_hoverbut J_closeitems" value="取消" /></div>
+								<div class="clear"></div>
+							</div> -->
+						</div>
+					</div>
+				</div>
+				<!--word简历结束 -->	 
+			</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+	<include file="Personal:index_footer" />
+	<script type="text/javascript" src="../public/js/jquery.modal.userselectlayer.js"></script>
+	<script type="text/javascript" src="../public/js/jquery.user.city.js"></script>
+	<script src="../public/js/ajaxfileupload.js"></script>
+	<script src="../public/js/qscms.js"></script>
+	<script type="text/javascript" src="../public/js/jquery.modal.dialog.js"></script>
+	<script type="text/javascript">
+		$('.get-money-fail-suc').css({
+	        left: ($(window).width() - $('.get-money-fail-suc').outerWidth())/2,
+	        top: ($(window).height() - $('.get-money-fail-suc').outerHeight())/2 + $(document).scrollTop()
+	    });
+	    $('.gm-fs-group .gm-fs-clo').die().live('click', function () {
+	        $(this).closest('.get-money-fail-suc').remove();
+	        $('.modal_backdrop').remove();
+	    });
+	    // 认证手机
+        $('#J_auth_mobile').click(function(){
+            var title = '修改手机';
+            var qsDialog = $(this).dialog({
+                title: title,
+                loading: true,
+                showFooter: false,
+                yes: function() {
+                    var verifycode  = $.trim($('#J_mobileWrap input[name="verifycode"]').val());
+                    if(!verifycode){
+                        disapperTooltip("remind", "请填写验证码！");
+                        return !1;
+                    }
+                    $.post("{:U('Members/verify_mobile_code')}",{verifycode:verifycode},function(result){
+                        if(result.status == 1){
+                            $('#mobileWap').html(result.data.mobile);
+                            if(result.data.points){
+                                disapperTooltip("goldremind", '验证手机号增加'+result.data.points+'{:C('qscms_points_byname')}<span class="point">+'+result.data.points+'</span>');
+                            }else{
+                                disapperTooltip('success',result.msg);
+                            }
+                            qsDialog.hide();
+                        }else{
+                            disapperTooltip('remind',result.msg);
+                        }
+                    },'json');
+                }
+            });
+            $.getJSON("{:U('Members/user_mobile')}",function(result){
+                if(result.status == 1){
+                    qsDialog.setCloseDialog(false);
+                    qsDialog.setContent(result.data);
+                    qsDialog.showFooter(true);
+                }else{
+                    qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+                }
+            });
+        });
+	    // 头像不公开
+        $('#photo_display').click(function () {
+            var pDisplay = 1;
+            if ($(this).is(":checked")) {
+                pDisplay = 2;
+            }
+            $.post("{:U('personal/save_photo_display')}",{photo_display:pDisplay},function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg);
+                }
+            },'json');
+        })
+	    // 添加通用
+		$('.J_showitems').live('click', function(e) {
+			$('.J_itemsmenu').hide();
+			$('.items').show();
+			var $parentDom = $(this).closest('.J_itemsbox');
+		    $(this).closest('.items').hide();
+		    $parentDom.find('.J_itemsmenu').show();
+		});
+
+		// 取消通用
+		$('.J_closeitems').live('click', function(e) {
+		    var $parentDom = $(this).closest('.J_itemsbox');
+		    $(this).closest('.J_itemsmenu').hide();
+		    $parentDom.find('.items').show();
+		});
+
+		var regularMobile = qscms.regularMobile; // 验证手机号正则
+		var regularEmail = /^[_\.0-9a-zA-Z-]+[_0-9a-zA-Z-]@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,3}$/; // 验证邮箱正则
+		var regularHeight = /^1[2-9][0-9]$|^2[0-2][0-9]$|^230$/; // 验证身高正则
+		var pid = $('#pid').val(); // 简历id
+
+		// 加载教育经历
+		$.getJSON("{:U('AdvPersonal/ajax_get_education_list')}", {pid: pid}, function(data) {
+			$('#educationListBox').html(data.data.html);
+			listHoveEdit();
+			// 修改教育经历
+			$('.J_editedu').live('click', function() {
+				var thisid = $(this).closest('.J_listhover_edit').data('id');
+				$.getJSON("{:U('AdvPersonal/edit_education')}", {pid: pid, id: thisid}, function(data) {
+					if (data.status) {
+						$('#school').val(data.data.school);
+						$('#speciality').val(data.data.speciality);
+						$('#education1').val(data.data.education);
+						$('#education1').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.education_cn);
+						$('#startyearEdu').val(data.data.startyear);
+						$('#startyearEdu').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startyear);
+						$('#startmonthEdu').val(data.data.startmonth);
+						$('#startmonthEdu').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startmonth);
+						$('#endyearEdu').val(data.data.endyear);
+						$('#endyearEdu').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endyear);
+						$('#endmonthEdu').val(data.data.endmonth);
+						$('#endmonthEdu').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endmonth);
+						$('[data-waitsome="education"]').find('.J_listid').val(data.data.id);
+						if (data.data.todate==1) {
+							$('#tonowEdu').attr('checked', !0);
+							$('#tonowEdu').val('1');
+							$('#tonowEdu').closest('.J_itemsmenu').find('.J_fortonow').hide();
+						};
+						var $parentDom = $('[data-waitsome="education"]').closest('.J_itemsbox');
+					    $('.J_itemsmenu').hide();
+						$('.items').show();
+					    $parentDom.find('.items').hide();
+					    $parentDom.find('.J_itemsmenu').show();
+					};
+				});
+			});
+			// 删除教育经历
+			$('.J_deledu').live('click', function() {
+				var url = "{:U('AdvPersonal/del_education')}";
+				var thisid = $(this).closest('.J_listhover_edit').data('id');
+				var qsDialog=$(this).dialog({
+					title: '删除教育经历',
+					loading: true,
+					border: false,
+					yes: function() {
+						$.post(url,{pid:pid,id:thisid},function(data){
+			        		if (data.status) {
+								$('#educationListBox').find('[data-id="'+thisid+'"]').remove();
+								if (!$('#educationListBox .J_listhover_edit').length) {
+									$.getJSON("{:U('AdvPersonal/ajax_get_education_list')}", {pid: pid}, function(data) {
+										$('#educationListBox').html(data.data.html);
+									});
+								};
+							} else {
+								disapperTooltip("remind", "删除失败");
+							}
+			        	},'json');
+					}
+				});
+				$.getJSON(url,{pid:pid,id:thisid},function(result){
+	        		if(result.status == 1){
+	        			qsDialog.setContent(result.data.html);
+	        		}else{
+	                    qsDialog.hide();
+	        			disapperTooltip('remind',result.msg);
+	        		}
+	        	});
+			});
+		});
+
+		// 加载工作经历
+		$.getJSON("{:U('AdvPersonal/ajax_get_work_list')}", {pid: pid}, function(data) {
+			$('#experienceListBox').html(data.data.html);
+			listHoveEdit();
+			// 修改工作经历
+			$('.J_editexp').live('click', function() {
+				var thisid = $(this).closest('.J_listhover_edit').data('id');
+				$.getJSON("{:U('AdvPersonal/edit_work')}", {pid: pid, id: thisid}, function(data) {
+					if (data.status) {
+						$('#companyname').val(data.data.companyname);
+						$('#experienceJobname').val(data.data.jobs);
+						$('#startyearExp').val(data.data.startyear);
+						$('#startyearExp').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startyear);
+						$('#startmonthExp').val(data.data.startmonth);
+						$('#startmonthExp').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startmonth);
+						$('#endyearExp').val(data.data.endyear);
+						$('#endyearExp').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endyear);
+						$('#endmonthExp').val(data.data.endmonth);
+						$('#endmonthExp').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endmonth);
+						$('#jobrespons').val(data.data.achievements);
+						$('[data-waitsome="experience"]').find('.J_listid').val(data.data.id);
+						if (data.data.todate==1) {
+							$('#tonowExp').attr('checked', !0);
+							$('#tonowExp').val('1');
+							$('#tonowExp').closest('.J_itemsmenu').find('.J_fortonow').hide();
+						};
+						var $parentDom = $('[data-waitsome="experience"]').closest('.J_itemsbox');
+					    $('.J_itemsmenu').hide();
+						$('.items').show();
+					    $parentDom.find('.items').hide();
+					    $parentDom.find('.J_itemsmenu').show();
+					};
+				});
+			});
+			// 删除工作经历
+			$('.J_delexp').live('click', function() {
+				var url = "{:U('AdvPersonal/del_work')}";
+				var thisid = $(this).closest('.J_listhover_edit').data('id');
+				var qsDialog=$(this).dialog({
+					title: '删除工作经历',
+					loading: true,
+					border: false,
+					yes: function() {
+						$.post(url,{pid:pid,id:thisid},function(data){
+			        		if (data.status) {
+								$('#experienceListBox').find('[data-id="'+thisid+'"]').remove();
+								if (!$('#experienceListBox .J_listhover_edit').length) {
+									$.getJSON("{:U('AdvPersonal/ajax_get_work_list')}", {pid: pid}, function(data) {
+										$('#experienceListBox').html(data.data.html);
+									});
+								};
+							} else {
+								disapperTooltip("remind", "删除失败");
+							}
+			        	},'json');
+					}
+				});
+				$.getJSON(url,{pid:pid,id:thisid},function(result){
+	        		if(result.status == 1){
+	        			qsDialog.setContent(result.data.html);
+	        		}else{
+	                    qsDialog.hide();
+	        			disapperTooltip('remind',result.msg);
+	        		}
+	        	});
+			});
+		});
+
+		// 加载培训经历
+		$.getJSON("{:U('AdvPersonal/ajax_get_training_list')}", {pid: pid}, function(data) {
+			$('#trainListBox').html(data.data.html);
+			listHoveEdit();
+			// 修改培训经历
+			$('.J_edittra').live('click', function() {
+				var thisid = $(this).closest('.J_listhover_edit').data('id');
+				$.getJSON("{:U('AdvPersonal/edit_training')}", {pid: pid, id: thisid}, function(data) {
+					if (data.status) {
+						$('#agency').val(data.data.agency);
+						$('#course').val(data.data.course);
+						$('#startyearTra').val(data.data.startyear);
+						$('#startyearTra').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startyear);
+						$('#startmonthTra').val(data.data.startmonth);
+						$('#startmonthTra').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.startmonth);
+						$('#endyearTra').val(data.data.endyear);
+						$('#endyearTra').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endyear);
+						$('#endmonthTra').val(data.data.endmonth);
+						$('#endmonthTra').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.endmonth);
+						$('#description').val(data.data.description);
+						$('[data-waitsome="train"]').find('.J_listid').val(data.data.id);
+						if (data.data.todate==1) {
+							$('#tonowTra').attr('checked', !0);
+							$('#tonowTra').val('1');
+							$('#tonowTra').closest('.J_itemsmenu').find('.J_fortonow').hide();
+						};
+						var $parentDom = $('[data-waitsome="train"]').closest('.J_itemsbox');
+					    $('.J_itemsmenu').hide();
+						$('.items').show();
+					    $parentDom.find('.items').hide();
+					    $parentDom.find('.J_itemsmenu').show();
+					};
+				});
+			});
+			// 删除培训经历
+			$('.J_deltra').live('click', function() {
+				var url = "{:U('AdvPersonal/del_training')}";
+				var thisid = $(this).closest('.J_listhover_edit').data('id');
+				var qsDialog=$(this).dialog({
+					title: '删除培训经历',
+					loading: true,
+					border: false,
+					yes: function() {
+						$.post(url,{pid:pid,id:thisid},function(data){
+			        		if (data.status) {
+								$('#trainListBox').find('[data-id="'+thisid+'"]').remove();
+								if (!$('#trainListBox .J_listhover_edit').length) {
+									$.getJSON("{:U('AdvPersonal/ajax_get_training_list')}", {pid: pid}, function(data) {
+										$('#trainListBox').html(data.data.html);
+									});
+								};
+							} else {
+								disapperTooltip("remind", "删除失败");
+							}
+			        	},'json');
+					}
+				});
+				$.getJSON(url,{pid:pid,id:thisid},function(result){
+	        		if(result.status == 1){
+	        			qsDialog.setContent(result.data.html);
+	        		}else{
+	                    qsDialog.hide();
+	        			disapperTooltip('remind',result.msg);
+	        		}
+	        	});
+			});
+		});
+
+		// 加载语言能力
+		$.getJSON("{:U('AdvPersonal/ajax_get_language_list')}", {pid: pid}, function(data) {
+			$('#languageListBox').html(data.data.html);
+			listHoveEdit();
+			if ($('#languageListBox div.label').length) {
+				$('#JLanguageStatus').removeClass('but_gray_70_res_add').addClass('but_gray_70_res_edit').text('修改');
+			};
+		});
+
+		// 加载获得证书
+		$.getJSON("{:U('AdvPersonal/ajax_get_credent_list')}", {pid: pid}, function(data) {
+			$('#credentListBox').html(data.data.html);
+			listHoveEdit();
+			// 修改获得证书
+			$('.J_editcre').live('click', function() {
+				var thisid = $(this).closest('.J_listhover_edit').data('id');
+				$.getJSON("{:U('AdvPersonal/edit_credent')}", {pid: pid, id: thisid}, function(data) {
+					if (data.status) {
+						$('#credent').val(data.data.name);
+						$('#yearCredent').val(data.data.year);
+						$('#yearCredent').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.year);
+						$('#monthCredent').val(data.data.month);
+						$('#monthCredent').closest('.J_listitme_parent').find('.J_listitme_text').text(data.data.month);
+						$('[data-waitsome="credent"]').find('.J_listid').val(data.data.id);
+						var $parentDom = $('[data-waitsome="credent"]').closest('.J_itemsbox');
+					    $('.J_itemsmenu').hide();
+						$('.items').show();
+					    $parentDom.find('.items').hide();
+					    $parentDom.find('.J_itemsmenu').show();
+					};
+				});
+			});
+			// 删除获得证书
+			$('.J_delcre').live('click', function() {
+				var url = "{:U('AdvPersonal/del_credent')}";
+				var thisid = $(this).closest('.J_listhover_edit').data('id');
+				var qsDialog=$(this).dialog({
+					title: '删除获得证书',
+					loading: true,
+					border: false,
+					yes: function() {
+						$.post(url,{pid:pid,id:thisid},function(data){
+			        		if (data.status) {
+								$('#credentListBox').find('[data-id="'+thisid+'"]').remove();
+								if (!$('#credentListBox .J_listhover_edit').length) {
+									$.getJSON("{:U('AdvPersonal/ajax_get_credent_list')}", {pid: pid}, function(data) {
+										$('#credentListBox').html(data.data.html);
+									});
+								};
+							} else {
+								disapperTooltip("remind", "删除失败");
+							}
+			        	},'json');
+					}
+				});
+				$.getJSON(url,{pid:pid,id:thisid},function(result){
+	        		if(result.status == 1){
+	        			qsDialog.setContent(result.data.html);
+	        		}else{
+	                    qsDialog.hide();
+	        			disapperTooltip('remind',result.msg);
+	        		}
+	        	});
+			});
+		});
+
+		// 特长标签
+		$('.J_taglist').die().live('click', function() {
+			var selectArr = $('.J_taglist.select');
+			if ($(this).hasClass('select')) {
+				$(this).toggleClass('select');
+			} else {
+				if (selectArr.length >= 5) {
+					disapperTooltip("remind", "最多可选5个标签！");
+				} else {
+					$(this).toggleClass('select');
+				}
+			}
+		});
+
+		// 判断是否有附件简历
+		if ($('#J_resumeword_box .dleft_tit').length) {
+			$('#J_has_resume_word_sub').text('修改');
+		};
+
+		//点击重命名简历标题，切换出文本框
+		$("#J_edit_title_edit").click( function () {
+			$("#J_edit_title_input_edit").show();
+			$("#J_edit_title_txt_edit").hide();
+		});
+
+		$("#J_edit_title_edit").click( function () {
+			$("#J_edit_title_input_edit").show();
+			var oval = $("#J_edit_title_input_edit").find('input[name="title"]').val();
+			$("#J_edit_title_input_edit").find('input[name="title"]').val('').focus().val(oval).addClass('input_focus');
+			$("#J_edit_title_txt_edit").hide();
+		});
+
+		// 保存简历标题
+		$('.J_save_basetitle').live('click', function(e) {
+			// 提交之前先验证
+			var titleValue = $.trim($('#J_titleinput').val());
+			if (titleValue == "") {
+				disapperTooltip("remind", "请填写简历标题");
+				return false;
+			}
+			if (titleValue != "" && titleValue.length > 12) {
+				disapperTooltip("remind", "简历标题应在1~12个字内");
+				return false;
+			}
+			// 提交表单
+			$.ajax({
+				url: "{:U('TopPersonal/ajax_save_title')}",
+				type: 'POST',
+				dataType: 'json',
+				data: {pid: pid, title: titleValue}
+			})
+			.done(function(data) {
+				if (parseInt(data.status)) {
+					disapperTooltip("success", '保存成功！');
+					$("#J_edit_title_input_edit").hide();
+					$("#J_edit_title_txt_edit").find('span').text($('#J_titleinput').val());
+					$("#J_edit_title_txt_edit").show();
+				} else {
+					disapperTooltip("remind", data.msg);
+				}
+			})
+			.fail(function() {
+				disapperTooltip("remind", "更新失败请重新提交");
+			});
+		});
+
+		// 保存基本信息
+		$('.J_saveitems_baseinfo').live('click', function(e) {
+			// 提交之前先验证
+			var fullnameValue = $.trim($('#fullname').val());
+			var displaynameValue = $.trim($('#display_name').val());
+			var sexValue = $.trim($('#sex').val());
+			var birthdateValue = $.trim($('#birthdate').val());
+			var residenceValue = $.trim($('#residence').val());
+			var educationValue = $.trim($('#education').val());
+			var experienceValue = $.trim($('#experience').val());
+			var telephoneValue = $.trim($('#telephone').val());
+			var emailValue = $.trim($('#email').val());
+			var majorValue = $.trim($('#major').val());
+			var heightValue = $.trim($('#height').val());
+			var householdaddressValue = $.trim($('#householdaddress').val());
+			var marriageValue = $.trim($('#marriage').val());
+			var qq = $.trim($('#qq').val());
+			var weixin = $.trim($('#weixin').val());
+			if (fullnameValue == "") {
+				disapperTooltip("remind", "请填写姓名");
+				return false;
+			}
+			if (sexValue == "") {
+				disapperTooltip("remind", "请选择性别");
+				return false;
+			}
+			if (birthdateValue == "") {
+				disapperTooltip("remind", "请选择出生年份");
+				return false;
+			}
+			if (residenceValue != "" && residenceValue.length > 20) {
+				disapperTooltip("remind", "现居住地应在1~20个字内");
+				return false;
+			}
+			if (educationValue == "") {
+				disapperTooltip("remind", "请选择学历");
+				return false;
+			}
+			if (experienceValue == "") {
+				disapperTooltip("remind", "请选择工作经验");
+				return false;
+			}
+			if (heightValue != "" && !regularHeight.test(heightValue)) {
+				disapperTooltip("remind", "请输入正确的身高（120-230）CM");
+				return false;
+			}
+			if (householdaddressValue != "" && householdaddressValue.length > 20) {
+				disapperTooltip("remind", "籍贯应在1~20个字内");
+				return false;
+			}
+			$('.J_saveitems_baseinfo').val('保存中...').addClass('btn_disabled').prop('disabled', !0);
+			// 提交表单
+			$.ajax({
+				url: "{:U('AdvPersonal/ajax_save_basic_info')}",
+				type: 'POST',
+				dataType: 'json',
+				data: {pid: pid, fullname: fullnameValue, sex: sexValue, birthdate: birthdateValue, residence: residenceValue, education: educationValue, experience: experienceValue, telephone: telephoneValue, email: emailValue, major: majorValue, height: heightValue, householdaddress: householdaddressValue, marriage: marriageValue,qq:qq,weixin:weixin}
+			})
+			.done(function(data) {
+				if (parseInt(data.status)) {
+					// 如果操作成功就同步修改的值
+					$('[data-sub="fullname"]').text($('#fullname').val());
+					$('[data-sub="telephone"]').text($('#telephone').val());
+					$('[data-sub="email"]').text($('#email').val());
+					$('[data-sub="sex"]').text($('.for_sex.checked').text());
+					// 计算年龄
+					var cYear = parseInt($('#birthdate').val());
+					var nowDate = new Date();
+			    	var nowYear = nowDate.getFullYear();
+			    	var ageNum = parseInt(nowYear-cYear);
+					$('[data-sub="birthdate"]').text(ageNum);
+					$('[data-sub="marriage"]').text($('.for_marriage.checked').text());
+					$('[data-sub="height"]').text($('#height').val());
+					$('[data-sub="education"]').text($('.for_education').text());
+					$('[data-sub="experience"]').text($('.for_experience').text());
+					$('[data-sub="residence"]').text($('#residence').val());
+					$('[data-sub="major"]').text($('.for_major').text());
+					$('[data-sub="householdaddress"]').text($('#householdaddress').val());
+					$('[data-sub="qq"]').text($('#qq').val());
+					$('[data-sub="weixin"]').text($('#weixin').val());
+					$('.J_saveitems_baseinfo').val('保存').removeClass('btn_disabled').prop('disabled', 0);
+					// 关闭操作框
+					var $parentDom = $('.J_saveitems_baseinfo').closest('.J_itemsbox');
+				    $('.J_saveitems_baseinfo').closest('.J_itemsmenu').hide();
+				    window.location.reload();
+				    $parentDom.find('.items').show();
+				} else {
+					$('.J_saveitems_baseinfo').val('保存').removeClass('btn_disabled').prop('disabled', 0);
+					disapperTooltip("remind", data.msg);
+				}
+			})
+			.fail(function() {
+				$('.J_saveitems_baseinfo').val('保存').removeClass('btn_disabled').prop('disabled', 0);
+				disapperTooltip("remind", "更新失败请重新提交");
+			});
+		});
+
+		// 保存求职意向
+		$('.J_saveitems_intention').live('click', function(e) {
+			// 提交之前先验证
+			var currentValue = $.trim($('#current').val());
+			var natureValue = $.trim($('#nature').val());
+			var tradeValue = $.trim($('#trade').val());
+			var intentionJobsValue = $.trim($('#intention_jobs_id').val());
+			var districtValue = $.trim($('#district').val());
+			var wageValue = $.trim($('#wage').val());
+			if (currentValue == "") {
+				disapperTooltip("remind", "请选择目前状态");
+				return false;
+			}
+			if (natureValue == "") {
+				disapperTooltip("remind", "请选择工作性质");
+				return false;
+			}
+			if (intentionJobsValue == "") {
+				disapperTooltip("remind", "请选择期望职位");
+				return false;
+			}
+			if (districtValue == "") {
+				disapperTooltip("remind", "请选择工作地区");
+				return false;
+			}
+			if (wageValue == "") {
+				disapperTooltip("remind", "请选择期望薪资");
+				return false;
+			}
+			// 提交表单
+			$.ajax({
+				url: "{:U('AdvPersonal/ajax_save_basic')}",
+				type: 'POST',
+				dataType: 'json',
+				data: {pid: pid, current: currentValue, nature: natureValue, trade: tradeValue, intention_jobs_id: intentionJobsValue, district: districtValue, wage: wageValue}
+			})
+			.done(function(data) {
+				if (parseInt(data.status)) {
+					// 如果操作成功就同步修改的值
+				    $('[data-sub="current"]').text($('.for_current').text());
+				    $('[data-sub="nature"]').text($('.for_nature.checked').text());
+				    $('[data-sub="trade"]').text($('.for_trade').text());
+				    $('[data-sub="district"]').text($('.for_district').text());
+				    $('[data-sub="wage"]').text($('.for_wage').text());
+
+				    // 关闭操作框
+				    var $parentDom = $('.J_saveitems_intention').closest('.J_itemsbox');
+				    $('.J_saveitems_intention').closest('.J_itemsmenu').hide();
+				    $parentDom.find('.items').show();
+				    if(data.data!=''){
+				    	disapperTooltip("remind", data.msg);
+				    }else{
+				    	$('[data-sub="intention_jobs"]').text($('.for_intention_jobs').text());
+				    }
+				} else {
+					disapperTooltip("remind", data.msg);
+				}
+			})
+			.fail(function() {
+				disapperTooltip("remind", "更新失败请重新提交");
+			});
+		});
+
+		// 添加之前先清空
+		$('#J_clearinput_edu').live('click', function(event) {
+			// 清空表单
+			$('#school').val('');
+			$('#speciality').val('');
+			$('#education1').val('');
+			$('#education1').closest('.J_listitme_parent').find('.J_listitme_text').text('请选择');
+			$('#startyearEdu').val('');
+			$('#startyearEdu').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+			$('#startmonthEdu').val('');
+			$('#startmonthEdu').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+			$('#endyearEdu').val('');
+			$('#endyearEdu').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+			$('#endmonthEdu').val('');
+			$('#endmonthEdu').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+			$('[data-waitsome="education"]').find('.J_listid').val('');
+			$('#tonowEdu').attr('checked', false);
+			$('#tonowEdu').val('');
+			$('#tonowEdu').closest('.J_itemsmenu').find('.J_fortonow').show();
+		});
+
+		// 添加教育经历 保存
+		$('.J_saveitems_education').live('click', function(e) {
+		    // 提交之前先验证
+			var schoolValue = $.trim($('#school').val());
+			var specialityValue = $.trim($('#speciality').val());
+			var education1Value = $.trim($('#education1').val());
+			var startyearEduValue = $.trim($('#startyearEdu').val());
+			var startmonthEduValue = $.trim($('#startmonthEdu').val());
+			var endyearEduValue = $.trim($('#endyearEdu').val());
+			var endmonthEduValue = $.trim($('#endmonthEdu').val());
+			var todateEduValue = $.trim($('#tonowEdu').val());
+			var listidValue = $.trim($('[data-waitsome="education"]').find('.J_listid').val());
+			if (schoolValue == "") {
+				disapperTooltip("remind", "请填写学校名称");
+				return false;
+			}
+			if (specialityValue == "") {
+				disapperTooltip("remind", "请填写专业名称");
+				return false;
+			}
+			if (education1Value == "") {
+				disapperTooltip("remind", "请选择学历");
+				return false;
+			}
+			if (startyearEduValue == "") {
+				disapperTooltip("remind", "请选择就读开始时间");
+				return false;
+			}
+			if (startmonthEduValue == "") {
+				disapperTooltip("remind", "请选择就读开始月份");
+				return false;
+			}
+			if (!parseInt(todateEduValue)) { // 不选择至今才验证结束时间
+				if (endyearEduValue == "") {
+					disapperTooltip("remind", "请选择就读结束时间");
+					return false;
+				}
+				if (endmonthEduValue == "") {
+					disapperTooltip("remind", "请选择就读结束月份");
+					return false;
+				}
+				if (wrongTime(startyearEduValue, startmonthEduValue, endyearEduValue, endmonthEduValue)) {
+					disapperTooltip("remind", "结束时间应大于开始时间");
+					return false;
+				};
+			};
+			
+			// 提交表单
+			$.ajax({
+				url: "{:U('AdvPersonal/save_education')}",
+				type: 'POST',
+				dataType: 'json',
+				data: {id:listidValue, pid: pid, school: schoolValue, speciality: specialityValue, education: education1Value, startyear: startyearEduValue, startmonth: startmonthEduValue, endyear: endyearEduValue, endmonth: endmonthEduValue, todate: todateEduValue}
+
+			})
+			.done(function(data) {
+				if (parseInt(data.status)) {
+					if (listidValue == "") {
+						if ($('#educationListBox .J_listhover_edit').length) {
+							$('#educationListBox').append(data.data.html);
+						} else {
+							$('#educationListBox').html(data.data.html);
+						}
+					} else {
+						$('#educationListBox').find('[data-id="'+listidValue+'"]').replaceWith(data.data.html);
+					}
+					listHoveEdit();
+
+				    // 关闭操作框
+				    var $parentDom = $('.J_saveitems_education').closest('.J_itemsbox');
+				    $('.J_saveitems_education').closest('.J_itemsmenu').hide();
+				    $parentDom.find('.items').show();
+				    // 清空表单
+					$('#school').val('');
+					$('#speciality').val('');
+					$('#education1').val('');
+					$('#education1').closest('.J_listitme_parent').find('.J_listitme_text').text('请选择');
+					$('#startyearEdu').val('');
+					$('#startyearEdu').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+					$('#startmonthEdu').val('');
+					$('#startmonthEdu').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+					$('#endyearEdu').val('');
+					$('#endyearEdu').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+					$('#endmonthEdu').val('');
+					$('#endmonthEdu').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+					$('[data-waitsome="education"]').find('.J_listid').val('');
+					$('#tonowEdu').attr('checked', false);
+					$('#tonowEdu').val('');
+					$('#tonowEdu').closest('.J_itemsmenu').find('.J_fortonow').show();
+					check_complete_percent_allowance();
+				} else {
+					disapperTooltip("remind", data.msg);
+				}
+			})
+			.fail(function() {
+				disapperTooltip("remind", "更新失败请重新提交");
+			});
+		});
+
+		// 添加之前先清空
+		$('#J_clearinput_exp').live('click', function(event) {
+			// 清空表单
+		    $('#companyname').val('');
+			$('#experienceJobname').val('');
+			$('#startyearExp').val('');
+			$('#startyearExp').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+			$('#startmonthExp').val('');
+			$('#startmonthExp').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+			$('#endyearExp').val('');
+			$('#endyearExp').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+			$('#endmonthExp').val('');
+			$('#endmonthExp').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+			$('#jobrespons').val('');
+			$('[data-waitsome="experience"]').find('.J_listid').val('');
+			$('#tonowExp').attr('checked', false);
+			$('#tonowExp').val('');
+			$('#tonowExp').closest('.J_itemsmenu').find('.J_fortonow').show();
+		});
+
+		// 添加工作经历 保存
+		$('.J_saveitems_experience').live('click', function(e) {
+		    // 提交之前先验证
+		    var f = $(this);
+			var companynameValue = $.trim($('#companyname').val());
+			var experiencenameValue = $.trim($('#experienceJobname').val());
+			var startyearExpValue = $.trim($('#startyearExp').val());
+			var startmonthExpValue = $.trim($('#startmonthExp').val());
+			var endyearExpValue = $.trim($('#endyearExp').val());
+			var endmonthExpValue = $.trim($('#endmonthExp').val());
+			var todateExpValue = $.trim($('#tonowExp').val());
+			var jobresponsValue = $.trim($('#jobrespons').val());
+			var listidValue = $.trim($('[data-waitsome="experience"]').find('.J_listid').val());
+			if (companynameValue == "") {
+				disapperTooltip("remind", "请填写公司名称");
+				return false;
+			}
+			if (experiencenameValue == "") {
+				disapperTooltip("remind", "请填写职位名称");
+				return false;
+			}
+			if (startyearExpValue == "") {
+				disapperTooltip("remind", "请选择任职开始时间");
+				return false;
+			}
+			if (startmonthExpValue == "") {
+				disapperTooltip("remind", "请选择任职开始月份");
+				return false;
+			}
+			if (!parseInt(todateExpValue)) {
+				if (endyearExpValue == "") {
+					disapperTooltip("remind", "请选择任职结束时间");
+					return false;
+				}
+				if (endmonthExpValue == "") {
+					disapperTooltip("remind", "请选择任职结束月份");
+					return false;
+				}
+				if (wrongTime(startyearExpValue, startmonthExpValue, endyearExpValue, endmonthExpValue)) {
+					disapperTooltip("remind", "结束时间应大于开始时间");
+					return false;
+				};
+			};
+			if (jobresponsValue == "") {
+				disapperTooltip("remind", "请填写工作职责");
+				return false;
+			}
+			f.attr('disabled',true);
+			// 提交表单
+			$.ajax({
+				url: "{:U('AdvPersonal/save_work')}",
+				type: 'POST',
+				dataType: 'json',
+				data: {id: listidValue, pid: pid, companyname: companynameValue, jobs: experiencenameValue, startyear: startyearExpValue, startmonth: startmonthExpValue, endyear: endyearExpValue, endmonth: endmonthExpValue, todate: todateExpValue, achievements: jobresponsValue}
+
+			})
+			.done(function(data) {
+				if (parseInt(data.status)) {
+					if (listidValue == "") {
+						if ($('#experienceListBox .J_listhover_edit').length) {
+							$('#experienceListBox').append(data.data.html);
+						} else {
+							$('#experienceListBox').html(data.data.html);
+						}
+					} else {
+						$('#experienceListBox').find('[data-id="'+listidValue+'"]').replaceWith(data.data.html);
+					}
+					listHoveEdit();
+
+				    // 关闭操作框
+				    var $parentDom = $('.J_saveitems_experience').closest('.J_itemsbox');
+				    $('.J_saveitems_experience').closest('.J_itemsmenu').hide();
+				    $parentDom.find('.items').show();
+				    // 清空表单
+				    $('#companyname').val('');
+					$('#experienceJobname').val('');
+					$('#startyearExp').val('');
+					$('#startyearExp').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+					$('#startmonthExp').val('');
+					$('#startmonthExp').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+					$('#endyearExp').val('');
+					$('#endyearExp').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+					$('#endmonthExp').val('');
+					$('#endmonthExp').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+					$('#jobrespons').val('');
+					$('[data-waitsome="experience"]').find('.J_listid').val('');
+					$('#tonowExp').attr('checked', false);
+					$('#tonowExp').val('');
+					$('#tonowExp').closest('.J_itemsmenu').find('.J_fortonow').show();
+					check_complete_percent_allowance();
+				} else {
+					disapperTooltip("remind", data.msg);
+				}
+				f.attr('disabled',false);
+			})
+			.fail(function() {
+				disapperTooltip("remind", "更新失败请重新提交");
+				f.attr('disabled',false);
+			});
+		});
+
+		// 添加之前先清空
+		$('#J_clearinput_tra').live('click', function(event) {
+			$('#agency').val('');
+			$('#course').val('');
+			$('#startyearTra').val('');
+			$('#startyearTra').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+			$('#startmonthTra').val('');
+			$('#startmonthTra').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+			$('#endyearTra').val('');
+			$('#endyearTra').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+			$('#endmonthTra').val('');
+			$('#endmonthTra').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+			$('#description').val('');
+			$('[data-waitsome="train"]').find('.J_listid').val('');
+			$('#tonowTra').attr('checked', false);
+			$('#tonowTra').val('');
+			$('#tonowTra').closest('.J_itemsmenu').find('.J_fortonow').show();
+		});
+		
+		// 添加培训经历 保存
+		$('.J_saveitems_train').live('click', function(e) {
+			// 提交之前先验证
+			var agencyValue = $.trim($('#agency').val());
+			var courseValue = $.trim($('#course').val());
+			var startyearTraValue = $.trim($('#startyearTra').val());
+			var startmonthTraValue = $.trim($('#startmonthTra').val());
+			var endyearTraValue = $.trim($('#endyearTra').val());
+			var endmonthTraValue = $.trim($('#endmonthTra').val());
+			var todateTraValue = $.trim($('#tonowTra').val());
+			var descriptionValue = $.trim($('#description').val());
+			var listidValue = $.trim($('[data-waitsome="train"]').find('.J_listid').val());
+			if (agencyValue == "") {
+				disapperTooltip("remind", "请填写培训机构名称");
+				return false;
+			}
+			if (courseValue == "") {
+				disapperTooltip("remind", "请填写培训课程");
+				return false;
+			}
+			if (startyearTraValue == "") {
+				disapperTooltip("remind", "请选择培训开始时间");
+				return false;
+			}
+			if (startmonthTraValue == "") {
+				disapperTooltip("remind", "请选择培训开始月份");
+				return false;
+			}
+			if (!parseInt(todateTraValue)) {
+				if (endyearTraValue == "") {
+					disapperTooltip("remind", "请选择培训结束时间");
+					return false;
+				}
+				if (endmonthTraValue == "") {
+					disapperTooltip("remind", "请选择培训结束月份");
+					return false;
+				}
+				if (wrongTime(startyearTraValue, startmonthTraValue, endyearTraValue, endmonthTraValue)) {
+					disapperTooltip("remind", "结束时间应大于开始时间");
+					return false;
+				}
+			}
+			if (descriptionValue == "") {
+				disapperTooltip("remind", "请填写培训内容");
+				return false;
+			}
+
+			// 提交表单
+			$.ajax({
+				url: "{:U('AdvPersonal/save_training')}",
+				type: 'POST',
+				dataType: 'json',
+				data: {id: listidValue, pid: pid, agency: agencyValue, course: courseValue, startyear: startyearTraValue, startmonth: startmonthTraValue, endyear: endyearTraValue, endmonth: endmonthTraValue, todate: todateTraValue, description: descriptionValue}
+
+			})
+			.done(function(data) {
+				if (parseInt(data.status)) {
+					if (listidValue == "") {
+						if ($('#trainListBox .J_listhover_edit').length) {
+							$('#trainListBox').append(data.data.html);
+						} else {
+							$('#trainListBox').html(data.data.html);
+						}
+					} else {
+						$('#trainListBox').find('[data-id="'+listidValue+'"]').replaceWith(data.data.html);
+					}
+					listHoveEdit();
+
+				    // 关闭操作框
+				    var $parentDom = $('.J_saveitems_train').closest('.J_itemsbox');
+				    $('.J_saveitems_train').closest('.J_itemsmenu').hide();
+				    $parentDom.find('.items').show();
+				    $('#agency').val('');
+					$('#course').val('');
+					$('#startyearTra').val('');
+					$('#startyearTra').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+					$('#startmonthTra').val('');
+					$('#startmonthTra').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+					$('#endyearTra').val('');
+					$('#endyearTra').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+					$('#endmonthTra').val('');
+					$('#endmonthTra').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+					$('#description').val('');
+					$('[data-waitsome="train"]').find('.J_listid').val('');
+					$('#tonowTra').attr('checked', false);
+					$('#tonowTra').val('');
+					$('#tonowTra').closest('.J_itemsmenu').find('.J_fortonow').show();
+					check_complete_percent_allowance();
+				} else {
+					disapperTooltip("remind", data.msg);
+				}
+			})
+			.fail(function() {
+				disapperTooltip("remind", "更新失败请重新提交");
+			});
+		});
+		
+		// 修改语言能力
+		$('.J_showitems_edit').live('click', function(e) {
+			$.getJSON("{:U('AdvPersonal/edit_language')}", {pid: pid}, function(data) {
+				if (data.status) {
+					$('#ajaxEditLanguageListBox').html(data.data.html);
+					$('.J_itemsmenu').hide();
+					$('.items').show();
+					var $parentDom = $('.J_showitems_edit').closest('.J_itemsbox');
+				    $('.J_showitems_edit').closest('.items').hide();
+				    $parentDom.find('.J_itemsmenu').show();
+
+				    // 删除语言能力
+				    $('.J_dellanguage').click(function() {
+						if ($('#ajaxEditLanguageListBox .J_listhover_edit').length > 1) {
+							$(this).closest('.J_listhover_edit').remove();
+						} else if ($('#ajaxEditLanguageListBox .J_listhover_edit').length == 1) {
+							$('#J-for-last-del').val('1');
+							$(this).closest('.J_listhover_edit').data('id','0');
+							$(this).closest('.J_listhover_edit').find('.J_listitme_text').eq(0).text('选择语种');
+							$(this).closest('.J_listhover_edit').find('.J_listitme_text').eq(1).text('熟悉程度');
+							$(this).closest('.J_listhover_edit').find('.J_listitme_code').val('');
+	                        $('#JLanguageStatus').removeClass('but_gray_70_res_edit').addClass('but_gray_70_res_add').text('添加');
+						}
+					});
+
+					// 新增一项
+					$('.J_addlanguage').click(function() {
+						var existingLength = $('#ajaxEditLanguageListBox .J_listhover_edit').length;
+						if (existingLength < 6) {
+							var $last = $('#ajaxEditLanguageListBox .J_listhover_edit').last();
+							var $obj = $last.clone(true);
+							$obj.data('id','0');
+							$obj.find('.J_listitme_text').eq(0).text('选择语种');
+							$obj.find('.J_listitme_text').eq(1).text('熟悉程度');
+							$obj.find('.J_listitme_code').val('');
+							$obj.insertAfter($last);
+						} else {
+							disapperTooltip("remind", "最多可添加6种语言");
+						}
+					});
+				};
+			});
+		});
+
+		// 添加语言能力 保存
+		$('.J_saveitems_language').live('click', function(e) {
+		    // 提交之前先验证
+		    var switchReq = true;
+		    var remindType;
+		    var languageArray = new Array();
+		    var levelArray = new Array();
+		    $('[data-waitsome="language"] .J_listitme_code').each(function(index, el) {
+		    	if ($.trim($(this).val()) == '') {
+		    		switchReq = false;
+		    		if ($(this).attr('name') == 'language') {
+		    			remindType = 0;
+		    		} else {
+		    			remindType = 1;
+		    		}
+		    		return false;
+		    	} else {
+		    		if ($(this).attr('name') == 'language') {
+		    			languageArray.push($.trim($(this).val()));
+		    		} else {
+		    			levelArray.push($.trim($(this).val()));
+		    		}
+		    		
+		    	}
+		    });
+
+		    // 去除重复
+		    var sortArray = languageArray.sort();
+		    for (var i = 0; i < sortArray.length; i++) {
+		    	if (sortArray[i] == sortArray[i+1]) {
+		    		disapperTooltip("remind", "不能重复选择");
+		    		return false;
+		    	};
+		    };
+
+			if (!eval($('#J-for-last-del').val())) {
+				if (!switchReq) {
+					if (remindType) {
+						disapperTooltip("remind", "请选择熟悉程度");
+					} else {
+						disapperTooltip("remind", "请选择语种");
+					}
+					return false;
+				}
+			}
+
+			// 提交表单
+			$.ajax({
+				url: "{:U('AdvPersonal/save_language')}",
+				type: 'POST',
+				dataType: 'json',
+				data: {pid: pid, language: languageArray, level: levelArray}
+
+			})
+			.done(function(data) {
+				if (parseInt(data.status)) {
+					$('#languageListBox').html(data.data.html);
+					listHoveEdit();
+
+				    // 关闭操作框
+				    var $parentDom = $('.J_saveitems_language').closest('.J_itemsbox');
+				    $('.J_saveitems_language').closest('.J_itemsmenu').hide();
+				    $parentDom.find('.items').show();
+					$('#J-for-last-del').val('0');
+					if (languageArray.length) {
+	                    $('#JLanguageStatus').removeClass('but_gray_70_res_add').addClass('but_gray_70_res_edit').text('修改');
+	                } else {
+	                    $('#JLanguageStatus').removeClass('but_gray_70_res_edit').addClass('but_gray_70_res_add').text('添加');
+	                }
+	                check_complete_percent_allowance();
+				} else {
+					disapperTooltip("remind", data.msg);
+				}
+			})
+			.fail(function() {
+				disapperTooltip("remind", "更新失败请重新提交");
+			});
+		});
+
+		// 添加之前先清空
+		$('#J_clearinput_cre').live('click', function(event) {
+			$('#credent').val('');
+			$('#yearCredent').val('');
+			$('#yearCredent').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+			$('#monthCredent').val('');
+			$('#monthCredent').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+			$('[data-waitsome="credent"]').find('.J_listid').val('');
+		});
+
+		// 添加获得证书 保存
+		$('.J_saveitems_credent').live('click', function(e) {
+		    // 提交之前先验证
+			var credentValue = $.trim($('#credent').val());
+			var yearCredentValue = $.trim($('#yearCredent').val());
+			var monthCredentValue = $.trim($('#monthCredent').val());
+			var listidValue = $.trim($('[data-waitsome="credent"]').find('.J_listid').val());
+			if (credentValue == "") {
+				disapperTooltip("remind", "请填写证书名称");
+				return false;
+			}
+			if (yearCredentValue == "") {
+				disapperTooltip("remind", "请选择获得证书年份");
+				return false;
+			}
+			if (monthCredentValue == "") {
+				disapperTooltip("remind", "请选择获得证书月份");
+				return false;
+			}
+			if (!listidValue) {
+				// 添加证书数量限制
+				if ($('#credentListBox .J_listhover_edit').length >= 6) {
+					disapperTooltip("remind", "最多可以添加6份证书");
+					return false;
+				};
+			}
+
+			// 提交表单
+			$.ajax({
+				url: "{:U('AdvPersonal/save_credent')}",
+				type: 'POST',
+				dataType: 'json',
+				data: {id: listidValue, pid: pid, name: credentValue, year: yearCredentValue, month: monthCredentValue}
+			})
+			.done(function(data) {
+				if (parseInt(data.status)) {
+					if (listidValue == "") {
+						if ($('#credentListBox .J_listhover_edit').length) {
+							$('#credentListBox').append(data.data.html);
+						} else {
+							$('#credentListBox').html(data.data.html);
+						}
+					} else {
+						$('#credentListBox').find('[data-id="'+listidValue+'"]').replaceWith(data.data.html);
+					}
+					listHoveEdit();
+
+				    // 关闭操作框
+				    var $parentDom = $('.J_saveitems_credent').closest('.J_itemsbox');
+				    $('.J_saveitems_credent').closest('.J_itemsmenu').hide();
+				    $parentDom.find('.items').show();
+				    $('#credent').val('');
+					$('#yearCredent').val('');
+					$('#yearCredent').closest('.J_listitme_parent').find('.J_listitme_text').text('年份');
+					$('#monthCredent').val('');
+					$('#monthCredent').closest('.J_listitme_parent').find('.J_listitme_text').text('月份');
+					$('[data-waitsome="credent"]').find('.J_listid').val('');
+					check_complete_percent_allowance();
+				} else {
+					disapperTooltip("remind", data.msg);
+				}
+			})
+			.fail(function() {
+				disapperTooltip("remind", "更新失败请重新提交");
+			});
+		});
+
+		// 添加自我描述 保存
+		$('.J_saveitems_specialty').live('click', function(e) {
+		    // 提交之前先验证
+			var specialtyValue = $.trim($('#specialty').val());
+			if (specialtyValue == "") {
+				disapperTooltip("remind", "请填写自我描述");
+				return false;
+			}
+
+			// 提交表单
+			$.ajax({
+				url: "{:U('AdvPersonal/ajax_save_specialty')}",
+				type: 'POST',
+				dataType: 'json',
+				data: {pid: pid, specialty: specialtyValue}
+			})
+			.done(function(data) {
+				if (parseInt(data.status)) {
+					var htmlVal = $('#specialty').val();
+					$('.specialty_box').removeClass('empty font_gray9').addClass('describe font_gray6').text(htmlVal);
+				    // 关闭操作框
+				    var $parentDom = $('.J_saveitems_specialty').closest('.J_itemsbox');
+				    $('.J_saveitems_specialty').closest('.J_itemsmenu').hide();
+				    $parentDom.find('.items').show();
+				    check_complete_percent_allowance();
+				} else {
+					disapperTooltip("remind", data.msg);
+				}
+			})
+			.fail(function() {
+				disapperTooltip("remind", "更新失败请重新提交");
+			});
+		});
+
+		// 添加特长标签 保存
+		$('.J_saveitems_tag').die().live('click', function(e) {
+			var tagListArray = $('.J_taglist.select');
+			var tagvalueArray = new Array();
+			var tagcnvalueArray = new Array();
+			if (tagListArray.length) {
+				$.each(tagListArray, function(index, val) {
+					if($(this).data('code')){
+						tagvalueArray.push($(this).data('code'));
+					}else{
+						tagcnvalueArray.push($(this).data('title'));
+					}
+				});
+			} else {
+				disapperTooltip("remind", "请选择特长标签");
+				return false;
+			}
+			// 提交表单
+			$.ajax({
+				url: "{:U('AdvPersonal/ajax_save_tag')}",
+				type: 'POST',
+				dataType: 'json',
+				data: {pid: pid, tag: tagvalueArray, tag_cn:tagcnvalueArray}
+			})
+			.done(function(data) {
+				if (parseInt(data.status)) {
+					var htmlPrevTag = '';
+					$.each(tagListArray, function(index, val) {
+						var typeNum = parseInt($(this).data('type'));
+						if (typeNum) {
+							htmlPrevTag += '<div class="label_speciality sys">' + $(this).data('title') + '</div>';
+						} else {
+							htmlPrevTag += '<div class="label_speciality">' + $(this).data('title') + '</div>';
+						}
+					});
+					$('#tagListBox').html(htmlPrevTag);
+					listHoveEdit();
+
+				    // 关闭操作框
+				    var $parentDom = $('.J_saveitems_tag').closest('.J_itemsbox');
+				    $('.J_saveitems_tag').closest('.J_itemsmenu').hide();
+				    $parentDom.find('.items').show();
+				    check_complete_percent_allowance();
+				} else {
+					disapperTooltip("remind", data.msg);
+				}
+			})
+			.fail(function() {
+				disapperTooltip("remind", "更新失败请重新提交");
+			});
+		});
+
+		// 自定义标签
+		$('#J_add_selftag').die().live('click', function() {
+			var tagValue = $.trim($('input[name="selftag"]').val());
+			var isRepeat = false;
+			if (tagValue == '') {
+				disapperTooltip("remind", "您忘记填写亮点啦，不超过8个字！");
+				return false;
+			}
+			if (tagValue.length > 8) {
+				disapperTooltip("remind", "自定义标签不能超过8个字！");
+				return false;
+			}
+			$('.J_taglist').each(function(index, el) {
+				if (tagValue == $(this).data('title')) {
+					isRepeat = true;
+				}
+			})
+			if (isRepeat) {
+				disapperTooltip("remind", "填写的亮点已经存在了哦！");
+				return false;
+			}
+			var slefTagHtml = '<div class="sp_label J_hoverbut nowrap J_taglist" data-code="" data-title="'+tagValue+'" data-type="0">'+tagValue+'<div class="choose"></div></div>';
+			$('#ajaxtagListBox').append(slefTagHtml);
+		});
+
+		// 点击显示上传图片
+		$('.J_showitems_saveimg').live('click', function(e) {
+			var groupLength = $('#J_resumeimg_box .J_resumeimg_group').length;
+			if (groupLength >= 6) {
+				disapperTooltip("remind", '最多可以上传6张');
+			} else {
+				$('.J_itemsmenu').hide();
+				$('.items').show();
+				var $parentDom = $('.J_showitems_saveimg').closest('.J_itemsbox');
+			    $('.J_showitems_saveimg').closest('.items').hide();
+			    $parentDom.find('.J_itemsmenu').show();
+			}
+		});
+
+		// 删除作品/照片
+		$('.J_resumeimg_del').die().live('click', function(e) {
+			var thisGroup = $(this).closest('.J_resumeimg_group');
+			var imgIdCode = thisGroup.data('code');
+			var url = "{:U('AdvPersonal/ajax_resume_img_del')}";
+			var qsDialog = $(this).dialog({
+		        title: '删除照片/作品',
+	            loading: true,
+	            border: false,
+	            footer: false
+	        });
+	        $.getJSON(url, function (result) {
+	            if (result.status == 1) {
+	            	qsDialog.hide();
+	            	var qsDialogSon = $(this).dialog({
+		                title: '删除照片/作品',
+		                content: result.data.html,
+		                border: false,
+		                yes: function () {
+		                    $.post(url, {id: imgIdCode}, function(data) {
+								if (data.status) {
+									$('#J_resumeimg_box').find('[data-code="'+imgIdCode+'"]').remove();
+									if (!$('#J_resumeimg_box .J_resumeimg_group').length) {
+									  $('#J_resumeimg_box').html('<div class="empty font_gray9">最多上传6张，每张最大800KB,支持jpg/gif/bmp/png格式，建议上传清晰自然生活照，或者您的专业代表作品。</div>');
+										// 更改右侧菜单对应的状态
+										$('[data-forsome="resumeimg"]').removeClass('ok').text('添加');
+										$('[data-forsome="resumeimg"]').parent().prev().removeClass('ok');
+										// 更改右侧简历完整度
+										refreshResumePercent();
+									}
+								} else {
+									disapperTooltip("remind", "删除失败");
+								}
+							},'json');
+		                }
+		            });
+	            } else {
+	            	qsDialog.hide();
+	                disapperTooltip('remind', result.msg);
+	            }
+	        });
+			
+		});
+
+		// 扫码上传
+		var scanimg_time,
+		waiting_img_scan = function(){
+			$.getJSON("{:U('AdvPersonal/ajax_resume_img_waiting')}", {pid:pid}, function(result){
+				if(result.status == 1){
+					var htmlImg = '';
+					var scanimgArr = result.data.img;
+					var imgTotal = result.data.total;
+					if (!eval(imgTotal)) {
+						$('#J_resumeimg_box').html('<div class="empty font_gray9">最多上传6张，每张最大800KB,支持jpg/gif/bmp/png格式，建议上传清晰自然生活照，或者您的专业代表作品。</div>');
+					} else {
+						for (var i = 0; i < scanimgArr.length; i++) {
+							htmlImg += [
+				                '<div class="plist J_resumeimg_group" data-code="'+scanimgArr[i]['id']+'" data-img="'+scanimgArr[i]['img']+'">',
+				                '<div class="bg J_hoverbut">',
+				                '<div class="pic"><img src="'+scanimgArr[i]['img']+'" alt="" /></div>',
+				                '<div class="audit font_yellow">等待审核</div>',
+				                '<div class="edit J_resumeimg_edit"></div>',
+				                '<div class="picdel J_resumeimg_del"><a href="javascript:;">删除</a></div>',
+				                '<div class="clear"></div>',
+				                '</div>',
+				                '</div>'
+				            ].join('');
+				            $('#J_resumeimg_box').html(htmlImg);
+						}
+					}
+
+					// 关闭操作框
+					var $parentDom = $('#resume_img').closest('.J_itemsbox');
+					$('#resume_img').closest('.J_itemsmenu').hide();
+					$parentDom.find('.items').show();
+					check_complete_percent_allowance();
+				}
+			})
+		}
+		$('.J_scan_img').click(function() {
+			$.ajax({
+			url: "{:U('AdvPersonal/ajax_resume_img_scan')}",
+			type: 'POST',
+			dataType: 'json',
+			data: {pid: pid}
+		}).done(function(data) {
+				if (eval(data.status)) {
+					scanimg_time=setInterval(waiting_img_scan,5000);
+				} else {
+					disapperTooltip("remind", data.msg);
+				}
+			})
+		})
+
+		// 上传作品/照片
+		$.upload('#top_resume_img',{type:'top_resume_img',pid: pid},function(result){
+			if(result.status == 1){
+	          // 提交之前先验证
+	          var imgValue = result.data.img;
+	          var srcValue = result.data.path;
+	          var codeValue = result.data.id;
+	          // 提交表单
+	          $.ajax({
+	            url: "{:U('AdvPersonal/ajax_resume_attach')}",
+	            type: 'POST',
+	            dataType: 'json',
+	            data: {pid: pid, id: codeValue, img: imgValue}
+	          })
+	          .done(function(data) {
+	            if (parseInt(data.status)) {
+	              var htmlImg = '';
+	              htmlImg += [
+	                '<div class="plist J_resumeimg_group" data-code="'+data.data+'" data-img="'+imgValue+'">',
+	                '<div class="bg J_hoverbut">',
+	                '<div class="pic"><img src="'+srcValue+'" alt="" /></div>',
+	                '<div class="audit font_yellow">等待审核</div>',
+	                '<div class="edit J_resumeimg_edit"></div>',
+	                '<div class="picdel J_resumeimg_del"><a href="javascript:;">删除</a></div>',
+	                '<div class="clear"></div>',
+	                '</div>',
+	                '</div>'
+	              ].join('');
+	              var groupLength = $('#J_resumeimg_box .J_resumeimg_group').length;
+	              if (groupLength) {
+	                var isAppend = true;
+	                $('#J_resumeimg_box .J_resumeimg_group').each(function(index, el) {
+	                  if ($(this).data('code') == codeValue) {
+	                    isAppend = false;
+	                  };
+	                });
+	                if (isAppend) {
+	                  $('#J_resumeimg_box').append(htmlImg);
+	                } else {
+	                  $('#J_resumeimg_box').find('[data-code="'+codeValue+'"]').replaceWith(htmlImg);
+	                }
+	              } else {
+	                $('#J_resumeimg_box').html(htmlImg);
+	              }
+
+	              // 关闭操作框
+	              var $parentDom = $('#top_resume_img').closest('.J_itemsbox');
+	              $('#top_resume_img').closest('.J_itemsmenu').hide();
+	              $parentDom.find('.items').show();
+	              check_complete_percent_allowance();
+	            } else {
+	              disapperTooltip("remind", data.msg);
+	            }
+	          })
+	          .fail(function() {
+	            disapperTooltip("remind", "更新失败请重新提交");
+	          });
+			}else{
+				disapperTooltip("remind", result.msg);
+			}
+		});
+
+		// 上传附件简历
+		$.upload('#top_word_resume',{type:'top_word_resume',pid: pid},function(result){
+			if(result.status == 1){
+				var htmlWord = '';
+				htmlWord += [
+					'<div class="dleft_tit link_gray6 substring">'+result.data.name+'</div>',
+					'<div class="dtime">上传于：'+result.data.time+'</div>',
+					'<div class="ddown link_yellow">',
+						'<a href="javascript:;" class="J_resumeword_update">更换</a>&nbsp;&nbsp;&nbsp;',
+						'<a href="'+result.data.path+'">下载</a>&nbsp;&nbsp;&nbsp;',
+						'<a href="javascript:;" class="J_resumeword_del">删除</a>',
+					'</div>',
+					'<div class="clear"></div>'
+				].join('');
+				$('#J_resumeword_box').html(htmlWord);
+				$('#J_has_resume_word_sub').text('修改');
+			    // 关闭操作框
+			    var $parentDom = $('#top_word_resume').closest('.J_itemsbox');
+			    $('#top_word_resume').closest('.J_itemsmenu').hide();
+			    $parentDom.find('.items').show();
+			    check_complete_percent_allowance();
+			}else{
+				disapperTooltip("remind", result.msg);
+			}
+		});
+
+		// 更换附件简历
+		$('.J_resumeword_update').die().live('click', function(e) {
+			$('.J_itemsmenu').hide();
+			$('.items').show();
+			var $parentDom = $(this).closest('.J_itemsbox');
+		    $(this).closest('.items').hide();
+		    $parentDom.find('.J_itemsmenu').show();
+		});
+		
+		// 删除附件简历
+		$('.J_resumeword_del').die().live('click', function(e) {
+			var thisObj = $(this);
+			var qsDialog = $(this).dialog({
+	            title: '删除附件简历',
+	            loading: true,
+	            border: false,
+	            yes: function () {
+	                var thisGroup = thisObj.closest('.J_resumeimg_group');
+					var imgIdCode = thisGroup.data('code');
+					$.getJSON("{:U('AdvPersonal/ajax_word_del')}", {pid: pid}, function(data) {
+						if (data.status) {
+							$('#J_resumeword_box').html('<div class="empty font_gray9">请上传.DOC格式的附件(文件大小2M以内)</div>');
+							if (!$('#J_resumeword_box .dleft_tit').length) {
+								// 更改右侧菜单对应的状态
+								$('[data-forsome="resumeword"]').removeClass('ok').text('添加');
+								$('[data-forsome="resumeword"]').parent().prev().removeClass('ok');
+								// 更改右侧简历完整度
+								refreshResumePercent();
+								$('#J_has_resume_word_sub').text('上传');
+							};
+						} else {
+							disapperTooltip("remind", "删除失败");
+						}
+					});
+	            }
+	        });
+	        $.getJSON("{:U('AdvPersonal/ajax_word_del')}",{warning:1}, function (result) {
+	            if (result.status == 1) {
+	                qsDialog.setContent(result.data.html);
+	            } else {
+	                qsDialog.hide();
+	                disapperTooltip('remind', result.msg);
+	            }
+	        });
+		});
+
+		// 至今
+		$('.J_tonow').live('click', function(e) {
+			if ($(this).is(':checked')) {
+				$(this).val('1');
+			} else {
+				$(this).val('0');
+			}
+			$(this).closest('.J_itemsmenu').find('.J_fortonow').toggle();
+		});
+
+		// 判断结束时间是否大于开始时间
+		function wrongTime(sYear, sMonth, eYear, eMonth) {
+			if (parseInt(sYear) > parseInt(eYear)) {
+				return true;
+			} else {
+				if (parseInt(sYear) == parseInt(eYear)) {
+					if (parseInt(sMonth) >= parseInt(eMonth)) {
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			}
+		}
+
+		// 列表滑过显示删除和编辑选项
+		function listHoveEdit() {
+			$('.J_listhover_edit').hover(function() {
+				$(this).find(".editbox").show();
+			}, function() {
+				$(this).find(".editbox").hide();
+			});
+		}
+		var qrcode_bind_time,
+			waiting_weixin_bind = function(){
+				$.getJSON("{:U('Home/Members/waiting_weixin_bind')}");
+			};
+		function check_complete_percent_allowance(){
+			if(eval("{:C('qscms_perfected_resume_allowance_open')}")==1){
+				$.getJSON("{:U('Personal/check_complete_percent_allowance')}",function(result){
+					if(result.status==1){
+						$('body').append('<div class="modal_backdrop"></div>');
+						$('.get-money-fail-suc').show();
+			            $('.get-money-fail-suc .cash-line .cl-big').html(result.data);
+					}else if(result.status==2){
+						var qsDialogBind = $('.apply_allowance').dialog({
+		                    title: '绑定微信',
+		                    content: result.data,
+		                    btnNum: 3,
+		                    btns: ['我已绑定', '取消', '不再提示'],
+		                    yes:function(){
+		                    	clearInterval(qrcode_bind_time);
+		                    	$.getJSON("{:U('Personal/check_complete_percent_allowance')}",function(t_r){
+		                    		if(t_r.status==1){
+		                    			qsDialogBind.hide();
+			                        	$('body').append('<div class="modal_backdrop"></div>');
+			                        	$('.get-money-fail-suc').show();
+			                        	$('.get-money-fail-suc .cash-line .cl-big').html(t_r.data);
+		                    		}else{
+		                    			disapperTooltip('remind',t_r.msg);
+										return false;
+		                    		}
+		                    	});
+		                    },
+		                    other:function() {
+		                    	clearInterval(qrcode_bind_time);
+		                    },
+		                    cancel:function(){
+		                    	clearInterval(qrcode_bind_time);
+		                    	$.getJSON("{:U('Personal/check_complete_percent_allowance_nolonger_notice')}");
+		                    }
+		                });
+						qsDialogBind.setCloseDialog(false);
+		                clearInterval(qrcode_bind_time);
+		                qrcode_bind_time=setInterval(waiting_weixin_bind,5000);
+					}
+				});
+			}
+		}
+		$(document).ready(function(){
+			check_complete_percent_allowance();
+		});
+    </script>
+</body>
+</html>

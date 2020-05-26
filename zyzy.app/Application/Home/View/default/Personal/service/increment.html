@@ -1,0 +1,120 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta"/>
+    <link href="../public/css/personal/common.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_user.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="us-top">
+    <div class="us-main">
+        <div class="us-top-box">
+            <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                <div class="se-btn"><input type="submit" value="搜 索"></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="user_main">
+    <include file="Personal:index_left_nav"/>
+    <div class="mainbox">
+        <!--切换卡 -->
+        <div class="tab">
+            <a class="li J_hoverbut" href="{:U('index')}">我的{:C('qscms_points_byname')}</a>
+            <a class="li  J_hoverbut" href="{:U('task')}">我的任务</a>
+            <a class="li select ">增值服务</a>
+            <a class="li J_hoverbut " href="{:U('order_list')}">服务订单</a>
+            <notempty name="apply['Mall']">
+                <a class="li J_hoverbut " href="{:U('order_list_goods')}">商城订单</a>
+            </notempty>
+            <div class="clear"></div>
+        </div>
+        <!--切换卡结束 -->
+        <div class="service">
+
+            <div class="list">
+
+                <div class="lib J_hoverbut">
+                    <div class="timg">简历置顶</div>
+                    <div class="txt">
+                        1.投递简历时，简历将靠前显示<br/>
+
+                        2.企业搜索简历时，系统将优先您的简历<br/>
+                        3.专属推荐图标显示，让您的简历更醒目<br/>
+                    </div>
+                    <div class="btnbox">
+                        <a href="{:U('increment_add')}" class="btn_yellow J_hoverbut btn_inline ">立即置顶</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="list">
+                <div class="lib J_hoverbut">
+                    <div class="timg m2">醒目标签</div>
+                    <div class="txt">
+                        1.一对一专业服务，全面分析您的求职情况<br/>
+                        2.行业招聘专家专业制作，简历优势更突出<br/>
+                        3.个性模版助您快速高效获得面试机会<br/>
+                    </div>
+                    <div class="btnbox"><a href="{:U('increment_add',array('cat'=>'tag'))}"
+                                           class="btn_yellow J_hoverbut btn_inline ">添加标签</a></div>
+                </div>
+            </div>
+
+            <div class="list">
+                <div class="lib J_hoverbut">
+                    <div class="timg m3">简历模板</div>
+                    <div class="txt">
+                        1.一对一专业服务，全面分析您的求职情况<br/>
+                        2.行业招聘专家专业制作，简历优势更突出<br/>
+                        3.个性模版助您快速高效获得面试机会
+                    </div>
+                    <div class="btnbox"><a href="{:U('increment_add',array('cat'=>'tpl'))}"
+                                           class="btn_yellow J_hoverbut btn_inline ">更换模板</a></div>
+                </div>
+            </div>
+
+            <!--<div class="list">
+                <div class="lib J_hoverbut">
+                    <div class="timg m4">人才测评</div>
+                    <div class="txt">
+                        1.深入了解自己，明确职业发展方向<br/>
+                        2.根据测评结果，选择适合自己的工作<br/>
+                        3.认清自我，扬长避短，更好的自我发展
+                    </div>
+                    <div class="btnbox"><a href="{:U('personal/user_order_add')}"
+                                           class="btn_yellow J_hoverbut btn_inline ">立即测评</a></div>
+                </div>
+            </div>-->
+
+            <notempty name="apply['Mall']">
+                <div class="list">
+                    <div class="lib J_hoverbut">
+                        <div class="timg m5">{:C('qscms_points_byname')}商城</div>
+                        <div class="txt">
+
+                            1.使用{:C('qscms_points_byname')}可以在商城兑换海量精美礼品<br/>
+                            2.可通过完善资料、签到等方式获得{:C('qscms_points_byname')}<br/>
+                            3.可通过我的任务模块赚取更多{:C('qscms_points_byname')}
+                        </div>
+                        <div class="btnbox"><a href="{:url_rewrite('QS_mall_index')}"
+                                               class="btn_yellow J_hoverbut btn_inline ">立即兑换</a></div>
+                    </div>
+                </div>
+            </notempty>
+        </div>
+
+
+    </div>
+    <div class="clear"></div>
+</div>
+<include file="Personal:index_footer"/>
+</body>
+</html>

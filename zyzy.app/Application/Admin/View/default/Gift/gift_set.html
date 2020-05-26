@@ -1,0 +1,75 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>不同的运营阶段您可以选择不同的设置。</p>
+</div>
+<div class="toptit">会员默认优惠券设置</div>
+<form id="form1" action="{:U('gift_set')}" method="post">
+    <div class="form_main width250">
+		<div class="fl">开启优惠券功能：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='open_give_gift' value='1'>select</eq>"><input name="open_give_gift" type="hidden" value="{$open_give_gift}" /></div>
+            <div class="clear"></div>
+        </div>		
+        <div class="fl">优惠券到期提前几天提醒:</div>
+        <div class="fr">
+            <input name="gift_min_remind" type="text" class="input_text_default small" maxlength="30" value="{$gift_min_remind}" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+        </div>
+		<div class="fl">新注册会员赠送优惠券：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='is_give_gift' value='1'>select</eq>"><input name="is_give_gift" type="hidden" value="{$is_give_gift}" /></div>
+            <div class="clear"></div>
+        </div>
+		<div class="clear"></div>
+		<div class="fl">新注册会员赠送优惠券：</div>
+        <div class="fr">
+			<notempty name="gifts">
+            <ul style="margin:0px; padding:3px; list-style:none">       
+				<volist name="gifts" id="vo">
+					<li  class="user_box_li user_box_li_new_length" style="height: 40px;line-height: 40px;width: 100%;">
+						<label>
+							<input name="gift_id[]" type="checkbox"  value="{$vo['id']}" <range name="vo['id']" value="$is_give_gift_value" type="in">checked="checked"</range>/>{$vo['gift_name']}
+						</label>
+					</li>
+				</volist>
+			</ul>
+			<else />
+			 <div class="input_text_default middle" style="line-height:40px;border:none;">还没有可发放的优惠券！</div>
+			</notempty>
+        </div>  
+		<div class="clear"></div>		
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit1"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit1').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('gift_set')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

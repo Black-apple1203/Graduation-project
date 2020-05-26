@@ -1,0 +1,21 @@
+<notempty name="company">
+	<div class="si_ava"><a href="{:url_rewrite('QS_companyshow',array('id'=>$company['id']))}" target="_blank"><if condition="$company['logo']"><img src="{:attach($company['logo'], 'company_logo')}" alt=""><else /><img src="{:attach('no_logo.png', 'resource')}" alt=""></if></a></div>
+	<div class="si_txt"><a class="name" href="{:url_rewrite('QS_companyshow',array('id'=>$company['id']))}" target="_blank">{$company.companyname}</a></div>
+<else />
+	<div class="si_ava"><a href="{:U('company/index')}" target="_blank"><img src="{:attach('no_logo.png', 'resource')}" alt=""></a></div>
+	<div class="si_txt"><a class="name" href="{:U('company/index')}" target="_blank">请完善企业资料！</a></div>
+</notempty>
+<div class="si_txt"><a href="javascript:;" id="J_refresh_jobs">刷新职位</a>获取更多推荐</div>
+<div class="clear"></div>
+<div class="si_t">
+	<div class="t_li"></div><div class="t_tx">为你精选的人才</div>
+</div>
+<notempty name="info">
+<volist name="info" id="list">
+	<div class="si_sl res">
+		<div class="si_sll substring"><span>【推荐】</span><a href="{$list.resume_url}" target="_blank">{$list.fullname}</a></div>
+		<div class="si_slr">{$list.age}岁/{$list.experience_cn}/{$list.education_cn}</div>
+		<div class="clear"></div>
+	</div>
+</volist>
+</notempty>

@@ -1,0 +1,37 @@
+<include file="public:header" />
+    <div class="toptip">
+    	<div class="toptit">提示：</div>
+		<p>您可以通过此日志查看系统运行过程中MySQL低效查询信息。</p>
+	</div>
+	<div class="list_th">
+	    <div class="td" style="width:40%;"><div id="chkAll" class="left_padding">请求链接</div></div>
+	    <div class="td" style="width:30%;">SQL语句</div>
+	    <div class="td center" style="width:8%;">运行时间</div>
+	    <div class="td center" style="width:8%;">操作IP</div>
+	    <div class="td" style="width:14%;">记录时间</div>
+	    <div class="clear"></div>
+	</div>
+	<notempty name="list">
+		<volist name="list" id="list">
+			<div class="list_tr link_black">
+				<div class="td" style="width:40%;"><div id="chkAll" class="left_padding striking">{$list.url}</div></div>
+			    <div class="td striking" style="width:30%;">{$list.sql}</div>
+			    <div class="td center" style="width:8%;">{$list.runtime}</div>
+			    <div class="td center" style="width:8%;">{$list.ip}</div>
+			    <div class="td" style="width:14%;">{:date('Y-m-d H:i:s',$list['addtime'])}</div>
+			    <div class="clear"></div>
+			</div>
+		</volist>
+	<else/>
+		<div class="list_empty">没有任何信息！</div>
+	</notempty>
+	<div class="list_foot">
+		<div class="btnbox">
+	       <input name="ButADD" type="button" class="admin_submit" id="ButADD" value="返回"  onclick="window.location='{:U('LowEffiSql/index')}'"/>
+	    </div>
+	</div>
+	<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

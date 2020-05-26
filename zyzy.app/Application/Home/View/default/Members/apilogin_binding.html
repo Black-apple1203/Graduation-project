@@ -1,0 +1,198 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/members/common.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/members/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+	<include file="header" />
+	<div class="J_apilogin_bind_box apilogin_binding">
+		<div class="apil">
+			<div class="tbnox">
+				<div class="tit">你已经登录{$third_name}账号</div>
+				<div class="imgbox">
+					<img src="<if condition="$user_bind_info['keyavatar_big']">{$user_bind_info.keyavatar_big}<else/>{:attach('no_photo_male.png','resource')}</if>" border="0">
+				</div>
+				<div class="apiname">{$user_bind_info.username}</div>
+			</div>
+		</div>
+		<div class="apic"></div>
+		<div class="apir">
+			<div class="logtit">
+				<div class="alohtit">绑定已有账号</div>
+				<div class="aloright link_blue"><a class="J_switchtype" data-index="1" href="javascript:;">新注册账号并绑定</a></div>
+				<div class="clear"></div>
+			</div>
+			<div class="err" id="J_errbox"></div>
+			<form action="{:U('members/oauth_reg')}" id="formDoBind" method="post" onkeydown="if(event.keyCode==13){return false;}">
+				<div class="inpubox">
+					<input type="text" class="input_login" name="username" id="username" placeholder="手机号/会员名/邮箱"/>
+		            <div class="imgbg"></div>
+				</div>
+				<div class="inpubox">
+					<input type="password" class="input_login pwd" name="password" id="password" placeholder="请输入密码" autocomplete="off" />
+					<div class="imgbg pwd"></div>
+				</div>
+				<div class="inpubox">
+					<input class="btn_login J_hoverbut" type="button" id="J_dobind" value="绑定"/>
+				</div>
+			</form>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<div class="J_apilogin_bind_box apilogin_binding_new">
+		<div class="apil">
+			<div class="tbnox">
+				<div class="tit">你已经登录{$third_name}账号</div>
+				<div class="imgbox">
+					<img src="{$user_bind_info.keyavatar_big}" border="0">
+				</div>
+				<div class="apiname">{$user_bind_info.username}</div>
+			</div>
+		</div>
+		<div class="apic"></div>
+		<div class="apir">
+			<div class="regtitson">
+				<div class="alohtit">注册并绑定新账号</div>
+				<div class="clear"></div>
+			</div>
+			<div class="reg_tab">
+				<div class="J_tab_list tab_list select"><div class="txt">求职者注册</div><div class="bttom_line"></div></div>
+				<div class="J_tab_list tab_list last"><div class="txt icon2">企业HR注册</div><div class="bttom_line"></div></div>
+				<div class="clear"></div>
+				<div class="back_to link_blue"><a class="J_switchtype" data-index="0" href="javascript:;">绑定已有账号>></a></div>
+			</div>
+			<div class="solid_line"></div>
+			<div class="J_regcontent_box regcontent_box">
+				<form class="J_passwordalert_group" id="regEmailForm" action="{:U('members/oauth_reg')}" method="post" onkeydown="if(event.keyCode==13){return false;}">
+					<div class="J_validate_group">
+						<div class="td1">
+							<input class="input_295_34" name="mobile" id="mobile" type="text" placeholder="请输入手机号码" autocomplete="off" />
+						</div>
+						<div class="td2 J_showtip_box"></div>
+						<div class="clear"></div>
+					</div>
+					<div class="J_validate_group">
+						<div class="td1">
+							<div class="code">
+								<input class="input_295_34" name="mobile_vcode" id="mobile_vcode" type="text" placeholder="请输入短信验证码" autocomplete="off">
+							</div>
+							<div class="codebtn">
+								<input type="button" class="btn_yellow J_hoverbut" id="J_getverificode" value="获取验证码">
+							</div>
+							
+							<div class="clear"></div>
+						</div>
+						<div class="td2 J_showtip_box"></div>
+						<div class="clear"></div>
+					</div>
+					<div class="J_validate_group"><!--vaptcha-->
+							<div id="vaptchaContainer" style="width: 295px;height: 36px;padding-left:35px;display: none">
+							</div></div>
+					  
+					<if condition="C('qscms_register_password_open')">
+						<div class="J_validate_group">
+							<div class="td1">
+								<input class="input_295_34 J_passwordalert" name="password" id="password" type="password" placeholder="请输入账户密码" autocomplete="off" />
+							</div>
+							<div class="td2 J_showtip_box"></div>
+							<div class="clear"></div>
+						</div>
+						<div class="safety">
+							<div class="slist t1">危险</div>
+							<div class="slist t2">一般</div>
+							<div class="slist t3">安全</div>
+							<div class="clear"></div>
+						</div>
+						<div class="J_validate_group">
+							<div class="td1">
+								<input name="passwordVerify" type="password"  class="input_295_34" placeholder="请确认账户密码" autocomplete="off" />
+							</div>
+							<div class="td2 J_showtip_box"></div>
+							<div class="clear"></div>
+						</div>
+					</if>
+					<div class="agreement link_blue"><label><input name="agreement" type="checkbox" value="" checked="checked" />
+					我已阅读并同意<a href="javascript:;" class="J_reg_agreement">《{:C('qscms_site_name')}用户服务协议》</a></label></div>
+                    <input type="hidden" name="utype" class="J_u_type" value="2">
+					<input name="org" type="hidden" value="bind">
+				    <div id="bindCaptchaBox"></div>
+				    <input type="button" id="btnBindCheck" style="display:none;">
+                    <input type="hidden" name="geetest_challenge" class="J_gee_cha" value="">
+                    <input type="hidden" name="geetest_validate" class="J_gee_val" value="">
+                    <input type="hidden" name="geetest_seccode" class="J_gee_sec" value="">
+                    <input type="hidden" name="register_password_open" value="{:C(qscms_register_password_open)}" />
+					<div class="btnbox"><input id="btnBindRegister" type="submit" value="注册" class="btn_reg J_hoverbut" /></div>
+				</form>	
+			</div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="apilogin_binding_bg">
+		<div class="bl"></div>
+		<div class="br"></div>
+		<div class="clear"></div>
+	</div>
+	<input type="hidden" id="J_captcha_open" value="{:C('qscms_captcha_open')}" />
+    <input type="hidden" id="J_captcha_varify_send" value="{:C('qscms_captcha_config.varify_mobile')}" />
+	<include file="public:footer_min" />
+	<script type="text/javascript" src="../public/js/jquery.form.js"></script>
+	<script type="text/javascript" src="../public/js/jquery.validate.js"></script>
+	<script type="text/javascript" src="../public/js/members/jquery.pwdalert.js"></script>
+	<script type="text/javascript" src="../public/js/members/jquery.validate.binding.js"></script>
+	<script type="text/javascript" src="../public/js/jquery.modal.dialog.js"></script>
+	<script src="../public/js/jquery.listitem.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		//注册协议弹框
+	  	$(".J_reg_agreement").click(function(){
+			var qsDialog = $(this).dialog({
+        		title: "{:C('qscms_site_name')}注册协议",
+				backdrop: false
+			});
+			$.getJSON("{:U('Home/Members/agreement')}",function(result){
+				if(result.status==1){
+					qsDialog.setContent(result.data);
+				}
+			});
+		});
+		// 已有账号绑定
+		$('#J_dobind').live('click', function() {
+	        var usernameValue = $.trim($('input[name="username"]').val());
+	        var passwordValue = $.trim($('input[name="password"]').val());
+	        var $thisTypeBox = $(this).closest('.apir');
+	        if (usernameValue == "") {
+	            $thisTypeBox.addClass('openerr');
+	            $('#J_errbox').text('请填写手机号/会员名/邮箱');
+	            $('#username').focus();
+	            return false;
+	        }
+	        if (passwordValue == "") {
+	            $thisTypeBox.addClass('openerr');
+	            $('#J_errbox').text('请输入密码');
+	            $('#password').focus();
+	            return false;
+	        }
+	        $thisTypeBox.removeClass('openerr');
+	        $('#formDoBind').submit();
+	    });
+
+	    // 已有和新注册 绑定切换
+	    $('.J_switchtype').click(function() {
+	    	var index = $(this).data('index');
+	    	$('.J_apilogin_bind_box').eq(index).show().siblings('.J_apilogin_bind_box').hide();
+	    });
+
+	    // 企业个人注册方式切换
+	    $('.J_tab_list').click(function() {
+	    	$(this).addClass('select').siblings().removeClass('select');
+	    	var index = $('.J_tab_list').index(this);
+	    	if (index > 0) {
+	    		$('.J_u_type').val('1');
+	    	} else {
+	    		$('.J_u_type').val('2');
+	    	}
+	    });
+	</script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<include file="public:header" />
+<div class="toptip"  >
+    <div class="toptit">提示：</div>
+    <p>数据清理可有效提升数据读写效率，从而提升网站的用户体验。站长可根据自身情况，选择定期删除老旧数据</p>
+</div>
+<div class="toptit">清理内容</div>
+<form action="{:U('index')}" method="post" name="form1" id="form1">
+    <div class="form_main width150">
+        <div class="fl">清理项目：</div>
+        <div class="fr txt">
+            <label><input type="checkbox" checked="checked" value="PersonalJobsApply|apply_addtime" name="type[]"/> 职位申请记录</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="checkbox" value="CompanyInterview|interview_addtime" name="type[]" checked="checked"/> 面试邀请记录</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="checkbox" value="CompanyDownResume|down_addtime" name="type[]" checked="checked"/> 下载简历记录</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="checkbox" value="CompanyFavorites|favorites_addtime" name="type[]" checked="checked"/> 收藏简历记录</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="checkbox" value="Pms|dateline" name="type[]" checked="checked"/> 清除历史系统消息</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+        <div class="fl"></div>
+        <div class="fr txt">
+            <label><input type="checkbox" checked="checked" value="ViewResume|addtime" name="type[]"/> 浏览简历记录</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="checkbox" value="ViewJobs|addtime" name="type[]" checked="checked"/> 浏览职位记录</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="checkbox" value="Order|addtime" name="type[]" checked="checked"/> 已取消订单</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <label><input type="checkbox" value="MembersLog|log_addtime" name="type[]" checked="checked"/> 会员日志</label>&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+        <div class="fl">选择时间：</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="settr" type="hidden" value="360">
+                <div class="radio select" data="360" title="一年前">一年前</div>
+                <div class="radio" data="180" title="半年前">半年前</div>
+                <div class="radio" data="90" title="三个月前">三个月前</div>
+                <div class="radio" data="60" title="两个月前">两个月前</div>
+                <div class="radio" data="30" title="一个月前">一个月前</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit" type="submit" class="admin_submit" value="清除"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+</body>
+</html>

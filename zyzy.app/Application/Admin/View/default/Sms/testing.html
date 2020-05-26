@@ -1,0 +1,46 @@
+<include file="public:header" />
+	<form action="{:U('sms/testing')}" method="post"   name="form1" id="form1">
+		<div class="toptit">发送测试短信</div>
+		<span id="submitbox">
+			<div class="form_main width120">
+				<if condition="$err">
+					<div class="fl"></div>
+			        <div class="fr txt">{$err}</div>
+		        </if>
+		        <div class="fl">测试接口：</div>
+		        <div class="fr">
+		            <div class="imgradio">
+		                <input name="type" type="hidden" value="captcha">
+		                <div class="radio select" data="captcha">验证码类</div>
+		                <div class="radio" data="notice">通知类</div>
+		                <div class="radio" data="other">其他类</div>
+		                <div class="clear"></div>
+		            </div>
+		        </div>
+		        <div class="fl">接收手机：</div>
+		        <div class="fr">
+		            <input name="mobile" type="text" maxlength="11" class="input_text_default middle" value=""/>
+		        </div>
+		        <div class="fl"></div>
+		        <div class="fr">
+		            <input type="submit" class="admin_submit" id="check" value="立即测试" />
+		        </div>
+				<div class="clear"></div>
+			</div>
+		</span>
+		<span id="hide" style="display: none; color: #009900; padding-left:30px; padding-bottom:80px;">
+		 正在发送.......<br />
+		<br />
+		</span>
+</div>
+<include file="public:footer" />
+<script type="text/javascript"> 
+	$(document).ready(function(){
+		$("#check").click(function () {	
+			$("#submitbox").hide();
+			$("#hide").show();	
+		});
+	});
+</script>
+</body>
+</html>

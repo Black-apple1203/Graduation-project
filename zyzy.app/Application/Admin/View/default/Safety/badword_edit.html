@@ -1,0 +1,52 @@
+<include file="public:header"/>
+<form id="form1">
+    <div class="toptit">修改关键词</div>
+    <div class="form_main width120">
+        <div class="fl">关键词：</div>
+        <div class="fr">
+            <input name="badword" type="text" class="input_text_default" value="{$info.badword}"/>
+        </div>
+        <div class="fl">替换词：</div>
+        <div class="fr">
+            <input name="replace" type="text" class="input_text_default" value="{$info.replace}"/>
+        </div>
+        <div class="fl">状态：</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <if condition="$info['status'] eq '1'">select</if>"><input name="status" type="hidden" value="{$info.status}" /></div>
+            <div class="clear"></div>
+        </div>
+
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id" value="{$info.id}">
+            <input type="button" id="J_submit" name="submit" class="admin_submit" value="保存"/>
+            <input name="submit22" type="button" class="admin_submit" value="返回" onclick="window.location='{:U('safety/badword_index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+<script type="text/javascript">
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('safety/badword_edit')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    location.href='{:U("safety/badword_index")}';
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

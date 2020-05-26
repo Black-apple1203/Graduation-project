@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link
+			href="../public/css/personal/common.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="../public/css/personal/personal_job.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="../public/css/personal/personal_ajax_dialog.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<script
+			src="../public/js/personal/jquery.common.js"
+			type="text/javascript"
+			language="javascript"
+		></script>
+	</head>
+	<body>
+		<include file="public:header_other" />
+		<div class="us-top">
+			<div class="us-main">
+				<div class="us-top-box">
+					<form
+						id="ajax_search_location"
+						action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}"
+						method="get"
+					>
+						<div class="input-box">
+							<input
+								type="text"
+								name="key"
+								data-original="请输入关键字"
+								value=""
+								placeholder="请输入关键字"
+								autocomplete="off"
+							/>
+						</div>
+						<div class="se-btn"><input type="submit" value="搜 索" /></div>
+						<div class="clear"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<textarea id="copy" style="display:none;"></textarea>
+		<div class="user_main">
+			<include file="index_left_nav" />
+			<div class="mainbox">
+				<!--职位切换卡 -->
+				<div class="tab">
+					<a class="li J_hoverbut" href="{:U('jobs_interview')}">面试邀请</a>
+					<a class="li select">视频面试</a>
+					<a class="li J_hoverbut" href="{:U('jobs_apply')}">已申请职位</a>
+					<a class="li J_hoverbut" href="{:U('attention_me')}">谁在关注我</a>
+					<a class="li J_hoverbut" href="{:U('attention_jobs')}"
+						>浏览过的职位</a
+					>
+					<div class="clear"></div>
+				</div>
+				<!--切换卡结束 -->
+
+				<div class="resume_tip">
+					<div class="tiptxt link_blue" style="padding-top:12px;">
+						为提高视频面试效率，建议您在面试前提前检查您的设备是否能够正常连通
+						<a class="link_blue" target="_blank" href="{:U('vi/test')}"
+							>点击立即检测>></a
+						>
+						<br /><span class="font_yellow"
+							>视频面试房间仅在面试当天开启，在面试时间15天之后自动关闭</span
+						>
+					</div>
+				</div>
+
+				<div class="video_interview_th">
+					<div class="th1">面试职位</div>
+					<div class="th2">公司名称</div>
+					<div class="th3">面试时间</div>
+					<div class="th4">操作</div>
+					<div class="clear"></div>
+				</div>
+				<notempty name="list">
+					<volist name="list" id="vo">
+						<div class="video_interview">
+							<div class="td1 link_blue substring">
+								<a
+									href="{:url_rewrite('QS_jobsshow',array('id'=>$vo['jobs_id']))}"
+									target="_blank"
+									title="{$vo['jobs_name']}"
+									>{$vo['jobs_name']}</a
+								>
+							</div>
+							<div class="td2 link_blue substring">
+								<a
+									href="{:url_rewrite('QS_companyshow',array('id'=>$vo['company_id']))}"
+									target="_blank"
+									title="{$vo['companyname']}"
+									>{$vo['companyname']}</a
+								>
+							</div>
+							<div class="td3">
+								{:date('Y-m-d H:i',$vo['interview_time'])}
+							</div>
+							<div class="td4 link_blue">
+								<a
+									href="javascript:;"
+									class="J_interviewDetails info"
+									did="{$vo['id']}"
+									>面试详情</a
+								>&nbsp;&nbsp;
+								<if condition="$vo['room_status']=='opened'">
+									<a target="_blank" href="{$vo['link_url']}">进入房间</a
+									>&nbsp;&nbsp;
+									<a
+										href="javascript:;"
+										data-url="{$vo['link_url']}"
+										class="J_copy"
+										>复制链接</a
+									>&nbsp;&nbsp;
+									<a href="javascript:;" class="J_notice" data-id="{$vo['id']}"
+										>提醒上线</a
+									>
+								</if>
+								<if condition="$vo['room_status']=='overtime'">
+									<a style="color:#999;">房间已关闭</a>
+								</if>
+								<if condition="$vo['room_status']=='nostart'">
+									<a style="color:#999;">房间未开启</a>
+								</if>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</volist>
+					<div class="qspage">{$pager}</div>
+					<else />
+					<div class="res_empty link_blue">
+						目前您暂未收到面试通知，想要获得更多的面试机会，建议你主动投递简历！<br />海量高薪职位任你选。立即
+						<a href="{:url_rewrite('QS_jobs')}" target="_blank">投递简历</a>
+					</div>
+				</notempty>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script
+			type="text/javascript"
+			src="../public/js/jquery.listitem.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="../public/js/jquery.dropdown.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="../public/js/jquery.allselected.js"
+		></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				function copyText(str) {
+					$("#copy")
+						.text(str)
+						.show();
+					var ele = document.getElementById("copy");
+					ele.select();
+					document.execCommand("copy", false, null);
+					$("#copy").hide();
+				}
+				$(".J_notice").click(function() {
+					var id = $(this).data("id");
+					layer.confirm(
+						"确定提醒企业吗？",
+						function() {
+							$.getJSON(
+								"{:U('personal/video_interview_notice')}",
+								{ id: id },
+								function(res) {
+									if (res.status == 1) {
+										disapperTooltip("success", "已成功提醒企业");
+									} else {
+										disapperTooltip("remind", res.msg);
+									}
+								}
+							);
+							layer.closeAll("dialog");
+						},
+						function() {}
+					);
+				});
+				$(".J_copy").click(function() {
+					var url = $(this).data("url");
+					copyText(url);
+					disapperTooltip("success", "已成功复制到剪贴板");
+				});
+				$(".J_interviewDetails").click(function() {
+					var obj = $(this);
+					var id = $(this).attr("did");
+					var qsDialog = $(this).dialog({
+						title: "面试详情",
+						loading: true,
+						showFooter: false
+					});
+					$.getJSON(
+						"{:U('Personal/video_interview_details')}",
+						{ id: id },
+						function(result) {
+							if (result.status == 1) {
+								qsDialog.setContent(result.data);
+								qsDialog.showFooter(true);
+							} else {
+								qsDialog.setContent(
+									'<div class="confirm">' + result.msg + "</div>"
+								);
+							}
+						}
+					);
+				});
+			});
+		</script>
+	</body>
+</html>

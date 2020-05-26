@@ -1,0 +1,50 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+  <p>您可以修改关键字搜索次数来改变关键词排序</p>
+</div>
+<form id="form1">
+    <div class="toptit">修改关键词</div>
+    <div class="form_main width120">
+        <div class="fl">关键词：</div>
+        <div class="fr">
+            <input name="w_word" type="text" class="input_text_default" value="{$info.w_word}"/>
+        </div>
+        <div class="fl">搜索次数：</div>
+        <div class="fr">
+            <input name="w_hot" type="text" class="input_text_default" value="{$info.w_hot}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="w_id" value="{$info.w_id}">
+            <input type="button" name="submit" id="J_submit" class="admin_submit" value="保存"/>
+            <input name="submit22" type="button" class="admin_submit" value="返回" onclick="window.location='{:U('hotword/index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer"/>
+<script type="text/javascript">
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('hotword/edit')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    location.href='{:U("hotword/index")}';
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

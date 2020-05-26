@@ -1,0 +1,166 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>个人完成任务后通过审核进行红包的发放；若单次任务审核不通过，任务将重新发布；</p>
+    <p>单次任务完成且审核通过后发放红包；如果邀请人被拉黑则无法参与红包任务</p>
+</div>
+<div class="seltpye_y">
+    <div class="tit">邀请状态</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.resume_percent'>select</notempty>">{$Think.get.addtimesettr_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('resume_percent'=>'','resume_percent_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('resume_percent'=>'1','resume_percent_cn'=>'成功'))}">成功</li>
+        <li url="{:P(array('resume_percent'=>'0','resume_percent_cn'=>'进行中'))}">进行中</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">审核状态</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.state'>select</notempty>">{$Think.get.state_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('state'=>'','state_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('state'=>'2','state_cn'=>'审核中'))}">审核中</li>
+        <li url="{:P(array('state'=>'1','state_cn'=>'审核通过'))}">审核通过</li>
+        <li url="{:P(array('state'=>'3','state_cn'=>'审核未通过'))}">审核未通过</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">发放状态</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.grant'>select</notempty>">{$Think.get.grant_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('grant'=>'','grant_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('grant'=>'1','grant_cn'=>'已发放'))}">已发放</li>
+        <li url="{:P(array('grant'=>'0','grant_cn'=>'未发放'))}">未发放</li>
+    </div>
+</div>
+<div class="clear"></div>
+
+<form id="form1" name="form1" method="post" action="{:U('set_audit')}">
+    <div class="list_th">
+        <div class="td" style=" width:10%;">
+            <div class="left_padding">
+                邀请人
+             </div>   
+        </div>
+        <div class="td center" style=" width:10%;">被邀请人</div>
+        <div class="td center" style=" width:10%;">注册时间</div>
+        <div class="td" style=" width:10%;">简历完整度&nbsp;&nbsp;&nbsp;</div>
+        <div class="td center" style=" width:10%;">邀请状态</div>
+        <div class="td center" style=" width:10%;">审核状态</div>
+        <div class="td center" style=" width:10%;">发放状态</div>
+        <div class="td" style=" width:30%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:10%;">
+                <div class="left_padding">
+                    {$vo['invite_name']|default="该会员已被删除"}
+                </div> 
+            </div>
+            <div class="td center" style=" width:10%;">
+                {$vo['invitee_name']|default="该会员已被删除"}
+            </div>
+            <div class="td center" style=" width:10%;">
+                {:admin_date($vo['inviter_time'])}
+            </div>
+            <div class="td" style=" width:10%;">
+                <div style="width:100px; background-color:#CCCCCC; position:relative; margin-top: 20px;" title="完整度:{$vo['resume_percent']}%">
+                    <div style="background-color: #99CC00; height:16px; width:{$vo['resume_percent']}%;"></div>
+                    <div style="position:absolute; top:0; left: 40%; font-size:10px; width: 100px; height: 16px; line-height: 16px;">{$vo['resume_percent']}%</div>
+                </div>
+            </div>
+            <div class="td center" style=" width:10%;">
+               <if condition="$vo['resume_percent'] GT C('qscms_inviter_perfected_resume_allowance_percent')">
+                成功
+               <else />
+                进行中
+               </if>
+            </div>
+            <div class="td center" style=" width:10%;">
+                <if condition="$vo['state'] eq 1">
+                <span style="color: #009900">审核通过</span>
+               <elseif condition="$vo['state'] eq 2"/>
+                <span style="color:#FF6600">审核中</span>
+                <else />
+                审核未通过
+               </if>
+            </div>
+            <div class="td center" style=" width:10%;">
+                <if condition="$vo['grant'] eq 1">
+                    <span style="color:#FF0000">已发放</span>
+                <else />
+                    未发放
+                </if>
+            </div>
+            <div class="td edit" style=" width:30%;">
+                <a class="ButBlacklist" parameter="uid={$vo['inviter_uid']}" href="javascript:void(0);">拉黑</a>
+                <if condition="$vo['grant'] neq 1">
+                    <a class="ButAudit" href="javascript:void(0);"  parameter="id={$vo['id']}">审核</a>
+                </if>
+                <a href="{:U('invite_del',array('id'=>$vo['id']))}">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.entrustinfotip-min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //加入黑名单
+        $(".ButBlacklist").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '加入黑名单',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/set_blacklist')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        $(".ButAudit").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '审核',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('invite/set_audit')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //点击批量删除
+        $("#ButDel").click(function () {
+            if (confirm('你确定要删除吗？')) {
+                $("form[name=form1]").attr("action", "{:U('resume_delete')}");
+                $("form[name=form1]").submit();
+            }
+        });
+        //点击批量刷新
+        $("#ButRefresh").click(function () {
+            $("form[name=form1]").attr("action", "{:U('refresh')}");
+            $("form[name=form1]").submit();
+        });
+    });
+</script>
+</html>

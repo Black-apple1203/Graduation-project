@@ -1,0 +1,214 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/personal/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_user.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="us-top">
+    <div class="us-main">
+        <div class="us-top-box">
+            <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                <div class="se-btn"><input type="submit" value="搜 索"></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+	<div class="user_main">
+		<include file="index_left_nav" />
+  		<div class="mainbox">
+			<!--职位切换卡 -->
+			<div class="tab">
+				<a class="li select">账号安全</a>
+				<a class="li J_hoverbut" href="{:U('personal/user_avatar')}" >我的头像</a>
+				<a class="li J_hoverbut" href="{:U('personal/resume_privacy')}">屏蔽企业</a>
+				<a class="li J_hoverbut" href="{:U('personal/user_loginlog')}">登录日志</a>
+			  	<div class="clear"></div>
+			</div>
+			<!--切换卡结束 -->
+			<div class="resume_tip">
+				<div class="tiptit">小提示</div>
+				<div class="tiptxt link_blue">
+					绑定手机号码，可以增加求职反馈的及时性和准确性，从而提高您的求职成功率！
+				</div>
+			</div>
+			<div class="safety J_hoverbut link_blue">
+				<div class="td1">用户名</div>
+				<div id="J_unameWrap" class="td2">{$visitor.username}</div>
+				<div class="td3">&nbsp;</div>
+				<div class="td4"><a id="J_edit_uname" href="javascript:;">修改</a></div>
+				<div class="clear"></div>
+			</div>
+			<div class="safety J_hoverbut link_blue">
+				<div class="td1 t1">密码</div>
+				<div class="td2">上次登录时间：<span><if condition="$visitor['last_login_time']">{:date('Y-m-d H:i:s',$visitor['last_login_time'])}<else />从未登录</if></span></div>
+				<div class="td3"><a href="{:U('personal/user_loginlog')}">[查看登录日志]</a></div>
+				<div class="td4"><a id="J_edit_password" href="javascript:;">修改</a></div>
+				<div class="clear"></div>
+			</div>
+			<div class="safety J_hoverbut link_blue">
+				<div class="td1 t2">手机</div>
+					<div id="J_mobileWrap" class="td2"><if condition="$members_info['mobile']">{$members_info.mobile}<else />手机未填写</if><span>（认证后可使用该手机登录账号、找回密码）</span></div>
+				<div class="td3">&nbsp;</div>
+				<div class="td4">
+					<a id="J_auth_mobile" href="javascript:;">修改</a>
+				</div>
+				<div class="clear"></div>
+			</div>
+        	<div class="safety_btit">账号绑定<span>（授权绑定后，可使用第三方帐号快速登录）</span></div>
+        	<div class="safety_binding">
+ 				<volist name="oauth_list" id="oauth">
+					<div class="td1">
+						<empty name="user_bind[$oauth['alias']]">
+							<div class="{$oauth.alias}">{$oauth.name}</div>
+					    	<div class="txt link_blue">
+					    		<a id="J_bind_{$oauth.alias}" href="{:U('callback/index',array('mod'=>$oauth['alias'],'type'=>'bind'))}">立即绑定</a>
+					    	</div>
+						<else/>
+							<div class="{$oauth.alias} ok">{$oauth.name}</div>
+							<div class="txt link_blue"><a class="J_unlogin" href="javascript:;" url="{:U('callback/index',array('mod'=>$oauth['alias'],'type'=>'unbind'))}" name="{$oauth.name}">解除绑定</a></div>
+						</empty>
+	 		   		</div>
+ 				</volist>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<include file="index_footer" />
+	<script type="text/javascript">
+		$('#J_edit_password').click(function(){
+			var qsDialog = $(this).dialog({
+        		title: '修改密码',
+				loading: true,
+				showFooter: false,
+				yes: function() {
+					var options = {};
+					options['oldpassword'] = $('#J_passwordWrap').find('input[name="oldpassword"]').val();
+					options['password'] = $('#J_passwordWrap').find('input[name="password"]').val();
+					options['password1'] = $('#J_passwordWrap').find('input[name="password1"]').val();
+					$.post("{:U('Members/save_password')}",options,function(r){
+						if(r.status == 1){
+							disapperTooltip('success',r.msg);
+							qsDialog.hide();
+						}else{
+							disapperTooltip("remind", r.msg);
+						}
+					},'json');
+				}
+			});
+			$.getJSON("{:U('Members/save_password')}",function(result){
+				if(result.status == 1){
+					qsDialog.setCloseDialog(false);
+					qsDialog.setContent(result.data.html);
+        			qsDialog.showFooter(true);
+				}else{
+					qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+				}
+			});
+		});
+		var regularUsername = /^(?=[\u4e00-\u9fa5a-zA-Z])(?!\d+)[\u4e00-\u9fa5\w.]{3,18}$/;
+		$('#J_edit_uname').click(function(){
+			var qsDialog = $(this).dialog({
+        		title: '修改用户名',
+				loading: true,
+				showFooter: false,
+				yes: function() {
+					var username = $.trim($('#J_usernameInput').val());
+					if (!username.length) {
+							disapperTooltip("remind", '请填写新用户名');
+							$('#J_usernameInput').focus();
+							return false;
+						}
+						if (username.length && !regularUsername.test(username)) {
+							disapperTooltip("remind", "用户名中英文开头3-18位，无特殊符号");
+							$('#J_usernameInput').focus();
+							return false;
+						}
+					$.post("{:U('Members/save_username')}",{username:username},function(r){
+						if(r.status == 1){
+							$('#J_unameWrap').text(username);
+							disapperTooltip('success',r.msg);
+							qsDialog.hide();
+						}else{
+							disapperTooltip("remind", r.msg);
+						}
+					},'json');
+				}
+			});
+			$.getJSON("{:U('Members/save_username')}",function(result){
+				if(result.status == 1){
+					qsDialog.setCloseDialog(false);
+					qsDialog.setContent(result.data.html);
+        			qsDialog.showFooter(true);
+				}else{
+					qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+				}
+			});
+		});
+		$('#J_auth_mobile').click(function(){
+			var f = $(this);
+			var auth = f.data('auth');
+			var title = '认证手机';
+			if(auth == 1){
+				title = '修改已认证手机';
+			}
+			var qsDialog = $(this).dialog({
+        		title: title,
+				loading: true,
+				showFooter: false,
+				yes: function() {
+					var verifycode  = $.trim($('#J_mobileWrap input[name="verifycode"]').val());
+					if(!verifycode){
+						disapperTooltip("remind", "请填写验证码！");
+						return !1;
+					}
+					$.post("{:U('Members/verify_mobile_code')}",{verifycode:verifycode},function(result){
+						if(result.status == 1){
+							f.text('修改');
+							$('#J_mobileWrap').html(result.data.mobile+'<span>（认证后可使用该手机登录账号、找回密码）</span>');
+							if(result.data.points){
+								disapperTooltip("goldremind", '验证手机号增加'+result.data.points+'{:C('qscms_points_byname')}<span class="point">+'+result.data.points+'</span>');
+							}else{
+								disapperTooltip('success',result.msg);
+							}
+							qsDialog.hide();
+						}else{
+							disapperTooltip('remind',result.msg);
+						}
+					},'json');
+				}
+			});
+			$.getJSON("{:U('Members/user_mobile')}",function(result){
+	    		if(result.status == 1){
+					qsDialog.setCloseDialog(false);
+	    			qsDialog.setContent(result.data);
+        			qsDialog.showFooter(true);
+	    		}else{
+	    			qsDialog.setContent('<div class="confirm">' + result.msg + '</div>');
+	    		}
+	    	});
+		});
+		
+		$('.J_unlogin').click(function(){
+			var url = $(this).attr('url'),
+				name = $(this).attr('name'),
+				qsDialog=$(this).dialog({
+					title: '取消绑定',
+					loading: false,
+					border: false,
+					content : '<div style="width:350px">当前帐号已绑定<'+name+'>确定解绑吗？</div>',
+					yes: function() {
+						window.location.href=url;
+					}
+				});
+		});
+	</script>
+</body>
+</html>

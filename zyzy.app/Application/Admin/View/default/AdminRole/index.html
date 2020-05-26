@@ -1,0 +1,46 @@
+<include file="public:header" />
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>通过管理员角色设置，您可以进行编辑管理员角色权限以及删除管理员角色等操作；</p>
+    </div>
+<div class="list_th">
+    <div class="td" style="width:32%;"><label class="left_padding">角色名称</label></div>
+    <div class="td" style="width:25%;">角色描述</div>
+    <div class="td" style="width:15%;">排序</div>
+    <div class="td" style="width:15%;">状态</div>
+    <div class="td" style="width:13%;">
+        <div class="list_right">操作</div>
+    </div>
+    <div class="clear"></div>
+</div>
+<volist name="list" id="list">
+    <div class="list_tr link_black">
+        <div class="td" style="width:32%;"><label class="left_padding">{$list.name}&nbsp;</label></div>
+        <div class="td" style="width:25%;">{$list.remark}&nbsp;</div>
+        <div class="td" style="width:15%;">{$list.ordid}&nbsp;</div>
+        <div class="td" style="width:15%;"><img src="__ADMINPUBLIC__/images/toggle_<if condition="$list.status eq 0">disabled<else/>enabled</if>.gif" /></div>
+        <div class="td edit" style="width:13%;">
+            <div class="list_right btn">
+                <a href="{:U('AdminRole/auth',array('id'=>$list['id']))}" >授权</a>
+                <a href="{:U('AdminRole/edit',array('id'=>$list['id']))}" >编辑</a>
+                <if condition="$list['id'] neq 1">
+                    <a href="{:U('AdminRole/delete',array('id'=>$list['id']))}" class="gray" onclick="return confirm('确定要删除吗？')">删除</a>
+                </if>
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</volist>
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="list_foot">
+    <div class="btnbox">
+        <input name="ButADD" id="ButADD" type="button" class="admin_submit" value="添加角色" onclick="window.location='{:U('AdminRole/add')}'"/>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

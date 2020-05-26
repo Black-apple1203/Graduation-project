@@ -1,0 +1,133 @@
+<include file="public:header"/>
+
+<div class="toptit">添加公告</div>
+<form id="form1" action="{:U('add')}" method="post" name="FormData">
+    <div class="form_main width150">
+        <div class="fl">标题:</div>
+        <div class="fr">
+            <div style="float: left"><input name="title" type="text" class="input_text_default middle" maxlength="45" value=""/></div>
+            <div class="n-form" style="padding-left:10px;float: left">
+                <div class="color_layer" style="display: inline-block;">
+                    <div id="color_box" onclick="color_box_display()"></div>
+                    <input type="hidden" name="tit_color" id="tit_color" value="">
+                    <include file="public:select_color" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">所属分类:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="type_id" type="hidden" value="{$category|array_keys|current}">
+                <volist name="category" id="category">
+                    <div class="radio <eq name='i' value='1'>select</eq>" data="{$key}" title="{$category}">{$category}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </div>
+		<if condition="C('qscms_subsite_open') eq 1">
+           <div class="fl">分站:</div>
+		   <div class="fr">
+			   <div class="imgradio">
+				   <input name="subsite_id" type="hidden" value="0">
+				   <volist name="subsite_list" id="subsite">
+					<div class="radio <if condition="$i eq 1">select</if>" data="{$subsite.s_id}">{$subsite.s_sitename}</div>
+					</volist>
+				   <div class="clear"></div>
+			   </div>
+		   </div>
+		</if>
+        <div class="fl">内容:</div>
+        <div class="fr">
+            <textarea name="content" class="input_text_default" style=" width:682px;height:400px; line-height:180%"></textarea>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <div class="admin_submit small gray" id="J_moreform">更多选项</div>
+        </div>
+        <div class="clear"></div>
+        <div class="moreform">
+            <div class="fl">是否显示:</div>
+            <div class="fr">
+                <div data-code="0,1" class="imgchecked_small select"><input name="is_display" type="hidden" value="1" /></div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">标题加粗:</div>
+            <div class="fr">
+                <div data-code="0,1" class="imgchecked_small"><input name="tit_b" type="hidden" value="0" /></div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">显示排序:</div>
+            <div class="fr">
+                <input name="sort" type="text" class="input_text_default middle" maxlength="3" value="0" onkeyup="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" placeholder="数字越大越靠前，默认是0"/>
+                <label class="no-fl-note">(数字越大越靠前)</label>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">外部链接:</div>
+            <div class="fr">
+                <input name="is_url" type="text" class="input_text_default" maxlength="80" value="http://" placeholder="请输入完整的链接地址,如http://www.74cms.com"/>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">Keywords:</div>
+            <div class="fr">
+                <input name="seo_keywords" type="text" class="input_text_default" maxlength="150" value="" placeholder="合理设置Keywords有利于搜索引擎排名"/>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">Description:</div>
+            <div class="fr">
+                <textarea name="seo_description" type="text" class="input_text_default" style="height: 100px; line-height: 180%" maxlength="150" placeholder="合理设置Description有利于搜索引擎排名"/></textarea>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="提交"/ id="J_submit">
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<link rel="stylesheet" href="__ADMINPUBLIC__/js/kindeditor/themes/default/default.css"/>
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        var editor;
+        KindEditor.ready(function(K) {
+            editor = K.create('textarea[name="content"]', {
+                uploadJson : "?m={:C('admin_alias')}&c=upload&a=index",
+				extraFileUploadParams: {
+					   session_id : '{:session_id()}',   
+				},
+                afterBlur: function () { this.sync(); },
+                allowFileManager : true});
+        });
+        $('#J_submit').click(function(){
+            editor.sync();
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('add')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,56 @@
+<include file="public:header" />
+<div class="toptip"  >
+    <div class="toptit">提示：</div>
+<p class="link_green_line">网站接入背景调查模块后，平台企业用户可以自主发起简历背调申请，相关费用问题请与服务商洽谈；
+接入背景调查前，网站需首先进行申请，获得对应的AppID与AppSecret，以保证后续流程中背调模块的可用性。现在就去<a href="http://www.74cms.com/beidiao" target="_blank">[申请]</a></p>
+</div>
+<div class="toptit">背景调查</div>
+<form action="{:U('index')}" method="post" name="form1" id="form1">
+    <div class="form_main width150">
+        <div class="fl">开启：</div>
+        <div class="fr">
+          <div data-code="0,1" class="imgchecked_small <if condition="C('qscms_beidiao_status') eq 1">select</if>"><input name="beidiao_status" type="hidden" value="{:C('qscms_beidiao_status')}" /></div>
+          <div class="clear"></div>
+        </div>
+        <div class="fl">链接：</div>
+        <div class="fr">
+            <input name="beidiao_link" type="text" class="input_text_default" maxlength="100" value="{:C('qscms_beidiao_link')}"/>
+        </div>
+        <div class="fl">key：</div>
+        <div class="fr">
+            <input name="beidiao_key" type="text" class="input_text_default" maxlength="100" value="{:C('qscms_beidiao_key')}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit" type="submit" class="admin_submit" id="J_submit" value="保存"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('index')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</body>
+</html>

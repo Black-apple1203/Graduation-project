@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<include file="public:meta" />
+		<link
+			href="{:C('TPL_PUBLIC_DIR')}/css/common.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="{:C('TPL_PUBLIC_DIR')}/css/vi.css?v={:date('Ymd')}"
+			rel="stylesheet"
+			type="text/css"
+		/>
+	</head>
+	<body class="vi_sub">
+		<include file="public:header_other" />
+		<div class="vi_sub_d1"></div>
+		<div class="vi_sub_d2">
+			<div class="b_search">
+				<form action="" id="ajax_search_location">
+					<input
+						class="in_sea_inp res"
+						type="text"
+						name="key"
+						value=""
+						id="top_search_input"
+						placeholder="请输入关键字搜索职位"
+					/>
+				</form>
+				<div class="in_sea_bt" id="top_search_btn">搜 索</div>
+				<div class="clear"></div>
+			</div>
+			<div class="d_notice">
+				<div class="no_ico">最新动态:</div>
+				<div class="no_up" id="J_app_live">
+					<ul id="J_ajax_scroll"></ul>
+				</div>
+			</div>
+		</div>
+		<div class="vi_sub_pt">
+			<div class="pt_txt">优选职位</div>
+			<div class="pt_right_tip">
+				投递职位后，企业可发起视频面试邀请，在指定时间内进入视频房间即可在线视频面试。
+			</div>
+		</div>
+		<div class="vi_sub_d3">
+			<div id="joblist"></div>
+			<div class="clear"></div>
+			<div class="vd_page" id="pager"></div>
+			<div class="g_empty" style="display: none;">暂无符合条件的信息</div>
+		</div>
+		<div class="vi_sub_pt">
+			<div class="pt_txt">视频面试怎么用？</div>
+			<a class="pt_right_link" href="{:U('vi/test')}" target="_blank"
+				>检测设备>></a
+			>
+		</div>
+		<div class="vi_sub_d4">
+			<div class="d4_ico"></div>
+			<div class="d4_txt t1">登录网站并创<br />建有效简历</div>
+			<div class="d4_txt t2">选择职位并<br />投递简历</div>
+			<div class="d4_txt t3">企业发送视频<br />面试邀请</div>
+			<div class="d4_txt t4">提前检测设备<br />是否正常</div>
+			<div class="d4_txt t5">面试日期打开<br />链接进入房间</div>
+			<div class="d4_txt t6">双方进行视频<br />面试</div>
+		</div>
+		<script type="text/template">
+			<div class="vd_cell">
+				<div class="j_name substring"><a href="tpl_url">tpl_jobs_name</a></div>
+				<div class="j_wage">tpl_wage</div>
+				<div class="j_age substring">tpl_education | tpl_experience</div>
+				<div class="j_com substring">
+					<a href="">tpl_companyname</a>
+				</div>
+			</div>
+		</script>
+		<include file="public:footer_min" />
+		<script src="{:C('TPL_PUBLIC_DIR')}/js/layer/layer.js"></script>
+		<script>
+			// 动态
+			$(function() {
+				var _wrap = $("#J_app_live");
+				var _interval = 2000;
+				var _moving;
+				_wrap
+					.hover(
+						function() {
+							clearInterval(_moving);
+						},
+						function() {
+							_moving = setInterval(function() {
+								var _field = _wrap.find("li:first");
+								var _h = _field.outerHeight();
+								_field.animate({ marginTop: -_h + "px" }, 600, function() {
+									_field.css("marginTop", 0).appendTo(_wrap.find("ul"));
+								});
+							}, _interval);
+						}
+					)
+					.trigger("mouseleave");
+			});
+			$(document).ready(function() {
+				var ajax_template_interview = "<li>";
+				ajax_template_interview +=
+					'<a class="link_b" target="_blank" href="tpl_company_url">tpl_companyname</a> 邀请 tpl_fullname tpl_interview_time 参加视频面试 ';
+				ajax_template_interview +=
+					'<a href="tpl_jobs_url" target="_blank" class="link_o">tpl_jobs_name</a>';
+				ajax_template_interview += '<span class="f60">(tpl_wage)</span>';
+				ajax_template_interview += " ，好机会不容错过！";
+				ajax_template_interview +=
+					'<a href="tpl_view_url" target="_blank" class="no_more">立即查看>></a>';
+				ajax_template_interview += "</li>";
+
+				var ajax_template_addjob = "<li>";
+				ajax_template_addjob +=
+					'<a class="link_b" target="_blank" href="tpl_company_url">tpl_companyname</a> 发布了';
+				ajax_template_addjob +=
+					'<a href="tpl_jobs_url" target="_blank" class="link_o">tpl_jobs_name</a>';
+				ajax_template_addjob += '<span class="f60">(tpl_wage)</span>';
+				ajax_template_addjob += "，投递简历即能获得视频面试机会！";
+				ajax_template_addjob +=
+					'<a href="tpl_view_url" target="_blank" class="no_more">立即查看>></a>';
+				ajax_template_addjob += "</li>";
+
+				var ajaxScrollHtml = "";
+				$.getJSON('{:U("Vi/ajax_scroll")}', function(result) {
+					if (result.status == 1) {
+						var list = result.data;
+						for (var key in list) {
+							var item = list[key];
+							if (item.type == "interview") {
+								var html = ajax_template_interview;
+								html = html.replace("tpl_jobs_url", item.jobs_url);
+								html = html.replace("tpl_view_url", item.jobs_url);
+								html = html.replace("tpl_jobs_name", item.jobs_name);
+								html = html.replace("tpl_wage", item.wage_cn);
+								html = html.replace("tpl_fullname", item.fullname);
+								html = html.replace("tpl_interview_time", item.interview_time);
+								html = html.replace("tpl_company_url", item.company_url);
+								html = html.replace("tpl_companyname", item.companyname);
+							} else {
+								var html = ajax_template_addjob;
+								html = html.replace("tpl_jobs_url", item.jobs_url);
+								html = html.replace("tpl_view_url", item.jobs_url);
+								html = html.replace("tpl_jobs_name", item.jobs_name);
+								html = html.replace("tpl_wage", item.wage_cn);
+								html = html.replace("tpl_company_url", item.company_url);
+								html = html.replace("tpl_companyname", item.companyname);
+							}
+							ajaxScrollHtml += html;
+						}
+						$("#J_ajax_scroll").html(ajaxScrollHtml);
+					}
+				});
+				var url = "{:U('ajax_joblist')}";
+				var total_page = 1;
+				var param = {
+					keyword: "",
+					page: 1,
+					pagesize: 20
+				};
+
+				function hendle_pager(f_total_page, f_current_page) {
+					var prevHtml = "";
+					var nextHtml = "";
+					if (f_total_page == 1) {
+						prevHtml = '<a class="unable">上一页</a>';
+						nextHtml = '<a class="unable">下一页</a>';
+					} else if (f_total_page == f_current_page) {
+						prevHtml =
+							'<a class="J_page" href="javascript:;" data-val="' +
+							(parseInt(f_current_page) - 1) +
+							'">上一页</a>';
+						nextHtml = '<a class="unable">下一页</a>';
+					} else if (f_current_page == 1) {
+						prevHtml = '<a class="unable">上一页</a>';
+						nextHtml =
+							'<a class="J_page" href="javascript:;" data-val="' +
+							(parseInt(f_current_page) + 1) +
+							'">下一页</a>';
+					} else {
+						prevHtml =
+							'<a class="J_page" href="javascript:;" data-val="' +
+							(parseInt(f_current_page) - 1) +
+							'">上一页</a>';
+						nextHtml =
+							'<a class="J_page" href="javascript:;" data-val="' +
+							(parseInt(f_current_page) + 1) +
+							'">下一页</a>';
+					}
+					var pageHtml = '<div class="qspage">';
+					pageHtml += prevHtml;
+					for (var i = 0; i < f_total_page; i++) {
+						var p = parseInt(i) + 1;
+						if (p == f_current_page) {
+							pageHtml += '<span class="current">' + p + "</span>";
+						} else {
+							pageHtml +=
+								'<a class="J_page" href="javascript:;" data-val="' +
+								p +
+								'">' +
+								p +
+								"</a>";
+						}
+					}
+					pageHtml += nextHtml;
+					pageHtml += "</div>";
+					$("#pager").html(pageHtml);
+				}
+				function run_search(show_empty) {
+					var loading = layer.load();
+					var template = '<div class="vd_cell">';
+					template +=
+						'<div class="j_name substring"><a target="_blank" href="tpl_jobs_url">tpl_jobs_name</a></div>';
+					template += '<div class="j_wage">tpl_wage</div>';
+					template +=
+						'<div class="j_age substring">tpl_education | tpl_experience</div>';
+					template += '<div class="j_com substring">';
+					template +=
+						'<a href="tpl_company_url" target="_blank">tpl_companyname</a>';
+					template += "</div></div>";
+					$.getJSON(url, param, function(res) {
+						layer.closeAll("loading");
+						if (res.status == 1) {
+							var list = res.data.items;
+							if (list.length == 0) {
+								if (show_empty === true) {
+									$(".g_empty").show();
+									$("#joblist").hide();
+									$("#pager").hide();
+								} else {
+									$(".g_empty").hide();
+									$("#joblist").show();
+									$("#pager").show();
+								}
+								return false;
+							} else {
+								$(".g_empty").hide();
+								$("#joblist").show();
+								$("#pager").show();
+							}
+							var listHtml = "";
+							for (var key in list) {
+								var item = list[key];
+								var html = template;
+								html = html.replace("tpl_jobs_url", item.jobs_url);
+								html = html.replace("tpl_jobs_name", item.jobs_name);
+								html = html.replace("tpl_wage", item.wage_cn);
+								html = html.replace("tpl_education", item.education_cn);
+								html = html.replace("tpl_experience", item.experience_cn);
+								html = html.replace("tpl_company_url", item.company_url);
+								html = html.replace("tpl_companyname", item.companyname);
+								listHtml += html;
+							}
+							$("#joblist").html(listHtml);
+							total_page = res.data.total_page;
+							hendle_pager(total_page, param.page);
+							param.page++;
+						}
+					});
+				}
+				run_search(true);
+				$(".J_page")
+					.die()
+					.live("click", function() {
+						var val = $(this).data("val");
+						param.page = val;
+						run_search(false);
+					});
+				$("#top_search_btn").click(function() {
+					var keyword = $("#top_search_input").val();
+					param.keyword = keyword;
+					param.page = 1;
+					run_search(true);
+				});
+				$("#ajax_search_location").submit(function() {
+					var keyword = $("#top_search_input").val();
+					param.keyword = keyword;
+					param.page = 1;
+					run_search(true);
+					return false;
+				});
+			});
+		</script>
+	</body>
+</html>

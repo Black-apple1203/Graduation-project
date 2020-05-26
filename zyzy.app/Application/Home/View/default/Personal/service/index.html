@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/personal/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_user.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="us-top">
+    <div class="us-main">
+        <div class="us-top-box">
+            <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                <div class="se-btn"><input type="submit" value="搜 索"></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+	<div class="user_main">
+		<include file="Personal:index_left_nav" />
+  	  <div class="mainbox">
+			<!--职位切换卡 -->
+			<div class="tab">
+				<a class="li select" >我的{:C('qscms_points_byname')}</a>
+				<a class="li J_hoverbut " href="{:U('task')}" >我的任务</a>
+				<a class="li J_hoverbut " href="{:U('increment')}">增值服务</a>
+				<a class="li J_hoverbut " href="{:U('order_list')}">服务订单</a>
+				<notempty name="apply['Mall']">
+					<a class="li J_hoverbut " href="{:U('order_list_goods')}">商城订单</a>
+				</notempty>
+			  	<div class="clear"></div>
+			</div>
+			<!--切换卡结束 -->
+			
+			<div class="gold_top_gold">
+			  <div class="gold">
+  						<div class="photobox">
+						<img  border="0" src="{$visitor['avatars']}" />
+						</div>
+			            <div class="rightbox">
+						  	<div class="txt">剩余{:C('qscms_points_byname')}：<strong>{$mypoints}</strong></div>
+						    <div class="btns">
+								<a href="{:U('increment')}" class="J_hoverbut btn_blue btn_inline">兑换服务</a>
+								<notempty name="apply['Mall']">
+									<a target="_blank" href="{:url_rewrite('QS_mall_index')}" class="btn_yellow J_hoverbut btn_inline">兑换商品</a>
+								</notempty>
+							</div>
+			            </div>
+						<div class="clear"></div>
+						
+			  </div>
+			   <div class="todaygold">
+	   			 <div class="txt">今天已获得 <strong>{$points_count['obtain']}</strong>  {:C('qscms_points_byname')}</div>
+				 <div class="txt link_blue">您还可免费获得 <strong>{$points_count['able']}</strong> {:C('qscms_points_byname')} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U('task')}">[免费获取{:C('qscms_points_byname')}]</a></div>
+			   </div>
+			    <!--<div class="btnbox">
+								<a href="{:U('task')}" class="btn1" >我的任务</a>
+								<notempty name="apply['Mall']">
+									<a target="_blank" href="{:url_rewrite('QS_mall_index')}" class="btn2" >{:C('qscms_points_byname')}商城</a>
+								</notempty>
+								<div class="clear"></div>
+				</div>-->
+				<div class="clear"></div>
+	    </div>
+		 <!--小标题切换卡 -->
+			<div class="thtab">
+				<div class="li J_hoverbut <if condition="$operate eq 1">select</if>" <if condition="$operate eq 2">onclick="location.href='{:U('index')}'"</if>>获得记录</div>
+				<div class="li J_hoverbut <if condition="$operate eq 2">select</if>" <if condition="$operate eq 1">onclick="location.href='{:U('index',array('operate'=>2))}'"</if>>消耗记录</div>
+			  	<div class="clear"></div>
+			</div>
+	    <!-- -->
+		<div class="goldlist_th">
+	    	<div class="th1">时间</div>
+			<div class="th2">{:C('qscms_points_byname')}</div>
+			<div class="th3"><if condition="$operate eq 1">来源<else />去向</if></div>
+			<div class="clear"></div>
+		</div>
+		<div class="tabshow" style="display:block">	
+			<volist name="list" id="vo">
+			<div class="goldlist J_hoverbut">
+				<div class="td1">
+				{$vo['addtime']|date="Y-m-d H:i:s",###}
+				</div>
+				<if condition="$operate eq 1">
+				<div class="td2">
+					+ {$vo['points']}
+				</div>
+				<else />
+				<div class="td2 reduce">
+					- {$vo['points']}
+				</div>
+				</if>
+				<div class="td3">{$vo['htype_cn']}</div>
+				<div class="clear"></div>
+			</div>
+			</volist>
+			<div class="qspage">{$page}</div>
+		</div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<include file="Personal:index_footer" />
+</body>
+</html>

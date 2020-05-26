@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/personal/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_resume.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="us-top">
+    <div class="us-main">
+        <div class="us-top-box">
+            <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                <div class="se-btn"><input type="submit" value="搜 索"></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+	<div class="user_main">
+		<include file="index_left_nav" />
+	  <div class="mainbox">
+			<!--职位切换卡 -->
+			<div class="tab">
+				<a class="li J_hoverbut" href="{:U('personal/user_safety')}">账号安全</a>
+				<a class="li J_hoverbut" href="{:U('personal/user_avatar')}" >我的头像</a>
+				<a class="li select">屏蔽企业</a>
+				<a class="li J_hoverbut" href="{:U('personal/user_loginlog')}">登录日志</a>
+			  	<div class="clear"></div>
+			</div>
+		  <!--切换卡结束 -->
+	    
+		<!-- -->
+		<div class="resume_privacy">
+				 
+		
+		<div class="title tit3">屏蔽企业</div>
+		
+		<div class="shield">
+		  		<div class="td1">
+				<input name="comkeyword" id="comkeyword" type="text" class="input_sty" placeholder="请输入要屏蔽的企业" />
+				</div>
+				<div class="td1"><input name="submit" type="button" class="but_blue_80 J_hoverbut" value="屏蔽企业" id="add-shield"/>
+				</div>
+				<div class="clear"></div>
+		</div>
+		<div class="shield shield-block">
+		  	<div class="sdtit">已屏蔽的企业</div>
+			<if condition="!$keywords">
+			    <div class="empty">你目前没有屏蔽任何企业</div>
+			    <div class="shield-list"></div>
+			<else />
+				<div class="shield-list">
+					<volist name="keywords" id="vo">
+						<div class="tag J_hoverbut del-comkeyword" data="{$vo.id}">{$vo.comkeyword}</div>
+					</volist>
+				</div>
+			</if>
+			<div class="clear"></div>
+		</div>
+	    </div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<include file="index_footer" />
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#add-shield").click(function(){
+				var comkeyword = $("#comkeyword").val();
+				if(comkeyword==''){
+					disapperTooltip("remind", "请输入要屏蔽的企业");
+					return false;
+				}
+				$.post("{:U('save_shield_company')}",{comkeyword:comkeyword},function(result){
+					var is_empty = $(".shield-block .empty").length>0?false:true;
+					if(result.status==1){
+						false === is_empty && $(".shield-block .empty").remove();
+						var html = '<div class="tag J_hoverbut del-comkeyword" data="'+result.data['id']+'">'+result.data['comkeyword']+'</div>';
+						$(".shield-list").append(html);
+						$("#comkeyword").val('');
+						$(".J_hoverbut").hover(function(){
+							$(this).addClass("hover");
+						},function(){
+							$(this).removeClass("hover");
+						});
+						disapperTooltip("success", result.msg);
+					}else{
+						disapperTooltip('remind',result.msg);
+					}
+				},'json');
+			});
+			$(".del-comkeyword").live('click',function(){
+				var url = "{:U('del_shield_company')}";
+				var thisObj = $(this);
+				var keyword_id = thisObj.attr('data');
+				var qsDialog=$(this).dialog({
+					title: '删除屏蔽企业',
+					loading: true,
+					border: false,
+					yes: function() {
+						$.post(url,{keyword_id:keyword_id},function(result){
+							var is_empty = $(".del-comkeyword").length>1?false:true;
+							if(result.status==1){
+								var html = '<div class="empty">你目前没有屏蔽任何企业</div>';
+								true === is_empty && $(".shield-block .sdtit").after(html);
+								thisObj.remove();
+							}
+						},'json');
+					}
+				});
+				$.getJSON(url,{keyword_id:keyword_id},function(result){
+	        		if(result.status == 1){
+	        			qsDialog.setContent(result.data.html);
+	        		}else{
+	        			disapperTooltip('remind',result.msg);
+	        		}
+	        	});
+			});
+			$(".sex-radio").click(function(){
+				var thisObj = $(this);
+				$(this).addClass("checked").siblings(".sex-radio").removeClass("checked");
+				var pid = $(this).attr('pid');
+				var display = $(this).attr('data-code');
+				$.post("{:U('save_resume_privacy')}",{pid:pid,display:display},function(result){
+					if(result.status==1){
+						var title_obj = thisObj.parents('.r_list').find('.resume-title');
+						var has_close = title_obj.hasClass('close');
+						if(has_close){
+							title_obj.removeClass('close');
+						}else{
+							title_obj.addClass('close');
+						}
+						disapperTooltip("success", result.msg);
+					}
+				},'json');
+			});
+			
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<table class="b_table" border="0" align="center" cellpadding="0" cellspacing="0" >
+	<tr>
+		<td><div class="toptip">添加你掌握的语言，最多可添加6种语言。</div></td>
+	</tr>
+	<tr>
+		<td>
+			<table border="0" cellpadding="0" cellspacing="0" style="margin-left:40px;">
+<volist name="list" id="list">
+	<tr class="J_listhover_edit" data-id="{$list.id}">
+		<td width="215" style="padding-left:0px;">
+			<div class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+				<span class="J_listitme_text">{$list.language_cn|default='选择语种'}</span>
+				<div class="dropdowbox10 J_dropdown_menu">
+		            <div class="dropdow_inner10">
+		                <ul class="nav_box">
+		                	<volist name="language" id="vo">
+		                		<li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$vo}</a></li>
+							</volist>
+		                </ul>
+		            </div>
+		        </div>
+				<input class="J_listitme_code" name="language" type="hidden" value="{$list.language}" />
+			</div>
+		</td>
+		<td width="215">
+			<div class="input_205_34_div J_hoverinput J_dropdown J_listitme_parent">
+				<span class="J_listitme_text">{$list.level_cn|default='熟悉程度'}</span>
+				<div class="dropdowbox10 J_dropdown_menu">
+		            <div class="dropdow_inner10">
+		                <ul class="nav_box">
+		                	<volist name="language_level" id="vo">
+		                		<li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$vo}</a></li>
+							</volist>
+		                </ul>
+		            </div>
+		        </div>
+				<input class="J_listitme_code" name="language_level" type="hidden" value="{$list.level}" />
+			</div>
+		</td>
+		<td><a href="javascript:;" class="delbut J_dellanguage">删除</a></td>
+    </tr>
+</volist>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td style="padding-left:45px;"><a href="javascript:;" class="addbut J_addlanguage">新增一项</a></td>	
+	</tr>		  
+</table>
+<div class="butbox">
+		<div class="td1">
+			<input type="submit"  class="but_blue_115 J_hoverbut J_saveitems_language" value="保存" />
+		</div>
+	<div class="td1">
+		<input type="reset"  class="but_gray_115 J_hoverbut J_closeitems" value="取消" />
+	</div>
+	<div class="clear"></div>
+</div>

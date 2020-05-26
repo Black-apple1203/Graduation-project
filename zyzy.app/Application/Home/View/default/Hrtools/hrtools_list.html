@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<qscms:hrtools_category 列表名="category" 分类id="$_GET['id']"/>
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/hrtools.css" rel="stylesheet" type="text/css" />
+	<script src="{:C('TPL_PUBLIC_DIR')}/js/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="hrl link_gray6">
+  		<div class="tit"><a href="{:url_rewrite('QS_index')}">网站首页</a><span>></span><a href="{:url_rewrite('QS_hrtools')}">HR工具箱</a><span>></span>{$category['c_name']}</div>
+		<div class="txt link_blue">
+		<ul>
+		<qscms:hrtools_list 列表名="list" 分类id="$_GET['id']"/>
+		<volist name="list" id="vo">
+		<li><a href="{$vo['h_fileurl']}" target="_blank">{$vo['h_filename']}</a></li> 
+		</volist>
+		</ul>
+		<div class="clear"></div>
+		</div>
+</div>
+
+
+<include file="public:footer_min" />
+</body>
+</html>

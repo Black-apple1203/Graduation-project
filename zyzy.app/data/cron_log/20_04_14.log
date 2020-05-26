@@ -1,0 +1,29 @@
+[ 2020-04-14T15:26:01+08:00 ] 127.0.0.1 /
+INFO: Cron:ClearPromotion Runat 2020-04-14 15:26:00 Use 0.708849 s 
+Cron:AutoRefreshResume Runat 2020-04-14 15:26:00 Use -0.014023 s 
+Cron:AutoRefreshJobs Runat 2020-04-14 15:26:00 Use -0.052035 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-14 15:26:00 Use -0.053663 s 
+Cron:ClearOrder Runat 2020-04-14 15:26:01 Use -0.108872 s 
+Cron:ClearShareAllowance Runat 2020-04-14 15:26:01 Use -0.215678 s 
+
+[ 2020-04-14T16:43:35+08:00 ] 127.0.0.1 /
+INFO: Cron:ClearPromotion Runat 2020-04-14 16:43:35 Use 0.103970 s 
+Cron:AutoRefreshResume Runat 2020-04-14 16:43:35 Use -0.000161 s 
+Cron:AutoRefreshJobs Runat 2020-04-14 16:43:35 Use -0.003842 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-14 16:43:35 Use -0.005496 s 
+Cron:ClearShareAllowance Runat 2020-04-14 16:43:35 Use -0.032203 s 
+
+[ 2020-04-14T17:20:58+08:00 ] 127.0.0.1 /
+INFO: Cron:ClearPromotion Runat 2020-04-14 17:20:58 Use 0.012637 s 
+Cron:AutoRefreshResume Runat 2020-04-14 17:20:58 Use -0.000069 s 
+Cron:AutoRefreshJobs Runat 2020-04-14 17:20:58 Use -0.001649 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-14 17:20:58 Use -0.004137 s 
+Cron:ClearShareAllowance Runat 2020-04-14 17:20:58 Use -0.006435 s 
+
+[ 2020-04-14T22:59:51+08:00 ] 127.0.0.1 /
+INFO: Cron:ClearPromotion Runat 2020-04-14 22:59:51 Use 0.074471 s 
+Cron:AutoRefreshResume Runat 2020-04-14 22:59:51 Use -0.000149 s 
+Cron:AutoRefreshJobs Runat 2020-04-14 22:59:51 Use -0.002999 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-14 22:59:51 Use -0.004055 s 
+Cron:ClearShareAllowance Runat 2020-04-14 22:59:51 Use -0.006055 s 
+

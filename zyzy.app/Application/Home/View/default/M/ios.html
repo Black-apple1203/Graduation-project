@@ -1,0 +1,97 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/m.css" rel="stylesheet" type="text/css" />
+	<qscms:load type="category"/>
+</head>
+<body>
+<include file="public:header_m" />
+<div id="banner-block">
+    <div class="banner-wrap ios">
+        <div class="container">
+            <div class="a-text-wrap">
+                <h2>全新UI体验</h2>
+                <h3>更懂你的求职招聘专家</h3>
+                <p>专业求职就业平台 全新移动体验模式</p>
+                <div class="down-code clearfix">
+                    <a href="{:C('qscms_site_domain').U('Mobile/Index/app_download')}" class="f-left ios-download"></a>
+                    <div class="down-code-box f-left">
+                        <img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(C('qscms_site_domain').U('Mobile/Index/app_download'))}" alt="二维码" width="100" height="100" />
+                        <p>手机扫一扫，下载APP</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mobile-app-sp container clearfix">
+    <div class="mobile-app-item f-left">
+        <div class="ma-icon icon-one"></div>
+        <h4>淘人才</h4>
+        <p>快捷搜索人才简历库</p>
+        <p>智能匹配合适的人才简历</p>
+    </div>
+    <div class="mobile-app-item f-left">
+        <div class="ma-icon icon-two"></div>
+        <h4>摇一摇</h4>
+        <p>轻松摇出附近</p>
+        <p>的职位信息，方便快捷</p>
+    </div>
+    <div class="mobile-app-item f-left">
+        <div class="ma-icon icon-three"></div>
+        <h4>地图搜索</h4>
+        <p>实时定位，直观地在地</p>
+        <p>图上看到该公司所在位置</p>
+    </div>
+    <div class="mobile-app-item f-left">
+        <div class="ma-icon icon-four"></div>
+        <h4>消息推送</h4>
+        <p>实时接受最新招聘信</p>
+        <p>息、求职动态，高效便捷</p>
+    </div>
+</div>
+<div class="m-main">
+    <div class="m-row odd">
+        <div class="container clearfix">
+            <div class="row-left-text f-left">
+                <h2>搜职位</h2>
+                <p>支持多种职位搜索条件，便捷的求职平<br />台，为求职者提供最大的职位选择空间。</p>
+            </div>
+            <div class="row-right-box f-right">
+                <div class="phone-block ios-phone">
+                    <div class="app-img"><img src="{:C('TPL_PUBLIC_DIR')}/images/182.jpg" alt="" /></div>
+                </div>
+                <div class="enlarge-block"></div>
+            </div>
+        </div>
+    </div>
+    <div class="m-row">
+        <div class="container clearfix">
+            <div class="row-left-img f-left">
+                <img src="{:C('TPL_PUBLIC_DIR')}/images/183.png" alt="" />
+            </div>
+            <div class="row-right-text f-right">
+                <h2>创简历</h2>
+                <p>个人会员发布简历，让企业找到您的简历，<br />畅快体验手机找工作的高效快捷。</p>
+            </div>
+        </div>
+    </div>
+    <div class="m-row odd">
+        <div class="container clearfix">
+            <div class="row-left-text f-left">
+                <h2>发职位</h2>
+                <p>实现掌上智能注册会员发布相关职位，即使<br />不在电脑旁，也能随时随地实现人才招聘。</p>
+            </div>
+            <div class="row-right-box f-right">
+                <div class="phone-block ios-phone">
+                    <div class="app-img"><img src="{:C('TPL_PUBLIC_DIR')}/images/184.jpg" alt="" /></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<include file="public:footer_min" />
+</body>
+</html>

@@ -1,0 +1,180 @@
+<include file="public:header"/>
+
+<notempty name="setmeal">
+    <div class="toptit">
+        会员套餐设置 (用户名：<span style="color:#0066CC">{$company_user.username}</span>)
+    </div>
+    <div class="form_main width200">
+        <form action="{:U('user_setmeal_edit')}" method="post" name="EditForm" id="EditForm" >
+            <div class="fl">套餐名称:</div>
+            <div class="fr txt"><span style="color: #FF6600; font-size:16px;">{$setmeal.setmeal_name}</span></div>
+            <div class="fl">服务时间:</div>
+            <div class="fr txt">
+                开始时间：{$setmeal.starttime|date="Y-m-d",###}，
+                结束时间：<if condition="$setmeal['endtime'] eq '0'">无限制<else />{$setmeal.endtime|date="Y-m-d",###}</if>
+                <input type="hidden" name="oldendtime"  value="{$setmeal.endtime}" />
+            </div>
+            <div class="fl">到期时间:</div>
+            <div class="fr">
+                <input name="setendtime" type="text" class="input_text_default small" id="setendtime" autocomplete="off" maxlength="5" value="<if condition="$setmeal['endtime'] neq '0'">{:date('Y-m-d',$setmeal['endtime'])}</if>"/>
+                <span style="color: #999999;">格式 yyyy-mm-dd，留空为不限制</span>
+            </div>
+            <div class="fl">服务天数:</div>
+            <div class="fr">
+                <input name="days" type="text" class="input_text_default small" maxlength="50" value=""/>
+                <span style="color: #999999;">默认为空表示不做修改，0为不限制，如填写3则延长3天，-3则减少3天</span>
+            </div>
+            <div class="fl">同时在招职位数:</div>
+            <div class="fr">
+                <input name="jobs_meanwhile" type="text" class="input_text_default small" maxlength="50" value="{$setmeal.jobs_meanwhile}"/>
+            </div>
+            <div class="fl">每天职位免费刷新数:</div>
+            <div class="fr">
+                <input name="refresh_jobs_free" type="text" class="input_text_default small" maxlength="50" value="{$setmeal.refresh_jobs_free}"/>
+            </div>
+            <div class="fl">下载简历点数:</div>
+            <div class="fr">
+                <input name="download_resume" type="text" class="input_text_default small" maxlength="50" value="{$setmeal.download_resume}"/>
+            </div>
+            <div class="fl">每天下载简历数上限:</div>
+            <div class="fr">
+                <input name="download_resume_max" type="text" class="input_text_default small" maxlength="50" value="{$setmeal.download_resume_max}"/>
+            </div>
+            <div class="fl">当前短信条数:</div>
+            <div class="fr">
+                <input name="sms_num" type="text" class="input_text_default small" maxlength="50" value="{$info.sms_num}"/>
+            </div>
+            <div class="fl"><span style="color:#FF0000">收到简历的联系方式:</span></div>
+            <div class="fr">
+                <div class="imgradio">
+                    <input name="show_apply_contact" type="hidden" value="{$setmeal['show_apply_contact']}">
+                    <div class="radio <eq name='setmeal.show_apply_contact' value='1'>select</eq>" data="1" title="免费查看">免费查看</div>
+                    <div class="radio <eq name='setmeal.show_apply_contact' value='0'>select</eq>" data="0" title="需下载">需下载</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="fl"><span style="color:#FF0000">直接显示联系方式:</span></div>
+            <div class="fr">
+                <div data-code="0,1" class="imgchecked_small <eq name='setmeal.show_contact_direct' value='1'>select</eq>"><input name="show_contact_direct" type="hidden" value="{$setmeal['show_contact_direct']}" /></div>
+                <div class="clear"></div>
+            </div>
+            <div class="fl"><span style="color:#FF0000">是否已收费:</span></div>
+            <div class="fr">
+                <div data-code="0,1" class="imgchecked_small select"><input name="is_money" type="hidden" value="1" /></div>
+                <div class="clear"></div>
+            </div>
+            <div class="log_amount">
+                <div class="fl"><span style="color:#FF0000">收费金额:</span></div>
+                <div class="fr">
+                    <input name="log_amount" type="text" class="input_text_default small" maxlength="5" value="{$setmeal.log_amount}"/> 元
+                    <span style="color: #999999;">请填写收费金额</span>
+                </div>
+            </div>
+            <div class="fl">其它说明:</div>
+            <div class="fr">
+                <input name="added" type="text" class="input_text_default" maxlength="60" value="{$setmeal.added}"/>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+                <input type="hidden" name="uid"  value="{$company_user.uid}"/>
+                <input type="hidden" name="_k_v" value="{$Think.get._k_v}">
+                <input type="submit" class="admin_submit" value="确定"/>
+                <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+            </div>
+            <div class="clear"></div>
+        </form>
+    </div>
+</notempty>
+
+<div class="toptit">重新开通套餐</div>
+<div class="form_main width200">
+    <form action="{:U('user_setmeal_set')}" method="post" id="SetForm" name="SetForm" >
+        <div class="fl">选择套餐:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="reg_service" type="hidden" value="{:C('qscms_reg_service')}">
+                <volist name="givesetmeal" id="list">
+                    <div class="radio <eq name='Think.config.qscms_reg_service' value='$key'>select</eq>" data="{$key}" title="{$list}">{$list}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF0000">是否已收费:</span></div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="is_money" type="hidden" value="1">
+                <div class="radio yes_money1 select" data="1" title="是">是</div>
+                <div class="radio no_money1" data="0" title="否">否</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="log_amount1">
+            <div class="fl"><span style="color:#FF0000">收费金额:</span></div>
+            <div class="fr">
+                <input name="log_amount" type="text" class="input_text_default small" maxlength="5" value="{$setmeal.log_amount}"/> 元
+                <span style="color: #999999;">请填写收费金额</span>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="uid"  value="{$company_user.uid}" />
+            <input type="hidden" name="_k_v" value="{$Think.get._k_v}">
+            <input type="submit" class="admin_submit" value="确定"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </form>
+</div>
+
+<div class="toptit link_blue">套餐消费明细</div>
+<div class="form_main">
+    <div class="detail_wrap">
+        <div class="list-th">
+            <div class="th1">操作时间</div>
+            <div class="th2 center">套餐余量</div>
+            <div class="th3 center" style="width: 380px;">操作说明</div>
+            <div class="clear"></div>
+        </div>
+        <div class="list-data">
+            <notempty name="log['list']">
+                <volist name="log['list']" id="vo">
+                    <div class="list-td">
+                        <div class="td1">{:admin_date($vo['log_addtime'])}</div>
+                        <div class="td2 center">套餐余量：{$vo['log_leave']}</div>
+                        <div class="td3 center" style="width: 380px;">{$vo['log_value']}</div>
+                        <div class="clear"></div>
+                    </div>
+                </volist>
+                <div class="pages">{$log['page']}</div>
+            <else/>
+                <div class="list_empty" style="margin:0">没有任何信息！</div>
+            </notempty>
+
+        </div>
+    </div>
+</div>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //日期
+        laydate.render({
+            elem: '#setendtime' //指定元素
+        });
+        $(".no_money").click(function(){
+            $(".log_amount").hide();
+        });
+        $(".yes_money").click(function(){
+            $(".log_amount").show();
+        });
+        $(".no_money1").click(function(){
+            $(".log_amount1").hide();
+        });
+        $(".yes_money1").click(function(){
+            $(".log_amount1").show();
+        });
+    });
+</script>
+</html>

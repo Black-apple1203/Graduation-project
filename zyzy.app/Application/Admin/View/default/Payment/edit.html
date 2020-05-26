@@ -1,0 +1,90 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>安装在线支付插件需申请对应在线支付服务公司的服务账户。</p>
+</div>
+<div class="toptit">编辑支付方式</div>
+<form action="{:U('edit')}" method="post" name="form1" id="form1">
+    <div class="form_main width200">
+        <div class="fl">插件名称：</div>
+        <div class="fr txt" style="color: #0066CC">
+            <input name="id" type="hidden" value="{$info.id}" />
+            <input name="p_install" type="hidden" value="2" />
+            <strong>{$info.byname}</strong>
+        </div>
+        <if condition="$pay['p_introduction']">
+            <div class="fl">{$pay.p_introduction}</div>
+            <div class="fr">
+                <input name="p_introduction" type="text" maxlength="40" class="input_text_default" value="{$info.p_introduction}"/>
+            </div>
+        </if>
+        <if condition="$pay['notes']">
+            <div class="fl">{$pay.notes}</div>
+            <div class="fr">
+                <textarea name="notes" class="input_text_default" id="notes" style="width:700px;height: 250px;" id="notes">{$info.notes}</textarea>
+            </div>
+        </if>
+        <if condition="$pay['partnerid']">
+            <div class="fl">{$pay.partnerid}</div>
+            <div class="fr">
+                <input name="partnerid" type="text" maxlength="40" class="input_text_default" value="{$info.partnerid}"/>
+            </div>
+        </if>
+        <if condition="$pay['ytauthkey']">
+            <div class="fl">{$pay.ytauthkey}</div>
+            <div class="fr">
+                <input name="ytauthkey" type="text" maxlength="40" class="input_text_default" value="{$info.ytauthkey}"/>
+            </div>
+        </if>
+        <if condition="$pay['parameter1']">
+            <div class="fl">{$pay.parameter1}</div>
+            <div class="fr">
+                <input name="parameter1" type="text" maxlength="40" class="input_text_default" value="{$info.parameter1}"/>
+            </div>
+        </if>
+        <if condition="$pay['parameter2']">
+            <div class="fl">{$pay.parameter2}</div>
+            <div class="fr">
+                <input name="parameter2" type="text" maxlength="40" class="input_text_default" value=""/>
+            </div>
+        </if>
+        <if condition="$pay['parameter3']">
+            <div class="fl">{$pay.parameter3}</div>
+            <div class="fr">
+                <textarea name="parameter3" class="input_text_default" style="height: 100px; line-height: 180%;"></textarea>
+            </div>
+        </if>
+        <if condition="$pay['parameter4']">
+            <div class="fl">{$pay.parameter4}</div>
+            <div class="fr">
+                <textarea name="parameter4" class="input_text_default" style="height: 100px; line-height: 180%;"></textarea>
+            </div>
+        </if>
+        <div class="fl">显示顺序：</div>
+        <div class="fr">
+            <input name="listorder" type="text" maxlength="40" class="input_text_default" value="{$info.listorder}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit" type="submit" class="admin_submit" value="提交"/>
+                <input name="submit222" type="button" class="admin_submit" value="返回列表" onclick="Javascript:window.history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+<link rel="stylesheet" href="__ADMINPUBLIC__/js/kindeditor/themes/default/default.css" />
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/lang/zh_CN.js"></script>
+<script>
+var editor;
+KindEditor.ready(function(K) {
+editor = K.create('textarea[name="notes"]', {
+allowFileManager : true,
+filterMode:false
+});
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<include file="public:header" />
+    <div class="toptip">
+    	<div class="toptit">提示：</div>
+		<p>页面关联标记与导航关联标记相同时(导航关联标记请在页面管理中查看)，与之关联的页面将高亮显示</p>
+		<p>例如：在页面管理中，首页的导航关联标记为homepage,在自定义导航中增加网站首页栏目，页面关联标为homepage，那么打开网站首页页面，则此栏目高亮显示。</p>
+    </div>
+    <div class="seltpye_x">
+		<div class="left">导航分类</div>	
+		<div class="right">
+			<volist name="categroy" id="categroy">
+				<a href="{:P(array('alias'=>$key))}" <if condition="$Think.request.alias eq $key"> class="select"</if>>{$categroy}</a>
+			</volist>
+			<div class="clear"></div>
+		</div>
+		<div class="clear"></div>
+	</div>
+	<form action="{:U('navigation/nav_all_save')}" method="post" enctype="multipart/form-data"  name="FormData" id="FormData" >
+		<div class="list_th">
+	        <div class="td" style=" width:29%;">
+	            <label id="chkAll" class="left_padding">
+	                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>名称
+	            </label>
+	        </div>
+	        <div class="td" style=" width:10%;">显示</div>
+	        <div class="td center" style=" width:20%;">页面关联标记</div>
+	        <div class="td center" style=" width:8%;">位置</div>
+	        <div class="td center" style=" width:10%;">打开方式</div>
+	        <div class="td center" style=" width:10%;">排序</div>
+	        <div class="td center" style=" width:13%;">操作</div>
+	        <div class="clear"></div>
+	    </div>
+		<notempty name="list">
+			<volist name="list" id="li">
+				<div class="list_tr link_black">
+					<div class="td" style=" width:29%;">
+			            <div class="left_padding striking">
+		                    <input name="id[]" type="checkbox" id="id" value="{$li['id']}"/>
+		                    <input name="save_id[]" type="hidden" value="{$li.id}"/>
+							<input name="title[]" type="text"  class="input_text_default small" id="title" value="{$li.title}"   />
+		                </div>
+			        </div>
+			        <div class="td" style=" width:10%;">
+			        	<if condition="$li['display'] eq 1">
+							<span style="color: #FF3300">显示</span>
+						<else/>
+							<span style="color:#999999">不显示</span>
+						</if>
+						&nbsp;
+			        </div>
+			        <div class="td center" style=" width:20%;">{$li.tag}&nbsp;</div>
+			        <div class="td center" style=" width:8%;">{$li.categoryname}&nbsp;</div>
+			        <div class="td center" style=" width:10%;">
+			        	<if condition="$li['target'] eq '_blank'">
+							新窗口
+						</if>
+						<if condition="$li['target'] eq '_self'">
+							<span style="color:#666666">原窗口</span>
+						</if>
+						&nbsp;
+			        </div>
+			        <div class="td center" style=" width:10%;">
+			        	<input name="navigationorder[]" type="text"  class="input_text_default small" value="{$li.navigationorder}"  style="width:50px;" />
+			        </div>
+			        <div class="td center edit" style=" width:13%;">
+			        	<a href="{:U('navigation/edit',array('id'=>$li['id'],'url'=>"__SELF__"))}">修改</a>
+						<if condition="$li['systemclass'] neq 1">
+							<a href="{:U('navigation/delete',array('id'=>$li['id']))}"  onclick="return confirm('你确定要删除吗？')">删除</a>
+						</if>
+			        </div>
+			        <div class="clear"></div>
+				</div>
+			</volist>
+		<else/>
+			<div class="list_empty">没有任何信息！</div>
+		</notempty>
+		<div class="list_foot">
+			<div class="btnbox">
+		        <input type="submit" value="保存修改" class="admin_submit"   />
+				<input type="button" class="admin_submit" id="add"    value="添加栏目"  onclick="window.location='{:U('navigation/add')}'"/>
+				<input id="ButDel" type="submit" value="删除栏目" class="admin_submit"   />
+		    </div>
+		</div>
+	</form>
+	<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+	$("#chk").live('click',function(){
+	     $("#list").find("input[type=checkbox]").attr("checked",this.checked);
+	});
+	$("#ButDel").click(function(e){
+		e.preventDefault();
+      var ids = $("input[name='id[]']:checked");
+      if(!ids.length) {
+        disapperTooltip('remind','请选择微导航！');
+      } else {
+        if(confirm('确定删除选中的分类吗？')){
+          $("#FormData").attr("action","{:U('navigation/delete')}");
+          $("#FormData").submit();
+        }
+      }
+	})
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+[ 2020-04-26T00:11:22+08:00 ] 127.0.0.1 /index.php?m=admin&c=admin&a=index
+SQL: SELECT m.id,m.name,m.menu_type,m.module_name,m.controller_name,m.action_name,m.data,m.stat,m.img FROM `qs_admin_auth` INNER JOIN qs_menu m ON m.id=qs_admin_auth.menu_id  WHERE `role_id` = '1' AND m.pid = '7' AND m.display = 1 AND m.module_name IN ('Home','Admin') AND m.mods <> 1   ORDER BY m.ordid,m.id  [RunTime:0.3125s] [IP:127.0.0.1:60171] [AddTime:1587831082] [qscms]
+[ 2020-04-26T10:14:54+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+SQL: SELECT * FROM `qs_promotion` WHERE `cp_endtime` < 1587867293    [RunTime:0.2254s] [IP:127.0.0.1:18747] [AddTime:1587867294] [qscms]
+[ 2020-04-26T10:14:57+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+SQL: SHOW COLUMNS FROM `qs_jobs_search` [RunTime:0.4885s] [IP:127.0.0.1:18747] [AddTime:1587867297] [qscms]
+[ 2020-04-26T14:53:43+08:00 ] 127.0.0.1 /index.php?m=admin&c=invite&a=invite_list
+SQL: SHOW COLUMNS FROM `qs_invite_allowance` [RunTime:0.2313s] [IP:127.0.0.1:31496] [AddTime:1587884023] [qscms]

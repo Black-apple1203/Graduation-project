@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta"/>
+    <link href="../public/css/company/common.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/company/company_rpo.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+    <link href="../public/css/company/subject_new.css?v={:strtotime('today')}" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<include file="Company:index_header"/>
+<div class="user_main">
+    <div class="mleft">
+        <include file="Company:left_service"/>
+    </div>
+    <div class="mright">
+        <div class="user_pagetitle">
+            <div class="pat_l">网络招聘会</div>
+            <div class="clear"></div>
+        </div>
+        <div class="user_tab rpo_tab">
+            <a href="{:U('subject_list')}" class="tabli <if condition="$Think.get.enroll eq ''">select</if>">全部</a>
+            <a href="{:U('subject_list',array('enroll'=>1))}" class="tabli <if condition="$Think.get.enroll eq 1">select</if>">已报名</a>
+            <div class="clear"></div>
+        </div>
+        <div class="suj_group">
+            <notempty name="list['list']">
+            <volist name="list['list']" id="vo">
+                <div class="g_item">
+                    <img src="{$vo.img}" alt="" class="face_img">
+                    <a href="{$vo.url}" class="g_name substring">{$vo.title}</a>
+                    <div class="g_date">时间：{:date('Y-m-d',$vo['holddate_start'])}-{:date('Y-m-d',$vo['holddate_end'])}</div>
+                    <div class="g_ot">
+                        <div class="gb">{$vo.com_count}个企业</div>
+                        <div class="gb bl">{$vo.job_count}个职位</div>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="g_tip">报名条件：<if condition="$vo['setmeal'] eq 1">限定套餐 <div class="g_tip_right vtip" title="{$vo.setmeal_cn}"></div><else />全部套餐</if></div>
+                    <if condition="$vo['is_enroll'] eq 1">
+                            <if condition="$vo['s_audit'] eq 1">
+                                <div class="g_status g3">已报名</div>
+                             </if>   
+                            <if condition="$vo['s_audit'] eq 2">  
+                                <div class="g_status g1">审核中</div> 
+                             </if>    
+                            <if condition="$vo['s_audit'] eq 3">
+                                 <div class="g_status g2">未通过</div>      
+                            </if>
+                    <else />
+                            <div class="g_btn J_enroll" data-id="{$vo.id}">报 名</div>
+                    </if> 
+                    <!-- <if condition="$vo['s_audit'] eq 1">
+                        <if condition="$vo['is_is_enroll'] eq 1">
+                            <div class="g_status g3">已报名</div>
+                         <else />
+                            <div class="g_btn">报 名</div>
+                         </if> 
+                    <elseif condition="$vo['s_audit'] eq 2">  
+                        <div class="g_status g1">审核中</div>  
+                    <else />
+                         <div class="g_status g2">未通过</div>      
+                    </if>  -->
+                </div>
+            </volist>
+            <div class="qspage">{$list['page']}</div>
+            <else />
+                <div class="res_empty">
+                    暂无相关信息
+                </div>
+            </notempty>
+        </div>
+    </div>
+</div>
+<include file="Company:index_footer"/>
+<script src="../public/js/company/jquery.vtip-min.js" type="text/javascript" language="javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //报名
+        $(".J_enroll").click(function(){
+            var url = "{:U('Company/ajax_enroll')}";
+            var subject_id = $(this).data('id');
+            $.post(url, {subject_id:subject_id},function (result) {
+                if (result.status == 1) {
+                    disapperTooltip('success', result.msg);
+                    setTimeout(function () {
+                           window.location.reload();
+                      }, 2000);
+                    qsDialog.setCloseDialog(true);
+                } else {
+                    disapperTooltip('remind', result.msg);
+                    qsDialog.setCloseDialog(false);
+                }
+            },'json');
+        });
+    });
+</script>
+</body>
+</html>

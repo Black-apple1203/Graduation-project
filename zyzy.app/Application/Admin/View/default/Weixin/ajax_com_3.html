@@ -1,0 +1,52 @@
+<volist name="list" id="vo">
+<section style="width: 90%;margin: 0px auto;">
+    <section style="width:65px;height:65px;background:rgb(254,254,254);transform: rotate(0);margin-bottom: -56px;margin-left: -10px;">
+        <section style="width: 8px;height: 8px;border-radius:100%;background:#f7d749;float: right;margin-top:6px;"></section>
+        <section data-brushtype="text" style="text-align: left;color: #333;font-size:24px;letter-spacing:3px;font-weight: bold;">
+            诚聘
+        </section>
+        <section data-brushtype="text" style="text-align: left;color: #333;font-size:12px;font-weight: bold;">
+            JOIN US
+        </section>
+        <section style="width: 8px;height: 8px;border-radius:100%;background:#f7d749;margin-top:5px;margin-left:2px;"></section>
+    </section>
+    <section data-bgless="spin" data-bglessp="120" data-bgopacity="1%" style="padding-bottom:5px;border-radius:8px;background-color:#ffeea4;">
+        <section style="border: 2px solid #f7d749;padding: 10px 0px 20px 0px;background-color:rgb(255,255,255);border-radius:8px;margin-left: -5px;margin-top: -10px;margin-right:4px;">
+            <section style="text-align: center;margin-top:15px;">
+                <section data-brushtype="text" style="display:inline-block;background:#f7d749;padding: 6px 1em;font-size: 16px;color: #333;letter-spacing: 1.5px;">
+                    {$vo.companyname}
+                </section>
+            </section>
+            <section data-autoskip="1" style="padding:0px 1.5em;text-align: justify;font-size: 14px;color: #333;letter-spacing: 1.5px;margin:12px auto;line-height: 1.75em;">
+                <p>
+                    <span style="color: rgb(255, 169, 0); font-size: 15px;"><br></span>
+                </p>
+                <volist name="vo['job']" id="jobs">
+                    <p>
+                        <a href="{:U('Mobile/jobs/show',array('id'=>$jobs['id']),true,C('qscms_site_domain'),true)}" target="_blank" style="text-decoration: none;">
+                        <span style="color: rgb(255, 169, 0); font-size: 15px;">{$jobs.jobs_name}&nbsp;:<if condition="$jobs['negotiable'] eq 1">面议<else />{$jobs.minwage}-{$jobs.maxwage}元/月</if></span>
+                        </a>
+                    </p>
+                </volist>
+                <if condition="$vo['tag_arr']">
+                <p>
+                    <br>
+                </p>
+                <section style="padding-bottom: 11px; color: rgb(102, 102, 102); font-family: &quot;microsoft yahei&quot;, 宋体; font-size: 15px; letter-spacing: 0.544px; text-align: justify; white-space: normal; min-height: 1em; line-height: 2;">
+                    公司福利：<volist name="vo['tag_arr']" id="tag">{$tag},</volist>
+                </section>
+                </if>
+                <p>
+                    <span style="color: rgb(102, 102, 102); font-family: &quot;microsoft yahei&quot;, 宋体; font-size: 15px; letter-spacing: 0.544px; text-align: justify;">公司地址：{$vo.address}</span>
+                </p>
+                <p>
+                    <span style="color: rgb(102, 102, 102); font-family: &quot;microsoft yahei&quot;, 宋体; font-size: 15px; letter-spacing: 0.544px; text-align: justify;"><br></span>
+                </p>
+                <p>
+                    <span style="color: rgb(102, 102, 102); font-family: &quot;microsoft yahei&quot;, 宋体; font-size: 15px; letter-spacing: 0.544px; text-align: justify;">点击上方职位即可在线申请，{:C('qscms_site_name')}祝您早日找到满意的工作！</span>
+                </p>
+            </section>
+        </section>
+    </section>
+</section>
+</volist>

@@ -1,0 +1,60 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>短信内容不能超过70个字！</p>
+</div>
+<div class="toptit">新增短信任务</div>
+<form id="form1" name="form1" method="post"   action="{:U('smsqueue_add')}" >
+    <div class="form_main width150">
+        <div class="fl">发送内容：</div>
+        <div class="fr">
+            <textarea name="s_body" class="input_text_default" id="s_body" style="height:80px;width:300px;"  onpropertychange="if(this.value.length&gt;70){this.value=this.value.slice(0,70)}"></textarea> 内容超过70个字符将自动截取
+        </div>
+        <div class="fl">短信模板ID：</div>
+        <div class="fr">
+            <input name="s_tplid" type="text" maxlength="100" class="input_text_default middle" value=""/> 
+            如需报备请填写报备后的模板ID，否则留空
+        </div>
+        <div class="fl">收件人：</div>
+        <div class="fr">
+            <textarea name="s_sms" class="input_text_default" id="s_sms" style="height:80px;width:300px;"><if condition="$s_sms">{$s_sms}</if></textarea> (请用“|”隔开多个手机号码)
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" name="importnum" class="admin_submit" id="importnum" value="导入号码"/>(支持TXT文本，多个号码请换行)
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input name="submit3" type="submit" class="admin_submit"    value="添加"/>
+                    <input name="submit22" type="button" class="admin_submit"    value="返回" onclick="Javascript:window.history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+    </form>
+    <span id="OpImport"></span>
+
+    </div>
+    <include file="public:footer" />
+    <script type="text/javascript">
+        $(document).ready(function() {
+          //导入号码
+          $("#importnum").click(function () {
+            var qsDialog = $(this).dialog({
+              title: '请选择',
+              loading: true,
+              footer : false
+            });
+            var url = "{:U('Ajax/import_mobile_num')}";
+            $.getJSON(url, function (result) {
+              if(result.status == 1){
+                qsDialog.setContent(result.data);
+              } else {
+                qsDialog.hide();
+                disapperTooltip('remind',result.msg);
+              }
+            });
+          })
+        })
+    </script>
+</body>
+</html>

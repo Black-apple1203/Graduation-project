@@ -1,0 +1,2 @@
+[ 2020-04-29T16:58:54+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_resume` WHERE `audit` = 2    LIMIT 1  [RunTime:0.27s] [IP:127.0.0.1:13876] [AddTime:1588150734] [qscms]

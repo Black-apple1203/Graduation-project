@@ -1,0 +1,79 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p class="link_green_line">新增简历模板只需将模板文件上传至 /Application/Home/View/tpl_resume 目录下，更多模版请到 <a href="http://www.74cms.com/tpl/lists.html" target="_blank" style="color:#009900">[官网]</a> 获取。</p>
+    <p>增加或删除模版后请点击下方<strong>刷新</strong>按钮。</p>
+    <p class="link_green_line">如果您熟悉html语法，则可以参考 <a href="http://www.74cms.com/handbook" target="_blank" style="color:#009900">[模版开发手册]</a> 自定义风格模版。</p>
+</div>
+<div class="toptit">简历模版</div>
+<form id="form1" name="form1" method="post" action="{:U('resume_tpl_save')}" style="font-size:12px;">
+  <volist name="list" id="li">
+  <div style=" line-height:180%; padding:5px; border-bottom:1px #DFDFDF solid;padding-left:15px;margin-left:20px;margin-right: 20px;"  class="link_blue tpl_list">
+  <table width="100%" border="0" cellspacing="5" cellpadding="0">
+  <tr>
+    <td width="225"><img src="{$li.thumb_dir}/thumbnail.jpg" alt="{$li.tpl_name}" width="225" height="136" border="1"  style="border: #CCCCCC;"/></td>
+    <td><table width="100%" border="0" cellspacing="0" cellpadding="0">
+   <tr>
+        <td width="50" align="right">名称：</td>
+        <td><input name="tpl_id[]" type="hidden" value="{$li.tpl_id}" />
+          <input name="tpl_name[]" type="text" value="{$li.tpl_name}"  class="input_text_200" />
+      
+      </td>
+      </tr>
+      <tr>
+        <td width="50" align="right">默认：</td>
+        <td>
+     
+    <label>
+          <input name="tpl_personal" type="radio" value="{$li.tpl_dir}" <if condition="$li['tpl_dir'] eq C('qscms_tpl_personal')">checked="checked" </if>/>
+        </label></td>
+      </tr>
+    <tr>
+        <td align="right">可用：</td>
+        <td><label>
+         <input name="tpl_display[]" type="checkbox" value="1" <if condition="$li['tpl_display'] eq 1">checked="checked" </if>/>
+        </label></td>
+      </tr>
+     <tr>
+        <td align="right">售价：</td>
+        <td><input type="text" class="input_text_200" maxlength="3" value="{$li.tpl_val}" name="tpl_val[]"/>
+    点{:C('qscms_points_byname')}
+    <span class="admin_note">个人会员使用此模版需要支付的{:C('qscms_points_byname')}，0为免费</span></td>
+      </tr>
+    <tr>
+        <td align="right">版本：</td>
+        <td>{$li.info.version}</td>
+      </tr>
+          <tr>
+        <td align="right">作者：</td>
+        <td><a href="{$li.info.authorurl}" target="_blank">{$li.info.author}</a></td>
+      </tr>
+    </table></td>
+  </tr>
+</table>
+</div>
+  </volist>
+  <div class="list_foot">
+    <div class="btnbox">
+        <input type="submit" name="" value="保存" class="admin_submit" />
+        <input type="button" name="Submit22" value="刷新" class="admin_submit" onclick="window.location='{:U('refresh_tpl',array('type'=>2,'tpl_dir'=>'tpl_resume'))}'"/>
+    </div>
+</div>
+  </form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript"> 
+$(document).ready(function()
+{
+  $(".tpl_list").hover(
+  function () {
+    $(this).css("background-color","#E4F4FC");
+  },
+  function () {
+    $(this).css("background-color","");
+  }
+);
+});
+</script>
+</body>
+</html>

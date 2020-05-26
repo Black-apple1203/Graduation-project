@@ -1,0 +1,25 @@
+<div class="mantit" style="margin-top:15px; margin-bottom: 8px;"><strong>随机红包</strong></div>
+<div style="max-height:200px;overflow-y:auto">
+    <table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#DFDFDF" class="link_lan">
+        <tr>
+            <td width="120" bgcolor="#FFFFFF" align="center">发放金额</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">发放状态</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">未发放原因</td>
+            <td width="120" bgcolor="#FFFFFF" align="center">记录时间</td>
+        </tr>
+        <if condition="$list">
+            <volist name="list" id="vo">
+                <tr>
+                    <td bgcolor="#FFFFFF" align="center">{$vo['value']}元</td>
+                    <td bgcolor="#FFFFFF" align="center"><eq name="vo['status']" value="1">已发放<else />未发放</eq></td>
+                    <td bgcolor="#FFFFFF" align="center">{$vo['reason']}</td>
+                    <td bgcolor="#FFFFFF" align="center">{:admin_date($vo['addtime'])}</td>
+                </tr>
+            </volist>
+        <else/>
+            <tr>
+                <td colspan="4" bgcolor="#FFFFFF">没有任何信息！</td>
+            </tr>
+        </if>
+    </table>
+</div>

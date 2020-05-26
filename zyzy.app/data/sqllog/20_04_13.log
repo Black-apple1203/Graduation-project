@@ -1,0 +1,42 @@
+[ 2020-04-13T10:24:55+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=ajax&a=affair','127.0.0.1:58578','本机地址','1586744695','1','admin','0') [RunTime:0.2849s] [IP:127.0.0.1:58578] [AddTime:1586744695] [qscms]
+[ 2020-04-13T11:16:56+08:00 ] 127.0.0.1 /
+SQL: SELECT `alias`,`name`,`config`,`app_config`,`status` FROM `qs_oauth` WHERE `status` = 1   ORDER BY ordid  [RunTime:1.1817s] [IP:127.0.0.1:64793] [AddTime:1586747816] [qscms]
+[ 2020-04-13T11:16:59+08:00 ] 127.0.0.1 /
+SQL: SELECT COUNT(distinct uid) AS tp_count FROM `qs_jobs_search`   ORDER BY refreshtime desc,id desc  LIMIT 1  [RunTime:0.8505s] [IP:127.0.0.1:64793] [AddTime:1586747819] [qscms]
+[ 2020-04-13T11:17:10+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=ajax_scroll
+SQL: SELECT `id`,`fullname`,`sex`,addtime as time,'add' as type FROM `qs_resume` WHERE `display` = 1 AND `audit` = 1   ORDER BY addtime DESC  LIMIT 5  [RunTime:1.7338s] [IP:127.0.0.1:64827] [AddTime:1586747830] [qscms]
+[ 2020-04-13T11:17:11+08:00 ] 127.0.0.1 /index.php?m=&c=index&a=ajax_scroll
+SQL: SELECT `id`,`jobs_name`,`companyname`,`company_id`,addtime as time,'add' as type FROM `qs_jobs` WHERE `display` = 1 AND `audit` = 1   ORDER BY addtime DESC  LIMIT 5  [RunTime:0.4428s] [IP:127.0.0.1:64827] [AddTime:1586747831] [qscms]
+[ 2020-04-13T11:22:23+08:00 ] 127.0.0.1 /
+SQL: SELECT * FROM `qs_notice` WHERE `is_display` = 1 AND `type_id` = 1   ORDER BY sort desc,id desc  LIMIT 0,4  [RunTime:0.3525s] [IP:127.0.0.1:65412] [AddTime:1586748143] [qscms]
+[ 2020-04-13T15:39:53+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: INSERT INTO `qs_admin_log` (`log_url`,`log_ip`,`log_address`,`log_addtime`,`operater_id`,`operater`,`log_id`) VALUES ('/index.php?m=admin&c=ajax&a=affair','127.0.0.1:4544','本机地址','1586763591','1','admin','0') [RunTime:1.6813s] [IP:127.0.0.1:4544] [AddTime:1586763593] [qscms]
+[ 2020-04-13T15:39:54+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_jobs` WHERE `audit` = 2    LIMIT 1  [RunTime:0.2056s] [IP:127.0.0.1:4544] [AddTime:1586763594] [qscms]
+[ 2020-04-13T15:39:54+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_resume_img` WHERE `audit` = 2    LIMIT 1  [RunTime:0.7139s] [IP:127.0.0.1:4544] [AddTime:1586763594] [qscms]
+[ 2020-04-13T15:39:55+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_report` WHERE `audit` = 1    LIMIT 1  [RunTime:0.3485s] [IP:127.0.0.1:4544] [AddTime:1586763595] [qscms]
+[ 2020-04-13T15:39:56+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_feedback` WHERE `audit` = 1    LIMIT 1  [RunTime:1.0828s] [IP:127.0.0.1:4544] [AddTime:1586763596] [qscms]
+[ 2020-04-13T15:39:57+08:00 ] 127.0.0.1 /index.php?m=admin&c=ajax&a=affair
+SQL: SELECT * FROM `qs_members_appeal` WHERE `status` = 0    LIMIT 1  [RunTime:0.3464s] [IP:127.0.0.1:4544] [AddTime:1586763597] [qscms]
+[ 2020-04-13T15:39:59+08:00 ] 127.0.0.1 /index.php?m=home&c=ajax_common&a=get_header_min
+SQL: SELECT `id`,`companyname`,`contents` FROM `qs_company_profile` WHERE `uid` = 11    LIMIT 1  [RunTime:0.4321s] [IP:127.0.0.1:4568] [AddTime:1586763599] [qscms]
+[ 2020-04-13T15:40:01+08:00 ] 127.0.0.1 /index.php?m=&c=ajax_common&a=company_statistics_add&comid=1
+SQL: INSERT INTO `qs_company_statistics` (`comid`,`jobid`,`uid`,`source`,`apply`,`addtime`,`viewtime`,`id`) VALUES ('1','0','11','1','0','1586707200','1586763601','0') [RunTime:0.4619s] [IP:127.0.0.1:4569] [AddTime:1586763601] [qscms]
+[ 2020-04-13T15:40:28+08:00 ] 127.0.0.1 /index.php?m=admin&c=upload&a=form_upload
+SQL: SELECT m.id,m.name,m.menu_type,m.module_name,m.controller_name,m.action_name,m.data,m.stat,m.img FROM `qs_admin_auth` INNER JOIN qs_menu m ON m.id=qs_admin_auth.menu_id  WHERE `role_id` = '1' AND m.pid = '773' AND m.display = 1 AND m.module_name IN ('Home','Admin') AND m.mods <> 1   ORDER BY m.ordid,m.id  [RunTime:1.1242s] [IP:127.0.0.1:4635] [AddTime:1586763628] [qscms]
+[ 2020-04-13T15:52:37+08:00 ] 127.0.0.1 /index.php?m=&c=resume&a=resume_list
+SQL: SELECT `id`,`parentid`,`categoryname` FROM `qs_category_major`   ORDER BY category_order desc,id  [RunTime:0.3232s] [IP:127.0.0.1:6295] [AddTime:1586764357] [qscms]
+[ 2020-04-13T16:52:10+08:00 ] 127.0.0.1 /index.php?m=admin&c=upload&a=form_upload
+SQL: SELECT m.id,m.name,m.menu_type,m.module_name,m.controller_name,m.action_name,m.data,m.stat,m.img FROM `qs_admin_auth` INNER JOIN qs_menu m ON m.id=qs_admin_auth.menu_id  WHERE `role_id` = '1' AND m.pid = '773' AND m.display = 1 AND m.module_name IN ('Home','Admin') AND m.mods <> 1   ORDER BY m.ordid,m.id  [RunTime:0.205s] [IP:127.0.0.1:14872] [AddTime:1586767930] [qscms]
+[ 2020-04-13T17:06:55+08:00 ] 127.0.0.1 /index.php?m=&c=ajax_company&a=refresh_resume_list
+SQL: SELECT * FROM `qs_company_down_resume` WHERE `resume_id` = 2 AND `company_uid` = 1    LIMIT 1  [RunTime:0.2608s] [IP:127.0.0.1:16582] [AddTime:1586768815] [qscms]
+[ 2020-04-13T17:07:27+08:00 ] 127.0.0.1 /index.php?m=admin&c=index&a=total
+SQL: SELECT COUNT(id) AS tp_count FROM `qs_jobs_tmp` WHERE `addtime` >= 1586707200    LIMIT 1  [RunTime:0.2599s] [IP:127.0.0.1:16688] [AddTime:1586768847] [qscms]
+[ 2020-04-13T17:16:50+08:00 ] 127.0.0.1 /index.php?m=admin&c=invite&a=invite_list
+SQL: SHOW COLUMNS FROM `qs_invite_allowance` [RunTime:0.2267s] [IP:127.0.0.1:17864] [AddTime:1586769410] [qscms]
+[ 2020-04-13T17:23:22+08:00 ] 127.0.0.1 /index.php?m=admin&c=page&a=index
+SQL: SELECT COUNT(*) AS tp_count FROM `qs_page` WHERE `type` = 'Home'    LIMIT 1  [RunTime:0.2152s] [IP:127.0.0.1:18796] [AddTime:1586769802] [qscms]

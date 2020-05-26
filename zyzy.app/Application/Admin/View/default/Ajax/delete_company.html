@@ -1,0 +1,30 @@
+<div class="dialog_box">
+    <form action="{:U('Company/delete_company')}" method="post" name="form" id="form">
+        <volist name="ids" id="vo">
+            <input name="y_id[]" type="hidden" value="{$vo}"/>
+        </volist>
+        <table width="300" border="0" align="center" cellpadding="0" cellspacing="6">
+            <tr>
+                <td height="30" colspan="2"><strong style="color:#0066CC; font-size:14px;">你确定要删除吗？</strong></td>
+            </tr>
+            <tr>
+                <td width="20" height="25">&nbsp;</td>
+                <td>
+                    <label style="color: rgb(0, 153, 0);"><input name="delete_company" type="checkbox" id="delete_company" value="yes" checked/>
+                        删除企业资料</label>
+                </td>
+            </tr>
+            <tr>
+                <td width="20" height="25">&nbsp;</td>
+                <td>
+                    <label style="color: rgb(0, 153, 0);"><input name="delete_jobs" type="checkbox" id="delete_jobs" value="yes" checked/>
+                        删除企业发布的招聘信息</label>
+                </td>
+            </tr>
+            <tr>
+                <td height="25">&nbsp;</td>
+                <td><input type="submit" name="set_audit" value="确定" class="admin_submit"/></td>
+            </tr>
+        </table>
+    </form>
+</div>

@@ -1,0 +1,95 @@
+<include file="public:header"/>
+<div class="clear"></div>
+    <div class="list_th">
+        <div class="td" style=" width:25%;">
+            <label id="chkAll" class="left_padding">
+                公司名称
+            </label>
+        </div>
+        <div class="td center" style=" width:15%;">{:C('qscms_points_byname')}数</div>
+        <div class="td center" style=" width:10%;">用户名</div>
+        <div class="td center" style=" width:20%;">注册时间</div>
+        <div class="td" style=" width:15%;">操作</div>
+        <div class="clear"></div>
+    </div>
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:25%;">
+                <div class="left_padding">
+                    <a href="{$vo['company_url']}" target="_blank">{$vo['companyname']}</a>
+                </div>
+            </div>
+            <div class="td center" style=" width:15%;">
+                {$vo['points']}
+            </div>
+            <div class="td center" style=" width:10%;">
+                {$vo['username']}
+            </div>
+            <div class="td center" style=" width:20%;">
+                {:admin_date($vo['reg_time'])}
+            </div>
+            <div class="td edit" style=" width:15%;">
+                <a href="javascript:;" class="blue points_log" parameter="uid={$vo['uid']}">积分日志</a>
+                <a href="{:U('edit',array('uid'=>$vo['uid'],'_k_v'=>$vo['id']))}">编辑</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='公司名'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='公司名'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="公司名">公司名</li>
+                        <li id="2" title="公司ID">公司ID</li>
+                        <li id="3" title="会员名">会员名</li>
+                        <li id="4" title="会员ID">会员ID</li>
+                        <li id="5" title="地址">地址</li>
+                        <li id="6" title="电话">电话</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //审核日志
+        $(".points_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '积分日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/points_log')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+    });
+</script>
+</html>

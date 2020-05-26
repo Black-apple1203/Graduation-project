@@ -1,0 +1,16 @@
+
+/*-----登录样式--------*/
+.login_top{height:190px;width:100%;background-color:#F5F9FE}
+.login_top .logo{width:200px;height:70px;margin:0 auto;text-align:center;padding-top:38px;}
+.login_main{width:320px;margin:0 auto;padding-top:30px;}
+.login_main .ce{width:320px;height:70px;position:relative;}
+.login_main .ce .imgbg{background-image:url(../images/login_input.gif);background-repeat:no-repeat;background-position:0px -6px;width:42px;height:42px;left:1px;top:1px;position:absolute;border-radius:3px 0px 0px 3px;}
+.login_main .ce .imgbg.pwd{background-position:0px -76px;}
+.login_main .ce .linput{width:260px;height:40px;line-height:40px;font-size:14px;background-color:#FFFFFF;border:1px #CCCCCC solid;border-radius:4px;font-family:"microsoft yahei";padding-left:50px;}
+.login_main .ce .linput:hover{border:1px  #33BEF2 solid;-moz-box-shadow:0px 0px 10px #33BEF2;/*firefox*/-webkit-box-shadow:0px 0px 10px #33BEF2;/*safari»òchrome*/box-shadow:0px 0px 10px #33BEF2;/*opera»òie9*/}
+.login_main .ce .linput.pwd{color:#999999}
+.login_main .ce .linput:focus{outline:none;}
+.login_main .ce .btn{width:312px;height:42px;background-color:#33BEF2;border:0px;border-radius:4px;font-size:16px;color:#FFFFFF;font-family:"microsoft yahei";cursor:pointer}
+.login_main .ce .btn:hover{background-color:#3F9FE7;}
+.login_main .ce .err{width:295px;height:40px;line-height:40px;font-size:14px;background-color:#FDECE1;border:1px  #FF6666 solid;border-radius:4px;font-family:"microsoft yahei";padding-left:15px;color:#FF0000}
+.login_foot{text-align:center;line-height:200%;color:#999999;padding-top:30px; font-size:12px;}

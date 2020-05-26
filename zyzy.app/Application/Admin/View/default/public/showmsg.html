@@ -1,0 +1,38 @@
+<include file="Admin@default/public/header"/>
+<!--<div class="allpagetop">系统提示</div>-->
+<div class="admin_main_nr_dbox">
+    <div class="adminshowmsg">
+        <div class="msgtxt link_blue <eq name='status' value='0'> tip</eq>">
+            <eq name="status" value="1"><div class="tit">{$message}</div><else/><div class="tit">{$message}</div></eq>
+            <div class="jump">
+                页面将自动跳转，等待时间 <span class="countdown_box">{$waitSecond}</span> 秒<br>
+                如果您的浏览器没有自动跳转，请点击 <a href="javascript:;" onClick="javascript:location.href='{$jumpUrl}';">[返回]</a>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<include file="Admin@default/public/footer"/>
+<script type="text/javascript">
+    var count = {$waitSecond};
+    CountDown();
+    var countdown = setInterval(CountDown, 1000);
+    function CountDown() {
+        $(".countdown_box").text(count);
+        if (count == 0) {
+            clearInterval(countdown);
+            window.location.href = '{$jumpUrl}';
+        }
+        count--;
+    }
+    function refresh_affair(){
+        window.parent.window.document.getElementById('leftFrame').contentWindow.refresh_affair();
+        window.parent.window.document.getElementById('topFrame').contentWindow.refresh_affair();
+    }
+    <if condition="$status eq 1">
+            refresh_affair();
+    </if>
+</script>
+
+</body>
+</html>

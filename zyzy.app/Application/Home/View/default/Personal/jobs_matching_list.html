@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<include file="public:meta" />
+	<link href="../public/css/personal/common.css" rel="stylesheet" type="text/css" />
+	<link href="../public/css/personal/personal_index.css" rel="stylesheet" type="text/css" />
+	<script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+	<qscms:jobs_list 列表名="jobslist" 显示数目="20" 分页显示="1" 职位分类="$_GET['jobcategory']" 描述长度="100"/>
+	<div class="matching_group">
+		<div class="matching_head">
+			根据您的简历信息已自动为您匹配到以下{$jobslist.total}条职位
+			<div class="tips_box">
+				匹配职位不满意？&nbsp;&nbsp;<a href="{:url_rewrite('QS_jobslist')}" class="jump_link">搜索职位</a>
+			</div>
+		</div>
+		<div class="listb J_allListBox">
+			<notempty name="jobslist['list']">
+			<volist name="jobslist['list']" id="jobs">
+				<div class="J_jobsList yli" data-jid="{$jobs.id}">
+					<div class="td1"><div class="J_allList radiobox"></div></div>
+					<div class="td2 link_blue substring"><a href="{$jobs.jobs_url}">{$jobs.jobs_name}</a></div>
+					<div class="td3 link_gray6 substring"><a href="{$jobs.company_url}">{$jobs.companyname}</a></div>
+					<div class="td4">{$jobs.wage_cn}</div>
+					<div class="td5">{:fdate($jobs['refreshtime'])}</div>
+					<div class="td6"><div class="J_jobsStatus hide <if condition="$Think.cookie.resume_show_type eq 1">show</if>"></div> </div>
+					<div class="clear"></div>
+					<div class="detail" <if condition="$Think.cookie.jobs_show_type eq 1">style="display:none"</if>>
+					  	<div class="ltx">
+							<div class="txt font_gray6">学历：{$jobs.education_cn}<span>|</span>经验：{$jobs.experience_cn}<span>|</span>职位性质：{$jobs.nature_cn}<span>|</span>人数：{$jobs.amount}人<span>|</span>地点：{$jobs.district_cn}</div>
+							<div class="dlabs">
+								<empty name="jobs['tag_cn']">
+									{$jobs.briefly}
+								<else/>
+									<volist name="jobs['tag_cn']" id="tag">
+										<div class="dl">{$tag}</div>
+									</volist>
+								</empty>
+								<div class="clear"></div>
+							</div>
+					  	</div>
+						<div class="rbtn">
+						  		<div class="deliver J_applyForJob" data-batch="false" data-url="{:U('AjaxPersonal/resume_apply')}">投递简历</div>
+								<div class="favorites J_collectForJob" data-batch="false" data-url="{:U('AjaxPersonal/jobs_favorites')}">收藏</div>
+						</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</volist>
+			<div class="listbtn">
+				<div class="td1"><div class="radiobox J_allSelected"></div></div>
+				<div class="td2">
+					<div class="lbts J_applyForJob" data-batch="true" data-url="{:U('AjaxPersonal/resume_apply')}">申请职位</div>
+					<div class="lbts J_collectForJob" data-batch="true" data-url="{:U('AjaxPersonal/jobs_favorites')}">收藏职位</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+			<div class="qspage">{$jobslist.page}</div>
+			<else />
+			<div class="res_empty link_blue">
+                没有找到符合条件的职位，想要获得更多工作机会<br/>立即搜索您感兴趣的职位吧！
+                <div class="clear"></div>
+                <a class="empty_search_btn" href="{:url_rewrite('QS_jobslist')}" target="_blank">搜索职位</a>
+                <div class="clear"></div>
+            </div>
+			</notempty>
+		</div>
+	</div>
+	<include file="index_footer" />
+	<script type="text/javascript" src="../public/js/jquery.jobslist.js"></script>
+</body>
+</html>

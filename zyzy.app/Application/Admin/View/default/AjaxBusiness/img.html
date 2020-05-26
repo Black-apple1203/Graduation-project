@@ -1,0 +1,27 @@
+<div class="mantit" style="margin-top:15px; margin-bottom: 8px;"><strong>企业风采</strong></div>
+<if condition="$list">
+<div class="img-list">
+    <volist name="list" id="vo">
+        <div class="li">
+            <a href="javascript:void(0);" class="audit" id="setAudit" data-param="id[]={$vo['i_id']}&utype=1">
+                <if condition="$vo['audit'] eq '1'"><span style="color: #99FF00">审核通过</span></if>
+                <if condition="$vo['audit'] eq '2'"><span style="color:#FF6600">等待审核</span></if>
+                <if condition="$vo['audit'] eq '3'"><span style="color:#FF0000">审核未通过</span></if>
+            </a>
+            <a href="{:attach($vo['img'],'company_img')}" target="_blank">
+                <img src="{:attach($vo['img'],'company_img')}" border="0" align="absmiddle" />
+            </a>
+            <div class="imgfoot link_w">
+                <div class="date">{$vo.addtime|date="Y-m-d H:i",###}</div>
+            </div>
+        </div>
+    </volist>
+    <div class="clear" <notempty name="list">style="height:20px;"</notempty>></div>
+</div>
+<else />
+<table width="100%" border="0" cellpadding="10" cellspacing="1" bgcolor="#DFDFDF" class="link_blue">
+    <tr>
+        <td bgcolor="#FFFFFF">该企业未上传企业风采</td>
+    </tr>
+</table>
+</if>

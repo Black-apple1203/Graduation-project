@@ -1,0 +1,73 @@
+<div class="report_job">
+    <div class="report_job_line">
+        <div class="line_left">举报原因：</div>
+        <div class="line_right">
+        <volist name="type_arr" id="vo">
+            <div class="reason_list_box"><div data="{$key}" class="reason_list <if condition="$key eq 1">select</if>">{$vo}</div></div>
+        </volist>
+            <div class="clear"></div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="report_job_line">
+        <div class="line_left">备注说明：</div>
+        <div class="line_right">
+            <textarea id="content" rows="5" placeholder="请简明扼要的阐述您的理由，以便工作人员更好的判断，经管理员核实后将奖励您{$taskinfo['points']}{:C('qscms_points_byname')}，100字以内。(必填)"></textarea>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="report_job_line for_mobile">
+        <div class="line_left">联系电话：</div>
+        <div class="line_right">
+            <input class="mobile" id="telephone" type="text" placeholder="请输入您的联系电话" value="">
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="guide_btn_group for_job txt_center">
+        <input type="hidden" id="report_type" value="1">
+        <div class="btn_guide">立即举报</div>
+    </div>
+</div>
+            
+<script type="text/javascript">
+    $('.reason_list').click(function() {
+        $('.reason_list').each(function(index, el) {
+            $(this).removeClass('select');
+        });
+       $(this).addClass('select');
+       $("#report_type").val($(this).attr('data'));
+    });
+    $("#content").keyup(function(){
+        var value = $(this).val();
+        var length = value.length;
+        if(length>100){
+            $(this).val(value.substr(0,100));
+        }
+    });
+        
+    $(".btn_guide").click(function(){
+        var url = "{:U('AjaxPersonal/report_jobs')}";
+        var report_type = $("#report_type").val();
+        var jobs_id = "{$jobs_id}";
+        var telephone = $("#telephone").val();
+        var content = $("#content").val();
+        if (telephone == "") {
+            disapperTooltip("remind", "请填写联系电话");
+            return false;
+        }
+        if (content == "") {
+            disapperTooltip("remind", "请填写备注说明");
+            return false;
+        }
+        $.post(url,{report_type:report_type,jobs_id:jobs_id,telephone:telephone,content:content},function(result){
+            if(result.status==1){
+                disapperTooltip('success',result.msg);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+            }else{
+                disapperTooltip('remind',result.msg);
+            }
+        },'json');
+    });
+</script>

@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta"/>
+    <link href="../public/css/personal/common.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_user.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="us-top">
+    <div class="us-main">
+        <div class="us-top-box">
+            <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                <div class="se-btn"><input type="submit" value="搜 索"></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="user_main">
+    <include file="Personal:index_left_nav"/>
+    <div class="mainbox">
+        <!--切换卡 -->
+        <div class="tab">
+            <a class="li J_hoverbut" href="{:U('index')}">我的{:C('qscms_points_byname')}</a>
+            <a class="li J_hoverbut " href="{:U('task')}">我的任务</a>
+            <a class="li J_hoverbut " href="{:U('increment')}">增值服务</a>
+            <a class="li J_hoverbut" href="{:U('order_list')}">服务订单</a>
+            <notempty name="apply['Mall']">
+                <a class="li select">商城订单</a>
+            </notempty>
+            <div class="clear"></div>
+        </div>
+        <!--切换卡结束 -->
+
+        <notempty name="order['list']">
+            <div class="resume_tip">
+                <div class="tiptit">小提示</div>
+                <div class="tiptxt link_blue">订单自创建日期起，超过15天没有完成支付，系统将会自动将订单取消</div>
+            </div>
+            <div class="order_list_th">
+                <div class="th1">订单内容</div>
+                <div class="th2">
+                    兑换数量
+                </div>
+                <div class="th3">
+                    <div class="th_select input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+                    <span class="J_listitme_text"><if condition="$Think.get.status eq '2'">已完成<elseif
+                            condition="$Think.get.status eq '1'"/>待审核<elseif condition="$Think.get.status eq '3'"/>未通过<else/>订单状态</if></span>
+                        <div class="dropdowbox13 J_dropdown_menu">
+                            <div class="dropdow_inner13">
+                                <ul class="nav_box">
+                                    <li><a class="J_listitme" href="{:P(array('status'=>0))}">全部</a></li>
+                                    <li><a class="J_listitme" href="{:P(array('status'=>1))}">待审核</a></li>
+                                    <li><a class="J_listitme" href="{:P(array('status'=>2))}">已完成</a></li>
+                                    <li><a class="J_listitme" href="{:P(array('status'=>'3'))}">未通过</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="th5">金额</div>
+                <div class="clear"></div>
+            </div>
+            <volist name="order['list']" id="vo">
+                <div class="order_list">
+                    <div class="td1 link_blue">
+                        <a target="_blank" href="{:url_rewrite('QS_goods_show',array('id'=>$vo['goods_id']))}">{$vo['goods_title']}</a>
+                        <br/>
+                        下单时间：{:date('Y-m-d H:i',$vo['addtime'])}
+                    </div>
+                    <div class="td2">{$vo['goods_num']}</div>
+                    <div class="td3">
+                        <if condition="$vo['status'] eq 1">待审核
+                            <elseif condition="$vo['status'] eq 2"/>
+                            已完成
+                            <elseif condition="$vo['status'] eq 3"/>
+                            未通过
+                        </if>
+                    </div>
+                    <div class="td5">{$vo['order_points']}</div>
+                    <div class="clear"></div>
+                </div>
+            </volist>
+            <div class="qspage">{$order.page}</div>
+            <else/>
+            <div class="res_empty">
+                您暂时还没有商城订单记录
+            </div>
+        </notempty>
+    </div>
+    <div class="clear"></div>
+</div>
+<include file="Personal:index_footer"/>
+</body>
+</html>

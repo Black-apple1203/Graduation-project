@@ -1,0 +1,93 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>快速筛选出符合条件的职位进行复制到微信公众号进行推送；职位默认按刷新时间排序</p>
+</div>
+
+<div class="toptit">筛选条件</div>
+<form id="form1" action="{:U('wx_public')}" method="post">
+    <div class="form_main width200">
+        <div class="fl">信息类型:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="list_type" type="hidden" class="J_list_type" value="1">
+                <div class="J_type radio select" data="1" title="职位列表">职位列表</div>
+                <div class="J_type radio" data="2" title="企业列表">企业列表</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">企业套餐:</div>
+        <div class="fr txt J_allListBox">
+            <label><input type="checkbox" class="J_allSelected" value=""/>
+            全部</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            <volist name="setmeal_show" id="vo">
+                <label><input type="checkbox" class="J_allList" value="{$vo.id}" name="setmeal_id[]"/>
+            {$vo['setmeal_name']}</label>&nbsp;&nbsp;&nbsp;&nbsp;
+            </volist>
+        </div>
+        <div class="company">
+            <div class="fl">职位排序:</div>
+            <div class="fr">
+                <div class="imgradio">
+                    <input name="jobs_order" type="hidden" value="2">
+                    <div class="radio" data="1" title="推广优先">推广优先</div>
+                    <div class="radio select" data="2" title="刷新时间">刷新时间</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+        </div>
+        <div class="fl">生成数量:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="jobs_num" type="hidden" value="15">
+                <div class="radio select" data="15" title="15条">15条</div>
+                <div class="radio" data="20" title="20条">20条</div>
+                <div class="radio" data="30" title="30条">30条</div>
+                <div class="radio" data="50" title="50条">50条</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="submit" class="admin_submit" value="生成" id="J_submit1"/>
+            <input type="submit" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        // 全选反选
+        $('.J_allSelected').click(function() {
+            var isChecked = $(this).is(':checked');
+            var listArray = $('.J_allListBox .J_allList');
+            $.each(listArray, function(index, val) {
+                $(this).prop('checked', isChecked);
+            });
+        });
+        $('.J_allList').click(function() {
+            var isChecked = $(this).is(':checked');
+            if (isChecked) {
+                var listArray = $('.J_allListBox .J_allList');
+                var listCheckedArray = $('.J_allListBox .J_allList:checked');
+                if (listArray.length == listCheckedArray.length) {
+                    $('.J_allSelected').prop('checked', isChecked);
+                }
+            } else {
+                $('.J_allSelected').prop('checked', isChecked);
+            }
+        });
+        $('.J_type').click(function(){
+           if ($(this).attr('data') == 1) {
+                $('.company').attr('style','display:block');
+            } else {
+                $('.company').attr('style','display:none');
+            }
+        })
+    });
+</script>
+</html>

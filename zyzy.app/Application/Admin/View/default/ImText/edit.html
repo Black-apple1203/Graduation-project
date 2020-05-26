@@ -1,0 +1,61 @@
+<include file="public:header"/>
+
+<div class="toptit">编辑快捷语</div>
+<form id="form1" action="{:U('edit')}" method="post" name="FormData">
+    <div class="form_main width150">
+       <div class="fl">会员类型：</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="utype" type="hidden" value="{$info.utype}">
+                <div class="radio <if condition="$info['utype'] eq 1">select</if>" data="1" title="企业">企业</div>
+				<div class="radio <if condition="$info['utype'] eq 2">select</if>" data="2" title="个人">个人</div>
+				<div class="clear"></div>
+			</div>
+		</div>
+        <div class="fl">内容:</div>
+        <div class="fr">
+            <textarea name="content" class="input_text_default" style=" width:682px;height:400px; line-height:180%">{$info.content}</textarea>
+        </div>
+        
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id" value="{$info.id}">
+			<input type="hidden" name="addtime" value="{:time()}" />
+            <input type="button" class="admin_submit" value="保存" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="window.location='{:U('Im/index')}'"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<link rel="stylesheet" href="__ADMINPUBLIC__/js/kindeditor/themes/default/default.css"/>
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="__ADMINPUBLIC__/js/kindeditor/lang/zh_CN.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('edit')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.href='{:U("Im/index")}';
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+
+</html>

@@ -1,0 +1,46 @@
+<include file="public:header" />
+<form id="form1">
+    <div class="toptit">积分配置</div>
+    <div class="form_main width200">
+        <div class="fl">积分代替名：</div>
+        <div class="fr">
+            <input name="points_byname" type="text" class="input_text_default middle" value="{:C('qscms_points_byname')}" maxlength="30"/>
+            <label class="no-fl-note">(如：铜板、元宝等，默认为“积分”)</label>
+        </div>
+        <div class="fl">积分量词：</div>
+        <div class="fr">
+            <input name="points_quantifier" type="text" class="input_text_default middle" value="{:C('qscms_points_quantifier')}" maxlength="30"/>
+            <label class="no-fl-note">(如：个、只、把等，默认为“点”)</label>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" id="J_submit" class="admin_submit" value="保存修改"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $('#J_submit').click(function(){
+        var that = $(this);
+        if(that.hasClass('disabled')){
+            return false;
+        }
+        that.val('正在保存...').addClass('disabled');
+        $.post("{:U('edit')}",$('#form1').serialize(),function(result){
+            if(result.status==1){
+                disapperTooltip("success", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+            }else{
+                disapperTooltip("remind", result.msg,function(){
+                    that.val('保存修改').removeClass('disabled');
+                });
+                return false;
+            }
+        },'json');
+    });
+</script>
+</body>
+</html>

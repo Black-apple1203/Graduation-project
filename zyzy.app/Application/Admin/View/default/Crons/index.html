@@ -1,0 +1,71 @@
+<include file="public:header" />
+ <div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>计划任务是一项使系统在规定时间自动执行某些特定任务的功能，在需要的情况下，您也可以方便的将其用于功能的扩展。</p>
+    <p>计划任务是与系统核心紧密关联的功能特性，不当的设置可能造成功能的隐患，严重时可能导致网站无法正常运行。</p>
+</div>
+<form id="form1" name="form1" method="post" action="{:U('crons/delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:55%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>名称
+            </label>
+        </div>
+        <div class="td center" style=" width:10%;"> 可用 </div>
+        <div class="td center" style=" width:10%;">类型</div>
+        <div class="td center" style=" width:12%;">下次执行时间</div>
+        <div class="td center" style=" width:13%;">操作</div>
+        <div class="clear"></div>
+    </div>
+    <volist name="list" id="vo">
+    <div class="list_tr link_black">
+        <div class="td" style="width:55%;">
+            <div class="left_padding striking"><input name="cronid[]" type="checkbox"  value="{$vo.cronid}" />{$vo.name}&nbsp;</div>
+        </div>
+        <div class="td center" style=" width:10%;">
+            <if condition="$vo['available'] eq '1'">可用<else /><span style="color:#999999">不可用</span></if>&nbsp;
+        </div>
+        <div class="td center" style=" width:10%;">
+            <if condition="$vo['admin_set'] eq '1'">内置<else />自定义</if>&nbsp;
+        </div>
+        <div class="td center" style=" width:12%;"><if condition="$cache[$vo['cronid']]">{:date('Y-m-d H:i',$cache[$vo['cronid']]['start'])}<else />0</if>&nbsp;</div>
+        <div class="td edit center" style=" width:13%;">
+            <a href="{:U('crons/edit',array('cronid'=>$vo['cronid']))}">编辑</a>&nbsp;&nbsp;&nbsp;
+            <a href="{:U('crons/execution',array('cronid'=>$vo['cronid']))}"  class="exe">执行</a>&nbsp;&nbsp;&nbsp;
+        </div>
+        <div class="clear"></div>
+    </div>
+    </volist>
+</form>
+<empty name="list">
+<div class="list_empty">没有任何信息！</div>
+</empty>
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAudit" value="添加任务"  onclick="window.location='{:U('crons/add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除所选"/>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $(document).ready(function() {
+      // 执行
+      $(".exe").click(function () {
+        var qsDialog = $(this).dialog({
+          title: '系统提示',
+          content: '计划任务正在执行，请等待...',
+          footer : false
+        })
+      })
+        //点击批量取消
+        $("#ButDel").click(function() {
+            if (confirm('你确定要删除吗？')) {
+                $("form[name=form1]").submit()
+            }
+        })
+    })
+</script>
+</body>
+</html>

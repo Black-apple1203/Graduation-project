@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_service.css" rel="stylesheet" type="text/css" />
+		
+	</head>
+	<body>
+		<include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_service" /> 
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">我的订单</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tab order_tab">
+					<a href="{:U('order_list_setmeal')}" class="tabli <if condition='$nav_tag eq "setmeal"'>select</if>">我的套餐订单</a>
+					<a href="{:U('order_list_added')}" class="tabli <if condition='$nav_tag eq "added"'>select</if>">增值服务订单</a>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tip">
+					<div class="tiptit">小提示</div>
+					<div class="tiptxt link_blue">
+					订单自创建日期起，超过15天没有完成支付，系统将会自动将订单取消
+					</div>
+				</div>
+				<div class="order_th">
+				    <div class="th1">订单内容</div>
+				    <div class="th2">支付方式</div>
+				    <!-- <div class="th3"><div class="select_input">订单状态</div></div> -->
+				    <div class="th3">
+						<div class="select_input input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+							<span class="J_listitme_text"><if condition="$Think.get.is_paid eq '1'">已完成<elseif condition="$Think.get.is_paid eq '0'"/>待付款<else />订单状态</if></span>
+							<div class="dropdowbox10 J_dropdown_menu">
+					            <div class="dropdow_inner10">
+					                <ul class="nav_box">
+					                	<li><a class="J_listitme" href="{:P(array('is_paid'=>''))}" >全部订单</a></li>
+					                	<li><a class="J_listitme" href="{:P(array('is_paid'=>'0'))}" >待付款</a></li>
+					                	<li><a class="J_listitme" href="{:P(array('is_paid'=>'1'))}" >已完成</a></li>
+					                </ul>
+					            </div>
+					        </div>
+						</div>
+				    </div>
+				    <div class="th4">金额</div>
+				    <div class="th5">操作</div>
+				    <div class="clear"></div>
+				</div>
+				<notempty name="order['list']">
+				<volist name="order['list']" id="vo">
+				<div class="order_td">
+				    <div class="td1 link_blue ">
+				    	<a href="#">{$vo['oid']}</a>
+				    	<div>{$setmeal[$vo['setmeal']]} | 下单时间：{$vo['addtime']|date="Y-m-d"}</div>
+				    </div>
+				    <div class="td2">{$vo['payment_name']}</div>
+				    <!--待付款状态增加class="pay"-->
+				    <if condition="$vo['is_paid'] eq 1">
+						<div class="td3">已完成
+							<if condition="$vo['invoice']">
+								<span class="invoice">
+						    		<img src="../public/images/60.png"/>
+									<!-- -->
+						    		<div class="invoice-detail">
+						    			<div class="invoice-title">发票开具</div>
+						    			<div class="invoice-item">发票抬头：{$vo['invoice']['title']}</div>
+						    			<div class="invoice-item">发票内容：{$vo['invoice']['content']}</div>
+						    			<div class="invoice-item col2">单位名称：{$vo['invoice']['companyname']}</div>
+
+						    			<div class="invoice-title">发票邮寄</div>
+						    			<div class="invoice-item">收件人：{$vo['invoice']['contact']}</div>
+						    			<div class="invoice-item">手机号：{$vo['invoice']['mobile']}</div>
+						    			<div class="invoice-item col2">邮政编码：{$vo['invoice']['code']}</div>
+						    			<div class="invoice-item col2">邮寄地址：{$vo['invoice']['address']}</div>
+						    		</div>
+									<!-- -->
+						    	</span>
+					   		</if>
+						</div>
+				    <else />
+				    	<div class="td3 pay">待付款</div>
+				    </if>
+				    <div class="td4">￥{$vo['amount']}</div>
+				    <div class="td5 link_blue">
+				    	<if condition="$vo['is_paid'] eq '0'">
+					    	<a href="#">支付</a>&nbsp;&nbsp;
+					    	<a href="#">取消</a>
+						<else />
+							<a href="#">删除</a>&nbsp;&nbsp;
+							<!--订单完成后，下单时未选发票可以索取发票-->
+							<if condition="!$vo['invoice']">
+					    	<a href="#">索取发票</a>
+							</if>
+						</if>
+				    </div>
+				    <div class="clear"></div>
+				</div>
+				</volist>
+				<div class="qspage">{$order.page}</div>
+				<else />
+				<div class="res_empty">
+					没有找到相应的信息！
+				</div>
+				</notempty>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$(".invoice").mouseover(function(){
+					$(this).children('.invoice-detail').addClass('show');
+				});
+				$(".invoice").mouseout(function(){
+					$(this).children('.invoice-detail').removeClass('show');
+				});
+			});
+		</script>
+	</body>
+</html>

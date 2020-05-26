@@ -1,0 +1,8 @@
+[ 2020-04-17T09:37:07+08:00 ] 127.0.0.1 /
+INFO: Cron:ClearPromotion Runat 2020-04-17 09:37:07 Use 0.480255 s 
+Cron:AutoRefreshResume Runat 2020-04-17 09:37:07 Use -0.009438 s 
+Cron:AutoRefreshJobs Runat 2020-04-17 09:37:07 Use -0.052891 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-17 09:37:07 Use -0.054493 s 
+Cron:ClearOrder Runat 2020-04-17 09:37:07 Use -0.105119 s 
+Cron:ClearShareAllowance Runat 2020-04-17 09:37:07 Use -0.187406 s 
+

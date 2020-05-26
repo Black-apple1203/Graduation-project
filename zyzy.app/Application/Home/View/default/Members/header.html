@@ -1,0 +1,26 @@
+<include file="public:header_min" />
+<div class="user_head_bg">
+	<div class="user_head">
+		<div class="logobox">
+			<a href="__ROOT__/"><img src="<if condition="C('qscms_logo_home')">{:attach(C('qscms_logo_home'),'resource')}<else/>../public/images/logo.gif</if>" border="0"/></a>
+		</div>
+		<div class="logotxt">
+			<!-- |&nbsp;&nbsp;
+			<if condition="ACTION_NAME eq 'login'">
+				会员登录
+			<else/>
+				<if condition="$utype eq 0">会员注册</if>
+				<if condition="$utype eq 1">企业会员注册</if>
+				<if condition="$utype eq 2">个人会员注册</if>
+			</if> -->
+		</div>
+		<div class="reg">
+			<if condition="ACTION_NAME eq 'login'">
+				还没有账号？ <a id="J_site_reg" href="javascript:;" class="btn_blue J_hoverbut btn_inline">立即注册</a>
+			<else/>
+				已经有账号？ <a href="{:U('members/login')}" class="btn_blue J_hoverbut btn_inline">立即登录</a>
+			</if>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>

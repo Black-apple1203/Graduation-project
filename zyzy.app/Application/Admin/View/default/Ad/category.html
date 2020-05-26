@@ -1,0 +1,87 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>系统内置广告位不能编辑</p>
+    <p>自定义广告位调用名不可以以 “QS_”开头</p>
+</div>
+<form id="form1" name="form1" method="post" action="{:U('category_del')}">
+    <div class="list_th">
+        <div class="td" style=" width:35%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>广告位名称
+            </label>
+        </div>
+        <div class="td" style=" width:20%;">调用名称</div>
+        <div class="td center" style=" width:10%;">广告数量</div>
+        <div class="td center" style=" width:10%;">属性</div>
+        <div class="td center" style=" width:15%;">类型</div>
+        <div class="td" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:35%;">
+                <div class="left_padding striking link_blue">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['id']}" <if condition="$vo['admin_set']">disabled="disabled"</if>/>
+                    {$vo.categoryname}
+                </div>
+            </div>
+            <div class="td" style=" width:20%;">{$vo.alias|default='-'}</div>
+            <div class="td center" style=" width:10%;">{$vo.ad_num|default='0'}</div>
+            <div class="td center" style=" width:10%;">
+                <switch name="vo['type_id']">
+                    <case value="1">文字</case>
+                    <case value="2">图片</case>
+                    <case value="3">代码</case>
+                    <case value="4">FLASH</case>
+                    <case value="5">视频</case>
+                </switch>
+            </div>
+            <div class="td center" style=" width:15%;">
+                <if condition="$vo['admin_set']"><span style="color:#FF6600">系统内置</span><else/>自定义广告位</if>
+            </div>
+            <div class="td edit" style=" width:10%;">
+                <a href="{:U('category_edit',array('id'=>$vo['id']))}">修改</a>
+                <if condition="$vo['admin_set'] eq 0">
+                    <a href="{:U('category_del',array('id'=>$vo['id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+                </if>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAdd" value="新增广告位" onclick="window.location='{:U('category_add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除"/>
+    </div>
+    <div class="footso"></div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //批量删除
+        $("#ButDel").click(function () {
+            var ids = $("input[name='id[]']:checked");
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择广告位！');
+            } else {
+                if(confirm('确定删除吗？')){
+                    $("#form1").submit();
+                }
+            }
+        });
+    });
+</script>
+</html>

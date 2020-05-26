@@ -1,0 +1,263 @@
+<empty name="visitor['uid']">
+	<span class="link_yellow">欢迎登录{$site_name}！请 <a href="javascript:;" id="J_site_login">登录</a> 或 <a href="javascript:;" id="J_site_reg">免费注册</a></span>
+<else/>
+	<div class="n welcome link_yellow">欢迎&nbsp;<a href="{:U('members/index',array('uid'=>$visitor['uid']))}">{:cut_str($visitor['username'],5,0,'…')}</a>&nbsp;登录<div class="vertical_line"></div></div>
+	<if condition="$visitor['utype'] eq 2">
+		<empty name="resume">
+            <div class="name per_name">
+                <a class="aname" href="{:U('personal/resume_add')}">创建简历</a><div class="vertical_line"></div><div class="arrow_icon"></div><div class="arrow_icon_hover"></div>
+                <div class="name_list">
+                    <li><a href="{:U('members/switch_utype',array('utype'=>1))}">切换企业</a></li>
+                </div>
+            </div>
+		<else/>
+			<div class="n refresh">
+				<if condition="!$refresh"><div class="dot"></div></if>
+				<a href="javascript:;" id="refresh_resume_top" pid="{$resume}">刷新简历</a>
+				<div class="vertical_line"></div>
+			</div>
+			<div class="name per_name">
+				<a class="aname" href="{:U('personal/index',array('uid'=>$visitor['uid']))}">{$realname}</a><div class="vertical_line"></div><div class="arrow_icon"></div><div class="arrow_icon_hover"></div>
+				<div class="name_list">
+					<li><a href="{:url_rewrite('QS_resumeshow',array('id'=>$resume,'preview'=>1))}">预览简历</a></li>
+					<li><a href="{:U('personal/index')}">我的简历</a></li>
+					<li><a href="{:U('personal/jobs_apply')}">申请的职位</a></li>
+					<li><a href="{:U('personal/jobs_interview')}">面试邀请</a></li>
+					<li><a href="{:U('personal/user_safety')}">帐号管理</a></li>
+					<li><a href="{:U('members/switch_utype',array('utype'=>1))}">切换企业</a></li>
+				</div>
+			</div>
+			<div class="n top_min_pms"><if condition="$msgtip['unread']"><div class="dot"></div></if><a href="{:U('personal/msg_pms')}">消息</a><div class="vertical_line"></div></div>
+			<script type="text/javascript">
+				var anameTexts = $('.aname').text();
+				if (anameTexts.length > 3) {
+					$('.arrow_icon').css('right', '7px');
+					$('.arrow_icon_hover').css('right', '7px');
+				}
+			</script>
+		</empty>
+	<else/>
+		<div class="n refresh">
+			<empty name="jobs">
+				<div>
+					<if condition="$upper_limit neq 1">
+						<a href="{:U('company/jobs_add')}">发布职位</a>
+					<else/>
+						<a href="javascript:;" class="J_addJobsDig">发布职位</a>
+					</if>
+					<div class="vertical_line"></div>
+				</div>
+			<else/>
+				<div><a href="javascript:;" id="refresh_jobs_all_top">刷新职位</a><div class="vertical_line"></div></div>
+			</empty>
+		</div>
+		<div class="name com_name">
+			<a class="aname" href="{:U('company/index',array('uid'=>$visitor['uid']))}">{$company.companyname|default="请完善资料"}</a><div class="vertical_line"></div><div class="arrow_icon"></div><div class="arrow_icon_hover"></div>
+			<div class="name_list">
+			<if condition="$company['contents']">
+				<li><a target="_blank" href="{:url_rewrite('QS_companyshow',array('id'=>$company['id']))}">预览主页</a></li>
+			</if>
+				<li>
+					<if condition="$upper_limit neq 1">
+						<a href="{:U('company/jobs_add')}">发布职位</a>
+					<else/>
+						<a href="javascript:;" class="J_addJobsDig">发布职位</a>
+					</if>
+				</li>
+				<li><a href="{:U('company/jobs_list')}">发布中职位</a></li>
+				<li><a href="{:U('company/jobs_apply')}">收到的简历</a></li>
+				<li><a href="{:U('company/com_info')}">帐号管理</a></li>
+				<li><a href="{:U('members/switch_utype',array('utype'=>2))}">切换个人</a></li>
+			</div>
+		</div>
+		<div class="n top_min_pms"><if condition="$msgtip['unread']"><div class="dot"></div></if><a href="{:U('company/pms_sys')}">消息</a><div class="vertical_line"></div></div>
+	</if>
+	<div class="n quit link_gray6"><a href="{:U('members/logout')}">退出</a></div>
+	<div class="clear"></div>
+</empty>
+<link href="{:C('TPL_PUBLIC_DIR')}/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.modal.dialog.js"></script>
+<script src="{:C('TPL_PUBLIC_DIR')}/js/jquery.listitem.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$('#J_header .name').hover(function() {
+		$(this).addClass('hover');
+	}, function() {
+		$(this).removeClass('hover');
+	});
+	$("#refresh_jobs_all_top").die().live('click', function(){
+    	$.getJSON("{:U('CompanyService/jobs_refresh_all')}",function(result){
+    		if(result.status==1){
+    			disapperTooltip('success',result.msg);
+    		}
+    		else if(result.status==2)
+    		{
+    			var qsDialog = $(this).dialog({
+	                title: '批量刷新职位',
+	                loading: true,
+	                border: false,
+	                yes: function () {
+	                	window.location.href=result.data;
+	                }
+	            });
+	            qsDialog.setBtns(['单条刷新', '取消']);
+	            qsDialog.setContent('<div class="refresh_jobs_all_confirm">' + result.msg + '</div>');
+    		}
+    		else
+    		{
+			disapperTooltip('remind',result.msg);
+    		}
+    	});
+    });
+    $('.J_addJobsDig').die().live('click', function(){
+    	var qsDialog = $(this).dialog({
+            title: '发布职位',
+            loading: true,
+            border: false,
+            yes: function () {
+            	window.location.href=result.data;
+            }
+        });
+    	var href = $(this).attr('href');
+    	if(href == 'javascript:;'){
+    		$.getJSON("{:U('ajaxCompany/jobs_add_guide_dig')}",function(result){
+    			if(result.status == 1){
+    				qsDialog.hide();
+    				var son_qsDialog = $(this).dialog({
+			            title: '发布职位',
+			            content:result.data.html,
+			            border: false,
+			            yes: function () {
+			            	if(result.data.hidden_val==1){
+			            		window.location.href="{:U('CompanyService/index')}";
+			            	}
+			            }
+			        });
+			        if(result.data.hidden_val==1){
+			        	son_qsDialog.setBtns(['升级套餐', '取消']);
+			        }
+    			}else{
+    				disapperTooltip('remind',result.msg);
+    			}
+    		})
+    	}
+    });
+    // 顶部刷新简历
+    $('#refresh_resume_top').die().live('click', function() {
+    	var pid = $(this).attr('pid');
+    	$.post("{:U('personal/refresh_resume')}",{pid:pid},function(result){
+			if(result.status == 1){
+				if(result.data){
+					disapperTooltip("goldremind", '刷新简历增加'+result.data+'{:C('qscms_points_byname')}<span class="point">+'+result.data+'</span>');
+				}else{
+					disapperTooltip('success',result.msg);
+				}
+				$.getJSON("{:U('AjaxCommon/get_header_min')}",function(result){
+					if(result.status == 1){
+						$('#J_header').html(result.data.html);
+					}
+				});
+			}else{
+				disapperTooltip('remind',result.msg);
+			}
+		},'json');
+    });
+    // 登录
+    $('#J_site_login').die().live('click', function () {
+        $(".modal,.modal_backdrop").remove();
+        siteLoginModelShow();
+    })
+    // 登录
+    $('.J_sub_login').die().live('click', function () {
+        $(".modal,.modal_backdrop").remove();
+        siteSubLoginModelShow();
+    })
+    // 显示登录
+    function siteLoginModelShow() {
+        var siteLoginDialog = $(this).dialog({
+            title: false,
+            loading: true,
+            footer: false,
+            header: false,
+            border: false,
+            backdrop: false
+        });
+        $.getJSON("{:U('AjaxCommon/ajax_login')}", function(result){
+            if (result.status==1){
+                siteLoginDialog.hide();
+                var LoginDialog = $(this).dialog({
+                    title: false,
+                    content:result.data.html,
+                    footer: false,
+                    header: false,
+                    border: false,
+                    innerPadding: false,
+                    backdrop: true
+                });
+            } else {
+                siteLoginDialog.hide();
+                disapperTooltip("remind",result.msg);
+            }
+        });
+    }
+    // 显示子账号登录
+    function siteSubLoginModelShow() {
+        var siteLoginDialog = $(this).dialog({
+            title: false,
+            loading: true,
+            footer: false,
+            header: false,
+            border: false,
+            backdrop: false
+        });
+        $.getJSON("{:U('AjaxCommon/ajax_sub_login')}", function(result){
+            if (result.status==1){
+                siteLoginDialog.hide();
+                var LoginDialog = $(this).dialog({
+                    title: false,
+                    content:result.data.html,
+                    footer: false,
+                    header: false,
+                    border: false,
+                    innerPadding: false,
+                    backdrop: true
+                });
+            } else {
+                siteLoginDialog.hide();
+                disapperTooltip("remind",result.msg);
+            }
+        });
+    }
+    // 注册
+    $('#J_site_reg').die().live('click', function () {
+        $(".modal,.modal_backdrop").remove();
+        siteRegModelShow();
+    })
+    // 显示注册
+    function siteRegModelShow() {
+        var siteLoginDialog = $(this).dialog({
+            title: false,
+            loading: true,
+            footer: false,
+            header: false,
+            border: false,
+            backdrop: false
+        });
+        $.getJSON("{:U('AjaxCommon/ajax_regisiter')}", function(result){
+            if (result.status==1){
+                siteLoginDialog.hide();
+                var LoginDialog = $(this).dialog({
+                    title: false,
+                    content:result.data.html,
+                    footer: false,
+                    header: false,
+                    border: false,
+                    innerPadding: false,
+                    backdrop: true
+                });
+            } else {
+                siteLoginDialog.hide();
+                disapperTooltip("remind",result.msg);
+            }
+        });
+    }
+</script>

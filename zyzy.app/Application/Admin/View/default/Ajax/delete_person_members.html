@@ -1,0 +1,30 @@
+<div class="dialog_box">
+    <form action="{:U('Personal/member_delete')}" method="post" name="form" id="form">
+        <volist name="ids" id="vo">
+            <input name="tuid[]" type="hidden" value="{$vo}"/>
+        </volist>
+        <table width="450" border="0" align="center" cellpadding="0" cellspacing="6">
+            <tr>
+                <td height="30" colspan="2"><strong style="color:#0066CC; font-size:14px;">你确定要删除吗？</strong></td>
+            </tr>
+            <tr>
+                <td width="20" height="25">&nbsp;</td>
+                <td>
+                    <label style="color: rgb(0, 153, 0);"><input name="delete_user" type="checkbox" id="delete_user" value="yes" checked/>
+                        删除此会员</label><span style="color:#666666">(删除后此会员将无法登录、管理已发布的信息等)</span>
+                </td>
+            </tr>
+            <tr>
+                <td width="20" height="25">&nbsp;</td>
+                <td>
+                    <label style="color: rgb(0, 153, 0);"><input name="delete_resume" type="checkbox" id="delete_resume" value="yes" checked/>
+                        删除此会员发布的简历</label>
+                </td>
+            </tr>
+            <tr>
+                <td height="25">&nbsp;</td>
+                <td><input type="submit" name="set_audit" value="确定" class="admin_submit"/></td>
+            </tr>
+        </table>
+    </form>
+</div>

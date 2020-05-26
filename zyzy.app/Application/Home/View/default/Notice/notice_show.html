@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<qscms:notice_show 列表名="info" 公告id="$_GET['id']" />
+	<include file="public:meta" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="{:C('TPL_PUBLIC_DIR')}/css/notice.css" rel="stylesheet" type="text/css" />
+	<script src="{:C('TPL_PUBLIC_DIR')}/js/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="new-search-box" style="background-image: url({:C('TPL_PUBLIC_DIR')}/images/sebanner{:rand(1,5)}.jpg);">
+    <div class="ns-main">
+        <div class="main-sty">
+            <div class="sty-cell J_sli select" data-type="QS_jobslist">找工作<div class="sty-aow"></div></div>
+            <div class="sty-cell J_sli" data-type="QS_resumelist">招人才<div class="sty-aow"></div></div>
+            <div class="sty-cell J_sli" data-type="QS_companylist">搜企业<div class="sty-aow"></div></div>
+            <div class="clear"></div>
+        </div>
+        <div class="main-sip">
+            <div class="ip-group">
+                <form id="ajax_search_location">
+                    <div class="ip-box"><input type="text" name="key" id="top_search_input" value="" placeholder="请输入关键字" /></div>
+                    <div class="ip-btn"><input id="top_search_btn" type="submit" class="sobut J_hoverbut" value="搜  索" /></div>
+                    <input type="hidden" name="act" id="top_search_type" value="QS_jobslist" />
+                </form>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>
+<div class="noticeshow">
+  <div class="pl">
+  
+    <div class="main">
+	  <div class="tit link_gray6">{$info['title']}</div>
+        <div class="time">
+            <span>日期：{:date('Y-m-d',$info['addtime'])}</span>
+            <span>浏览 <a class="click"></a> 次</span>
+            <span class="link_blue"><a href="{:url_rewrite('QS_noticelist')}">返回公告列表</a></span>
+        </div>
+      <div class="txt for-line-height">{$info['content']}</div>
+  </div>
+   </div>
+  <div class="pr">
+ 
+  <div class="lisbox">
+	  <div class="t">最新职位</div>
+	  <qscms:jobs_list 显示数目="5"/>
+	  <notempty name="list['list']">
+      <volist name="list['list']" id="vo">
+	 	<div class="yl">
+			 <div class="pic"><a href="{$vo['company_url']}" target="_blank"><img src="{$vo['logo']}" border="0"/></a></div>
+			<div class="txts link_gray6">
+				 <div class="t1 substring"><a href="{$vo['jobs_url']}" target="_blank">{$vo['jobs_name_']}</a></div>
+				 <div class="t2 substring"><a href="{$vo['company_url']}" target="_blank">{$vo['companyname_']}</a></div>
+				 {$vo['wage_cn']}
+			</div>	
+			<div class="clear"></div>
+	  	</div>
+	  	</volist>
+	  	<else />
+	  	<div class="empty">暂无相关职位</div>
+		</notempty>
+  </div>
+  
+  <!--紧急招聘 -->
+  <div class="lisbox link_gray6">
+	  <div class="t">紧急招聘</div>
+	  <qscms:jobs_list 显示数目="5" 紧急招聘="1"/>
+	  <notempty name="list['list']">
+      <volist name="list['list']" id="vo">
+ 	  <div class="eyl">
+		 <div class="jname substring"><a href="{$vo['jobs_url']}" target="_blank">{$vo['jobs_name_']}</a></div>
+		 <div class="city substring">{$vo['wage_cn']}</div>
+			<div class="clear"></div>
+                <div class="etxt substring"><a href="{$vo['company_url']}" target="_blank">{$vo['companyname_']}</a></div>
+			 <div class="etxt substring">{$vo['district_cn']}</div>
+ 	  </div>
+		</volist>
+	  	<else />
+	  	<div class="empty">暂无相关职位</div>
+		</notempty>
+  </div>
+  </div>
+  <div class="clear"></div>
+</div>
+
+
+<include file="public:footer_min" />
+<script type="text/javascript">
+    $(document).ready(function(){
+        $.getJSON("{:U('ajaxCommon/notice_click')}",{id:"{$info['id']}"},function(result){
+            if(result.status==1){
+                $(".click").html(result.data);
+            }
+        })
+        // 顶部搜索类型切换
+		$('.J_sli').click(function() {
+			$(this).addClass('select').siblings().removeClass('select');
+			var typeValue = $.trim($(this).data('type'));
+			$('#top_search_type').val(typeValue);
+		})
+
+	   // 顶部回车搜索
+		$('#top_search_input').bind('keypress', function(event) {
+			if (event.keyCode == "13") {
+				$("#top_search_btn").click();
+			}
+		})
+
+		// 顶部搜索跳转
+	    $('#top_search_btn').click(function() {
+	        $('#top_search_input').val(htmlspecialchars($('#top_search_input').val()));
+	        var post_data = $('#ajax_search_location').serialize();
+	        if(qscms.keyUrlencode==1){
+	            post_data = encodeURI(post_data);
+	        }
+	        $.post(qscms.root + '?m=Home&c=Index&a=search_location',post_data,function(result){
+	            if(result.status == 1){
+	                window.location=result.data;
+	            }
+	        },'json')
+	        return !1;
+	    })
+    })
+</script>
+</body>
+</html>

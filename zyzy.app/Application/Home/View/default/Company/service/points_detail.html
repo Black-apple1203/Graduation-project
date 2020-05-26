@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="Company:left_service" />
+			</div>
+			<div class="mright">
+				<div class="gold_top_gold">
+					<div class="gold w276">
+						<div class="rightbox">
+							<div class="txt">
+								<a class="name" title="{$company_profile['companyname']}">{$company_profile['companyname']}</a>
+								<div class="imgbox">
+									<eq name="$company_profile['audit']" value="1">
+									<div class="company_v"></div>
+									</eq>
+									<if condition="$my_setmeal['id'] gt 0">
+									<div class="company_vip"><img src="{:attach($my_setmeal['id'].'.png','setmeal_img')}" alt="{$my_setmeal['setmeal_name']}" /></div>
+									</if>
+									<eq name="$company_profile['famous']" value="1">
+									<div class="company_bao"></div>
+									</eq>
+									<div class="clear"></div>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="txt link_blue"><span class="gray">剩余{:C('qscms_points_byname')}：</span><strong>{$my_points}</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U('points')}">我的{:C('qscms_points_byname')}</a></div>
+						</div>
+						<div class="clear"></div>
+						
+					</div>
+					<div class="todaygold">
+						<div class="txt">今天已获得 <strong>{$points_count['obtain']}</strong>  {:C('qscms_points_byname')}</div>
+						<div class="txt link_blue">您还可免费获得 <strong>{$points_count['able']}</strong> {:C('qscms_points_byname')} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{:U('points')}">做任务，赚{:C('qscms_points_byname')}</a></div>
+					</div>
+					<div class="btnbox w180">
+						<if condition="C('qscms_enable_com_buy_points') eq 1">
+						<a class="btn3" href="{:U('points_add')}">{:C('qscms_points_byname')}充值</a>
+						</if>
+						<notempty name="apply['Mall']">
+						<a class="btn2" target="_blank" href="{:url_rewrite('QS_mall_index')}">{:C('qscms_points_byname')}商城</a>
+						</notempty>
+						<div class="clear"></div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_pagetitle virtual_currency">
+					<div class="pat_l">{:C('qscms_points_byname')}收支明细</div>
+					<div class="clear"></div>
+				</div>
+				<div class="goldlist_th">
+					<div class="th1">时间</div>
+					<div class="th2">{:C('qscms_points_byname')}</div>
+					<div class="th3">详细</div>
+					<div class="clear"></div>
+				</div>
+				<div class="tabshow" style="display:block;">
+					<volist name="list['list']" id="vo">
+					<div class="goldlist J_hoverbut">
+						<div class="td1">{:date('Y-m-d H:i:s',$vo['addtime'])}</div>
+						<if condition="$vo['operate'] eq 1">
+						<div class="td2">+ {$vo['points']}</div>
+						<else />
+						<div class="td2 reduce">- {$vo['points']}</div>
+						</if>
+						<div class="td3">{$vo['htype_cn']}</div>
+						<div class="clear"></div>
+					</div>
+					</volist>
+					<div class="qspage">{$list['page']}</div>
+				</div>
+				<!-- 明细 end -->
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+		<script type="text/javascript" src="../public/js/laydate/laydate.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$("#submit").click(function(){
+					$("#form").submit();
+				});
+
+				laydate.render({
+				   elem: '#startDate'
+				})
+				laydate.render({
+				   elem: '#endDate'
+				})
+			});
+		</script>
+	</body>
+</html>

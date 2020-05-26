@@ -1,0 +1,198 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>求职者委托简历后，求职顾问可根据其意向职位筛选并投递合适的职位。</p>
+</div>
+<!-- <div class="seltpye_y">
+    <div class="tit">委托时长</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.entrust'>select</notempty>">{$Think.get.entrust_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('entrust'=>'','entrust_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('entrust'=>'3','entrust_cn'=>'三天内'))}">三天</li>
+        <li url="{:P(array('entrust'=>'7','entrust_cn'=>'一周内'))}">一周</li>
+        <li url="{:P(array('entrust'=>'14','entrust_cn'=>'两周内'))}">两周</li>
+        <li url="{:P(array('entrust'=>'30','entrust_cn'=>'一月内'))}">一月</li>
+    </div>
+</div> -->
+<!--<div class="seltpye_y">
+    <div class="tit">简历照片</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.photos'>select</notempty>">{$Think.get.photos_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('photos'=>'','photos_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('photos'=>'1','photos_cn'=>'有'))}">有</li>
+        <li url="{:P(array('photos'=>'2','photos_cn'=>'无'))}">无</li>
+    </div>
+</div>-->
+<div class="seltpye_y">
+    <div class="tit">创建时间</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.addtimesettr'>select</notempty>">{$Think.get.addtimesettr_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('addtimesettr'=>'','addtimesettr_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('addtimesettr'=>'3','addtimesettr_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('addtimesettr'=>'7','addtimesettr_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('addtimesettr'=>'30','addtimesettr_cn'=>'一月内'))}">一月内</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">刷新时间</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.settr'>select</notempty>">{$Think.get.settr_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('settr'=>'','settr_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('settr'=>'3','settr_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('settr'=>'7','settr_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('settr'=>'30','settr_cn'=>'一月内'))}">一月内</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">排序方式</div>
+    <div class="ct">
+        <div class="txt <if condition="($Think.get.orderby neq '') AND ($Think.get.orderby neq 'addtime')">select</if>">{$Think.get.orderby_cn|default="发布时间"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('orderby'=>'addtime','orderby_cn'=>'创建时间'))}">创建时间</li>
+        <li url="{:P(array('orderby'=>'refreshtime','orderby_cn'=>'刷新时间'))}">刷新时间</li>
+    </div>
+</div>
+<div class="clear"></div>
+
+<form id="form1" name="form1" method="post" action="{:U('set_audit')}">
+    <div class="list_th">
+        <div class="td" style=" width:17%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>姓名
+            </label>
+        </div>
+        <div class="td" style=" width:18%;">基本信息</div>
+        <div class="td" style=" width:10%;">简历完整度</div>
+        <div class="td center" style=" width:6%;">投递次数&nbsp;&nbsp;&nbsp;</div>
+        <div class="td center" style=" width:17%;">委托期限</div>
+        <div class="td center" style=" width:8%;">创建时间</div>
+        <div class="td center" style=" width:10%;">刷新时间</div>
+        <div class="td" style=" width:14%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:17%;">
+                <div class="left_padding striking">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['id']}"/>
+                    <a href="{$vo['resume_url']}" target="_blank">{$vo['fullname']}</a>
+                    <if condition="$vo['photo_img'] neq ''">
+                        &nbsp;<span class="vtip" title="<img src='{:attach($vo['photo_img'],'avatar')}' border=0 align=absmiddle width=120 height=120>">
+                            <img class="avatar small" src="{:attach($vo['photo_img'],'avatar')}" align="absmiddle">
+                        </span>
+                    </if>
+                </div>
+            </div>
+            <div class="td" style=" width:18%;">
+                <notempty name="vo.birthdate">{:date('Y')-$vo['birthdate']}岁 <else/>未填写 </notempty>
+                <notempty name="vo.sex_cn">/ {$vo['sex_cn']} </notempty>
+                <notempty name="vo.education_cn">/ {$vo['education_cn']} </notempty>
+                <notempty name="vo.experience_cn">/ {$vo['experience_cn']} </notempty>
+            </div>
+            <div class="td" style=" width:10%;">
+                <div style="width:100px; background-color:#CCCCCC; position:relative; margin-top: 20px;" title="完整度:{$vo['complete_percent']}%">
+                    <div style="background-color: #99CC00; height:16px; width:{$vo['complete_percent']}%;"></div>
+                    <div style="position:absolute; top:0; left: 40%; font-size:10px; width: 100px; height: 16px; line-height: 16px;">{$vo['complete_percent']}%</div>
+                </div>
+            </div>
+            <div class="td center" style=" width:6%;">
+                {$vo['apply_count']|default=0}
+                <notempty name="vo.apply_count">
+                    <span class="view apply_log" title="查看日志" parameter="id={$vo['id']}">&nbsp;&nbsp;&nbsp;</span>
+                </notempty>
+            </div>
+            <div class="td center" style=" width:17%;">
+                {:admin_date($vo['entrust_start'])} 至 {:admin_date($vo['entrust_end'])}
+            </div>
+            <div class="td center" style=" width:8%;">{:admin_date($vo['addtime'])}</div>
+            <div class="td center" style=" width:10%;">{:admin_date($vo['refreshtime'])}</div>
+            <div class="td edit" style=" width:14%;">
+                <a href="{:U('match',array('id'=>$vo['id'],'uid'=>$vo['uid']))}">匹配</a>
+                <a href="{:U('del_apply_resume',array('id'=>$vo['id'],'uid'=>$vo['uid']))}" onClick="return confirm('你确定要取消该简历委托吗？')" class="gray">取消委托</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButRefresh" value="刷新"/>
+        <!-- <input type="button" class="admin_submit" id="ButDel" value="删除简历"/> -->
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='姓名'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='姓名'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="姓名">姓名</li>
+                        <li id="2" title="简历ID">简历ID</li>
+                        <li id="3" title="会员ID">会员ID</li>
+                        <li id="4" title="电话">电话</li>
+                        <li id="5" title="地址">地址</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.entrustinfotip-min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //投递记录
+        $(".apply_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '投递记录',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/entrust_apply_log')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //点击批量删除
+        $("#ButDel").click(function () {
+            if (confirm('你确定要删除吗？')) {
+                $("form[name=form1]").attr("action", "{:U('resume_delete')}");
+                $("form[name=form1]").submit();
+            }
+        });
+        //点击批量刷新
+        $("#ButRefresh").click(function () {
+            $("form[name=form1]").attr("action", "{:U('refresh')}");
+            $("form[name=form1]").submit();
+        });
+    });
+</script>
+</html>

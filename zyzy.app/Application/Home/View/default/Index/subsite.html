@@ -1,0 +1,592 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta" />
+    <link href="{:C('TPL_PUBLIC_DIR')}/css/common.css?v={:strtotime('today')}" rel="stylesheet" type="text/css" />
+    <link href="{:C('TPL_PUBLIC_DIR')}/css/swiper.min.css" rel="stylesheet" type="text/css" />
+    <link href="{:C('TPL_PUBLIC_DIR')}/css/index.css?v={:strtotime('today')}" rel="stylesheet" type="text/css" />
+    <link href="{:C('TPL_PUBLIC_DIR')}/css/common_ajax_dialog.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<!-- 固定导航 -->
+<div class="qs_search_fixed" id="J_qs_search_fixed">
+    <div class="qs_sf_box">
+        <a href="{:url_rewrite('QS_index')}"><img class="lg" src="<if condition="C('qscms_logo_home')">{:attach(C('qscms_logo_home'),'resource')}<else/>{:C('TPL_HOME_PUBLIC_DIR')}/images/logo.gif</if>" alt=""></a>
+        <div id="J_fixed_sb">
+            <div class="fixed_sea_cho">
+                <div class="fixed_txt J_sea_choose_fx">找工作</div>
+                <div class="fixed_sea_down" id="J_sea_down_box_fx">
+                    <div class="fixed_sea_cell J_sli_fx" type="QS_resumelist">招人才</div>
+                    <div class="fixed_sea_cell J_sli_fx" type="QS_companylist">搜企业</div>
+                </div>
+            </div>
+            <form action="" id="fixed_search_location">
+                <input class="fixed_sea_inp" type="text" name="key" value="" id="fixed_search_input" placeholder="请输入关键字" />
+                <input type="hidden" name="act" id="fixed_search_type" value="QS_jobslist" />
+            </form>
+            <div class="fixed_sea_bt" id="fixed_search_btn">搜 索</div>
+            <div class="clear"></div>
+        </div>
+        <div id="J_fixed_na">
+            <div class="fixed_sea_nav">
+                <ul class="fx_nav_channel">
+                    <qscms:nav 列表名="nav" 调用名称="QS_top" 显示数目="7"/>
+                    <volist name="nav" id="nav">
+                        <li class="fx_nav_channel_item <if condition="MODULE_NAME eq C('DEFAULT_MODULE')"><if condition="$nav['tag'] eq strtolower(CONTROLLER_NAME)">active</if><else/><if condition="$nav['tag'] eq strtolower(MODULE_NAME)">active</if></if>"><a href="{$nav['url']}" target="{$nav.target}" class="fx_nav_channel_link"><span class="fx_nav_channel_name"><span><span>{$nav.title}</span></span></span></a></li>
+                    </volist>
+                </ul>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fixed_sw_ic" id="J_fixed_sb_sw">导航</div><div class="fixed_sw_ic_s" id="J_fixed_na_sw">搜索</div>
+    </div>
+</div>
+<!--顶部-->
+<include file="Home@default/public/header_min" />
+<!--顶部 end-->
+<div class="top_con">
+    <div class="logo_nav_group <if condition="C('qscms_theme_tpl') eq 1 ">chunjie</if><if condition="C('qscms_theme_tpl') eq 2">duanwu</if><if condition="C('qscms_theme_tpl') eq 3 ">laodong</if><if condition="C('qscms_theme_tpl') eq 4 ">zhongqiu</if><if condition="C('qscms_theme_tpl') eq 5 ">guoqing</if>">
+    <!--LOGO 搜素-->
+    <div class="in_sea_group">
+        <div class="in_sea_wra">
+            <a href=""><img class="lg" src="<if condition="C('qscms_logo_home')">{:attach(C('qscms_logo_home'),'resource')}<else/>{:C('TPL_HOME_PUBLIC_DIR')}/images/logo.gif</if>" alt=""></a>
+            <div class="in_sea_cho">
+                <div class="in_txt J_sea_choose">找工作</div>
+                <div class="in_sea_down" id="J_sea_down_box">
+                    <div class="in_sea_cell J_sli" type="QS_resumelist">招人才</div>
+                    <div class="in_sea_cell J_sli" type="QS_companylist">搜企业</div>
+                </div>
+            </div>
+            <form action="" id="ajax_search_location">
+                <input class="in_sea_inp" type="text" name="key" value="" id="top_search_input" placeholder="请输入关键字" />
+                <input type="hidden" name="act" id="top_search_type" value="QS_jobslist" />
+            </form>
+            <div class="in_sea_bt" id="top_search_btn">搜 索</div>
+            <div class="in_sea_tb">
+                <a href="{:url_rewrite('QS_jobs')}" target="_blank" class="lik_txt">职位分类</a><a href="{:url_rewrite('QS_jobslist')}" target="_blank" class="lik_txt">高级搜索</a>
+            </div>
+            <div class="clear"></div>
+            <div class="in_sea_qr">
+                <if condition="$show_backtop_app eq 1 && $show_backtop_weixin eq 1">
+                    <img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(C('qscms_site_domain').U('Mobile/Index/app_download'))}" alt="" class="in_sea_img">
+                    <img src="{:attach(C('qscms_weixinapp_qrcode'),'images')}" alt="" class="in_sea_img" style="display:none">
+                    <elseif condition="$show_backtop_app eq 1 && $show_backtop_weixin eq 0"/>
+                    <img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(C('qscms_site_domain').U('Mobile/Index/app_download'))}" alt="" class="in_sea_img">
+                    <img src="{:attach(C('qscms_weixin_img'),'resource')}" alt="" class="in_sea_img" style="display:none">
+                    <elseif condition="$show_backtop_app eq 0 && $show_backtop_weixin eq 1"/>
+                    <img src="{:attach(C('qscms_weixinapp_qrcode'),'images')}" alt="" class="in_sea_img">
+                    <img src="{:attach(C('qscms_weixin_img'),'resource')}" alt="" class="in_sea_img" style="display:none">
+                    <elseif condition="$show_backtop_app eq 0 && $show_backtop_weixin eq 0"/>
+                    <img src="{:attach(C('qscms_weixin_img'),'resource')}" alt="" class="in_sea_img">
+                    <img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(build_mobile_url())}" alt="" class="in_sea_img" style="display:none">
+                </if>
+                <if condition="$show_backtop_app eq 1 && $show_backtop_weixin eq 1">
+                    <span class="in_sea_qr_txt active">扫码下载APP</span>
+                    <span class="in_sea_qr_txt">扫码进小程序</span>
+                    <elseif condition="$show_backtop_app eq 1 && $show_backtop_weixin eq 0"/>
+                    <span class="in_sea_qr_txt active">扫码下载APP</span>
+                    <span class="in_sea_qr_txt">微信公众号</span>
+                    <elseif condition="$show_backtop_app eq '' && $show_backtop_weixin eq 1"/>
+                    <span class="in_sea_qr_txt active">扫码进小程序</span>
+                    <span class="in_sea_qr_txt">微信公众号</span>
+                    <elseif condition="$show_backtop_app eq 0 && $show_backtop_weixin eq 0"/>
+                    <span class="in_sea_qr_txt active">微信公众号</span>
+                    <span class="in_sea_qr_txt">触屏端</span>
+                </if>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+    <!--LOGO 搜素 end-->
+    <!--导航-->
+    <div class="in_nav_all">
+        <div class="in_nav">
+            <div class="inn_l"><a href="{:url_rewrite('QS_jobs')}" target="_blank">全部职位分类</a></div>
+            <div class="inn_r">
+                <ul class="nav_channel">
+                    <qscms:nav 列表名="nav" 调用名称="QS_top" 显示数目="7"/>
+                    <volist name="nav" id="nav">
+                        <li class="nav_channel_item <if condition="MODULE_NAME eq C('DEFAULT_MODULE')"><if condition="$nav['tag'] eq strtolower(CONTROLLER_NAME)">active</if><else/><if condition="$nav['tag'] eq strtolower(MODULE_NAME)">active</if></if>"><a href="{$nav['url']}" target="{$nav.target}" class="nav_channel_link"><span class="nav_channel_name"><span><span>{$nav.title}</span></span></span></a></li>
+                    </volist>
+                    <li class="nav_channel_item last J_hire_service">
+                        <a href="javascript:;" class="nav_channel_link last"><span class="nav_channel_name "><span><span>更多服务</span></span></span></a>
+                        <div class="new_ico"></div>
+                    </li>
+                </ul>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="hire_ser_pop J_hire_service_pop">
+            <div class="hire_ser_grid">
+                <img class="arrow_up" src="{:C('TPL_PUBLIC_DIR')}/images/index/arrow_up.png" alt="">
+                <div id="J_pc_g">
+                    <notempty name="apply['School']">
+                        <a href="{:url_rewrite('QS_school_index')}" target="_blank" class="hsg_cell"><div class="img m_school"></div><div class="span"><h4>校园招聘</h4><p>梦想从这里开始</p></div><div class="clear"></div></a>
+                    </notempty>
+                    <notempty name="apply['Parttime']">
+                        <a href="{:url_rewrite('QS_parttime')}" target="_blank" class="hsg_cell"><div class="img m_part_time"></div><div class="span"><h4>兼职招聘</h4><p>闲时也能体现你的价值</p></div><div class="clear"></div></a>
+                    </notempty>
+                    <notempty name="apply['Store']">
+                        <a href="{:url_rewrite('QS_store')}" target="_blank" class="hsg_cell"><div class="img m_store"></div><div class="span"><h4>门店招聘</h4><p>这里有离家最近的工作</p></div><div class="clear"></div></a>
+                    </notempty>
+                    <notempty name="apply['Allowance']">
+                        <a href="{:url_rewrite('QS_jobslist',array('search_cont'=>'allowance'))}" target="_blank" class="hsg_cell"><div class="img m_allowance"></div><div class="span"><h4>红包职位</h4><p>只送红包不玩套路</p></div><div class="clear"></div></a>
+                    </notempty>
+                    <notempty name="apply['House']">
+                        <a href="{:url_rewrite('QS_house_rent')}" target="_blank" class="hsg_cell"><div class="img m_near"></div><div class="span"><h4>附近租房</h4><p>让你离家更近一点</p></div><div class="clear"></div></a>
+                    </notempty>
+                    <notempty name="apply['Gworker']">
+                        <a href="{:url_rewrite('QS_gworker')}" target="_blank" class="hsg_cell"><div class="img m_gworker"></div><div class="span"><h4>普工招聘</h4><p>工厂直招安全放心</p></div><div class="clear"></div></a>
+                    </notempty>
+                    <notempty name="apply['Mall']">
+                        <a href="{:url_rewrite('QS_mall_index')}" target="_blank" class="hsg_cell"><div class="img m_mall"></div><div class="span"><h4>积分商城</h4><p>积分不仅仅只是积分</p></div><div class="clear"></div></a>
+                    </notempty>
+                    <notempty name="apply['Interview']">
+                        <a href="{:url_rewrite('QS_interview_list')}" target="_blank" class="hsg_cell"><div class="img m_interview"></div><div class="span"><h4>企业专访</h4><p>理想抱负并不遥远</p></div><div class="clear"></div></a>
+                    </notempty>
+                    <notempty name="apply['Career']">
+                        <a href="{:url_rewrite('QS_career_list')}" target="_blank" class="hsg_cell"><div class="img m_kao"></div><div class="span"><h4>直通招考</h4><p>最新事业单位招聘</p></div><div class="clear"></div></a>
+                    </notempty>
+                    <notempty name="apply['Jobfair']">
+                        <a href="{:url_rewrite('QS_jobfairlist')}" target="_blank" class="hsg_cell"><div class="img m_jobfair"></div><div class="span"><h4>招聘会</h4><p>大型本地招聘会</p></div><div class="clear"></div></a>
+                    </notempty>
+                </div>
+                <div class="less_pop J_lessPop"></div>
+            </div>
+        </div>
+        <!--导航 end-->
+    </div>
+</div>
+
+<div class="sub_more_container">
+    <div class="more_con">
+        <div class="t1">
+            <div class="t11">点击进入：</div>
+            <a href="{:C('qscms_site_domain')}" class="t12">总站</a>
+            <div class="clear"></div>
+        </div>
+        <div class="t2">按首字母选择</div>
+		<volist name="subsite" id='vo'>
+        <div class="t3">
+			<div class="a_block">{$vo['pinyin']}</div>
+			<volist name="vo['info']" id='v'>
+				<a href="{$v['pc_type']}{$v['s_domain']}" class="a_item">{$v['s_sitename']}</a>
+			</volist>
+        </div>
+		</volist>	
+        
+    </div>
+</div>
+
+<div class="in_foot">
+    <div class="inf_con">
+        <!--友情链接-->
+        <div class="inf_lik_group">
+            <a href="javascript:;" class="inf_lf"></a>
+            <qscms:link 列表名="links" 类型="1"/>
+            <volist name="links" id="link">
+                <a href="{$link.link_url}" target="_blank" class="inf_cell">{$link.title}</a>
+            </volist>
+            <div class="clear"></div>
+        </div>
+        <div class="inf_lb">
+            <div class="lb_t">关于我们</div>
+            <qscms:explain_list 列表名="list" 显示数目="4" 分类id="1"/>
+            <volist name="list" id="vo">
+                <a href="{$vo['url']}" target="_blank" class="lb_a">{$vo['title']}</a>
+            </volist>
+        </div>
+        <div class="inf_lb">
+            <div class="lb_t">个人求职</div>
+            <a href="{:U('personal/index')}" target="_blank" class="lb_a">注册简历</a>
+            <a href="{:url_rewrite('QS_jobslist')}" target="_blank" class="lb_a">投递职位</a>
+            <a href="{:url_rewrite('QS_jobslist',array('search_cont'=>'allowance'))}" target="_blank" class="lb_a">红包职位</a>
+            <a href="{:U('personal/jobs_interview')}" target="_blank" class="lb_a">求职管理</a>
+        </div>
+        <div class="inf_lb">
+            <div class="lb_t">企业招聘</div>
+            <a href="{:U('company/index')}" target="_blank" class="lb_a">企业注册</a>
+            <a href="{:U('company/jobs_add')}" target="_blank" class="lb_a">职位发布</a>
+            <a href="{:url_rewrite('QS_resumelist')}" target="_blank" class="lb_a">搜索人才</a>
+            <a href="{:url_rewrite('QS_jobfairlist')}" target="_blank" class="lb_a">招聘会</a>
+        </div>
+        <div class="inf_lb">
+            <div class="lb_t">特色栏目</div>
+            <qscms:explain_list 列表名="list" 显示数目="4" 分类id="2"/>
+            <volist name="list" id="vo">
+                <a href="{$vo['url']}" target="_blank" class="lb_a">{$vo['title']}</a>
+            </volist>
+        </div>
+        <div class="inf_lb">
+            <div class="lb_t">帮助中心</div>
+            <a href="{:url_rewrite('QS_helplist',array('key'=>'收费标准'))}" target="_blank" class="lb_a">收费标准</a>
+            <a href="{:url_rewrite('QS_helplist',array('key'=>'常见问题'))}" target="_blank" class="lb_a">常见问题</a>
+            <a href="{:url_rewrite('QS_helplist',array('key'=>'账号申诉'))}" target="_blank" class="lb_a">账号申诉</a>
+        </div>
+        <div class="inf_lbl"></div>
+        <if condition="$show_backtop_app eq 1 && $show_backtop_weixin eq 1">
+            <div class="inf_lb gz">
+                <div class="lb_t">扫码下载APP</div>
+                <img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(C('qscms_site_domain').U('Mobile/Index/app_download'))}" alt="">
+            </div>
+            <div class="inf_lb gz xc">
+                <div class="lb_t">扫码进小程序</div>
+                <img src="{:attach(C('qscms_weixinapp_qrcode'),'images')}" alt="">
+            </div>
+            <elseif condition="$show_backtop_app eq 1 && $show_backtop_weixin eq 0"/>
+            <div class="inf_lb gz">
+                <div class="lb_t">扫码下载APP</div>
+                <img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(C('qscms_site_domain').U('Mobile/Index/app_download'))}" alt="">
+            </div>
+            <div class="inf_lb gz xc">
+                <div class="lb_t">微信公众号</div>
+                <img src="{:attach(C('qscms_weixin_img'),'resource')}" alt="">
+            </div>
+            <elseif condition="$show_backtop_app eq 0 && $show_backtop_weixin eq 1"/>
+            <div class="inf_lb gz">
+                <div class="lb_t">扫码进小程序</div>
+                <img src="{:attach(C('qscms_weixinapp_qrcode'),'images')}" alt="">
+            </div>
+            <div class="inf_lb gz xc">
+                <div class="lb_t">微信公众号</div>
+                <img src="{:attach(C('qscms_weixin_img'),'resource')}" alt="">
+            </div>
+            <elseif condition="$show_backtop_app eq 0 && $show_backtop_weixin eq 0"/>
+            <div class="inf_lb gz">
+                <div class="lb_t">微信公众号</div>
+                <img src="{:attach(C('qscms_weixin_img'),'resource')}" alt="">
+            </div>
+            <div class="inf_lb gz xc">
+                <div class="lb_t">触屏端</div>
+                <img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(build_mobile_url())}" alt="">
+            </div>
+        </if>
+        <div class="inf_lbl"></div>
+        <div class="inf_lb ser">
+            <div class="lb_t">服务信息</div>
+            <div class="ser_txt">联系电话：{:C('qscms_bootom_tel')}</div>
+            <div class="ser_txt">服务时间：08:00-18:00</div>
+        </div>
+        <div class="clear"></div>
+        <div class="inf_text first">联系地址：{:C('qscms_address')}   网站备案：{:C('qscms_icp')}</div>
+        <div class="inf_text">{:C('qscms_bottom_other')} Powered by <a href="http://www.74cms.com">74cms</a> v{:C('QSCMS_VERSION')} {:htmlspecialchars_decode(C('qscms_statistics'))}</div>
+    </div>
+</div>
+<div class="bt_guider J_bt_guider">
+    <p class="shadow"></p>
+    <div class="bt_guider_wrap">
+        <div class="guider_icon"></div>
+        <a href="javascript:;" class="guider_close J_bt_gui_close"></a>
+        <div class="gm_qr_code">
+            <div class="qr_code_box">
+                <img src="<if condition="C('qscms_index_bottom_wx')">{:attach(C('qscms_index_bottom_wx'),'resource')}<else/>{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(build_mobile_url())}</if>" alt="触屏端">
+            </div>
+            <div class="hs_6"></div>
+            <div class="qr_other">扫一扫手机也能找工作</div>
+        </div>
+        <div class="gm_gr_sha"></div>
+        <div class="guider_main">
+            <div class="gm_left">
+                <div class="hs_16"></div>
+                <div class="gm_site_name">{:C('qscms_index_bottom_title')}</div>
+                <div class="hs_12"></div>
+                <div class="gm_other">{:C('qscms_index_bottom_info')}</div>
+            </div>
+            <div class="gm_right">
+                <div class="hs_20"></div>
+                <a href="javascript:;" id="J_reg_qick" class="gm_btn">立即加入</a>
+                <input type="hidden" id="JRegHidVal" value="{:C('qscms_rapid_registration_resume')}" />
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('.J_bt_gui_close').click(function () {
+            $('.J_bt_guider').hide();
+        })
+    </script>
+</div>
+<div class="floatmenu">
+    <eq name="show_backtop" value="1">
+        <div class="item mobile">
+            <a class="blk"></a>
+            <eq name="show_backtop_app" value="1">
+                <div class="popover <if condition=" $show_backtop_weixin eq 1">popover1</if>">
+                <div class="popover-bd">
+                    <label>手机APP</label>
+                    <span class="img-qrcode img-qrcode-mobile"><img src="{:C('qscms_site_dir')}index.php?m=Home&c=Qrcode&a=index&url={:urlencode(C('qscms_site_domain').U('Mobile/Index/app_download'))}" alt=""></span>
+                </div>
+        </div>
+    </eq>
+    <eq name="show_backtop_weixin" value="1">
+        <div class="popover">
+            <div class="popover-bd">
+                <label class="wx">企业微信</label>
+                <span class="img-qrcode img-qrcode-wechat"><img src="{:attach(C('qscms_weixin_img'),'resource')}" alt=""></span>
+            </div>
+            <div class="popover-arr"></div>
+        </div>
+    </eq>
+</div>
+</eq>
+<div class="item ask"><a class="blk" target="_blank" href="{:url_rewrite('QS_suggest')}"></a></div>
+<div id="backtop" class="item backtop" style="display: none;"><a class="blk"></a></div>
+</div>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.modal.dialog.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/swiper.min.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.disappear.tooltip.js"></script>
+<script type="text/javascript" src="{:C('TPL_PUBLIC_DIR')}/js/jquery.vticker-min.js"></script>
+<if condition="$apply['Recommend'] and $isRecommend">
+    <script type="text/javascript" src="__ROOT__/{$Think.APP_NAME}/Recommend/View/default/public/Recommend.js"></script>
+    <link href="__ROOT__/{$Think.APP_NAME}/Recommend/View/default/public/plugin-recomment.css" rel="stylesheet" type="text/css" />
+</if>
+<script type="text/javascript">
+    // 判断导航数量
+    var cellNum = $('#J_pc_g .hsg_cell').length;
+    if (cellNum <= 4) {
+        var newPopHtml = '';
+        $('#J_pc_g .hsg_cell').each(function() {
+            var cuHref = $(this).attr('href'), cuText = $(this).find('h4').html();
+            newPopHtml += '<a href="' +cuHref + '" target="_blank" class="lep">'+cuText+'</a>';
+        });
+        $('.J_lessPop').html(newPopHtml);
+        $('.J_hire_service_pop').addClass('less');
+        $('#J_pc_g').remove();
+    } else {
+        $('.J_lessPop').remove();
+    }
+    // 搜素类型切换
+    $('.J_sea_choose').click(function(event) {
+        event.stopPropagation();
+        var $thisP = $(this).parent(), $thisDown = $thisP.find('.in_sea_down');
+        if ($thisP.hasClass('open')) {
+            $thisP.removeClass('open');
+        } else {
+            $thisP.addClass('open');
+        }
+        $(document).click(function(event){
+            var _con = $('#J_sea_down_box');
+            if(!_con.is(event.target) && _con.has(event.target).length === 0){
+                $thisP.removeClass('open');
+            }
+        });
+    });
+    $('.J_sli').click(function() {
+        var oldType = $('#top_search_type').val(), oldText = $('.J_sea_choose').html(), newType = $(this).attr('type'), newText = $(this).html();
+        $('#top_search_type').val(newType);$('.J_sea_choose').html(newText);
+        $(this).attr('type', oldType);
+        $(this).html(oldText);
+        $(this).closest('.in_sea_cho').removeClass('open');
+    });
+    $('.J_sea_choose_fx').click(function(event) {
+        event.stopPropagation();
+        var $thisP = $(this).parent(), $thisDown = $thisP.find('.fixed_sea_down');
+        if ($thisP.hasClass('open')) {
+            $thisP.removeClass('open');
+        } else {
+            $thisP.addClass('open');
+        }
+        $(document).click(function(event){
+            var _con = $('#J_sea_down_box_fx');
+            if(!_con.is(event.target) && _con.has(event.target).length === 0){
+                $thisP.removeClass('open');
+            }
+        });
+    });
+    $('.J_sli_fx').click(function() {
+        var oldType = $('#fixed_search_type').val(), oldText = $('.J_sea_choose_fx').html(), newType = $(this).attr('type'), newText = $(this).html();
+        $('#fixed_search_type').val(newType);$('.J_sea_choose_fx').html(newText);
+        $(this).attr('type', oldType);
+        $(this).html(oldText);
+        $(this).closest('.fixed_sea_cho').removeClass('open');
+    });
+    // 顶部搜索跳转
+    $('#top_search_btn').click(function() {
+        $('#top_search_input').val(htmlspecialchars($('#top_search_input').val()));
+        var post_data = $('#ajax_search_location').serialize();
+        if(qscms.keyUrlencode==1){
+            post_data = encodeURI(post_data);
+        }
+        $.post(qscms.root + '?m=Home&c=Index&a=search_location',post_data,function(result){
+            if(result.status == 1){
+                window.location.href=result.data;
+            }
+        },'json');
+    });
+    $('#fixed_search_btn').click(function() {
+        $('#fixed_search_input').val(htmlspecialchars($('#fixed_search_input').val()));
+        var post_data = $('#fixed_search_location').serialize();
+        if(qscms.keyUrlencode==1){
+            post_data = encodeURI(post_data);
+        }
+        $.post(qscms.root + '?m=Home&c=Index&a=search_location',post_data,function(result){
+            if(result.status == 1){
+                window.location.href=result.data;
+            }
+        },'json');
+    });
+    // 回车搜素
+    $('#top_search_input').bind('keypress', function(event) {
+        e = event ? event : (window.event ? window.event : null);
+        if (e.keyCode == 13) {
+            $("#top_search_btn").click();
+            return false;
+        }
+    });
+    $('#fixed_search_input').bind('keypress', function(event) {
+        e = event ? event : (window.event ? window.event : null);
+        if (e.keyCode == 13) {
+            $("#fixed_search_btn").click();
+            return false;
+        }
+    });
+    $('#top_search_input').keyup(function () {
+        var currentValue = $(this).val();
+        $('#fixed_search_input').val(currentValue);
+    });
+    $('#fixed_search_input').keyup(function () {
+        var currentValue = $(this).val();
+        $('#top_search_input').val(currentValue);
+    });
+    // 固定导航切换
+    $('#J_fixed_sb_sw').click(function() {
+        $(this).hide();
+        $('#J_fixed_sb').hide();
+        $('#J_fixed_na').show();
+        $('#J_fixed_na_sw').show();
+    });
+    $('#J_fixed_na_sw').click(function() {
+        $(this).hide();
+        $('#J_fixed_na').hide();
+        $('#J_fixed_sb').show();
+        $('#J_fixed_sb_sw').show();
+    });
+    $(function() {
+        var offset = 220;
+        $(window).scroll(function(){(
+            $(this).scrollTop() > offset ) ? $("#J_qs_search_fixed").addClass('open') : $("#J_qs_search_fixed").removeClass('open');
+        });
+    });
+    // 顶部二维码切换
+    $('.in_sea_qr_txt').hover(function() {
+        var cuIn = $('.in_sea_qr_txt').index(this);
+        $(this).addClass('active').siblings('.in_sea_qr_txt').removeClass('active');
+        if (cuIn === 1) {
+            $('.in_sea_qr').addClass('open');
+        } else {
+            $('.in_sea_qr').removeClass('open');
+        }
+        $('.in_sea_img').eq(cuIn).show().siblings('.in_sea_img').hide();
+    });
+    // 更多导航
+    function hireServicePop() {
+        var hireService = $(".J_hire_service")
+        var hireServicePop = $(".J_hire_service_pop")
+        hireService.hover(function() {
+            hireServicePop.show()
+        }, function() {
+            //hireServicePop.hide()
+        });
+        hireServicePop.hover(function() {
+            // hireServicePop.show()
+        }, function() {
+            hireServicePop.hide()
+        })
+    }
+    hireServicePop();
+    // 客服QQ
+    var app_qq = "{:C('apply.Qqfloat')}";
+    var qq_open = "{:C('qscms_qq_float_open')}";
+    if(app_qq != '' && qq_open == 1){
+        var QQFloatUrl = "{:U('Qqfloat/Index/index')}";
+        $.getJSON(QQFloatUrl, function (result) {
+            if (result.status == 1) {
+                $("body").append(result.data);
+            }
+        });
+    }
+    // 返回顶部
+    var global = {
+        h: $(window).height(),
+        st: $(window).scrollTop(),
+        backTop: function () {
+            global.st > (global.h * 0.5) ? $("#backtop").show() : $("#backtop").hide();
+        }
+    }
+    $('.footer-txt-group .hl').eq($('.footer-txt-group .hl').length-1).addClass('last');
+    $('#backtop').on('click', function () {
+        $("html,body").animate({"scrollTop": 0}, 500);
+    });
+    global.backTop();
+    $(window).scroll(function () {
+        global.h = $(window).height();
+        global.st = $(window).scrollTop();
+        global.backTop();
+    });
+    $(window).resize(function () {
+        global.h = $(window).height();
+        global.st = $(window).scrollTop();
+        global.backTop();
+    });
+</script>
+<!-- 分站定位代码-->
+<div id="J_sub_dialog" style="display:none">
+    <div class="new_choose_city">
+        <div class="t1">亲爱的用户您好:</div>
+        <div class="t2">请您切换到对应的地区分站，让我们为您提供更准确的职位信息</div>
+        <div class="t3">您当前在山西省晋中市</div>
+        <div class="t4">
+            <div class="t41">点击进入</div>
+            <a href="" class="t42">晋中市</a>
+            <div class="t43">或者切换到以下站点</div>
+            <div class="clear"></div>
+        </div>
+        <div class="t5">
+            <a href="" class="t_item">全国</a><a href="" class="t_item">山西</a><a href="" class="t_item">齐齐哈尔</a>
+            <a href="" class="t_item">乌鲁木齐</a><a href="" class="t_item">大同</a><a href="" class="t_item">太原</a>
+            <a href="" class="t_item">榆次</a><a href="" class="t_item">五台山</a><a href="" class="t_item">布宜诺斯艾利斯</a>
+            <div class="clear"></div>
+        </div>
+        <div class="t6">如果您在使用中遇到任何问题，请随时联系 {:C('qscms_bootom_tel')} 寻求帮助</div>
+    </div>
+</div>
+<script type="text/javascript" src="{:C('TPL_HOME_PUBLIC_DIR')}/js/jquery.modal.dialog.js"></script>
+<if condition="C('qscms_subsite_open') eq 1">
+    <script id="J-sub-dialog-content" type="text/html">
+        <div class="sub-dialog-group">
+            <div class="sdg-title">亲爱的用户您好：</div>
+            <div class="sdg-split-20"></div>
+            <div class="sdg-h-tips">请您切换到对应的地区分站，让我们为您提供更准确的职位信息。</div>
+            <div class="sdg-split-30"></div>
+            <div class="sdg-h-line"></div>
+            <div class="sdg-split-20"></div>
+            <div class="sdg-master-group">
+                <if condition="$subsite_org">
+                    您当前在{$subsite_org['district']}
+                    <div class="sdg-txt-left">点击进入</div>
+                    <a href="{$subsite_org['domain']}" class="sdg-go">{$subsite_org.s_sitename}</a>
+                    <div class="sdg-txt-right">或者切换到以下站点</div>
+                    <else/>
+                    <div class="sdg-txt-right">切换到以下站点</div>
+                </if>
+                <div class="clear"></div>
+            </div>
+            <div class="sdg-split-20"></div>
+            <div class="sdg-sub-city-group">
+                <volist name="subsite_list" id="dis" offset="0" length="10">
+                    <if condition="$dis['s_id'] eq 0"><a href="{:C('qscms_site_domain')}" class="d_item">总站</a><else />
+                        <a href="{$dis['pc_type']}{$dis['s_domain']}" class="sdg-sub-city">{$dis.s_sitename}</a></if>
+                </volist>
+                <if condition="count($subsite_list) gt 11">
+                    <a href="{:U('Home/Subsite/index')}" class="sdg-sub-city more">更多地区</a>
+                </if>
+                <div class="clear"></div>
+            </div>
+            <div class="sdg-split-16"></div>
+            <div class="sdg-bottom-tips">如果您在使用中遇到任何问题，请随时联系 <if condition="C('qscms_top_tel')">{:C('qscms_top_tel')}<else/>{:C('qscms_bootom_tel')}</if> 寻求帮助</div>
+            <div class="sdg-split-11"></div>
+        </div>
+    </script>
+</if>
+</body>
+</html>

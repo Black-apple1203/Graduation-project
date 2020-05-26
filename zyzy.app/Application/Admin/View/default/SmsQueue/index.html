@@ -1,0 +1,138 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>短信模块属收费模块，需申请开通后才能使用，请联系我司客服申请开通。</p>
+    <p class="link_green_line">资费标准请联系骑士销售获取，更多介绍请进入 <a href="http://www.74cms.com" target="_blank">骑士人才系统官方网站</a></p>
+</div>
+<div class="seltpye_x">
+    <div class="left">筛选类型</div>
+    <div class="right">
+        <a href="{:P(array('s_type'=>0))}" <if condition='$Think.get.s_type eq "" || $Think.get.s_type eq 0'>class="select"</if>>不限</a>
+        <a href="{:P(array('s_type'=>1))}" <if condition='$Think.get.s_type eq 1'>class="select"</if>>等待发送</a>
+        <a href="{:P(array('s_type'=>2))}" <if condition='$Think.get.s_type eq 2'>class="select"</if>>发送成功</a>
+        <a href="{:P(array('s_type'=>3))}" <if condition='$Think.get.s_type eq 3'>class="select"</if>>发送失败</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<form id="form1" name="form1" method="post" action="{:U('del')}">
+    <div class="list_th">
+        <div class="td" style=" width:10%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>类型
+            </label>
+        </div>
+        <div class="td" style=" width:15%;">手机号</div>
+        <div class="td" style=" width:45%;">短信内容</div>
+        <div class="td center" style=" width:10%;">添加时间</div>
+        <div class="td center" style=" width:10%;">发送时间</div>
+        <div class="td center" style=" width:10%;">操作</div>
+        <div class="clear"></div>
+    </div>
+    <volist name="list" id="vo">
+    <div class="list_tr link_black">
+        <div class="td" style=" width:10%;">
+            <div class="left_padding striking">
+                <input type="checkbox" name="id[]"  value="{$vo.s_id}"/>
+                <if condition="$vo['s_type'] eq 1"><span style="color:#FF6600">等待发送</span></if>
+                <if condition="$vo['s_type'] eq 2"><span style="color:#009900">发送成功</span></if>
+                <if condition="$vo['s_type'] eq 3"><span style="color:#666666">发送失败</span></if>
+            </div>
+        </div>
+        <div class="td" style=" width:15%;">{$vo.s_mobile}</div>
+        <div class="td vtip" title="{$vo.s_body|nl2br}" style=" width:45%;">{$vo.s_body_}&nbsp;</div>
+        <div class="td center" style=" width:10%;">{:date('Y-m-d',$vo['s_addtime'])}</div>
+        <div class="td center" style=" width:10%;">
+            <if condition="$vo['s_sendtime'] eq 0">
+            ----
+            <else />
+            {:date('Y-m-d',$vo['s_sendtime'])}
+            </if>
+        </div>
+        <div class="td center edit" style=" width:10%;"><a href="{:U('smsqueue_edit',array('s_id'=>$vo['s_id']))}">修改</a></div>
+        <div class="clear"></div>
+    </div>
+    </volist>
+    <empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+    </empty>
+    <span id="OpDel">
+    </span>
+    <span id="OpSend">
+    </span>
+</form>
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" name="Submit22" value="发送" class="admin_submit" id="ButSend"/>
+        <input type="button" name="Submit22" value="添加任务" class="admin_submit"    onclick="window.location='{:U('smsqueue_add')}'"/>
+        <input type="button" name="Submit22" value="批量添加" class="admin_submit"    onclick="window.location='{:U('smsqueue_batchadd')}'"/>
+        <input type="button" name="ButDel" id="ButDel" value="删除" class="admin_submit" />
+    </div>
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='短信内容'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='短信内容'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="短信内容">短信内容</li>
+                        <li id="2" title="手机号码">手机号码</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+<script type="text/javascript">
+    $(document).ready(function() {
+        showmenu("#key_type_cn","#sehmenu","#key_type");
+        //发送
+        $("#ButSend").click(function () {
+            var data = $("form[name=form1]").serialize();
+            var qsDialog = $(this).dialog({
+                title: '请选择',
+                loading: true,
+                footer : false
+            });
+            var url = "{:U('Ajax/send_sms_queue')}";
+            $.post(url,data, function (result) {
+                if(result.status == 1){
+                    qsDialog.setContent(result.data);
+                } else {
+                    qsDialog.hide();
+                    disapperTooltip('remind',result.msg);
+                }
+            });
+        })
+
+        // 删除
+        $("#ButDel").click(function () {
+            var data = $("form[name=form1]").serialize();
+            var qsDialog = $(this).dialog({
+                title: '您要删除哪些信息',
+                loading: true,
+                footer : false
+            });
+            var url = "{:U('Ajax/delete_sms_queue')}";
+            $.post(url,data, function (result) {
+                if(result.status == 1){
+                    qsDialog.setContent(result.data);
+                } else {
+                    qsDialog.hide();
+                    disapperTooltip('remind',result.msg);
+                }
+            });
+        })
+    });
+</script>
+</body>
+</html>

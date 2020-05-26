@@ -1,0 +1,138 @@
+<include file="public:header" />
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>非专业技术人员不建议修改系统菜单！</p>
+    </div>
+    <div class="toptit">修改系统菜单</div>
+	<form id="form1" name="form1" method="post" action="{:U('menu/edit')}">
+        <div class="form_main width120">
+            <div class="fl">所属菜单:</div>
+            <div class="fr">
+                <div class="select_input_new w400 J_hoverinput J_dropdown J_listitme_parent">
+                    <span class="J_listitme_text">选择分类</span>
+                    <div class="dropdowbox_sn J_dropdown_menu">
+                        <div class="dropdow_inner_sn">
+                            <ul class="nav_box">
+                                <li><a class="J_listitme <if condition="$Think.get.pid eq 0">list_sel</if>" href="javascript:;" data-code="0">顶级菜单</a></li>
+                                <volist name="menus['parent']" id="parent">
+                                    <li><a class="J_listitme <if condition="$parent['id'] eq $info['pid']">list_sel</if>" href="javascript:;" data-code="{$parent.id}">{$parent.name}</a></li>
+                                    <volist name="menus['sub'][$parent['id']]" id="sub">
+                                        <li><a class="J_listitme <if condition="$sub['id'] eq $info['pid']">list_sel</if>" href="javascript:;" data-code="{$sub.id}">├─{$sub.name}</a></li>
+                                        <volist name="menus['sub'][$sub['id']]" id="child">
+                                            <li><a class="J_listitme <if condition="$child['id'] eq $info['pid']">list_sel</if>" href="javascript:;" data-code="{$child.id}">︱ ├─{$child.name}</a></li>
+                                            <foreach name="menus['sub'][$sub1['id']]" item="sub2">
+                                                <li><a class="J_listitme <if condition="$sub2['id'] eq $info['pid']">list_sel</if>" href="javascript:;" data-code="{$sub2.id}">︱ ︱ ├─{$sub2.name}</a></li>
+                                            </foreach>
+                                        </volist>
+                                    </volist>
+                                </volist>
+                            </ul>
+                        </div>
+                    </div>
+                    <input class="J_listitme_code" name="pid" id="pid" type="hidden" value="" />
+                </div>
+                <!-- <select name="pid">
+                    <option value="0" <if condition="$Think.get.pid eq 0">selected="selected"</if>>顶级菜单</option>
+                    <volist name="menus['parent']" id="parent">
+                        <option value="{$parent.id}" <if condition="$parent['id'] eq $info['pid']">selected="selected"</if>>{$parent.name}</option>
+                        <volist name="menus['sub'][$parent['id']]" id="sub">
+                            <option value="{$sub.id}" <if condition="$sub['id'] eq $info['pid']">selected="selected"</if>>├─{$sub.name}</option>
+                            <volist name="menus['sub'][$sub['id']]" id="child">
+                                <option value="{$child.id}" <if condition="$child['id'] eq $info['pid']">selected="selected"</if>>︱ ├─{$child.name}</option>
+                                <foreach name="menus['sub'][$child['id']]" item="sub2">
+                                    <option value="{$sub2.id}" <if condition="$sub2['id'] eq $info['pid']">selected="selected"</if>>︱ ︱ ├─{$sub2.name}</option>
+                                </foreach>
+                            </volist>
+                        </volist>
+                    </volist>
+                </select> -->
+            </div>
+            <div class="fl">菜单名称:</div>
+            <div class="fr">
+                <input name="name" type="text" class="input_text_default middle" value="{$info.name}"/>
+            </div>
+            <div class="fl">模块名:</div>
+            <div class="fr">
+                <input name="module_name" type="text" class="input_text_default middle" value="{$info.module_name}"/>
+            </div>
+            <div class="fl">控制器名:</div>
+            <div class="fr">
+                <input name="controller_name" type="text" class="input_text_default middle" value="{$info.controller_name}"/>
+            </div>
+            <div class="fl">方法名:</div>
+            <div class="fr">
+                <input name="action_name" type="text" class="input_text_default middle" value="{$info.action_name}"/>
+            </div>
+            <div class="fl">附加参数:</div>
+            <div class="fr">
+                <input name="data" type="text" class="input_text_default middle" value="{$info.data}"/>
+            </div>
+            <div class="fl">菜单类型：</div>
+            <div class="fr">
+                <div class="imgradio">
+                    <input name="menu_type" type="hidden" value="{$info.menu_type}">
+                    <div class="radio <if condition="$info.menu_type eq 1">select</if> menu_type" data="1" title="导航">导航</div>
+                    <div class="radio <if condition="$info.menu_type eq 0">select</if> menu_type" data="0" title="按钮或功能">按钮或功能</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div id="J_stat" <if condition="$info.menu_type eq 0">style="display: none;"</if>>
+                <div class="fl">待处理事务:</div>
+                <div class="fr">
+                    <input name="stat" type="text" class="input_text_default middle" value="{$info.stat}"/>
+                </div>
+                <div>
+                    <div class="fl">菜单图标:</div>
+                    <div class="fr">
+                        <input name="img" type="text" class="input_text_default middle" value="{$info.img}"/>
+                        <label class="no-fl-note">（如：1038.png）</label>
+                    </div>
+                </div>
+            </div>
+            <div class="fl">备注：</div>
+            <div class="fr">
+                <textarea name="remark" class="input_text_default" cols="70" rows="3" style="font-size:12px;">{$info.remark}</textarea>
+                <span style="color:#666666">注：只三级分类添加范例即可</span>
+            </div>
+            <div class="fl">排序:</div>
+            <div class="fr">
+                <input name="ordid" type="text" class="input_text_default middle" value="{$info.ordid}"/>
+            </div>
+            <div class="fl">是否显示：</div>
+            <div class="fr">
+                <div data-code="0,1" class="imgchecked_small <if condition="$info.display eq 1">select</if>"><input name="display" type="hidden" value="{$info.display}" /></div>
+                <div class="clear"></div>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+                <input type="submit" class="admin_submit" value="保存"/>
+                <input type="button" class="admin_submit" value="返回" onclick="window.location='{:U('menu/index')}'"/>
+            </div>
+            <div class="clear"></div>
+        </div>
+		<input name="id" type="hidden" value="{$info.id}">
+	</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.menu_type').click(function () {
+            if ($(this).attr('data') == 1) {
+                $('#J_stat').show();
+            } else {
+                $('#J_stat').hide();
+            }
+        })
+        if ($('.J_listitme.list_sel').length) {
+            var $recoverList = $('.J_listitme.list_sel').eq($('.J_listitme.list_sel').length-1);
+            var listSelCn = $.trim($recoverList.text());
+            var listSelCode = $recoverList.data('code');
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_text').text(listSelCn);
+            $('.J_listitme.list_sel').closest('.J_listitme_parent').find('.J_listitme_code').val(listSelCode);
+        }
+    })
+</script>
+</body>
+</html>

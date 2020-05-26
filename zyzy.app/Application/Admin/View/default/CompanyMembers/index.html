@@ -1,0 +1,223 @@
+<include file="public:header"/>
+<div class="seltpye_x">
+    <div class="left">注册时间</div>
+    <div class="right">
+        <a href="{:P(array('settr'=>''))}" <eq name='Think.get.settr' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('settr'=>'3'))}" <eq name='Think.get.settr' value='3'>class="select"</eq>>三天内</a>
+        <a href="{:P(array('settr'=>'7'))}" <eq name='Think.get.settr' value='7'>class="select"</eq>>一周内</a>
+        <a href="{:P(array('settr'=>'30'))}" <eq name='Think.get.settr' value='30'>class="select"</eq>>一月内</a>
+        <a href="{:P(array('settr'=>'180'))}" <eq name='Think.get.settr' value='180'>class="select"</eq>>半年内</a>
+        <a href="{:P(array('settr'=>'360'))}" <eq name='Think.get.settr' value='360'>class="select"</eq>>一年内</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="seltpye_x">
+    <div class="left">微信绑定状态</div>
+    <div class="right">
+        <a href="{:P(array('is_bind'=>''))}" <eq name='Think.get.is_bind' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('is_bind'=>'1'))}" <eq name='Think.get.is_bind' value='1'>class="select"</eq>>绑定</a>
+        <a href="{:P(array('is_bind'=>'0'))}" <eq name='Think.get.is_bind' value='0'>class="select"</eq>>未绑定</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="seltpye_x">
+    <div class="left">数据来源</div>
+    <div class="right">
+        <a href="{:P(array('source'=>''))}" <eq name='Think.get.source' value=''>class="select"</eq>>不限</a>
+        <a href="{:P(array('source'=>'1'))}" <eq name='Think.get.source' value='1'>class="select"</eq>>网页端</a>
+        <a href="{:P(array('source'=>'2'))}" <eq name='Think.get.source' value='2'>class="select"</eq>>手机端</a>
+        <a href="{:P(array('source'=>'3'))}" <eq name='Think.get.source' value='3'>class="select"</eq>>小程序</a>
+        <a href="{:P(array('source'=>'4'))}" <eq name='Think.get.source' value='4'>class="select"</eq>>App端</a>
+        <div class="clear"></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<form id="form1" name="form1" method="post" action="{:U('delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:27%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>用户名
+            </label>
+        </div>
+        <div class="td" style=" width:15%;">企业信息</div>
+        <div class="td center" style=" width:10%;">手机</div>
+        <div class="td center" style=" width:10%;">email</div>
+        <div class="td center" style=" width:8%;">注册时间</div>
+        <div class="td center" style=" width:10%;">最后登录时间</div>
+        <div class="td" style=" width:20%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:27%;">
+                <div class="left_padding striking">
+                    <input name="tuid[]" type="checkbox" id="id" value="{$vo['uid']}"/>{$vo['username']}<span style="color: #999999">(uid:{$vo['uid']})</span>
+                    <if condition="$vo['is_bind']">
+                        <span class="weixin_bind">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                    </if>
+                </div>
+            </div>
+            <div class="td" style=" width:15%;">
+                <if condition="$vo['companyname']">
+                    <a href="{:url_rewrite('QS_companyshow',array('id'=>$vo['company_id']))}" target="_blank">{:cut_str($vo['companyname'],15,0,'..')}</a>
+                <else/>
+                    <span style="color: #999999">未完善企业资料</span>
+                </if>
+            </div>
+            <div class="td center" style=" width:10%;">
+                <span>{$vo['mobile']|default="未填写"}</span>
+            </div>
+            <div class="td center" style=" width: 10%;">
+                <span>{$vo['email']|default="未填写"}</span>
+            </div>
+            <div class="td center" style=" width:8%;">{:admin_date($vo['reg_time'])}</div>
+            <div class="td center" style=" width:10%;">
+                <if condition="$vo['last_login_time']">
+                    {:admin_date($vo['last_login_time'])}<else />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;从未登录
+                </if>
+                <span class="view login_log" title="最新5次登录记录" parameter="id={$vo['uid']}">&nbsp;&nbsp;&nbsp;</span>
+            </div>
+            <div class="td edit" style=" width:20%;">
+                <a href="javascript:void(0);" class="business" parameter="uid={$vo['uid']}&utype=1" hideFocus="true">业务</a>
+                <a href="javascript:void(0);" class="blue company_log" parameter="uid={$vo['uid']}">日志</a>
+                <if condition="$apply['Analyze']">
+                <a href="{:U('Analyze/Admin/analyze_list_com',array('uid'=>$vo['uid'],'_k_v'=>$vo['id']))}">统计</a>
+                </if>
+                <a href="{:U('Company/edit_company',array('uid'=>$vo['uid'],'_k_v'=>$vo['uid']))}">编辑</a>
+                <a href="javascript:;" class="J_message" parameter="uid={$vo['uid']}">发消息</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAdd" value="添加会员" onclick="window.location.href='{:U('Company/add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除会员"/>
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='用户名'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='用户名'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="用户名">用户名</li>
+                        <li id="2" title="UID">UID</li>
+                        <li id="3" title="email">email</li>
+                        <li id="4" title="手机号">手机号</li>
+						<li id="5" title="公司名">公司名</li><!--  新增企业名称搜素-->
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".J_message").click(function () {
+            $('.modal_backdrop').remove();
+            $('.modal').remove();
+            var qsDialog = $(this).dialog({
+                title: '发消息',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/ajax_message')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //业务
+        $(".business").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '业务',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/business')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //审核日志
+        $(".login_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '登录日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/login_log')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //会员日志
+        $(".company_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '会员日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/company_log')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //点击批量删除
+        $("#ButDel").click(function () {
+            if (confirm('删除会员，该会员下企业、职位、简历信息将同步删除')) {
+                $("form[name=form1]").attr("action", "{:U('delete')}");
+                $("form[name=form1]").submit();
+            }
+        });
+        /*//批量删除
+        $("#ButDel").click(function () {
+            var data = $("form[name=form1]").serialize();
+            if(data.length == 0){
+                disapperTooltip('remind','请选择会员！');
+            } else {
+                var qsDialog = $(this).dialog({
+                    title: '删除会员',
+                    loading: true,
+                    footer : false
+                });
+                var url = "{:U('Ajax/delete_company_members')}";
+                $.post(url, data, function (result) {
+                    if(result.status == 1){
+                        qsDialog.setContent(result.data);
+                    } else {
+                        qsDialog.hide();
+                        disapperTooltip('remind',result.msg);
+                    }
+                });
+            }
+        })*/;
+    });
+</script>
+</html>

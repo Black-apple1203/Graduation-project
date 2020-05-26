@@ -1,0 +1,324 @@
+<include file="public:header"/>
+  <div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>有效职位是指：审核通过、审核中、服务未到期等网站能正常显示的职位。</p>
+    <p>无效职位是指：审核未通过、服务到期等网站前台不显示的职位。</p>
+  </div>
+<div class="seltpye_y">
+    <div class="tit">有效状态</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.jobtype'>select</notempty>">{$Think.get.jobtype_cn|default="有效职位"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('jobtype'=>'1','jobtype_cn'=>'有效职位'))}">有效职位<span>({$count[1]})</span></li>
+        <li url="{:P(array('jobtype'=>'2','jobtype_cn'=>'无效职位'))}">无效职位<span>({$count[2]})</span></li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">审核状态</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.audit'>select</notempty>">{$Think.get.audit_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('audit'=>'','audit_cn'=>''))}">不限</li>
+        <li url="{:P(array('audit'=>'2','audit_cn'=>'等待审核'))}">等待审核<if condition="$count[4] gt 0"><span style="color:#FF0000">({$count[4]})</span></if></li>
+        <li url="{:P(array('audit'=>'1','audit_cn'=>'审核通过'))}">审核通过<span>({$count[3]})</span></li>
+         <if condition="$Think.get.jobtype neq 1 && $Think.get.jobtype neq ''">
+            <li title="审核未通过" url="{:P(array('audit'=>'3','audit_cn'=>'审核未通过'))}">审核未通过<span>({$count[5]})</span></li>
+        </if>
+    </div>
+</div>
+<if condition="$Think.get.jobtype eq 2">
+<div class="seltpye_y">
+    <div class="tit">无效原因</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.invalid'>select</notempty>">{$Think.get.invalid_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('invalid'=>'0','invalid_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('invalid'=>'2','invalid_cn'=>'套餐到期'))}">套餐到期</li>
+        <li url="{:P(array('invalid'=>'3','invalid_cn'=>'职位暂停'))}">职位暂停</li>
+        <li url="{:P(array('invalid'=>'4','invalid_cn'=>'非审核通过'))}">非审核通过</li>
+    </div>
+</div>
+</if>
+<div class="seltpye_y">
+    <div class="tit">服务到期</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.deadline'>select</notempty>">{$Think.get.deadline_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('deadline'=>'','deadline_cn'=>'不限'))}">不限</li>
+        <if condition="$Think.get.jobtype eq '2'">
+            <li url="{:P(array('deadline'=>'1','deadline_cn'=>'已到期'))}">已到期</li>
+            <li url="{:P(array('deadline'=>'2','deadline_cn'=>'未到期'))}">未到期</li>
+        </if>
+        <li url="{:P(array('deadline'=>'3','deadline_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('deadline'=>'7','deadline_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('deadline'=>'30','deadline_cn'=>'一月内'))}">一月内</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">推广类型</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.promote'>select</notempty>">{$Think.get.promote_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('promote'=>'','promote_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('promote'=>'-1','promote_cn'=>'未推广'))}">未推广</li>
+        <li url="{:P(array('promote'=>'1','promote_cn'=>'置顶'))}">置顶</li>
+        <li url="{:P(array('promote'=>'2','promote_cn'=>'紧急'))}">紧急</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">添加时间</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.addsettr'>select</notempty>">{$Think.get.addsettr_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('addsettr'=>'','addsettr_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('addsettr'=>'3','addsettr_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('addsettr'=>'7','addsettr_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('addsettr'=>'30','addsettr_cn'=>'一月内'))}">一月内</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">刷新时间</div>
+    <div class="ct">
+        <div class="txt <notempty name='Think.get.settr'>select</notempty>">{$Think.get.settr_cn|default="不限"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('settr'=>'','settr_cn'=>'不限'))}">不限</li>
+        <li url="{:P(array('settr'=>'3','settr_cn'=>'三天内'))}">三天内</li>
+        <li url="{:P(array('settr'=>'7','settr_cn'=>'一周内'))}">一周内</li>
+        <li url="{:P(array('settr'=>'30','settr_cn'=>'一月内'))}">一月内</li>
+    </div>
+</div>
+<div class="seltpye_y">
+    <div class="tit">排序方式</div>
+    <div class="ct">
+        <div class="txt <if condition="($Think.get.orderby neq '') AND ($Think.get.orderby neq 'addtime')">select</if>">{$Think.get.orderby_cn|default="发布时间"}</div>
+    </div>
+    <div class="downlist">
+        <li url="{:P(array('orderby'=>'addtime','orderby_cn'=>'发布时间'))}">发布时间</li>
+        <li url="{:P(array('orderby'=>'refreshtime','orderby_cn'=>'刷新时间'))}">刷新时间</li>
+    </div>
+</div>
+<div class="clear"></div>
+<form id="form1" name="form1" method="post" action="{:U('set_audit')}">
+    <div class="list_th">
+        <div class="td" style=" width:23%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>职位名称
+            </label>
+        </div>
+        <div class="td" style=" width:22%;">公司名称</div>
+        <div class="td center" style=" width:10%;">审核状态&nbsp;&nbsp;&nbsp;</div>
+        <div class="td center" style=" width:10%;">发布时间</div>
+        <div class="td center" style=" width:10%;">刷新时间</div>
+        <div class="td" style=" width:20%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="list" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:23%;">
+                <div class="left_padding striking">
+                    <input name="id[]" type="checkbox" id="id" value="{$vo['id']}"/>
+                    <input name="uid[{$vo['id']}]" type="hidden" id="uid" value="{$vo['uid']}"/>
+                    <a href="{$vo['jobs_url']}&validation=1" target="_blank" <if condition="($vo['deadline'] lt $now && $vo['deadline'] neq 0) || $vo['display'] eq 2">style="color:#999999"</if>>{$vo['jobs_name']}</a>
+                    <if condition="$vo['emergency'] eq 1">&nbsp;<span style="color: #FF6600" title="紧急">[急]</span></if>
+                    <if condition="$vo['stick'] eq 1">&nbsp;<span style="color: #FF3399" title="置顶">[顶]</span></if>
+                    <if condition="$vo['display'] eq 2">&nbsp;<span style="color: #999999" title="暂停招聘">[暂停]</span></if>
+                </div>
+            </div>
+            <div class="td" style=" width:22%;">
+                <a href="{$vo['company_url']}" target="_blank" style="color: #333;" title="{$vo['companyname']}">{$vo['companyname']}</a>
+                <if condition="$vo['company_audit'] eq 1">&nbsp;<span style="color: #009900" title="已认证企业">[已认证]</span></if>
+                <if condition="$vo['famous'] eq 1">&nbsp;<span style="color: #FF6600" title="诚聘通">[诚]</span></if>
+            </div>
+            <div class="td center" style=" width:10%;">
+                <if condition="$vo['audit'] eq 1">
+                    <span style="color: #009900">审核通过</span>
+                    <elseif condition="$vo['audit'] eq 2"/>
+                    <span style="color:#FF0000">等待审核</span>
+                    <elseif condition="$vo['audit'] eq 3"/>
+                    审核未通过
+                </if>
+                <span class="view audit_log" title="查看日志" parameter="type=jobs_id&id={$vo['id']}">&nbsp;&nbsp;&nbsp;</span>
+            </div>
+            <div class="td center" style=" width:10%;">{:admin_date($vo['addtime'])}</div>
+            <div class="td center" style=" width:10%;">{:admin_date($vo['refreshtime'])}</div>
+            <div class="td edit" style=" width:20%;">
+                <a href="javascript:void(0);" class="business" parameter="uid={$vo['uid']}&utype=1" hideFocus="true">业务</a>
+                <a href="{:U('jobs/edit',array('id'=>$vo['id']))}">编辑</a>
+                <a href="javascript:void(0);" class="blue jobs_log" parameter="id={$vo['id']}">日志</a>
+                <a href="javascript:;" class="J_message" parameter="uid={$vo['uid']}">发消息</a>
+                <a href="{:U('delete_jobs',array('id'=>$vo['id']))}" onClick="return confirm('你确定要删除该职位吗？')" class="gray">删除</a>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="list">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAudit" value="审核"/>
+        <input type="button" class="admin_submit" id="ButRefresh" value="刷新"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除"/>
+        <if condition="$apply['Export']">
+            <input type="button" class="admin_submit" id="ExPort" value="导出"/>
+            <input type="button" class="admin_submit" id="ExPort_s" value="批量导出"/>
+        </if>
+    </div>
+
+    <div class="footso">
+        <form action="?" method="get">
+            <div class="sobox">
+                <input type="hidden" name="m" value="{:C('admin_alias')}">
+                <input type="hidden" name="c" value="{:CONTROLLER_NAME}">
+                <input type="hidden" name="a" value="{:ACTION_NAME}">
+                <input name="key" type="text" class="sinput" value="{$Think.get.key}"/>
+                <input name="key_type" id="J_key_type_id" type="hidden" value="{$Think.get.key_type|default='1'}" />
+                <input name="key_type_cn" id="J_key_type_cn" type="hidden" value="{$Think.get.key_type_cn|default='职位名'}"/>
+                <input name="" type="submit" value="" class="sobtn"/>
+                <div class="sotype" id="J_key_click">{$Think.get.key_type_cn|default='职位名'}</div>
+                <div class="mlist" id="J_mlist">
+                    <ul>
+                        <li id="1" title="职位名">职位名</li>
+                        <li id="2" title="公司名">公司名</li>
+                        <li id="3" title="职位ID">职位ID</li>
+                        <li id="4" title="公司ID">公司ID</li>
+                        <li id="5" title="会员ID">会员ID</li>
+                        <li id="6" title="手机号">手机号</li>
+                    </ul>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".J_message").click(function () {
+            $('.modal_backdrop').remove();
+            $('.modal').remove();
+            var qsDialog = $(this).dialog({
+                title: '发消息',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/ajax_message')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //业务
+        $(".business").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '业务',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/business')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //职位日志
+        $(".jobs_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '职位日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/jobs_log')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //职位审核日志
+        $(".audit_log").click(function () {
+            var qsDialog = $(this).dialog({
+                title: '审核日志',
+                loading: true,
+                footer : false
+            });
+            var param = $(this).attr('parameter');
+            var url = "{:U('Ajax/audit_log')}&" + param;
+            $.getJSON(url, function (result) {
+                qsDialog.setContent(result.data);
+            });
+        });
+        //审核职位
+        $("#ButAudit").click(function () {
+            var data = $("form[name=form1]").serialize();
+            if(data.length == 0){
+                disapperTooltip('remind','请选择职位！');
+            } else {
+                var qsDialog = $(this).dialog({
+                    title: '审核职位',
+                    loading: true,
+                    footer : false
+                });
+                var url = "{:U('Ajax/jobs_audit')}";
+                $.post(url, data, function (result) {
+                    if(result.status == 1){
+                        qsDialog.setContent(result.data);
+                    } else {
+                        qsDialog.hide();
+                        disapperTooltip('remind',result.msg);
+                    }
+                });
+            }
+        });
+        //点击批量删除
+        $("#ButDel").click(function () {
+            if (confirm('你确定要删除吗？')) {
+                $("form[name=form1]").attr("action", "{:U('delete_jobs')}");
+                $("form[name=form1]").submit();
+            }
+        });
+        //点击批量刷新
+        $("#ButRefresh").click(function () {
+            $("form[name=form1]").attr("action", "{:U('refresh_jobs')}");
+            $("form[name=form1]").submit();
+        });
+        <if condition="$apply['Export']">
+            $("#ExPort_s").click(function () {
+                var qsDialog = $(this).dialog({
+                    title: '批量导出',
+                    loading: true,
+                    footer : false
+                });
+                var url = "{:U('Export/Admin/ajax_export_jobs')}";
+                $.getJSON(url, function (result) {
+                    qsDialog.setContent(result.data);
+                });
+            });
+            //点击批量导出
+            $("#ExPort").click(function () {
+                var data = $("form[name=form1]").serialize();
+                if(data.length == 0){
+                    disapperTooltip('remind','请选择职位！');
+                    qsDialog.hide();
+                }
+                $("form[name=form1]").attr("action", "{:U('Export/Admin/export_jobs')}");
+                $("form[name=form1]").submit();
+            });
+        </if>
+    });
+</script>
+</html>

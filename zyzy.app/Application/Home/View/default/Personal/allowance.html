@@ -1,0 +1,415 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta"/>
+    <link href="../public/css/personal/common.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_jobmoney.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/common_ajax_dialog.css" rel="stylesheet" type="text/css" />
+    <script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+    <script type="text/javascript" src="../public/js/laydate/laydate.js"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="us-top">
+    <div class="us-main">
+        <div class="us-top-box">
+            <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                <div class="se-btn"><input type="submit" value="搜 索"></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="user_main">
+    <include file="index_left_nav"/>
+    <div class="mainbox">
+        <!--职位切换卡 -->
+        <div class="tab">
+            <a class="li select">我的红包</a>
+            <div class="clear"></div>
+        </div>
+        <div class="c-jm-select">
+            <div class="c-jm-line">
+                <div class="td1">待处理：</div>
+                <div class="td2">
+                    <div class="input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text line_substring"><eq name="member_turn" value="2">待处理<else />不限</eq></span>
+                        <div class="dropdowbox6 J_dropdown_menu">
+                            <div class="dropdow_inner6">
+                                <ul class="nav_box">
+                                    <li><a class="J_listitme" href="{:P(array('member_turn'=>0))}" >不限</a></li>
+                                    <li><a class="J_listitme" href="{:P(array('member_turn'=>2))}" >待处理</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="td1">打赏方式：</div>
+                <div class="td2">
+                    <div class="input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text line_substring"><if condition="$type eq ''">全部方式<else />{$type_list[$type]}</if></span>
+                        <div class="dropdowbox6 J_dropdown_menu">
+                            <div class="dropdow_inner6">
+                                <ul class="nav_box">
+                                    <li><a class="J_listitme" href="{:P(array('type'=>''))}" >全部方式</a></li>
+                                    <volist name="type_list" id="vo">
+                                        <li><a class="J_listitme" href="{:P(array('type'=>$key))}" >{$vo}</a></li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="td1">打赏状态：</div>
+                <div class="td2">
+                    <div class="input_140_30_div J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text line_substring"><if condition="$status eq ''">不限<else />{$status_list[$status]}</if></span>
+                        <div class="dropdowbox6 J_dropdown_menu">
+                            <div class="dropdow_inner6">
+                                <ul class="nav_box">
+                                    <li><a class="J_listitme" href="{:P(array('status'=>''))}" >不限</a></li>
+                                    <volist name="status_list" id="vo">
+                                        <li><a class="J_listitme" href="{:P(array('status'=>$key))}" >{$vo}</a></li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="j-ml-group">
+        <notempty name="record['list']">
+        <volist name="record['list']" id="vo">
+            <div class="j-ml-box">
+                <div class="j-ml-u">
+                    <div class="jm-u1"><span class="c-9">红包职位：</span></div>
+                    <div class="jm-u2">
+                        <div class="res-name-box link_blue"><a target="_blank" href="{:url_rewrite('QS_jobsshow',array('id'=>$info_list[$vo['info_id']]['jobsid']))}">{$info_list[$vo['info_id']]['jobsname']}</a></div>
+                        <a href="javascript:;" class="res-rpo-box J_report" data-jobsid="{$info_list[$vo['info_id']]['jobsid']}" title="举报"></a>
+                        <div class="clear"></div>
+                    </div>
+                    <div class="jm-u3"><span class="c-9">红包类型：</span><span class="c-5f">{$info_list[$vo['info_id']]['type_cn']}</span></div>
+                    <div class="jm-u4"><span class="c-9">红包金额：</span><span class="c-f6">￥{$info_list[$vo['info_id']]['per_amount']}</span></div>
+                    <div class="jm-u5"><span class="c-9">红包状态：</span><span class="c-f6">{$vo['status_cn']}</span></div>
+                    <div class="clear"></div>
+                </div>
+                <!--投递红包-->
+                <eq name="vo['apply']" value="1">
+                    <div class="j-ml-d">
+                        <div class="jm-d1">
+                            <div class="d-line">领取红包（提交申请）</div>
+                            <div class="h15"></div>
+                            <div class="d-line">{:date('Y-m-d H:i',$vo['updatetime'])}</div>
+                        </div>
+                        <div class="jm-arr has"></div>
+                        <div class="jm-d2">
+                            <div class="d-line">简历投递成功</div>
+                            <div class="h15"></div>
+                            <div class="d-line">已投递</div>
+                        </div>
+                        <div class="jm-arr has"></div>
+                        <div class="jm-d4">
+                            <div class="d-line">红包到账</div>
+                            <div class="h15"></div>
+                            <div class="d-line">
+                                <eq name="vo['status']" value="3">
+                                红包已发放
+                                <else />
+                                红包未发放
+                                </eq>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </eq>
+                <!--面试红包-->
+                <eq name="vo['interview']" value="1">
+                    <div class="j-ml-d">
+                        <div class="jm-d1">
+                            <div class="d-line">领取红包（提交申请）</div>
+                            <div class="h15"></div>
+                            <div class="d-line">{:date('Y-m-d H:i',$vo['updatetime'])}</div>
+                        </div>
+                        <div class="jm-arr has"></div>
+                        <if condition="$vo['step'] eq 10">
+                        <div class="jm-d2">
+                            <div class="d-line">企业同意面试申请</div>
+                            <div class="h15"></div>
+                            <div class="d-line">等待企业同意面试</div>
+                        </div>
+                        <div class="jm-arr"></div>
+                        <else />
+                        <div class="jm-d2">
+                            <div class="d-line">企业同意面试申请</div>
+                            <div class="h15"></div>
+                            <div class="d-line link_blue">
+                                <eq name="vo['log'][$vo['step']]['step']" value="30">
+                                {:date('Y-m-d',$vo['log'][$vo['step']]['addtime'])}已拒绝
+                                <else />
+                                {:date('Y-m-d',$vo['log'][$vo['step']]['addtime'])}已同意<a data-id="{$vo['id']}" class="interview_detail" href="javascript:;">[详情]</a>
+                                </eq>
+                            </div>
+                        </div>
+                        <div class="jm-arr <neq name="vo['log'][$vo['step']]['step']" value="30">has</neq>"></div>
+                        </if>
+                        <if condition="$vo['auto_finish'] eq 1">
+                        <div class="jm-d3">
+                            <div class="d-line">成功面试，提交申请</div>
+                            <div class="h15"></div>
+                            <div class="d-line">7天内未确认自动结束</div>
+                        </div>
+                        <div class="jm-arr"></div>
+                        <elseif condition="$vo['step'] eq 10 || $vo['step'] eq 30" />
+                        <div class="jm-d3">
+                            <div class="d-line c-9">成功面试，提交申请</div>
+                            <div class="h15"></div>
+                            <div class="d-line c-b9">未面试</div>
+                        </div>
+                        <div class="jm-arr"></div>
+                        <elseif condition="$vo['step'] eq 20" />
+                        <div class="jm-d3">
+                            <div class="d-line c-9">成功面试，提交申请</div>
+                            <div class="h10"></div>
+                            <div class="jm-d-btn">
+                                <div class="d-btn-cell bg-blue ever_interview" data-companyuid="{$vo['company_uid']}" data-id="{$vo['id']}">我已面试</div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        <div class="jm-arr"></div>
+                        <elseif condition="$vo['step'] eq 60" />
+                        <div class="jm-d3">
+                            <div class="d-line">成功面试，提交申请</div>
+                            <div class="h15"></div>
+                            <div class="d-line">判定缺席，异议请联系客服</div>
+                        </div>
+                        <div class="jm-arr"></div>
+                        <else />
+                        <div class="jm-d3">
+                            <div class="d-line">成功面试，提交申请</div>
+                            <div class="h15"></div>
+                            <div class="d-line">{:date('Y-m-d',$vo['log'][$vo['step']]['addtime'])}已确认面试</div>
+                        </div>
+                        <div class="jm-arr <if condition="$vo['step'] gt 30">has</if>"></div>
+                        </if>
+                        <div class="jm-d4">
+                            <div class="d-line <if condition="$vo['step'] lt 50">c-9</if>">红包到账</div>
+                            <div class="h15"></div>
+                            <div class="d-line <if condition="$vo['step'] lt 50">c-b9</if>">
+                                <eq name="vo['status']" value="3">
+                                红包已发放
+                                <else />
+                                红包未发放
+                                </eq>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </eq>
+                <!--入职红包-->
+                <eq name="vo['entry']" value="1">
+                    <div class="j-ml-d">
+                        <div class="jm-d1">
+                            <div class="d-line">领取红包（提交申请）</div>
+                            <div class="h15"></div>
+                            <div class="d-line">{:date('Y-m-d H:i',$vo['updatetime'])}</div>
+                        </div>
+                        <div class="jm-arr has"></div>
+                        <if condition="$vo['auto_finish'] eq 1">
+                        <div class="jm-d2">
+                            <div class="d-line">成功入职，提交申请</div>
+                            <div class="h15"></div>
+                            <div class="d-line">7天内未确认自动结束</div>
+                        </div>
+                        <div class="jm-arr"></div>
+                        <elseif condition="$vo['step'] eq 70" />
+                        <div class="jm-d2">
+                            <div class="d-line">成功入职，提交申请</div>
+                            <div class="h10"></div>
+                            <div class="jm-d-btn">
+                                <div class="d-btn-cell bg-blue ever_entry" data-id="{$vo['id']}">我已入职</div>
+                                <div class="clear"></div>
+                            </div>
+                        </div>
+                        <div class="jm-arr"></div>
+                        <elseif condition="$vo['step'] eq 71" />
+                        <div class="jm-d2">
+                            <div class="d-line">成功入职，提交申请</div>
+                            <div class="h15"></div>
+                            <div class="d-line">等待企业确认</div>
+                        </div>
+                        <div class="jm-arr has"></div>
+                        <else />
+                        <div class="jm-d2">
+                            <div class="d-line">成功入职，提交申请</div>
+                            <div class="h15"></div>
+                            <eq name="vo['step']" value="80">
+                            <div class="d-line">{:date('Y-m-d',$vo['log'][$vo['step']]['addtime'])}已确认入职</div>
+                            <else />
+                            <div class="d-line">判定缺席，异议请联系客服</div>
+                            </eq>
+                        </div>
+                        <div class="jm-arr has"></div>
+                        </if>
+                        <div class="jm-d4">
+                            <div class="d-line <if condition="$vo['step'] lt 80">c-9</if>">红包到账</div>
+                            <div class="h15"></div>
+                            <div class="d-line <if condition="$vo['step'] lt 80">c-b9</if>">
+                                <eq name="vo['status']" value="3">
+                                红包已发放
+                                <else />
+                                红包未发放
+                                </eq>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </eq>
+            </div>
+            <div class="h15"></div>
+        </volist>
+        <div class="qspage">{$page}</div>
+        <else />
+        <div class="jobsWrap">
+            <div class="res_empty">
+                没有找到符合条件的记录
+            </div>
+        </div>
+        </notempty>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <include file="index_footer"/>
+    <script type="text/javascript">
+        $('.J_report').die().live('click',function(){
+            var url = "{:U('Home/AjaxPersonal/report_jobs')}";
+            var jobs_id = $(this).data('jobsid');
+            var qsDialog = $(this).dialog({
+                loading: true,
+                footer: false,
+                header: false,
+                border: false,
+                backdrop: false
+            });
+            $.getJSON(url,{jobs_id:jobs_id},function(result){
+                if(result.status==1){
+                    qsDialog.hide();
+                    var qsDialogSon = $(this).dialog({
+                        title:'举报职位',
+                        content: result.data,
+                        footer: false
+                    });
+                } else {
+                    qsDialog.hide();
+                    disapperTooltip('remind',result.msg);
+                }
+            });
+        });
+        $('.ever_interview').die().live('click',function(){
+            var record_id = $(this).data('id');
+            var company_uid = $(this).data('companyuid');
+            var qsDialog = $(this).dialog({
+                title: '我已面试',
+                loading: true,
+                footer: false,
+                header: false,
+                border: false,
+                backdrop: false
+            });
+            var url = qscms.root+"?m=Allowance&c=Ajax&a=ever_interview";
+            $.getJSON(url,{record_id:record_id,company_uid:company_uid},function(result){
+                if(result.status == 1){
+                    qsDialog.hide();
+                    var qsDialogSon = $(this).dialog({
+                        title: '确认面试',
+                        content: result.data,
+                        yes: function() {
+                            $.post(url,$('#J_interviewWrap').serialize(),function(result){
+                                if(result.status == 1){
+                                    qsDialogSon.hide();
+                                    if(result.status==1){
+                                        disapperTooltip("success",result.msg);
+                                        setTimeout(function () {
+                                            location.reload();
+                                        }, 2000);
+                                    }
+                                } else {
+                                    disapperTooltip('remind',result.msg);
+                                }
+                            },'json');
+                        }
+                    });
+                    qsDialogSon.setCloseDialog(false);
+                    // 时间插件
+                    laydate.render({
+                        elem: '#interview_time'
+                    })
+                } else {
+                    qsDialog.hide();
+                    disapperTooltip('remind',result.msg);
+                }
+            });
+        });
+        $('.ever_entry').die().live('click',function(){
+            var record_id = $(this).data('id');
+            var qsDialog = $(this).dialog({
+                title: '我已入职',
+                loading: true,
+                footer: false,
+                header: false,
+                border: false,
+                backdrop: false
+            });
+            var url = qscms.root+"?m=Allowance&c=Ajax&a=ever_entry";
+            $.getJSON(url,{record_id:record_id},function(result){
+                if(result.status == 1){
+                    qsDialog.hide();
+                    var qsDialogSon = $(this).dialog({
+                        title: '我已入职',
+                        content: result.data,
+                        yes: function() {
+                            $.post(url,$('#J_interviewWrap').serialize(),function(result){
+                                if(result.status == 1){
+                                    qsDialogSon.hide();
+                                    if(result.status==1){
+                                        disapperTooltip("success",result.msg);
+                                        setTimeout(function () {
+                                            location.reload();
+                                        }, 2000);
+                                    }
+                                } else {
+                                    disapperTooltip('remind',result.msg);
+                                }
+                            },'json');
+                        }
+                    });
+                    qsDialogSon.setCloseDialog(false);
+                    // 时间插件
+                    laydate.render({
+                        elem: '#entry_time'
+                    })
+                } else {
+                    qsDialog.hide();
+                    disapperTooltip('remind',result.msg);
+                }
+            });
+        });
+        
+        //面试详情
+        $('.interview_detail').die().live('click',function(){
+            var record_id = $(this).data('id');
+            $.getJSON(qscms.root+'?m=Allowance&c=Ajax&a=interview_detail',{record_id:record_id},function(result){
+                if(result.status==1){
+                    var qsDialogSon = $(this).dialog({
+                        title: '面试详情',
+                        content: result.data,
+                    });
+                }
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

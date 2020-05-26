@@ -1,0 +1,37 @@
+<include file="public:header" />
+	<div class="toptip">
+		<h2>提示：</h2>
+		<p>短信模板请勿添加HTML。短信内容不能超过60个字符，超过将会自动删除多余字符。</p>
+		<p>短信模版编辑仅用于统一各服务商的短信模版，短信发送生效需前往“服务商接入”下短信服务商相应的模版配置单独配置。</p>
+	</div>
+	<table width="100%" border="0" cellpadding="0" cellspacing="0" id="list" class="link_lan">
+		<tr>
+			<td width="160" class="admin_list_tit admin_list_first">模板名称</td>
+			<td width="110" class="admin_list_tit">模板标识</td>
+			<td width="80" align="center" class="admin_list_tit">排序</td>
+			<td width="80" align="center" class="admin_list_tit">状态</td>
+			<td width="230" class="admin_list_tit">模板内容</td>
+			<td width="160" align="center" class="admin_list_tit">更新时间</td>
+			<td width="110" align="center" class="admin_list_tit">操作</td>
+		</tr>
+		<volist name="list" id="list">
+			<tr>
+				<td class="admin_list admin_list_first">{$list.name}</td>
+				<td class="admin_list">{$list.alias}</td>
+				<td class="admin_list" align="center">{$list.ordid}</td>
+				<td class="admin_list" align="center">
+					<img src="__ADMINPUBLIC__/images/toggle_<if condition="$list.status eq 0">disabled<else/>enabled</if>.gif" />
+				</td>
+				<td class="admin_list">{$list.value}</td>
+				<td class="admin_list" align="center">{:admin_date($list['update_time'])}</td>
+				<td class="admin_list" align="center">
+					<a href="{:U('SmsTemplates/edit',array('id'=>$list['id']))}" >编辑</a>
+				</td>
+			</tr>
+		</volist>
+	</table>
+	<div class="qspage">{$page}</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

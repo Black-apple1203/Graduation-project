@@ -1,0 +1,32 @@
+<include file="public:header" />
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p class="link_green_line">链职网可以免费为第三方网站提供查询云端职位和上传云端职位服务，可自定义域名和LOGO，请联系我司客服免费开通。</p>
+</div>
+<div class="toptit">基本配置</div>
+<form action="{:U('config/edit')}" method="post" enctype="multipart/form-data" name="form1" id="form1">
+	<div class="form_main width150">
+        <div class="fl">开启:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <in name='Think.config.qscms_cloud_open' value='1,2'>select</in>"><input name="cloud_open" type="hidden" value="{:C('qscms_cloud_open')}" /></div>
+            <div class="clear"></div>
+        </div>
+		<div class="fl">app_key：</div>
+		<div class="fr">
+			<input name="cloud_appkey" type="text" maxlength="40" class="input_text_default middle" value="{:C('qscms_cloud_appkey')}"/>
+		</div>
+		<div class="fl">app_secret</div>
+		<div class="fr">
+			<input name="cloud_appsecret" type="text" maxlength="40" class="input_text_default middle" value="{:C('qscms_cloud_appsecret')}"/>
+		</div>
+		<div class="fl"></div>
+		<div class="fr">
+			<input name="submit" type="submit" class="admin_submit"    value="保存修改"/>
+		</div>
+		<div class="clear"></div>
+	</div>
+</form>
+</div>
+<include file="public:footer" />
+</body>
+</html>

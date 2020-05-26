@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta"/>
+    <link href="../public/css/personal/common.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_job.css" rel="stylesheet" type="text/css"/>
+    <link href="../public/css/personal/personal_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+    <script src="../public/js/personal/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="us-top">
+    <div class="us-main">
+        <div class="us-top-box">
+            <form id="ajax_search_location" action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}" method="get">
+                <div class="input-box"><input type="text" name="key" data-original="请输入关键字" value="" placeholder="请输入关键字" autocomplete="off"></div>
+                <div class="se-btn"><input type="submit" value="搜 索"></div>
+                <div class="clear"></div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="user_main">
+    <include file="Personal:index_left_nav"/>
+    <div class="ph-28"></div>
+            <div class="res_name_group">
+                <div class="rg1 link_gray6">高级简历</div>
+                <div class="clear"></div>
+            </div>
+            <div class="ph-30"></div>
+            <div class="re_l"></div>
+    <div class="mainbox">
+        <div class="adv_resume">
+            <div class="ad_1"></div>
+            你是高级人才吗
+        </div>
+        <div class="adv_center">
+            <div class="adv_items">1.手机已验证<div class="adv_img"></div></div>
+            <div class="adv_items">2.工作经验5年以上<div class="adv_img"></div></div> 
+            <div class="adv_items">3.学历本科及以上<div class="adv_img"></div></div> 
+            <div class="adv_items">4.管理经验丰富<div class="adv_img"></div></div>
+        </div>
+        <div class="adv_foot">
+            <div class="adv_item">填写高级简历有什么好处？</div>
+            <div class="adv_item1"><div class="adv_img1"></div>高级简历永久保密，不会被搜索，拒绝尴尬</div> 
+            <div class="adv_item1"><div class="adv_img2"></div>拥有一对一专属服务特权，客服随时响应</div> 
+            <div class="adv_item1"><div class="adv_img3"></div>求职空间更宽广，高薪职位随心享</div>
+        </div>
+        <div class="adv_sub" onclick="window.location.href='{:U('adv_index')}'"><div class="adv_sub1">填写高级简历</div></div>
+    </div>
+    <div class="clear"></div>
+</div>
+<include file="Personal:index_footer"/>
+</body>
+</html>

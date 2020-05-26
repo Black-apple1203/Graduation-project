@@ -1,0 +1,702 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_jobs.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+        <link href="../public/css/jobmoney.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+        <qscms:load type="category" search="1"/>
+	</head>
+	<body>
+    <include file="index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="left_jobs" /> 
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l"><if condition="$jobs['id']">修改职位<else />发布职位</if></div>
+					<div class="pat_r">(注：带&nbsp;<span class="asterisk"></span> 号为必填项)</div>
+					<div class="clear"></div>
+				</div>
+				<div class="user_tip w880">
+					<div class="tiptit">小提示</div>
+					<div class="tiptxt link_blue">
+						亲爱的HR，您的帐号可同时发布 {$setmeal.jobs_meanwhile} 个职位，现已发布 {$total} 个职位。
+						<notempty name="apply['Rpo']">
+							<br>招聘外包服务（RPO），为您提供从职位发布、筛选简历、组织面试直至入职的一站式服务。<div class="btn_blue J_hoverbut btn_inline" onclick="window.location='{:U('Home/CompanyService/rpo')}'">申请招聘外包</div>
+						</notempty>
+					</div>
+				</div>
+				<div class="modTitle">职位信息</div>
+				<form id="jobs_form" action="{:U('company/jobs')}" method="post">
+					<div class="mod J_focus">
+						<div class="mb16">
+							<div class="modKey"><span></span>职位名称：</div>
+							<div class="modVal">
+								<div class="fl">
+									<input name="jobs_name" id="jobs_name" type="text" class="input_245_34 fl" value="{$jobs.jobs_name}">
+								</div>
+								<div class="radio_list fl J_radioitme_parent">
+									<volist name="category['QS_jobs_nature']" id="nature">
+										<div class="rli <if condition="$jobs['nature'] eq $key or ($jobs['nature'] eq 0 and $i eq 1)">checked</if> J_radioitme" data-code="{$key}" <if condition="$apply['Parttime']"><if condition="$key eq 63">onclick="window.open('{:U('Parttime/index/add')}')"</if> </if>>{$nature}</div>
+									</volist>
+									<input class="J_radioitme_code" name="nature" id="nature" type="hidden" value="{$jobs.nature|default=key($category['QS_jobs_nature'])}"/>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="mb16">
+							<div class="modKey"><span></span>工作地区：</div>
+							<div class="modVal">
+									<div class="select_input_multi select_205_34 J_hoverinput" data-toggle="funCityModal" data-title="请选择工作地区" data-multiple="false" data-maximum="0" data-width="760">
+				                      <span title="" class="result J_resuletitle_city">{$jobs['district_cn']|default='请选择'}</span>
+				                      <input class="J_resultcode_city" name="district" id="district" type="hidden" value="<if condition="$jobs['district']">{$jobs.district}</if>" keep="<if condition="$jobs['district']">{$jobs.district}</if>">
+				                      <div class="clear"></div>
+				            </div>
+										</div>
+								<div class="fl">
+									<div class="modKey"><span></span>职位类别：</div>
+							<div class="modVal">
+								<div class="select_input_multi select_205_34 fl J_hoverinput" id="J_showmodal_jobs" data-title="请选择职位类别" data-multiple="false" data-addjob="true" data-edit="{$jobs.id}" data-maxnum="0" <if condition="C('qscms_category_jobs_level') gt 2">data-width="667"<else/>data-width="520"</if> data-category="{:C('qscms_category_jobs_level')}">
+									<span title="" class="result J_resuletitle_jobs">{$jobs['category_cn']|default='请选择'}</span>
+									<input class="J_resultcode_jobs" name="jobcategory" id="jobcategory" type="hidden" value="<if condition="$jobs['topclass']">{$jobs.topclass}.{$jobs.category}.{$jobs.subclass}<else /></if>">
+									<div class="clear"></div>
+								</div>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="mb16">
+							<div class="modKey"><span></span>薪资待遇：</div>
+							<div class="modVal">
+								<div class="input_unit nopl w110 fl">
+									<input name="minwage" id="minwage" data-title="{$jobs.minwage}" value="{$jobs.minwage}" class="input_val pdl w110" type="text" placeholder="最低薪资" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">
+									<div class="unit">元/月</div>
+								</div>
+								<div class="fl partition">-</div>
+								<div class="input_unit nopl w110 fl">
+									<input name="maxwage" id="maxwage" data-title="{$jobs.maxwage}" value="{$jobs.maxwage}" class="input_val pdl w110" type="text" placeholder="最高薪资" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">
+									<div class="unit">元/月</div>
+								</div>
+								<label class="checkBox ml20 fl" for="J_negotiable"><input id="J_negotiable" class="J_switch" name="negotiable" id="negotiable" value="1" type="checkbox" <if condition="$jobs['negotiable']">checked="checked"</if>>面议</label>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="mb16">
+							<div class="modKey">条件限制：</div>
+							<div class="modVal">
+								<div class="select_input w113 fl mr10 J_hoverinput J_dropdown J_listitme_parent">
+									<span class="J_listitme_text"><if condition="$jobs['education_cn'] eq '不限'">学历不限<else />{$jobs.education_cn|default='学历不限'}</if></span>
+									<div class="dropdowbox13 J_dropdown_menu">
+							            <div class="dropdow_inner13">
+							                <ul class="nav_box">
+							                	<li><a class="J_listitme" href="javascript:;" data-code="0">不限</a></li>
+							                	<volist name="category['QS_education']" id="education">
+							                		<li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$education}</a></li>
+												</volist>
+							                </ul>
+							            </div>
+							        </div>
+									<input class="J_listitme_code" name="education" id="education" type="hidden" value="{$jobs.education|default='0'}" />
+								</div>
+								<div class="select_input w113 fl mr10 J_hoverinput J_dropdown J_listitme_parent">
+									<span class="J_listitme_text"><if condition="$jobs['experience_cn'] eq '不限'">经验不限<else />{$jobs.experience_cn|default='经验不限'}</if></span>
+									<div class="dropdowbox13 J_dropdown_menu">
+							            <div class="dropdow_inner13">
+							                <ul class="nav_box">
+							                	<li><a class="J_listitme" href="javascript:;" data-code="0">不限</a></li>
+							                	<volist name="category['QS_experience']" id="experience">
+							                		<li><a class="J_listitme" href="javascript:;" data-code="{$key}">{$experience}</a></li>
+												</volist>
+							                </ul>
+							            </div>
+							        </div>
+									<input class="J_listitme_code" name="experience" id="experience" type="hidden" value="{$jobs.experience|default='0'}" />
+								</div>
+								<input name="amount" id="amount" type="text" class="input_110_34 w113 fl" value="<if condition="$jobs['amount'] eq 0"><else />{$jobs.amount}</if>" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))" placeholder="招聘人数">
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="mb16">
+							<div class="modKey">年龄要求：</div>
+							<div class="modVal">
+								<div class="w205 fl">
+									<div class="input_unit nopl unit_30 fl">
+										<input name="minage" id="minage" class="input_val pdl w35" type="text" value="<if condition="$jobs['age'][0] gt 0">{$jobs['age'][0]}</if>" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">
+										<div class="unit">岁</div>
+									</div>
+									<div class="fl partition">-</div>
+									<div class="input_unit nopl unit_30 fl">
+										<input name="maxage" id="maxage" class="input_val pdl w35" type="text" value="<if condition="$jobs['age'][1] gt 0">{$jobs['age'][1]}</if>" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">
+										<div class="unit">岁</div>
+									</div>
+								</div>
+								<div class="modKey">所属部门：</div>
+								<div class="modVal">
+									<input name="department" id="department" type="text" class="input_205_34" value="{$jobs.department}" maxlength="8">
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="mb16">
+							<div class="modKey">职位亮点：</div>
+							<div class="modVal">
+								<div class="select_input_multi w518 J_hoverinput" id="J_showmodal_jobtag" data-title="请选择职位亮点" data-multiple="true" data-maxnum="6" data-width="582">
+									<span title="" class="result J_resuletitle_jobtag"><if condition="$jobs['tag_cn'] eq '' && $tagStr['cn'] neq ''">{$tagStr['cn']}<else />{$jobs.tag_cn|default='请选择'}</if></span>
+									<input class="J_resultcode_jobtag" name="tag" type="hidden" id="tag" value="<if condition="$jobs['tag'] eq '' && $tagStr['id'] neq ''">{$tagStr['id']}<else />{$jobs.tag|default='请选择'}</if>">
+									<div class="clear"></div>
+								</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="mb16">
+							<div class="modKey"><span></span>职位描述：</div>
+							<div class="modVal">
+                                <div class="des-temp" id="des-cell-box">
+                                    <div class="des-ques">
+                                        <div class="des_box">
+                                            <div class="desarrow"></div>
+                                            <div class="des_txt">点击职位链接，自动获取职位详情模板信息，可自由编辑至完美。</div>
+                                        </div>
+                                    </div>
+                                    <div class="des-txt"><strong>选择模板：</strong></div>
+                                    <div class="des-a" id="des-item-group"></div>
+                                    <div class="clear"></div>
+                                </div>
+								<textarea name="contents" id="contents" cols="" rows="" class="textarea_638_80 w518">{$jobs.contents}</textarea>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<div class="modTitle contact">联系方式</div>
+					<div class="mod J_focus">
+						<div class="J_contact contact">
+							<div class="mb16">
+								<div class="modKey"><span></span>联系人：</div>
+								<div class="modVal">
+									<input name="contact" id="contact" type="text" class="input_245_34 fl" value="{$company_profile.contact}">
+									<label class="checkBox ml20 fl"><input name="contact_show" id="contact_show" class="J_dontopen" type="checkbox" <if condition="$company_profile['contact_show'] eq 0">checked="checked" value="0"<else/>value="1"</if>>不公开</label>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="mb16">
+								<div class="modKey"><span></span>联系电话：</div>
+								<div class="modVal">
+									<input name="telephone" id="telephone" type="text" class="input_245_34 fl" value="{$company_profile.telephone}" placeholder="请输入联系手机"  onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">
+									<label class="checkBox ml20 fl"><input name="telephone_show" id="telephone_show" class="J_dontopen" type="checkbox" <if condition="$company_profile['telephone_show'] eq 0">checked="checked" value="0"<else/>value="1"</if>>不公开</label>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="mb16">
+								<div class="modKey">&nbsp;</div>
+								<div class="modVal">
+									<input type="text" value="{$telarray[0]}" class="input_110_34 w60 mr4 fl" name="tel_first" id="tel_first" placeholder="区号" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">
+									<input type="text" value="{$telarray[1]}" class="input_110_34 w89 mr4 fl" name="tel_next" id="tel_next" placeholder="固定电话" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">
+									<input type="text" value="{$telarray[2]}" class="input_110_34 w52 fl" name="tel_last" id="tel_last" placeholder="分机号" onkeyup="if(event.keyCode !=37 &amp;&amp; event.keyCode != 39) value=value.replace(/\D/g,'');" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))">
+									<label class="checkBox ml20 fl"><input name="landline_tel_show" id="landline_tel_show" class="J_dontopen" type="checkbox" <if condition="$company_profile['landline_tel_show'] eq 0">checked="checked" value="0"<else/>value="1"</if>>不公开</label>
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="mb16">
+								<div class="modKey">联系邮箱：</div>
+								<div class="modVal reg-form-content">
+									<input name="email" id="email" type="text" class="input_245_34 fl inputElem" value="{$company_profile.email}">
+									
+								</div>
+								<div class="clear"></div>
+							</div>
+							<div class="mb16">
+								<div class="modKey"><span></span>联系地址：</div>
+								<div class="modVal">
+									<input name="address" id="address" type="text" class="input_245_34 w518" value="{$company_profile.address}">
+								</div>
+								<div class="clear"></div>
+							</div>
+						</div>
+						<div class="mb16">
+							<div class="modKey">&nbsp;</div>
+							<div class="modVal">
+								<label class="checkBox fl"><input name="basis_contact" id="basis_contact" class="J_basic" type="checkbox" checked="checked">使用企业基本资料的联系方式</label>
+								<a href="javascript:;" class="J_other other fl">使用其它联系方式</a>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+                    <!--微信提示-->
+                    <if condition="$weixin_img">
+                        <div class="job-add-wx">
+                            <div class="wx-img">{$weixin_img}</div>
+                            <div class="wx-txt">
+                                <div class="wxl font_yellow">微信扫码关注【{:C('qscms_site_name')}】公众号</div>
+                                <div class="wxl">随时随地接收简历投递通知，更有优秀人才精准推荐！</div>
+                            </div>
+                            <div class="clear"></div>
+                        </div>
+                    </if>
+                    <!--微信提示-->
+					<div class="modTitle advanced">高级设置</div>
+					<div class="mod">
+                        <div class="job-money-switch">
+							<if condition="C('qscms_share_allowance_open') eq 1 && !$jobs['share_allowance']">
+								<div class="money-switch">
+									<div class="switch-icon <if condition="$jobs['allowance_id'] || $jobs['share_allowance']">disabled</if> <if condition="!$jobs['id']">selected</if>" id="jobMoneyControl"></div>
+									<div class="switch-text">开启分享红包</div>
+									<input type="hidden" value="<if condition="!$jobs['id']">1<else />0</if>" id="jobMoney"/>
+									<div class="sms-re-icon allowance_explain"></div>
+									<div class="clear"></div>
+								</div>
+							</if>
+							<eq name="Think.config.qscms_company_sms" value="1">
+								<div class="money-switch">
+									<div class="switch-icon <if condition="$visitor['sms_num'] eq 0">dot-click</if> <if condition="($jobs['id'] && $company_profile['notify_mobile'] && $visitor['sms_num'] gt 0) || (!$jobs['id'] && $visitor['sms_num'] gt 0)">selected</if>" id="phoneControl"></div>
+									<div class="switch-text">联系手机接收投递通知</div>
+									<div class="sms-re-icon">
+										<div class="des_box">
+											<div class="desarrow"></div>
+											<div class="des_txt">
+												当前可用 <strong class="c-o">{$visitor.sms_num}</strong> 条短信
+												<eq name="visitor['sms_num']" value="0">
+													<br/>
+													<div class="btn"><a href="{:U('CompanyService/increment_add',array('cat'=>'sms'))}" class="btn_yellow btn_inline">立即购买</a></div>
+												</eq>
+											</div>
+										</div>
+									</div>
+									<input name="notify_mobile" id="notify_mobile" class="J_switch" type="hidden" <if condition="($jobs['id'] && $company_profile['notify_mobile'] && $visitor['sms_num'] gt 0) || (!$jobs['id'] && $visitor['sms_num'] gt 0)">value="1"<else/>value="0"</if>>
+									<div class="clear"></div>
+								</div>
+							<else/>
+								<div class="money-switch">
+									<div class="switch-icon <if condition="($jobs['id'] && $company_profile['notify_mobile']) || !$jobs['id']">selected</if>" id="phoneControl"></div>
+									<div class="switch-text">联系手机接收投递通知</div>
+									<input name="notify_mobile" id="notify_mobile" class="J_switch" type="hidden" <if condition="($jobs['id'] && $company_profile['notify_mobile']) || !$jobs['id']">value="1"<else/>value="0"</if>>
+									<div class="clear"></div>
+								</div>
+							</eq>
+							<div class="clear"></div>
+                        </div>
+						<div class="mb30"></div>
+						<div class="mb16">
+							<div class="modKey">&nbsp;</div>
+							<div class="modVal">
+								<input type="button" id="J_release" class="btn_blue J_hoverbut btn_80_38 w140" data-title="<if condition="$jobs['id']">保存职位<else />发布职位</if>" value="<if condition="$jobs['id']">保存职位<else />发布职位</if>">
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+					<input name="id" type="hidden" id="id" value="{$jobs.id}">
+				</form>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<input type="hidden" id="J_share_allowance" value="{$jobs.share_allowance}">
+		<input type="hidden" id="J_allowance_id" value="{$jobs.allowance_id}">
+		<include file="index_footer" />
+		<script type="text/javascript" src="../public/js/layer/layer.js"></script>
+		<script type="text/javascript" src="../public/js/jquery.modal.userselectlayer.js?v={:strtotime('today')}"></script>
+		<script type="text/javascript" src="../public/js/jquery.user.city.js"></script>
+		<script type="text/javascript" src="../public/js/emailAutoComplete.js"></script>
+	</body>
+	<script type="text/javascript">
+		$('.allowance_explain').click(function(){
+			var qsDialog = $(this).dialog({
+                loading: true,
+                footer: false,
+                header: false,
+                border: false,
+                backdrop: false
+            });
+            $.getJSON(qscms.root+"?c=CompanyService&a=share_allowance_explain", function(result){
+                if(result.status==1){
+                    qsDialog.hide();
+                    var explainDialog = $(this).dialog({
+                        title: "职位分享红包说明",
+                        content: result.data,
+                        footer: false,
+                        innerPadding: false
+                    });
+                }
+            });
+		});
+		$('.J_other').click(function(){
+			$(this).hide();
+			$('.J_contact').show();
+			$('.J_basic').attr('checked',false);
+		});
+		$('.J_basic').click(function(){
+			if(!$(this).is(":checked")){
+				$('.J_other').hide();
+				$('.J_contact').show();
+				$('.J_basic').attr('checked',false);
+			}else{
+				$('.J_other').show();
+				$('.J_contact').hide();
+				$('.J_basic').attr('checked',true);
+			}
+		});
+		<if condition="ACTION_NAME eq 'edit_jobs'">
+			$('.J_other').click();
+		</if>
+
+		// 单选值切换
+		$('.J_switch').click(function(event) {
+			if ($(this).is(':checked')) {
+				$(this).val('1');
+			} else {
+				$(this).val('0');
+			}
+		});
+
+		if ($('#J_negotiable').is(':checked')) {
+			$('#J_negotiable').closest('.modVal').find('.input_val').val('').prop('disabled', !0);
+		} 
+		// 面议选中后，最低和最高薪资不能编辑
+		$('#J_negotiable').die().live('click', function(event) {
+			if ($(this).is(':checked')) {
+				$(this).closest('.modVal').find('.input_val').val('').prop('disabled', !0);
+			} else {
+				$(this).closest('.modVal').find('.input_val').each(function(index, el) {
+					$(this).val($(this).data('title')).prop('disabled', 0);
+				});
+			}
+		});
+
+		// 发布职位验证表单并提交
+		var regularMobile = qscms.regularMobile; // 验证手机号
+		var regularEmail = /^[_\.0-9a-zA-Z-]+[_0-9a-zA-Z-]@([0-9a-zA-Z][0-9a-zA-Z-]+\.)+[a-zA-Z]{2,3}$/; // 验证邮箱
+		var regularTelFirst = /^[0-9]{3}[0-9]?$/; // 验证区号
+		var regularTelNext = /^[0-9]{6,11}$/; // 验证电话号码
+		var regularTelLast = /^-?(?:\d+|\d{1,3}(?:,\d{3})+)(?:\.\d+)?$/; // 验证分机号码
+
+        // 保存职位方法
+        function saveJob() {
+            var id = $.trim($('#id').val());
+            var jobsnameValue = $.trim($('#jobs_name').val());
+            var natureValue = $.trim($('#nature').val());
+            var jobcategoryValue = $.trim($('#jobcategory').val());
+            var district = $.trim($('#district').val());
+            var minwageValue = $.trim($('#minwage').val());
+            var maxwageValue = $.trim($('#maxwage').val());
+            var educationValue = $.trim($('#education').val());
+            var experienceValue = $.trim($('#experience').val());
+            var sexValue = 3;
+            var amountValue = $.trim($('#amount').val());
+            var minageValue = $.trim($('#minage').val());
+            var maxageValue = $.trim($('#maxage').val());
+            var departmentValue = $.trim($('#department').val());
+            var tagValue = $.trim($('#tag').val());
+            var contentsValue = $.trim($('#contents').val());
+            var contactValue = $.trim($('#contact').val());
+            var telephoneValue = $.trim($('#telephone').val());
+            var telfirstValue = $.trim($('#tel_first').val());
+            var telnextValue = $.trim($('#tel_next').val());
+            var tellastValue = $.trim($('#tel_last').val());
+            var landlinetelValue = telfirstValue+'-'+telnextValue+'-'+tellastValue;
+            var emailValue = $.trim($('#email').val());
+            var addressValue = $.trim($('#address').val());
+            var negotiableValue = $('#J_negotiable').is(":checked")?1:0;
+            var contactshowValue = $('#contact_show').is(":checked")?0:1;
+            var telephoneshowValue = $('#telephone_show').is(":checked")?0:1;
+            var landlinetelshowValue = $('#landline_tel_show').is(":checked")?0:1;
+            var emailshowValue = $('#email_show').is(":checked")?0:1;
+            var notifyValue = $('#notify').is(":checked")?1:0;
+            var notifymobileValue = $('#notify_mobile').is(":checked")?1:0;
+            var basis_contact = $('#basis_contact').is(":checked")?1:0;
+
+        }
+
+		$('#J_release').click(function(){
+            $('#J_release').addClass('btn_disabled').prop('disabled', !0);
+			var id = $.trim($('#id').val());
+			var jobsnameValue = $.trim($('#jobs_name').val());
+			var natureValue = $.trim($('#nature').val());
+			var jobcategoryValue = $.trim($('#jobcategory').val());
+			var district = $.trim($('#district').val());
+			var minwageValue = $.trim($('#minwage').val());
+			var maxwageValue = $.trim($('#maxwage').val());
+			var educationValue = $.trim($('#education').val());
+			var experienceValue = $.trim($('#experience').val());
+			var sexValue = 3;
+			var amountValue = $.trim($('#amount').val());
+			var minageValue = $.trim($('#minage').val());
+			var maxageValue = $.trim($('#maxage').val());
+			var departmentValue = $.trim($('#department').val());
+			var tagValue = $.trim($('#tag').val());
+			var contentsValue = $.trim($('#contents').val());
+			var contactValue = $.trim($('#contact').val());
+			var telephoneValue = $.trim($('#telephone').val());
+			var telfirstValue = $.trim($('#tel_first').val());
+			var telnextValue = $.trim($('#tel_next').val());
+			var tellastValue = $.trim($('#tel_last').val());
+			var landlinetelValue = telfirstValue+'-'+telnextValue+'-'+tellastValue;
+			var emailValue = $.trim($('#email').val());
+			var addressValue = $.trim($('#address').val());
+			var negotiableValue = $('#J_negotiable').is(":checked")?1:0;
+			var contactshowValue = $('#contact_show').is(":checked")?0:1;
+			var telephoneshowValue = $('#telephone_show').is(":checked")?0:1;
+			var landlinetelshowValue = $('#landline_tel_show').is(":checked")?0:1;
+			var emailshowValue = $('#email_show').is(":checked")?0:1;
+			var notifyValue = eval($.trim($('#notify').val()));
+			var notifymobileValue = eval($.trim($('#notify_mobile').val()));
+			var basis_contact = $('#basis_contact').is(":checked")?1:0;
+            var isMoney = eval($.trim($("#jobMoney").val()));
+
+			if (jobsnameValue == "") {
+				disapperTooltip("remind", "请填写职位名称");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (natureValue == "") {
+				disapperTooltip("remind", "请选择职位性质");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (jobcategoryValue == "") {
+				disapperTooltip("remind", "请选择职位类别");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (district == "") {
+				disapperTooltip("remind", "请选择工作地区");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (!$('#J_negotiable').is(':checked')) {
+				if (!minwageValue.length || minwageValue==0) {
+					disapperTooltip("remind", "请填写最低薪资");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				}
+				if (minwageValue != "" && !regularTelLast.test(minwageValue)) {
+					disapperTooltip("remind", "薪资应为数字");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				}
+				if (!maxwageValue.length) {
+					disapperTooltip("remind", "请填写最高薪资");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				}
+				if (maxwageValue != "" && !regularTelLast.test(maxwageValue)) {
+					disapperTooltip("remind", "薪资应为数字");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				}
+				if (minwageValue != "" && maxwageValue != "" && parseInt(minwageValue) > parseInt(maxwageValue)) {
+					disapperTooltip("remind", "最低薪资不能大于最高薪资");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				}
+				if (parseInt(maxwageValue) > (parseInt(minwageValue) * 2)) {
+					disapperTooltip("remind", "最高薪资不能超过最低薪资的2倍");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				}
+			}
+			/*if (educationValue == "") {
+				disapperTooltip("remind", "请选择学历");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (experienceValue == "") {
+				disapperTooltip("remind", "请选择工作经验");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (amountValue != "" && !regularTelLast.test(amountValue)) {
+				disapperTooltip("remind", "招聘人数应为数字");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}*/
+			if (minageValue != "" && !regularTelLast.test(minageValue)) {
+				disapperTooltip("remind", "年龄应为数字");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (minageValue != "" && parseInt(minageValue) < 16) {
+				disapperTooltip("remind", "最小年龄不能小于16岁");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (minageValue != "" && parseInt(minageValue) > 65) {
+				disapperTooltip("remind", "年龄不能大于65岁");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (maxageValue != "" && !regularTelLast.test(maxageValue)) {
+				disapperTooltip("remind", "年龄应为数字");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (maxageValue != "" && parseInt(maxageValue) < 16) {
+				disapperTooltip("remind", "年龄不能小于16岁");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (maxageValue != "" && parseInt(maxageValue) > 65) {
+				disapperTooltip("remind", "最大年龄不能大于65岁");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (maxageValue != "" && minageValue != "" && parseInt(minageValue) > parseInt(maxageValue)) {
+				disapperTooltip("remind", "最小年龄不能大于最大年龄");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if (contentsValue == "") {
+				disapperTooltip("remind", "请填写职位描述");
+                $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+				return false;
+			}
+			if(!basis_contact){
+				if (contactValue == "") {
+					disapperTooltip("remind", "请填写联系人");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				}
+				if (contactValue != "" && contactValue.length > 10) {
+					disapperTooltip("remind", "联系人1-10个字");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				}
+				if(telnextValue=="" && telephoneValue=="") {
+					disapperTooltip("remind", "请填写联系手机或座机");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				} else {
+					if (telephoneValue != "" && !regularMobile.test(telephoneValue)) {
+						disapperTooltip("remind", "手机号格式不正确");
+                        $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+						return false;
+					}
+					if (telfirstValue != "" && !regularTelFirst.test(telfirstValue)) {
+						disapperTooltip("remind", "请填写正确的区号");
+                        $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+						return false;
+					}
+					if (telnextValue != "" && !regularTelNext.test(telnextValue)) {
+						disapperTooltip("remind", "电话号码为6-11位数字");
+                        $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+						return false;
+					}
+					if (tellastValue != "" && !regularTelLast.test(tellastValue)) {
+						disapperTooltip("remind", "分机号码为数字");
+                        $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+						return false;
+					}
+					if (tellastValue != "" && !regularTelLast.test(tellastValue) || tellastValue.length > 4) {
+						disapperTooltip("remind", "分机号码不能超出4位");
+                        $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+						return false;
+					}
+				}
+				if (emailValue != "" && !regularEmail.test(emailValue) || emailValue.split("@")[0].length > 20) {
+					disapperTooltip("remind", "邮箱格式不正确");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				}
+				if (addressValue == "") {
+					disapperTooltip("remind", "联系地址不能为空");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				}
+				if (addressValue != "" && addressValue.length > 30) {
+					disapperTooltip("remind", "联系地址不能大于30个字");
+                    $('#J_release').removeClass('btn_disabled').prop('disabled', 0);
+					return false;
+				}
+			}
+            $('#J_release').val('保存中...').addClass('btn_disabled').prop('disabled', !0);
+            $.ajax({
+                url: "{:U('company/jobs_add')}",
+                type: 'POST',
+                dataType: 'json',
+                data: {id:id,jobs_name: jobsnameValue, nature: natureValue, jobcategory: jobcategoryValue, district: district, minwage: parseInt(minwageValue), maxwage: parseInt(maxwageValue), negotiable: negotiableValue, education: educationValue, experience: experienceValue, sex: sexValue, amount: amountValue, minage: parseInt(minageValue), maxage: parseInt(maxageValue), department: departmentValue, tag: tagValue, contents: contentsValue, contact: contactValue, telephone: telephoneValue, landline_tel: landlinetelValue, email: emailValue, address: addressValue, contact_show: contactshowValue, telephone_show: telephoneshowValue, landline_tel_show: landlinetelshowValue, email_show: emailshowValue, notify: notifyValue, notify_mobile: notifymobileValue,basis_contact:basis_contact}
+            })
+            .done(function(data) {
+                if (parseInt(data.status)) {
+                    disapperTooltip('success',data.msg);
+                    // 判断是否开启了职位打赏
+                    if (isMoney) {
+                    	var qsDialog = $(this).dialog({
+							loading: true,
+							footer: false,
+							header: false,
+							border: false,
+							backdrop: false
+						});
+						var getUrl = qscms.root+"?m=Home&c=CompanyService&a=share_allowance";
+						var id = id>0?id:data.data.insertid;
+						$.getJSON(getUrl, {id:id}, function(result){
+							if(result.status==1){
+								qsDialog.hide();
+								var jobDialog = $(this).dialog({
+									title: "开启分享红包",
+									content: result.data.html,
+									footer: false,
+									innerPadding: false
+								});
+								$('.J_dismiss_modal_close').click(function(){
+						        	location.href="{:U('Company/jobs_list')}";
+						        });
+							} else {
+								qsDialog.hide();
+								disapperTooltip('remind',result.msg);
+								setTimeout(function() {
+		                            location.href="{:U('Company/jobs_list')}";
+		                        },2000);
+							}
+						});
+                    } else {
+                        location.href = data.data.url;
+                    }
+                } else {
+                    $('#J_release').val($('#J_release').data('title')).removeClass('btn_disabled').prop('disabled', 0);
+                    disapperTooltip("remind", data.msg);
+                }
+            })
+            .fail(function(result) {
+                $('#J_release').val($('#J_release').data('title')).removeClass('btn_disabled').prop('disabled', 0);
+                disapperTooltip("remind", result.msg);
+            });
+		});
+
+        // 高级设置标签开关
+        $('.switch-icon').die().live('click', function() {
+            if ($(this).hasClass('dot-click')) return false;
+            $(this).toggleClass('selected');
+        });
+
+        // 是否开启职位打赏
+        $('#jobMoneyControl').die().live('click', function() {
+			var conditionOne = eval($('#J_share_allowance').val()), conditionTwo = eval($('#J_allowance_id').val());
+			if (conditionOne === 1 || conditionTwo > 0) {
+				return false;
+			}
+            if($(this).hasClass('selected')){
+                $("#jobMoney").val(1);
+            }else{
+                $("#jobMoney").val(0);
+            }
+        });
+        // 是否邮件接收投递的简历
+        $('#notifyControl').die().live('click', function() {
+            if($(this).hasClass('selected')){
+                $("#notify").val(1);
+            }else{
+                $("#notify").val(0);
+            }
+        });
+        // 是否联系手机接收投递简历的通知
+        $('#phoneControl').die().live('click', function() {
+            if($(this).hasClass('selected')){
+                $("#notify_mobile").val(1);
+            }else{
+                $("#notify_mobile").val(0);
+            }
+        });
+	</script>
+</html>

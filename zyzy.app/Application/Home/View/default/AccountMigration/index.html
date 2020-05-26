@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<include file="public:meta"/>
+<link href="../public/css/company/common.css" rel="stylesheet" type="text/css"/>
+<link href="../public/css/company/company_user.css" rel="stylesheet" type="text/css"/>
+<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css"/>
+<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+</head>
+<body>
+<include file="Company/index_header"/>
+<div class="user_main">
+    <div class="mleft">
+        <include file="Company/left_user"/>
+    </div>
+    <div class="mright">
+        <div class="user_pagetitle safety_user_pagetitle">
+            <div class="pat_l">企业账号迁移</div>
+            <div class="clear"></div>
+        </div>
+        <div class="user_tab">
+            <a href="{:U('company/user_security')}" class="tabli " >账号安全</a>
+            <a href="{:U('company/user_loginlog')}" class="tabli ">登录日志</a>
+            <a href="{:U('accountMigration/index')}" class="tabli select">账号迁移</a>
+            <div class="clear"></div>
+        </div>
+        <div class="user_tip">
+            <div class="tiptit">小提示</div>
+            <div class="tiptxt link_blue">
+                企业账号迁移内容包含企业资料、套餐及当前企业下所有简历资源。账号转移成功后将不可恢复，请谨慎操作！如果误操作致产生企业账号，可申请 <a href="{:U('accountMigration/cancellation')}">企业账号注销</a>
+            </div>
+        </div>
+        <!--提交表单-->
+        <div class="plan default">
+            <span class="s1">核对信息</span>
+            <span class="s2">账号验证</span>
+            <span class="s3">迁移成功</span>
+            <div class="clear"></div>
+        </div>
+        <div class="migration">
+            <div class="migration_tip font_gray9">请仔细核对接收人手机号，如果对方不满足接收条件，无法完成账号迁移</div>
+            <div class="migration_form">
+                <div class="item"><span class="label"><span class="font_red">*</span> 接收人手机号：</span><input type="text" value="" class="input_245_34" id="mobile"></div>
+                <div class="item"><span class="label"></span><div class="btn_blue J_hoverbut btn_115_38 migration_btn" id="J_check_mobile">验证手机号</div></div>
+                
+            </div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+</body>
+<include file="Company/index_footer"/>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var regularMobile = qscms.regularMobile;
+        $('#J_check_mobile').click(function(){
+            var mobile = $.trim($('#mobile').val());
+            if(mobile==''){
+                disapperTooltip('remind','请输入接收人手机号');
+                return false;
+            }
+            if (!regularMobile.test(mobile)) {
+                disapperTooltip("remind", "手机号格式不正确");
+                return false;
+            }
+            $.post("{:U('check_mobile')}",{mobile:mobile},function(result){
+                location.href = result.data;
+            },'json');
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<include file="Home@default/public/meta" />
+		<style type="text/css">
+			body{margin-left:0px;margin-top:0px;margin-right:0px;margin-bottom:8px;font-size:14px;color:#666666;font-family:"microsoft yahei","宋体";background-color:#FFFFFF;}
+			.tips_jump_group{padding:200px 0;text-align:center;background:#fff;}
+			.tips_jump_group .tips_jump{display:inline-block;*display:inline;*zoom:1;}
+			.tips_jump_group .tips_jump .icon_box{width:76px;height:76px;background:url({:C('TPL_PUBLIC_DIR')}/images/142.png) no-repeat;display:inline-block;*display:inline;*zoom:1;margin-bottom:25px;}
+			.tips_jump_group .tips_jump .icon_box.errstatus{background-position:0 -152px;}
+			.tips_jump_group .tips_jump .info_txt{margin-bottom:15px;font-size:30px;color:#4dbe65;}
+			.tips_jump_group .tips_jump .info_txt.errstatus{color:#fd8000;}
+			.tips_jump_group .tips_jump .tips_time{color:#999999;}
+			.tips_jump_group .tips_jump .tips_time .countdown_box{display:inline-block;*display:inline;*zoom:1;padding:0 10px;background:#5f8dc9;-webkit-border-radius:10px;-moz-border-radius:10px;border-radius:10px;color:#fff;}
+			.tips_jump_group .tips_jump .cut_line{display:inline-block;*display:inline;*zoom:1;width:600px;height:1px;background:url({:C('TPL_PUBLIC_DIR')}/images/143.png) no-repeat;margin:15px 0;}
+			.link_blue a{color:#5F8DC9;text-decoration:none;}
+			.link_blue a:hover{text-decoration:underline;color:#5F8DC9}
+		</style>
+</head>
+<body>
+	<div class="tips_jump_group">
+		<div class="tips_jump">
+			<div class="icon_box <if condition="$status eq 0">errstatus</if>"></div>
+			<div class="info_txt <if condition="$status eq 0">errstatus</if>">{$message}</div>
+			<div class="tips_time">将在 <div class="countdown_box">3</div> 秒后自动跳转</div>
+			<div class="cut_line"></div>
+			<div class="tips_time link_blue">如果您的浏览器没有自动跳转，请点击<a href="javascript:;" onclick="javascript:location.href='{$jumpUrl}';">【返回上一页】</a></div>
+		</div>
+	</div>
+</body>
+</html>
+
+<script type="text/javascript">
+	 var count = 3;
+	 CountDown();
+	 var countdown = setInterval(CountDown, 1000);
+	 function CountDown() {
+        $(".countdown_box").text(count);
+        if (count == 0) {
+            clearInterval(countdown);
+            window.location.href='{$jumpUrl}';
+        }
+        count--;
+    }
+</script>

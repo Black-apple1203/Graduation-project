@@ -1,0 +1,741 @@
+/**
+ * 简历管理css样式
+ * 
+ * @Author: YangGuo
+ * @Date: 2016-7-11
+ */
+
+/* 右侧标题 */
+.user_pagetitle {
+	margin-bottom: 15px;
+}
+.user_pagetitle .pat_r strong {
+	color: #ff6600;
+}
+
+/* 公用样式 */
+/* --140下拉框-- */
+.input_140_30_div {
+	width: 132px;
+	padding-left: 10px;
+	height: 28px;
+	border: 1px #dddddd solid;
+	line-height: 28px;
+	background-image: url(../../images/17.png);
+	background-repeat: no-repeat;
+	background-position: right -3px;
+	cursor: pointer;
+	background-color: #ffffff;
+}
+.input_140_30_div .input_focus {
+	border: 1px #33ccff solid;
+}
+.input_140_30_div .line_substring {
+	float: left;
+	max-width: 114px;
+	white-space: nowrap;
+	_white-space: normal;
+	_width: 114px;
+	_height: 28px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	_background: transparent;
+}
+/* --90下拉框-- */
+.input_90_30_div {
+	width: 82px;
+	padding-left: 10px;
+	height: 28px;
+	border: 1px #dddddd solid;
+	line-height: 28px;
+	background-image: url(../../images/17.png);
+	background-repeat: no-repeat;
+	background-position: right -2px;
+	cursor: pointer;
+	background-color: #ffffff;
+}
+.input_90_30_div .input_focus {
+	border: 1px #33ccff solid;
+}
+/* --单选样式-- */
+.radio_list {
+	padding-top: 2px;
+}
+.radio_list .li {
+	background: url(../../images/19.png) no-repeat 0px -148px;
+	padding-left: 23px;
+	padding-right: 50px;
+	height: 22px;
+	line-height: 24px;
+	cursor: pointer;
+	float: left;
+}
+.radio_list .li.checked {
+	background: url(../../images/19.png) no-repeat 0px -181px;
+}
+/* --批量操作按钮样式-- */
+.resume_but {
+	margin-top: 15px;
+	padding-left: 30px;
+}
+.resume_but .td1 {
+	width: 23px;
+	padding-left: 15px;
+	padding-top: 12px;
+}
+.resume_but .td2 {
+	width: 360px;
+}
+
+/* 待处理、已处理简历筛选 */
+/* --左侧筛选项-- */
+.resume_receive_select {
+	margin-left: 30px;
+	margin-top: 15px;
+	font-size: 13px;
+}
+.resume_receive_select .left {
+	width: 535px;
+	background-color: #e8f0f7;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 15px;
+	margin-right: 15px;
+	float: left;
+}
+.resume_receive_select .left .td1 {
+	width: 80px;
+	height: 40px;
+	padding-top: 5px;
+	text-align: right;
+}
+.resume_receive_select .left .td2 {
+	width: 200px;
+	height: 40px;
+	ling-height: 40px;
+}
+.resume_receive_select .left .td3 {
+	width: 160px;
+	height: 40px;
+	margin-right: 3px;
+}
+.resume_receive_select .left .td3 label {
+	cursor: pointer;
+}
+.resume_receive_select .left .td3 input {
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	margin-right: 5px;
+}
+/* --右侧统计数据-- */
+.resume_receive_select .right {
+	width: 350px;
+	background-color: #e8f0f7;
+	float: left;
+}
+.resume_receive_select .right .time {
+	width: 340px;
+	background-color: #c8dbec;
+	height: 30px;
+	line-height: 30px;
+	padding-left: 10px;
+}
+.resume_receive_select .right .time span {
+	font-size: 12px;
+}
+.resume_receive_select .right .statistics {
+	width: 350px;
+	font-size: 12px;
+}
+.resume_receive_select .right .statistics .td1 {
+	text-align: center;
+	width: 115px;
+	height: 75px;
+}
+.resume_receive_select .right .statistics .td1 .val {
+	color: #5f8dc9;
+	font-size: 20px;
+	height: 30px;
+	padding-top: 13px;
+	font-family: Arial;
+}
+.resume_receive_select .right .statistics .line {
+	background-color: #ffffff;
+	width: 1px;
+	height: 45px;
+	margin-top: 15px;
+	float: left;
+}
+
+/* 已过滤简历筛选 */
+.resume_filter_select {
+	width: 700px;
+	margin-left: 30px;
+	margin-top: 15px;
+	font-size: 13px;
+	background-color: #e8f0f7;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 15px;
+}
+.resume_filter_select .td1 {
+	width: 80px;
+	height: 40px;
+	padding-top: 5px;
+	text-align: right;
+}
+.resume_filter_select .td2 {
+	width: 160px;
+	height: 40px;
+	ling-height: 40px;
+}
+.resume_filter_select .td3 {
+	width: 290px;
+	height: 40px;
+	margin-right: 5px;
+}
+.resume_filter_select .td3 label {
+	cursor: pointer;
+}
+.resume_filter_select .td3 input {
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	margin-right: 3px;
+}
+.resume_filter_select .td4 {
+	width: 160px;
+	height: 40px;
+	padding-top: 5px;
+	text-align: right;
+}
+
+/* 面试邀请筛选 */
+.resume_interview_select {
+	width: 930px;
+	margin-left: 30px;
+	margin-top: 15px;
+	font-size: 13px;
+	background-color: #e8f0f7;
+	padding-left: 10px;
+	padding-top: 15px;
+}
+.resume_interview_select .td1 {
+	width: 80px;
+	height: 40px;
+	padding-top: 5px;
+	text-align: right;
+}
+.resume_interview_select .td2 {
+	width: 160px;
+	height: 40px;
+	ling-height: 40px;
+}
+.resume_interview_select .td3 {
+	width: 110px;
+	height: 40px;
+	margin-right: 5px;
+}
+.resume_interview_select .td3 label {
+	cursor: pointer;
+}
+.resume_interview_select .td3 input {
+	height: 30px;
+	line-height: 30px;
+	vertical-align: middle;
+	margin-right: 3px;
+}
+
+/* 待处理、已处理简历列表 */
+/* --表头-- */
+.resume_receive_th {
+	margin-left: 30px;
+	font-size: 13px;
+	width: 940px;
+	background-color: #f7f7f7;
+	height: 36px;
+	padding-top: 6px;
+	margin-top: 15px;
+}
+.resume_receive_th .th1 {
+	float: left;
+	width: 150px;
+	padding-left: 35px;
+}
+.resume_receive_th .th2 {
+	float: left;
+	width: 115px;
+	padding-top: 5px;
+}
+.resume_receive_th .th3 {
+	float: left;
+	width: 210px;
+	padding-top: 5px;
+}
+.resume_receive_th .th4 {
+	float: left;
+	width: 175px;
+	padding-top: 5px;
+}
+.resume_receive_th .th5 {
+	float: left;
+	width: 165px;
+}
+.resume_receive_th .th6 {
+	float: left;
+	width: 90px;
+	padding-top: 5px;
+}
+.resume_receive_th .th7 {
+	float: left;
+	width: 135px;
+	padding-top: 5px;
+	padding-left: 50px;
+}
+/* --列表-- */
+.resume_receive {
+	margin-left: 30px;
+	border-bottom: 1px #ededed solid;
+	height: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 13px;
+	width: 940px;
+}
+.resume_receive.hover {
+	background-color: #f6f6f6;
+}
+.resume_receive .td1 {
+	width: 170px;
+	padding-left: 15px;
+}
+.resume_receive .td1 .input {
+	float: left;
+}
+.resume_receive .td1.empty {
+	width: 665px;
+}
+.resume_receive .td1.empty input {
+	margin-right: 15px;
+}
+.resume_receive .td1 .look_icon {
+	width: 20px;
+	height: 20px;
+	margin: 2px 18px 0px 18px;
+	background: url(../../images/63.png) no-repeat 0px 0px;
+	float: left;
+}
+.resume_receive .td1 .look_icon.unlook {
+	background-position: 0px -22px;
+}
+.resume_receive .td1 .replay_icon {
+	padding-bottom: 4px;
+	width: 20px;
+	height: 20px;
+	margin-right: 18px;
+	background: url(../../images/63.png) no-repeat 0px -43px;
+	margin-top: 2px;
+	float: left;
+	cursor: pointer;
+}
+.resume_receive .td1 .replay_icon.s1 {
+	background-position: 0px -67px;
+}
+.resume_receive .td1 .replay_icon.s2 {
+	background-position: 0px -92px;
+}
+.resume_receive .td1 .replay_icon.s3 {
+	background-position: 0px -117px;
+}
+.resume_receive .td1 .replay_icon.s4 {
+	background-position: 0px -142px;
+}
+.resume_receive .td2 {
+	width: 100px;
+	padding-right: 15px;
+}
+.resume_receive .td2 .quick {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	width: 16px;
+	height: 20px;
+	line-height: 20px;
+	background: url(../../images/264.png) no-repeat 5px 1px;
+	padding-left: 5px;
+	vertical-align: middle;
+	cursor: pointer;
+}
+.resume_receive .td3 {
+	width: 210px;
+}
+.resume_receive .td4 {
+	width: 160px;
+	padding-right: 15px;
+}
+.resume_receive .td5 {
+	width: 155px;
+	padding-left: 10px;
+}
+.resume_receive .td6 {
+	width: 90px;
+}
+.resume_receive .td6 .clink {
+	background-image: url(../../images/12.png);
+	background-repeat: no-repeat;
+	background-position: right -58px;
+	padding: 0 8px 10px 0;
+}
+
+/* 面试邀请列表 */
+/* --表头-- */
+.resume_interview_th {
+	margin-left: 30px;
+	font-size: 13px;
+	width: 940px;
+	background-color: #f7f7f7;
+	height: 36px;
+	padding-top: 6px;
+	margin-top: 15px;
+}
+.resume_interview_th .th1 {
+	float: left;
+	width: 155px;
+	padding-left: 35px;
+	padding-top: 5px;
+}
+.resume_interview_th .th2 {
+	float: left;
+	width: 240px;
+	padding-top: 5px;
+}
+.resume_interview_th .th3 {
+	float: left;
+	width: 200px;
+	padding-top: 5px;
+}
+.resume_interview_th .th4 {
+	float: left;
+	width: 200px;
+}
+.resume_interview_th .th5 {
+	float: left;
+	width: 100px;
+	padding-top: 5px;
+}
+/* --列表-- */
+.resume_interview {
+	margin-left: 30px;
+	border-bottom: 1px #ededed solid;
+	height: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 13px;
+	width: 940px;
+}
+.resume_interview .td1 {
+	width: 160px;
+	padding: 0 15px;
+}
+.resume_interview .td2 {
+	width: 240px;
+}
+.resume_interview .td3 {
+	width: 200px;
+	color: #ff6600;
+}
+.resume_interview .td4 {
+	width: 170px;
+	padding-left: 10px;
+}
+.resume_interview .td5 {
+	width: 120px;
+}
+.resume_interview .td6 {
+	width: 335px;
+	padding-left: 15px;
+}
+
+/* 视频面试邀请列表 */
+/* --表头-- */
+.video_interview_th {
+	margin-left: 30px;
+	font-size: 13px;
+	width: 940px;
+	background-color: #f7f7f7;
+	height: 36px;
+	padding-top: 6px;
+	margin-top: 15px;
+}
+.video_interview_th .th1 {
+	float: left;
+	width: 175px;
+	padding-left: 15px;
+	padding-top: 5px;
+}
+.video_interview_th .th2 {
+	float: left;
+	width: 190px;
+	padding-top: 5px;
+}
+.video_interview_th .th3 {
+	float: left;
+	width: 180px;
+	padding-top: 5px;
+}
+.video_interview_th .th4 {
+	float: left;
+	width: 200px;
+	padding-top: 5px;
+}
+.video_interview_th .th5 {
+	float: left;
+	width: 150px;
+	padding-top: 5px;
+}
+/* --列表-- */
+.video_interview {
+	margin-left: 30px;
+	border-bottom: 1px #ededed solid;
+	height: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 13px;
+	width: 940px;
+}
+.video_interview .td1 {
+	width: 130px;
+	padding: 0 15px;
+}
+.video_interview .td2 {
+	width: 220px;
+}
+.video_interview .td3 {
+	width: 160px;
+	color: #ff6600;
+}
+.video_interview .td4 {
+	width: 140px;
+}
+.video_interview .td5 {
+	width: 250px;
+}
+.video_interview .td6 {
+	width: 768px;
+	padding-left: 12px;
+}
+.video_interview .td7 {
+	width: 145px;
+}
+
+/* 已下载简历列表 */
+/* --表头-- */
+.resume_down_th {
+	margin-left: 30px;
+	font-size: 13px;
+	width: 940px;
+	background-color: #f7f7f7;
+	height: 36px;
+	padding-top: 6px;
+	margin-top: 15px;
+}
+.resume_down_th .th1 {
+	width: 170px;
+	padding-left: 35px;
+}
+.resume_down_th .th2 {
+	width: 220px;
+	padding-top: 5px;
+}
+.resume_down_th .th3 {
+	width: 300px;
+	padding-top: 5px;
+}
+.resume_down_th .th4 {
+	width: 210px;
+}
+/* --列表-- */
+.resume_down {
+	margin-left: 30px;
+	border-bottom: 1px #ededed solid;
+	height: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 13px;
+	width: 940px;
+}
+.resume_down.hover {
+	background-color: #f6f6f6;
+}
+.resume_down .td1 {
+	width: 180px;
+	padding-left: 15px;
+}
+.resume_down .td1 .input {
+	float: left;
+	width: 30px;
+}
+.resume_down .td1 .replay_icon {
+	width: 50px;
+	height: 20px;
+	background: url(../../images/63.png) no-repeat 0px -41px;
+	float: left;
+	cursor: pointer;
+	padding-left: 20px;
+}
+.resume_down .td1 .replay_icon.s1 {
+	background-position: 0px -65px;
+}
+.resume_down .td1 .replay_icon.s2 {
+	background-position: 0px -140px;
+}
+.resume_down .td1 .replay_icon.s3 {
+	background-position: 0px -90px;
+}
+.resume_down .td1 .replay_icon.s4 {
+	background-position: 0px -115px;
+}
+.resume_down .td2 {
+	width: 205px;
+	padding-right: 15px;
+}
+.resume_down .td3 {
+	width: 330px;
+}
+.resume_down .td4 {
+	width: 150px;
+	padding-left: 10px;
+}
+.resume_down .td5 {
+	width: 360px;
+	padding-left: 15px;
+}
+
+/* 收藏的简历列表 */
+/* --表头-- */
+.resume_favorites_th {
+	margin-left: 30px;
+	font-size: 13px;
+	width: 940px;
+	background-color: #f7f7f7;
+	height: 36px;
+	padding-top: 6px;
+	margin-top: 15px;
+}
+.resume_favorites_th .th1 {
+	width: 155px;
+	padding-left: 35px;
+	padding-top: 5px;
+}
+.resume_favorites_th .th2 {
+	width: 210px;
+	padding-top: 5px;
+}
+.resume_favorites_th .th3 {
+	width: 240px;
+	padding-top: 5px;
+}
+.resume_favorites_th .th4 {
+	width: 190px;
+}
+.resume_favorites_th .th5 {
+	width: 100px;
+	padding-top: 5px;
+}
+/* --列表-- */
+.resume_favorites {
+	margin-left: 30px;
+	border-bottom: 1px #ededed solid;
+	height: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 13px;
+	width: 940px;
+}
+.resume_favorites .td1 {
+	width: 160px;
+	padding: 0 15px;
+}
+.resume_favorites .td2 {
+	width: 210px;
+}
+.resume_favorites .td3 {
+	width: 240px;
+}
+.resume_favorites .td4 {
+	width: 180px;
+	padding-left: 10px;
+}
+.resume_favorites .td5 {
+	width: 100px;
+}
+
+/* 浏览过的简历、谁看过我列表 */
+/* --表头-- */
+.resume_attention_th {
+	margin-left: 30px;
+	font-size: 13px;
+	width: 940px;
+	background-color: #f7f7f7;
+	height: 36px;
+	padding-top: 6px;
+	margin-top: 15px;
+}
+.resume_attention_th .th1 {
+	width: 155px;
+	padding-left: 35px;
+	padding-top: 5px;
+}
+.resume_attention_th .th2 {
+	width: 210px;
+	padding-top: 5px;
+}
+.resume_attention_th .th3 {
+	width: 240px;
+	padding-top: 5px;
+}
+.resume_attention_th .th4 {
+	width: 190px;
+}
+.resume_attention_th .th5 {
+	width: 100px;
+	padding-top: 5px;
+}
+/* --列表-- */
+.resume_attention {
+	margin-left: 30px;
+	border-bottom: 1px #ededed solid;
+	height: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	font-size: 13px;
+	width: 940px;
+}
+.resume_attention .td1 {
+	width: 160px;
+	padding: 0 15px;
+}
+.resume_attention .td2 {
+	width: 210px;
+}
+.resume_attention .td3 {
+	width: 240px;
+}
+.resume_attention .td4 {
+	width: 160px;
+	padding-left: 10px;
+}
+.resume_attention .td4.had {
+	width: 147px;
+	padding-left: 10px;
+}
+.resume_attention .td5 {
+	width: 120px;
+}
+.resume_attention .td5 .favorite.had {
+	color: #999999;
+	text-decoration: none;
+	cursor: default;
+}

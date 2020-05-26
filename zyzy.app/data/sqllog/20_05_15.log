@@ -1,0 +1,24 @@
+[ 2020-05-15T00:27:43+08:00 ] 127.0.0.1 /index.php?m=&c=personal&a=user_safety
+SQL: SHOW COLUMNS FROM `qs_promotion` [RunTime:0.5333s] [IP:127.0.0.1:10072] [AddTime:1589473663] [qscms]
+[ 2020-05-15T00:27:52+08:00 ] 127.0.0.1 /index.php?m=Home&c=AjaxCommon&a=get_header_min
+SQL: SHOW COLUMNS FROM `qs_resume` [RunTime:0.2444s] [IP:127.0.0.1:10072] [AddTime:1589473672] [qscms]
+[ 2020-05-15T00:28:32+08:00 ] 127.0.0.1 /index.php?m=&c=personal&a=user_avatar
+SQL: SHOW COLUMNS FROM `qs_members` [RunTime:0.3309s] [IP:127.0.0.1:10179] [AddTime:1589473712] [qscms]
+[ 2020-05-15T00:28:53+08:00 ] 127.0.0.1 /index.php?m=&c=personal&a=user_loginlog
+SQL: SHOW COLUMNS FROM `qs_members_points` [RunTime:0.2096s] [IP:127.0.0.1:10224] [AddTime:1589473733] [qscms]
+[ 2020-05-15T00:28:54+08:00 ] 127.0.0.1 /index.php?m=&c=personal&a=user_loginlog
+SQL: SELECT COUNT(*) AS tp_count FROM `qs_members_log` WHERE `log_uid` = 1 AND `log_type` = 'login'    LIMIT 1  [RunTime:0.4136s] [IP:127.0.0.1:10224] [AddTime:1589473734] [qscms]
+[ 2020-05-15T00:29:09+08:00 ] 127.0.0.1 /index.php?m=&c=personal&a=index&uid=1
+SQL: SHOW COLUMNS FROM `qs_task` [RunTime:0.3124s] [IP:127.0.0.1:10253] [AddTime:1589473749] [qscms]
+[ 2020-05-15T00:29:15+08:00 ] 127.0.0.1 /index.php?m=&c=Personal&a=ajax_get_language_list&pid=1
+SQL: SHOW COLUMNS FROM `qs_resume_language` [RunTime:0.2364s] [IP:127.0.0.1:10285] [AddTime:1589473755] [qscms]
+[ 2020-05-15T00:29:21+08:00 ] 127.0.0.1 /index.php?m=Home&c=AjaxCommon&a=get_header_min
+SQL: SHOW COLUMNS FROM `qs_refresh_log` [RunTime:0.3268s] [IP:127.0.0.1:10285] [AddTime:1589473761] [qscms]
+[ 2020-05-15T00:30:27+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list
+SQL: SHOW COLUMNS FROM `qs_explain` [RunTime:0.217s] [IP:127.0.0.1:10446] [AddTime:1589473827] [qscms]
+[ 2020-05-15T00:31:19+08:00 ] 127.0.0.1 /index.php?m=&c=AjaxPersonal&a=resume_apply
+SQL: INSERT INTO `qs_personal_jobs_apply` (`jobs_id`,`company_uid`,`jobs_name`,`company_id`,`company_name`,`resume_id`,`resume_name`,`personal_uid`,`is_apply`,`apply_addtime`,`personal_look`,`did`,`personal_look_time`,`notes`,`is_reply`,`reply_time`,`admin_username`) VALUES ('5','13','大前端架构师','5','北京京东世纪贸易有限公司','1','我的简历20200409','1','2','1589473879','1','0','0','','0','0','') [RunTime:0.2577s] [IP:127.0.0.1:10580] [AddTime:1589473879] [qscms]
+[ 2020-05-15T00:43:09+08:00 ] 127.0.0.1 /index.php?m=Admin&c=index&a=login
+SQL: DELETE FROM `qs_admin_log` WHERE `log_addtime` < 1581698588 [RunTime:0.2462s] [IP:127.0.0.1:12299] [AddTime:1589474589] [qscms]
+[ 2020-05-15T00:54:00+08:00 ] 127.0.0.1 /index.php?m=Admin&c=Database&a=optimize
+SQL: SHOW TABLE STATUS FROM `zy.app` WHERE Data_free>0 [RunTime:0.5634s] [IP:127.0.0.1:13660] [AddTime:1589475240] [qscms]

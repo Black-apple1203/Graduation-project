@@ -1,0 +1,32 @@
+<div class="batch_delivery">
+    <div class="result_info">
+    <if condition="$apply['count_jids'] eq 1">
+    <div class="top_txt">职位申请成功<if condition="$apply['points'] neq 0"><eq name="show_points" value="1">,获得 <sapn class="yellow_light">+{$apply.points}</sapn> {:C('qscms_points_byname')}</eq></div>
+    <else />
+    <div class="top_txt">您申请了 <span class="yellow_light">{$apply.total}</span> 个职位，其中 <span class="yellow_light">{$apply.success}</span> 个成功了</div>
+        <div class="down_txt">简历投递成功<eq name="show_points" value="1">，<span class="yellow_light">获得 {$apply.points} {:C('qscms_points_byname')}</span></eq></div>
+    </if> 
+    </div>
+    <if condition="C('qscms_weixin_apiopen') neq ''">
+        <div class="txt_center">
+            <div class="qrcode_box">
+                <div class="qrcode_img"><img src="{:attach(C('qscms_weixin_img'),'resource')}" alt=""></div>
+                <div class="qrcode_txt">
+                    <div class="">关注“{:C('qscms_weixin_mpname')}”公众号,</div>
+                    <div class="">随时关注求职动态,</div>
+                    <div class="">从此不错过高薪职位</div>
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </if> 
+    <div class="tips_info">当前共有 <span class="yellow_light">{$user_points|default=0}</span> {:C('qscms_points_byname')}，立即兑换简历推广，让企业主动找你</div>
+    <div class="txt_center">
+        <div class="tabs_group">
+            <a href="{:U('PersonalService/increment_add',array('cat'=>'stick'))}" class="tab_box"><span class="txt">简历置顶</span></a>
+            <a href="{:U('PersonalService/increment_add',array('cat'=>'tag'))}" class="tab_box"><span class="txt icon1">醒目标签</span></a>
+            <a href="{:U('PersonalService/increment_add',array('cat'=>'tpl'))}" class="tab_box last"><span class="txt icon2">简历模版</span></a>
+            <div class="clear"></div>
+        </div>
+    </div>
+</div>

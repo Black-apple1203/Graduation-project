@@ -1,0 +1,285 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link
+			href="../public/css/personal/common.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="../public/css/personal/personal_job.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<link
+			href="../public/css/personal/personal_ajax_dialog.css"
+			rel="stylesheet"
+			type="text/css"
+		/>
+		<script
+			src="../public/js/personal/jquery.common.js"
+			type="text/javascript"
+			language="javascript"
+		></script>
+	</head>
+	<body>
+		<include file="public:header_other" />
+		<div class="us-top">
+			<div class="us-main">
+				<div class="us-top-box">
+					<form
+						id="ajax_search_location"
+						action="{:U('ajaxCommon/ajax_search_location',array('type'=>'QS_jobslist'))}"
+						method="get"
+					>
+						<div class="input-box">
+							<input
+								type="text"
+								name="key"
+								data-original="请输入关键字"
+								value=""
+								placeholder="请输入关键字"
+								autocomplete="off"
+							/>
+						</div>
+						<div class="se-btn"><input type="submit" value="搜 索" /></div>
+						<div class="clear"></div>
+					</form>
+				</div>
+			</div>
+		</div>
+		<div class="user_main">
+			<include file="index_left_nav" />
+			<div class="mainbox">
+				<!--职位切换卡 -->
+				<div class="tab">
+					<a class="li J_hoverbut" href="{:U('jobs_interview')}">面试邀请</a>
+					<if condition="C('qscms_video_interview_open') eq 1">
+						<a class="li J_hoverbut" href="{:U('video_interview')}">视频面试</a>
+					</if>
+					<a class="li J_hoverbut" href="{:U('jobs_apply')}">已申请职位</a>
+					<a class="li select">谁在关注我</a>
+					<a class="li J_hoverbut" href="{:U('attention_jobs')}"
+						>浏览过的职位</a
+					>
+					<div class="clear"></div>
+				</div>
+				<!--切换卡结束 -->
+
+				<div class="attention_me_th">
+					<div class="th1">公司名称</div>
+					<div class="th2">
+						查看简历
+					</div>
+					<div class="th3">
+						下载简历
+					</div>
+					<div class="th4">
+						<div
+							class="input_100_30_div J_hoverinput J_dropdown J_listitme_parent"
+						>
+							<span class="J_listitme_text"
+								><if condition="$settr eq 0"
+									>不限时间<else />{$settr}天内</if
+								></span
+							>
+							<div class="dropdowbox7 J_dropdown_menu">
+								<div class="dropdow_inner7">
+									<ul class="nav_box">
+										<li>
+											<a class="J_listitme" href="{:P(array('settr'=>0))}"
+												>全部</a
+											>
+										</li>
+										<li>
+											<a class="J_listitme" href="{:P(array('settr'=>3))}"
+												>3天内</a
+											>
+										</li>
+										<li>
+											<a class="J_listitme" href="{:P(array('settr'=>7))}"
+												>7天内</a
+											>
+										</li>
+										<li>
+											<a class="J_listitme" href="{:P(array('settr'=>15))}"
+												>15天内</a
+											>
+										</li>
+										<li>
+											<a class="J_listitme" href="{:P(array('settr'=>30))}"
+												>30天内</a
+											>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="th5">操作</div>
+					<div class="clear"></div>
+				</div>
+				<notempty name="view_list['list']">
+					<form
+						id="form1"
+						action="{:U('del_view_resume')}"
+						method="post"
+						class="J_allListBox"
+					>
+						<volist name="view_list['list']" id="vo">
+							<if condition="$vo['companyname']">
+								<div class="attention_me J_hoverbut">
+									<div class="td1 link_blue substring">
+										<input
+											class="J_allList"
+											name="y_id[]"
+											type="checkbox"
+											value="{$vo['id']}"
+										/>
+										&nbsp;
+										<a
+											href="{$vo['company_url']}"
+											target="_blank"
+											title="{$vo['companyname']}"
+											>{$vo['companyname']}</a
+										>
+									</div>
+									<div class="td2 link_gray6">
+										<a target="_blank" href="{$vo['resume_url']}"
+											>{$vo['fullname']}</a
+										>
+									</div>
+									<if condition="$vo['hasdown'] eq '1'">
+										<div class="td3 ok">已下载</div>
+										<else />
+										<div class="td3">未下载</div>
+									</if>
+									<div class="td4">{$vo['addtime']|date="Y-m-d",###}</div>
+									<div class="td5">
+										<a
+											href="javascript:;"
+											url="{:U('del_view_resume',array('y_id'=>$vo['id']))}"
+											class="but2 J_hoverbut delete"
+										></a>
+										<div class="clear"></div>
+									</div>
+									<div class="clear"></div>
+								</div>
+								<else />
+								<div class="attention_me J_hoverbut">
+									<div class="td1 link_blue substring">
+										<input
+											class="J_allList"
+											name="y_id[]"
+											type="checkbox"
+											value="{$vo['id']}"
+										/>
+										&nbsp;&nbsp;该职位不存在或已被删除
+									</div>
+									<div class="td2 link_gray6">&nbsp;</div>
+									<div class="td3">&nbsp;</div>
+									<div class="td4">&nbsp;</div>
+									<div class="td5">
+										<a
+											href="javascript:;"
+											url="{:U('del_view_resume',array('y_id'=>$vo['id']))}"
+											class="but2 J_hoverbut delete"
+										></a>
+										<div class="clear"></div>
+									</div>
+									<div class="clear"></div>
+								</div>
+							</if>
+						</volist>
+						<div class="attention_me_but">
+							<div class="td1">
+								<input name="" class="J_allSelected" type="checkbox" value="" />
+							</div>
+
+							<div class="td3">
+								<div class="but_gray_80_32 J_hoverbut delall">删除</div>
+							</div>
+							<div class="clear"></div>
+						</div>
+					</form>
+					<div class="qspage">{$view_list['page']}</div>
+					<else />
+					<if condition="$hasget">
+						<div class="res_empty">
+							抱歉，没有找到符合您条件的记录，建议您修改筛选条件后重试
+						</div>
+						<else />
+						<div class="res_empty link_blue">
+							简历关注度不高？建议您开通【简历置顶】服务，让企业主动找上门<br />获得更多高薪机会，立即
+							<a
+								href="{:U('PersonalService/increment_add',array('cat'=>'stick'))}"
+								target="_blank"
+								>置顶简历</a
+							>
+						</div>
+					</if>
+				</notempty>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="index_footer" />
+		<script
+			type="text/javascript"
+			src="../public/js/jquery.listitem.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="../public/js/jquery.dropdown.js"
+		></script>
+		<script
+			type="text/javascript"
+			src="../public/js/jquery.allselected.js"
+		></script>
+		<script type="text/javascript">
+			$(document).ready(function() {
+				$(".delall").click(function() {
+					var listCheckedArray = $(".J_allListBox .J_allList:checked");
+					if (listCheckedArray.length) {
+						var url = $("#form1").attr("action");
+						var qsDialog = $(this).dialog({
+							title: "删除企业",
+							loading: true,
+							border: false,
+							yes: function() {
+								$("#form1").submit();
+							}
+						});
+						$.getJSON(url, function(result) {
+							if (result.status == 1) {
+								qsDialog.setContent(result.data.html);
+							} else {
+								disapperTooltip("remind", result.msg);
+							}
+						});
+					} else {
+						disapperTooltip("remind", "请选择要删除的企业");
+					}
+				});
+				$(".delete").click(function() {
+					var url = $(this).attr("url");
+					var qsDialog = $(this).dialog({
+						title: "删除企业",
+						loading: true,
+						border: false,
+						yes: function() {
+							window.location.href = url;
+						}
+					});
+					$.getJSON(url, function(result) {
+						if (result.status == 1) {
+							qsDialog.setContent(result.data.html);
+						} else {
+							disapperTooltip("remind", result.msg);
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>

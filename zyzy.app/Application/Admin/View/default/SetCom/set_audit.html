@@ -1,0 +1,113 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>不同的运营阶段您可以选择不同的设置。</p>
+</div>
+<div class="toptit">审核状态设置</div>
+<form id="form1" action="{:U('set_audit')}" method="post">
+    <div class="form_main width250">
+        <div class="fl">修改企业资料后认证状态:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="audit_edit_com" type="hidden" value="{:C('qscms_audit_edit_com')}">
+                <div class="radio <eq name='Think.config.qscms_audit_edit_com' value='-1'>select</eq>" data="-1" title="保持不变">保持不变</div>
+                <div class="radio <eq name='Think.config.qscms_audit_edit_com' value='2'>select</eq>" data="2" title="重新认证">重新认证</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">已认证企业修改职位后审核状态为:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="audit_verifycom_editjob" type="hidden" value="{:C('qscms_audit_verifycom_editjob')}">
+                <div class="radio <eq name='Think.config.qscms_audit_verifycom_editjob' value='-1'>select</eq>" data="-1" title="保持不变">保持不变</div>
+                <div class="radio <eq name='Think.config.qscms_audit_verifycom_editjob' value='2'>select</eq>" data="2" title="重新审核">重新审核</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">未认证企业修改职位后审核状态为:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="audit_unexaminedcom_editjob" type="hidden" value="{:C('qscms_audit_unexaminedcom_editjob')}">
+                <div class="radio <eq name='Think.config.qscms_audit_unexaminedcom_editjob' value='-1'>select</eq>" data="-1" title="保持不变">保持不变</div>
+                <div class="radio <eq name='Think.config.qscms_audit_unexaminedcom_editjob' value='2'>select</eq>" data="2" title="重新审核">重新审核</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit1"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">认证设置</div>
+<form id="form2" action="{:U('index')}" method="post">
+    <div class="form_main width250">
+        <div class="fl">强制企业认证手机:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_login_com_audit_mobile' value='1'>select</eq>"><input name="login_com_audit_mobile" type="hidden" value="{:C('qscms_login_com_audit_mobile')}" /></div>
+            <div class="note">（如要设为强制认证手机需开启短信模块）</div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">强制企业营业执照:</div>
+        <div class="fr">
+            <div data-code="0,1" class="imgchecked_small <eq name='Think.config.qscms_login_com_audit_certificate' value='1'>select</eq>"><input name="login_com_audit_certificate" type="hidden" value="{:C('qscms_login_com_audit_certificate')}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit2"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit1').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('set_audit')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        $('#J_submit2').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('set_audit')}",$('#form2').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,76 @@
+<include file="public:header"/>
+<div class="toptip">
+    <div class="toptit">提示：</div>
+    <p>系统默认分类不能删除！</p>
+    <p>删除分类组将同时删除此组下的所有分类。</p>
+</div>
+
+<form id="form1" name="form1" method="post" action="{:U('group_delete')}">
+    <div class="list_th">
+        <div class="td" style=" width:47%;">
+            <label id="chkAll" class="left_padding">
+                <input type="checkbox" name="chkAll" id="chk" title="全选/反选"/>分类组名称
+            </label>
+        </div>
+        <div class="td" style=" width:20%;">调用名</div>
+        <div class="td" style=" width:20%;">类型</div>
+        <div class="td" style=" width:13%;">操作</div>
+        <div class="clear"></div>
+    </div>
+
+    <volist name="group" id="vo">
+        <div class="list_tr link_black">
+            <div class="td" style=" width:47%;">
+                <div class="left_padding striking link_blue">
+                    <input name="alias[]" type="checkbox" id="id" value="{$vo['g_alias']}" <eq name='vo.g_sys' value='1'>disabled="disabled"</eq>/>
+                    <a href="{:U('show_category',array('alias'=>$vo['g_alias']))}">{$vo.g_name}</a>
+                </div>
+            </div>
+            <div class="td" style=" width:20%;">{$vo.g_alias}&nbsp;</div>
+            <div class="td" style=" width:20%;">
+                <eq name='vo.g_sys' value='1'>系统分组<else />自定义分组</eq>
+            </div>
+            <div class="td edit" style=" width:13%;">
+                <a href="{:U('show_category',array('alias'=>$vo['g_alias']))}">查看</a>
+                <neq name='vo.g_sys' value='1'>
+                    <a href="{:U('group_edit',array('alias'=>$vo['g_alias']))}">修改</a>
+                    <a href="{:U('group_delete',array('alias'=>$vo['g_alias']))}" class="gray" onclick="return confirm('删除后无法恢复，你确定要删除吗？')">删除</a>
+                </neq>
+            </div>
+            <div class="clear"></div>
+        </div>
+    </volist>
+</form>
+
+<empty name="group">
+    <div class="list_empty">没有任何信息！</div>
+</empty>
+
+<div class="list_foot">
+    <div class="btnbox">
+        <input type="button" class="admin_submit" id="ButAdd" value="添加分类组" onclick="window.location='{:U('group_add')}'"/>
+        <input type="button" class="admin_submit" id="ButDel" value="删除所选"/>
+    </div>
+    <div class="footso"></div>
+</div>
+
+</div>
+<include file="public:footer"/>
+
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        //批量删除
+        $("#ButDel").click(function () {
+            var ids = $("input[name='alias[]']:checked");
+            if(ids.length == 0){
+                disapperTooltip('remind','请选择分类组！');
+            } else {
+                if(confirm('确定删除吗？')){
+                    $("#form1").submit();
+                }
+            }
+        });
+    });
+</script>
+</html>

@@ -1,0 +1,46 @@
+<include file="public:header" />
+    <div class="toptip">
+    	<div class="toptit">提示：</div>
+        <p>系统内置分类不可以编辑或者删除</p>
+        <p>自定义分类调用名不可以以 “QS_”开头</p>
+    </div>
+<div class="list_th">
+    <div class="td" style="width:20%;"><label class="left_padding">调用名称</label></div>
+    <div class="td" style="width:50%;">分类名称</div>
+    <div class="td" style="width:15%;">类型</div>
+    <div class="td center" style=" width:15%;">编辑</div>
+    <div class="clear"></div>
+</div>
+<volist name="list" id="li">
+	<div class="list_tr link_black">
+		<div class="td" style="width:20%;"><label class="left_padding"><strong>{$li.alias}</strong></label></div>
+	    <div class="td" style="width:50%;">{$li.categoryname}</div>
+	    <div class="td" style="width:15%;">
+	    	<if condition="$li['admin_set'] eq 1">			
+				<span style="color:#FF6600">系统内置</span>
+			<else/>
+				自定义
+			</if>
+	    </div>
+	    <div class="td center edit" style=" width:15%;">
+	    	<if condition="$li['admin_set'] neq 1">
+				<a href="{:U('navigation/category_edit',array('id'=>$li['id']))}">修改</a>
+				<a href="{:U('navigation/category_del',array('id'=>$li['id']))}" class="gray" onclick="return confirm('你确定要删除吗？')">删除</a>
+			<else/>
+				<a href="javascript:void(0);" class="gray">修改</a>
+				<a href="javascript:void(0);" class="gray">删除</a>
+			</if>
+	    </div>
+	    <div class="clear"></div>
+	</div>
+</volist>
+<div class="list_foot">
+    <div class="btnbox">
+        <input name="Submit22" type="button" class="admin_submit" value="新增类别" onclick="window.location='{:U('navigation/category_add')}'"/>
+    </div>
+</div>
+<div class="pages">{$page}</div>
+</div>
+<include file="public:footer" />
+</body>
+</html>

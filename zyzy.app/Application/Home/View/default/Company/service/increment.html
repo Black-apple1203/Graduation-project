@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<include file="public:meta" />
+		<link href="../public/css/company/common.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_points.css" rel="stylesheet" type="text/css" />
+		<link href="../public/css/company/company_ajax_dialog.css" rel="stylesheet" type="text/css" />
+		<script src="../public/js/company/jquery.common.js" type="text/javascript" language="javascript"></script>
+	</head>
+	<body>
+		<include file="Company:index_header" />
+		<div class="user_main">
+			<div class="mleft">
+				<include file="Company:left_service" />
+			</div>
+			<div class="mright">
+				<div class="user_pagetitle">
+					<div class="pat_l">增值服务</div>
+					<div class="clear"></div>
+				</div>
+				<div class="point_title_group">
+					<div class="title_left">套餐增值包</div>
+					<if condition="C('qscms_enable_com_buy_points') eq 1">
+					<div class="title_right link_blue">使用{:C('qscms_points_byname')}购买更优惠，多充多送，<a href="{:U('points_add')}">立即充值</a></div>
+					</if>
+					<div class="clear"></div>
+				</div>
+				<div class="service_pack_group">
+					<if condition="C('qscms_resume_download_quick') eq 1">
+					<div class="service_pack_list">
+						<div class="list_box J_hoverbut">
+							<div class="list_box_icon icon1"></div>
+							<div class="list_box_contents">简历包</div>
+							<div class="list_box_describe">简历打包购买更实惠，VIP会员购买可享最低 <span class="prominent">{$return_discount[0]}折</span> 优惠</div>
+							<div class="btn_yellow J_hoverbut btn_100_32" onclick="javascript:location.href='{:U('increment_add',array('cat'=>'download_resume'))}'">立即购买</div>
+						</div>
+					</div>
+					</if>
+					<if condition="C('qscms_company_sms') eq 1">
+					<div class="service_pack_list">
+						<div class="list_box J_hoverbut">
+							<div class="list_box_icon icon3"></div>
+							<div class="list_box_contents">短信包</div>
+							<div class="list_box_describe">三网合一，重要通知实时送达，VIP会员购买短信包可享最低 <span class="prominent">{$return_discount[1]}折</span> 优惠</div>
+							<div class="btn_yellow J_hoverbut btn_100_32" onclick="javascript:location.href='{:U('increment_add',array('cat'=>'sms'))}'">立即购买</div>
+						</div>
+					</div>
+					</if>
+					<div class="service_pack_list">
+						<div class="list_box J_hoverbut">
+							<div class="list_box_icon icon2"></div>
+							<div class="list_box_contents">智能刷新</div>
+							<div class="list_box_describe">让职位随时名列前茅,在同类信息中崭露头角。VIP会员购买最低享受 <span class="prominent">{$return_discount[5]}折</span> 优惠</div>
+							<div class="btn_yellow J_hoverbut btn_100_32" onclick="javascript:location.href='{:U('increment_add',array('cat'=>'auto_refresh_jobs'))}'">立即购买</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="point_title_group">
+					<div class="title_left">企业推广服务</div>
+					<div class="clear"></div>
+				</div>
+				<div class="service_pack_group">
+					<div class="service_pack_list">
+						<div class="list_box J_hoverbut">
+							<div class="list_box_icon icon4"></div>
+							<div class="list_box_contents">职位置顶</div>
+							<div class="list_box_describe">职位置顶让你的职位始终名列前茅。VIP会员可享最低 <span class="prominent">{$return_discount[2]}折</span> 优惠</div>
+							<div class="btn_yellow J_hoverbut btn_100_32" onclick="javascript:location.href='{:U('increment_add',array('cat'=>'stick'))}'">立即购买</div>
+						</div>
+					</div>
+					<div class="service_pack_list">
+						<div class="list_box J_hoverbut">
+							<div class="list_box_icon icon5"></div>
+							<div class="list_box_contents">紧急招聘</div>
+							<div class="list_box_describe">急招不用苦等，职位加急，为职位增加曝光量。VIP会员可享最低 <span class="prominent">{$return_discount[3]}折</span> 优惠</div>
+							<div class="btn_yellow J_hoverbut btn_100_32" onclick="javascript:location.href='{:U('increment_add',array('cat'=>'emergency'))}'">立即购买</div>
+						</div>
+					</div>
+					<div class="service_pack_list">
+						<div class="list_box J_hoverbut">
+							<div class="list_box_icon icon6"></div>
+							<div class="list_box_contents">企业模板</div>
+							<div class="list_box_describe">企业模板，与众不同，彰显企业专业水准。VIP会员可享最低 <span class="prominent">{$return_discount[4]}折</span> 优惠</div>
+							<div class="btn_yellow J_hoverbut btn_100_32" onclick="javascript:location.href='{:U('increment_add',array('cat'=>'tpl'))}'">立即购买</div>
+						</div>
+					</div>
+					<div class="clear"></div>
+				</div>
+				<if condition="C('apply.Sincerity')">
+				<div class="point_title_group">
+					<div class="title_left">企业诚聘通</div>
+					<if condition="$company_profile['famous'] eq 1">
+					<div class="title_right link_blue"><a href="javascript:;" class="J_exit_cpt" url="{:U('cancel_famous')}">退出诚聘通会员</a></div>
+					</if>
+					<div class="clear"></div>
+				</div>
+				<div class="service_pack_group">
+					<div class="service_pack_list1">
+						<div class="list_box J_hoverbut">
+							<div class="list_box_icon icon7"></div>
+							<div class="con_des_group">
+								<div class="list_box_contents">诚聘通</div>
+								<div class="list_box_describe">提高企业信誉度，让求职者更放心！开通服务后您的所有职位都在求职保障范围内<span class="prominent">【0 元享特权】</span></div>
+								<div class="list_box_describe">诚聘通会员专属标识、职位优先推荐特权、职位保证金全额随时退还</div>
+							</div>
+							<if condition="$company_profile['famous'] eq 1">
+							<div class="btn_lightgray J_hoverbut btn_100_32">已开通</div>
+							<else />
+							<div class="btn_yellow J_hoverbut btn_100_32" onclick="javascript:location.href='{:U('famouns_add')}'">立即开通</div>
+							</if>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+				</if>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<include file="Company:index_footer" />
+		<script type="text/javascript">
+			$('.J_exit_cpt').die().live('click', function() {
+				var url = $(this).attr('url');
+	            var qsDialog = $(this).dialog({
+	                title: '温馨提示',
+	                content:'<div class="warning_dialog ft14"><div class="tip">退出诚聘通会员后，您将不再享有诚聘通会员专属标识、职位优先推荐等专属特权！</div></div><div class="confirm_pad">要退出诚聘通会员，请联系您的专属客服申请退款</div>',
+	                border: false,
+	                showFooter: false,
+	                yes: function () {
+	                    $.post(url,function(result){
+	                    	disapperTooltip('success', result.msg);
+	                    	setTimeout(function () {
+								window.location.reload();
+							}, 2000);
+	                    },'json');
+	                }
+	            });
+			});
+		</script>
+	</body>
+</html>

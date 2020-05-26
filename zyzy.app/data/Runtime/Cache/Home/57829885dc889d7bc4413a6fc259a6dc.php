@@ -1,0 +1,374 @@
+<?php if (!defined('THINK_PATH')) exit();?><div class="ajax_login">
+    <div class="title">
+        <div class="logo"><?php echo C('qscms_site_name');?>&nbsp;&middot;&nbsp;登录</div>
+        <div class="close J_btncancel"></div>
+    </div>
+    <div class="lmain">
+        <div class="frombox">
+            <div class="tab">
+                <div class="li select J_switch" data="J_type1">手机动态码登录</div>
+                <div class="li J_switch" data="J_type2">用户名登录</div>
+                <div class="clear"></div>
+            </div>
+            <div class="login_type J_type1" style="display:block">
+                <form action="" id="topLoginFormMobile" method="get">
+                    <div class="ce">
+                        <div class="imgbg"></div>
+                        <input name="mobile" id="mobile" type="text" maxlength="11" class="linput" placeholder="请输入手机号" autocomplete="off"/>
+                        <div class="send_code" id="topGetCodeBtn">获取验证码</div>
+                    </div>
+                    <div class="ce">
+                        <div class="imgbg pwd"></div>
+                        <input name="verfy_code" id="verfy_code" type="text" value="" class="linput pwd" placeholder="请输入验证码" autocomplete="off"/>
+                    </div>
+                    <div class="err"><!--错误提示 --></div>
+                    <div class="ce">
+                        <input class="btn" type="button" name="submit" id="topLoginBtnMobile" value="登录" />
+                    </div>
+                    <div class="ce">
+                        <div class="imgchecked_txt expLoginBtn"><input name="expire" type="hidden" value="0" />自动登录</div>
+                        <div class="getpwd link_gray3"><a href="<?php echo U('members/user_getpass');?>">忘记密码?</a></div>
+                    </div>
+                </form>
+            </div>
+            <div class="login_type J_type2">
+                <form action="" id="topLoginForm" method="get">
+                    <div class="ce">
+                        <div class="imgbg"></div>
+                        <input name="username" type="text" maxlength="16" id="username" class="linput" placeholder="请输入用户名/手机号"  autocomplete="off"/>
+                    </div>
+
+                    <div class="ce">
+                        <div class="imgbg pwd"></div>
+                        <input name="password" type="password" id="password" value="" class="linput pwd" placeholder="请输入密码"  autocomplete="off"/>
+                    </div>
+                    <div class="err"><!--错误提示 --></div>
+                    <div class="ce">
+                        <input class="btn" type="button" name="submit" id="topLoginBtn" value="登录" />
+                    </div>
+                    <div class="ce">
+                        <div class="imgchecked_txt expLoginBtn"><input name="expire" type="hidden" value="0" />自动登录</div>
+                        <div class="getpwd link_gray3"><a href="<?php echo U('members/user_getpass');?>">忘记密码?</a></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="rmain">
+        <div class="tit">使用第三方账号登录</div>
+        <div class="api_login">
+            <?php if(is_array($oauth_list)): $i = 0; $__LIST__ = $oauth_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$oauth): $mod = ($i % 2 );++$i;?><a class="uu_api_login_btn <?php echo ($key); ?>" href="<?php echo U('callback/index',array('mod'=>$key,'type'=>'login'));?>" title="<?php echo ($oauth["name"]); ?>账号登录"></a><?php endforeach; endif; else: echo "" ;endif; ?>
+            <div class="clear"></div>
+        </div>
+        <div class="btnbox">
+            <div class="btn_green_api btn_inline  btn_border J_top_loging_user_reg">注册账号</div>
+        </div>
+    </div>
+    <div class="clear"></div>
+    <input type="button" id="btnTopCheck" style="display:none;">
+    <input type="button" id="btnTopLoginMobile" style="display:none;">
+    <input type="button" id="btnTopLoginName" style="display:none;">
+    <div id="topCaptchaBox"></div>
+    <div id="topCaptchaBoxLog"></div>
+    <div id="topCaptchaBoxLogMobile"></div>
+</div>
+​
+<script type="text/javascript">
+    $('.J_btncancel').die().live('click', function() {
+        $(".modal,.modal_backdrop").remove();
+    });
+//切换登录类型
+$(".J_switch").die().live('click', function() {
+    $('.frombox .tab .li').removeClass("select");
+    $(this).addClass("select");
+    $('.login_type').hide();
+    data = $(this).attr('data');
+    $('.' + data).show();
+});
+//用户名和密码登录
+$("#topLoginBtn").die().live('click', function() {
+    var usernameValue = $.trim($('#topLoginForm #username').val());
+    var passwordValue = $.trim($('#topLoginForm #password').val());
+    var expireValue = $.trim($('#topLoginForm input[name=expire]').val());
+    $("#topLoginForm .err").hide();
+    if (usernameValue == '' || passwordValue == '') {
+        $("#topLoginForm .err").html('用户名和密码不能为空！').show();
+    } else {
+        // 判断是否需要出现验证
+        if (eval(qscms.varify_user_login) && eval(qscms.captcha_open)) {
+            qsCaptchaHandler(function(callBackArr) {
+                var usernameValue = $.trim($('#topLoginForm #username').val());
+                var passwordValue = $.trim($('#topLoginForm #password').val());
+                var expireValue = $.trim($('#topLoginForm input[name=expire]').val());
+                var dataArr = {username: usernameValue, password: passwordValue, expire: expireValue};
+                $.extend(dataArr, callBackArr);
+                $.ajax({
+                    url: qscms.root + '?m=Home&c=Members&a=login',
+                    type: "post",
+                    dataType: "json",
+                    data: dataArr,
+                    success: function(result) {
+                        if (parseInt(result.status)) {
+                            window.location.reload();
+                        } else {
+                            disapperTooltip("remind", result.msg);
+                            qscms.varify_user_login = result.data;
+                            $("#topLoginFormMobile .err").html(result.msg).show();
+                            $("#topLoginBtnMobile").val('登录').prop("disabled", 0);
+                        }
+                    }
+                });
+            });
+        } else {
+            doLoginByAccount();
+        }
+    }
+    return false;
+});
+
+function doLoginByAccount() {
+    var usernameValue = $.trim($('#topLoginForm #username').val());
+    var passwordValue = $.trim($('#topLoginForm #password').val());
+    var expireValue = $.trim($('#topLoginForm input[name=expire]').val());
+    $("#topLoginBtn").val('登录中...').prop("disabled", !0);
+    // 提交表单
+    $.ajax({
+        url: qscms.root + '?m=Home&c=Members&a=login',
+        type: "post",
+        dataType: "json",
+        data: {
+            username: usernameValue,
+            password: passwordValue,
+            expire: expireValue
+        },
+        success: function(result) {
+            if (parseInt(result.status)) {
+                window.location.reload();
+            } else {
+                qscms.varify_user_login = result.data; //原来是result.data
+                $("#topLoginForm .err").html(result.msg).show();
+                $("#topLoginBtn").val('登录').prop("disabled", 0);
+            }
+        }
+    });
+}
+//手机动态码登录
+var regularMobile = qscms.regularMobile;
+$("#topLoginBtnMobile").die().live('click', function() {
+    var mobileValue = $.trim($('#topLoginFormMobile input[name=mobile]').val());
+    var verfyCodeValue = $.trim($('#topLoginFormMobile input[name=verfy_code]').val());
+    if (mobileValue == "") {
+        disapperTooltip("remind", "请输入手机号");
+        $('#topLoginFormMobile input[name=mobile]').focus();
+        return false;
+    }
+    if (mobileValue != "" && !regularMobile.test(mobileValue)) {
+        disapperTooltip("remind", "手机号码格式不正确");
+        $('#topLoginFormMobile input[name=mobile]').focus();
+        return false;
+    }
+    if (verfyCodeValue == "") {
+        disapperTooltip("remind", "请填写验证码");
+        $('#topLoginFormMobile input[name=verfy_code]').focus();
+        return false;
+    }
+
+    if (eval(qscms.varify_user_login) & eval(qscms.captcha_open)) {
+        qsCaptchaHandler(function(callBackArr) {
+            $("#topLoginFormMobile .err").hide();
+            var mobileValue = $.trim($('#topLoginFormMobile input[name=mobile]').val());
+            var verfyCodeValue = $.trim($('#topLoginFormMobile input[name=verfy_code]').val());
+            var expireValue = $.trim($('#topLoginFormMobile input[name=expire]').val());
+            var dataArr = {mobile: mobileValue, mobile_vcode: verfyCodeValue, expire: expireValue};
+            $.extend(dataArr, callBackArr);
+            $("#topLoginBtnMobile").val('登录中...').prop("disabled", !0);
+            // 提交表单
+            $.ajax({
+                url: qscms.root + '?m=Home&c=Members&a=login',
+                type: "post",
+                dataType: "json",
+                data: dataArr,
+                success: function(result) {
+                    if (parseInt(result.status)) {
+                        window.location.reload();
+                    } else {
+                        qscms.varify_user_login = result.data;
+                        disapperTooltip("remind", "验证码错误");
+                        $("#topLoginBtnMobile").val('登录').prop("disabled", 0);
+                    }
+                }
+            });
+        });
+    } else {
+        doLoginByMobile();
+    }
+});
+
+function doLoginByMobile() {
+    var mobileValue = $.trim($('#topLoginFormMobile input[name=mobile]').val());
+    var verfyCodeValue = $.trim($('#topLoginFormMobile input[name=verfy_code]').val());
+    var expireValue = $.trim($('#topLoginFormMobile input[name=expire]').val());
+    $("#topLoginBtnMobile").val('登录中...').prop("disabled", !0);
+    // 提交表单
+    $.ajax({
+        url: qscms.root + '?m=Home&c=Members&a=login',
+        type: "post",
+        dataType: "json",
+        data: {
+            mobile: mobileValue,
+            mobile_vcode: verfyCodeValue,
+            expire: expireValue
+        },
+        success: function(result) {
+            if (parseInt(result.status)) {
+                window.location.reload();
+            } else {
+                console.log(result.data);
+                qscms.varify_user_login = 3//3原本是 result.data
+                $("#topLoginFormMobile .err").html("验证码错误").show();
+                $("#topLoginBtnMobile").val('登录').prop("disabled", 0);
+            }
+        }
+    });
+}
+//发送验证码
+$("#topGetCodeBtn").die().live('click', function() {
+    if ($(this).hasClass('btn_disabled')) {
+        return false;
+    }
+    var mobileValue = $('#topLoginFormMobile input[name="mobile"]').val();
+    if (!mobileValue.length) {
+        disapperTooltip("remind", "请输入手机号");
+        $('#topLoginFormMobile input[name=mobile]').focus();
+        return false;
+    }
+    if (mobileValue != "" && !regularMobile.test(mobileValue)) {
+        disapperTooltip("remind", "手机号码格式不正确");
+        $('#topLoginFormMobile input[name=mobile]').focus();
+        return false;
+    }
+    $.ajax({
+        url: qscms.root + '?m=Home&c=Members&a=ajax_check',
+        cache: false,
+        async: false,
+        type: 'post',
+        dataType: 'json',
+        data: {
+            type: 'mobile',
+            param: mobileValue
+        },
+        success: function(result) {
+            if (!result.status) {
+                if (eval(qscms.smsTatus)) {
+                    if (eval(qscms.varify_mobile) && eval(qscms.captcha_open)) {
+                        qsCaptchaHandler(function(callBackArr) {
+                            var mobileValue = $.trim($('#topLoginFormMobile input[name=mobile]').val());
+                            var dataArr = {sms_type: 'login', mobile: mobileValue};
+                            $.extend(dataArr, callBackArr);
+                            $('#topGetCodeBtn').text('发送中...').addClass('btn_disabled');
+                            $.ajax({
+                                url: qscms.root + '?m=Home&c=Members&a=reg_send_sms',
+                                cache: false,
+                                async: false,
+                                type: 'post',
+                                dataType: 'json',
+                                data: dataArr,
+                                success: function(result) {
+                                    if (result.status) {
+                                        disapperTooltip("success", "验证码已发送，请注意查收");
+                                        // 开始倒计时
+                                        var countdown = 60;
+                                        function settime() {
+                                            if (countdown == 0) {
+                                                $('#topGetCodeBtn').text('获取验证码').removeClass('btn_disabled');
+                                                countdown = 60;
+                                                return;
+                                            } else {
+                                                $('#topGetCodeBtn').text('重发' + countdown + '秒').addClass('btn_disabled');
+                                                countdown--;
+                                            }
+                                            setTimeout(function() {
+                                                settime()
+                                            }, 1000)
+                                        }
+                                        settime();
+                                    } else {
+                                        $('#topGetCodeBtn').text('获取验证码').removeClass('btn_disabled');
+                                        disapperTooltip("remind", result.msg);
+                                    }
+                                },
+                                error: function(result) {
+                                    console.log(result);
+                                }
+                            });
+                        });
+                    } else {
+                        topSendSms();
+                    }
+                } else {
+                    disapperTooltip("remind", "短信未开启");
+                }
+            } else {
+                disapperTooltip("remind", "账号不存在！");
+            }
+        }
+    });
+});
+// 发送验证码
+function topSendSms() {
+    $('#topGetCodeBtn').text('发送中...').addClass('btn_disabled');
+    var mobileValue = $.trim($('#topLoginFormMobile input[name=mobile]').val());
+    $.ajax({
+        url: qscms.root + '?m=Home&c=Members&a=reg_send_sms',
+        cache: false,
+        async: false,
+        type: 'post',
+        dataType: 'json',
+        data: {
+            sms_type: 'login',
+            mobile: mobileValue
+        },
+        success: function(result) {
+            if (result.status) {
+                disapperTooltip("success", "验证码已发送，请注意查收");
+                // 开始倒计时
+                var countdown = 60;
+                function settime() {
+                    if (countdown == 0) {
+                        $('#topGetCodeBtn').text('获取验证码').removeClass('btn_disabled');
+                        countdown = 60;
+                        return;
+                    } else {
+                        $('#topGetCodeBtn').text('重发' + countdown + '秒').addClass('btn_disabled');
+                        countdown--;
+                    }
+                    setTimeout(function() {
+                        settime()
+                    }, 1000)
+                }
+                settime();
+            } else {
+                $('#topGetCodeBtn').text('获取验证码').removeClass('btn_disabled');
+                disapperTooltip("remind", result.msg);
+            }
+        }
+    });
+}
+// 自动登录
+$('.expLoginBtn').die().live('click', function() {
+    var $chkInp = $(this).find("input");
+    var chkInpVal = $chkInp.val();
+    if (chkInpVal == '1') {
+        $chkInp.val('0');
+        $(this).removeClass('select');
+    } else {
+        $chkInp.val('1');
+        $(this).addClass('select');
+    }
+});
+// 注册账号
+$('.J_top_loging_user_reg').die().live('click', function() {
+        $(".modal,.modal_backdrop").remove();
+        siteRegModelShow();
+    })
+</script>

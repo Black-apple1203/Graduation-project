@@ -1,0 +1,33 @@
+[ 2020-04-27T10:18:27+08:00 ] 127.0.0.1 /index.php?m=&c=company_service&a=index
+INFO: Cron:ClearPromotion Runat 2020-04-27 10:18:27 Use 0.122494 s 
+Cron:AutoRefreshResume Runat 2020-04-27 10:18:27 Use -0.000128 s 
+Cron:AutoRefreshJobs Runat 2020-04-27 10:18:27 Use -0.002896 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-27 10:18:27 Use -0.004089 s 
+Cron:ClearOrder Runat 2020-04-27 10:18:27 Use -0.021544 s 
+Cron:ClearShareAllowance Runat 2020-04-27 10:18:27 Use -0.027990 s 
+
+[ 2020-04-27T16:52:28+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+INFO: Cron:ClearPromotion Runat 2020-04-27 16:52:27 Use 0.541284 s 
+Cron:AutoRefreshResume Runat 2020-04-27 16:52:28 Use -0.093237 s 
+Cron:AutoRefreshJobs Runat 2020-04-27 16:52:28 Use -0.876784 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-27 16:52:28 Use -0.905656 s 
+Cron:ClearShareAllowance Runat 2020-04-27 16:52:28 Use -1.279404 s 
+
+[ 2020-04-27T17:02:47+08:00 ] 127.0.0.1 /index.php?m=&c=jobs&a=jobs_list&jobcategory=&wage=&trade=1
+INFO: Cron:ClearPromotion Runat 2020-04-27 17:02:47 Use 0.038304 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-27 17:02:47 Use -0.000172 s 
+Cron:ClearShareAllowance Runat 2020-04-27 17:02:47 Use -0.014437 s 
+
+[ 2020-04-27T17:11:15+08:00 ] 127.0.0.1 /index.php?m=admin&c=company&a=index
+INFO: Cron:AutoRefreshResume Runat 2020-04-27 17:11:15 Use 0.035890 s 
+Cron:AutoRefreshJobs Runat 2020-04-27 17:11:15 Use -0.000081 s 
+
+[ 2020-04-27T18:06:28+08:00 ] 127.0.0.1 /index.php?m=admin&c=company&a=setmeal_expire
+INFO: Cron:ClearPromotion Runat 2020-04-27 18:06:28 Use 0.010834 s 
+Cron:ClearExpiredSetmeal Runat 2020-04-27 18:06:28 Use -0.000065 s 
+Cron:ClearShareAllowance Runat 2020-04-27 18:06:28 Use -0.001615 s 
+
+[ 2020-04-27T18:12:49+08:00 ] 127.0.0.1 /index.php?m=admin&c=company_cancellation&a=index
+INFO: Cron:AutoRefreshResume Runat 2020-04-27 18:12:49 Use 0.008218 s 
+Cron:AutoRefreshJobs Runat 2020-04-27 18:12:49 Use -0.000073 s 
+

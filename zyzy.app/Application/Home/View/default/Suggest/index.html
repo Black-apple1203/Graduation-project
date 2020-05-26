@@ -1,0 +1,196 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <include file="public:meta" />
+    <link href="{:C('TPL_PUBLIC_DIR')}/css/common.css" rel="stylesheet" type="text/css" />
+    <link href="{:C('TPL_PUBLIC_DIR')}/css/suggest.css" rel="stylesheet" type="text/css" />
+    <qscms:load type="category"/>
+</head>
+<body>
+<include file="public:header_other" />
+<div class="all_body">
+    <div class="suggest_main">
+        <div class="suggest_head">您的建议让我们每天变的更好</div>
+        <div class="top_tips">用户您好，请将您的意见、想法、建议或投诉内容告诉我们，以帮助我们为全体用户提供更加优质的服务。我们将在第一时间及时回复您的反馈，如您的问题比较紧急，请致电服务热线：{:C('qscms_bootom_tel')}。</div>
+        <div class="suggest_list_group">
+            <div class="suggest_list_cell">
+                <div class="list_cell_left">意见类型</div>
+                <div class="list_cell_right">
+                    <div class="suggest_type_cell"><div class="suggest_type selected" data-code="1">建议</div></div>
+                    <div class="suggest_type_cell"><div class="suggest_type" data-code="2">意见</div></div>
+                    <div class="suggest_type_cell"><div class="suggest_type" data-code="3">求助</div></div>
+                    <div class="suggest_type_cell"><div class="suggest_type" data-code="4">投诉</div></div>
+                    <div class="clear"></div>
+                    <input type="hidden" name="infotype" value="1"  />
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="suggest_list_cell">
+                <div class="list_cell_left">联系方式</div>
+                <div class="list_cell_right"><input type="text" class="suggest_input" name="tel" placeholder="请输入您的QQ、邮箱或者电话以便和您沟通，您的信息仅工作人员可见！"></div>
+                <div class="clear"></div>
+            </div>
+            <div class="suggest_list_cell">
+                <div class="list_cell_left">反馈内容</div>
+                <div class="list_cell_right">
+                    <textarea class="suggest_area" id="suggest_feedback" name="feedback" placeholder="请详细描述您遇到的问题，有助于我们快速定位并解决问题"></textarea>
+                </div>
+                <div class="clear"></div>
+            </div>
+            <div class="suggest_list_cell">
+                <div class="list_cell_left"></div>
+                <div class="list_cell_right">
+                    <input type="button" class="btn_yellow suggest_btn" id="J_suggest_submit" value="提 交" />
+                </div>
+                <div class="clear"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="J_suggest_verify" value="{$varify_suggest}" />
+<input type="button" id="btnCheck" style="display:none;">
+<div id="popup-captcha"></div>
+<include file="public:footer_min" />
+<script type="text/javascript">
+    // 意见类型切换
+    $('.suggest_type').click(function(event) {
+        $('.suggest_type').each(function(index, el) {
+            $(this).removeClass('selected');
+        });
+        $(this).addClass('selected');
+        $('input[name="infotype"]').val($(this).data('code'));
+    });
+    // 是否是图片验证码
+    var verifyPhoto = false;
+    // 图片验证码
+    function verifyPhotoDialog() {
+        var verifyCodeDialog = $(this).dialog({
+            title: '请输入下图中的文字或字母',
+            content: [
+                '<div class="dia-captcha-item">',
+                '<img src="{:U('Captcha/captcha')}?' + (new Date()).getTime() + '" class="dia-captcha-img">',
+                '<input type="text" name="captcha-solution" class="dia-captcha-solution" maxlength="10">',
+                '</div>'
+            ].join(''),
+            btnOne: true,
+            loadFun: function() {
+                $('.dia-captcha-img').die().live('click', function() {
+                    $(this).attr('src', "{:U('Captcha/captcha')}?" + (new Date()).getTime());
+                })
+            },
+            yes: function() {
+                var currentPhotoVal = $.trim($('.dia-captcha-solution').val());
+                if (currentPhotoVal.length) {
+                    $.ajax({
+                        url: "{:U('Captcha/captchaCode')}",
+                        cache: false,
+                        async: false,
+                        type: 'post',
+                        dataType: 'json',
+                        data: { postcaptcha: currentPhotoVal },
+                        success: function(result) {
+                            if (result.status) {
+                                verifyCodeDialog.hide();
+                                doSuggestFun();
+                            } else {
+                                disapperTooltip("remind", '验证码输入错误');
+                            }
+                        }
+                    });
+                } else {
+                    $('.dia-captcha-solution').focus();
+                    disapperTooltip("remind", '请输入文字或字母');
+                }
+            }
+        })
+        verifyCodeDialog.setCloseDialog(false);
+    }
+    // 提交验证
+    $('#J_suggest_submit').die().live('click', function(event) {
+        var typeValue = $.trim($('input[name="infotype"]').val());
+        var telValue = $.trim($('input[name="tel"]').val());
+        var feedbackValue = $.trim($('#suggest_feedback').val());
+        if (typeValue == "") {
+            disapperTooltip("remind", "请选择意见类型");
+            return false;
+        }
+        if (telValue == "") {
+            disapperTooltip("remind", "请填写联系方式");
+            return false;
+        }
+        if (telValue != "" && telValue.length > 30) {
+            disapperTooltip("remind", "联系方式不能超出30个字");
+            return false;
+        }
+        if (feedbackValue == "") {
+            disapperTooltip("remind", "请填写反馈内容");
+            return false;
+        }
+        if (eval($('#J_suggest_verify').val())) {
+            qsCaptchaHandler(function(callBackArr) {
+                var typeValue = $.trim($('input[name="infotype"]').val());
+                var telValue = $.trim($('input[name="tel"]').val());
+                var feedbackValue = $.trim($('#suggest_feedback').val());
+                var dataArr = {infotype: typeValue, tel: telValue, feedback: feedbackValue};
+                $.extend(dataArr, callBackArr);
+                $('#J_suggest_submit').val('提 交 中...').addClass('btn_disabled').prop('disabled', !0);
+                // 提交表单
+                $.ajax({
+                    url: "{:U('Suggest/index')}",
+                    type: 'POST',
+                    dataType: 'json',
+                    data: dataArr
+                })
+                .done(function(data) {
+                    if (parseInt(data.status)) {
+                        disapperTooltip("success", data.msg);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
+                    } else {
+                        $('#J_suggest_submit').val('提 交').removeClass('btn_disabled').prop('disabled', 0);
+                        disapperTooltip("remind", data.msg);
+                    }
+                })
+                .fail(function(result) {
+                    $('#J_suggest_submit').val('提 交').removeClass('btn_disabled').prop('disabled', 0);
+                    disapperTooltip("remind", result.msg);
+                });
+            });
+        } else {
+            $('#J_suggest_submit').val('提 交 中...').addClass('btn_disabled').prop('disabled', !0);
+            doSuggestFun();
+        }
+    });
+
+    // 提交
+    function doSuggestFun() {
+        var typeValue = $.trim($('input[name="infotype"]').val());
+        var telValue = $.trim($('input[name="tel"]').val());
+        var feedbackValue = $.trim($('#suggest_feedback').val());
+        // 提交表单
+        $.ajax({
+            url: "{:U('Suggest/index')}",
+            type: 'POST',
+            dataType: 'json',
+            data: {infotype: typeValue, tel: telValue, feedback: feedbackValue}
+        })
+        .done(function(data) {
+            if (parseInt(data.status)) {
+                disapperTooltip("success", data.msg);
+                setTimeout(function () {
+                    window.location.reload();
+                }, 2000);
+            } else {
+                $('#J_suggest_submit').val('提 交').removeClass('btn_disabled').prop('disabled', 0);
+                disapperTooltip("remind", data.msg);
+            }
+        })
+        .fail(function(result) {
+            $('#J_suggest_submit').val('提 交').removeClass('btn_disabled').prop('disabled', 0);
+            disapperTooltip("remind", result.msg);
+        });
+    }
+</script>
+</body>
+</html>

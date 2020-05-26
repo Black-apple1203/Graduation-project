@@ -1,0 +1,307 @@
+<include file="public:header"/>
+<div class="toptit">
+    编辑会员 (用户名：<span style="color:#0066CC">{$company_user.username}</span>)
+</div>
+<div class="form_main width120">
+    <div class="fl">注册时间:</div>
+    <div class="fr txt">{$company_user.reg_time|date="Y-m-d H:i",###}</div>
+    <div class="fl">注册IP:</div>
+    <div class="fr txt">{$company_user.reg_ip|default='- - - -'}</div>
+    <div class="fl">注册地:</div>
+    <div class="fr txt">{$company_user.reg_address|default='- - - -'}</div>
+    <div class="fl">最后登录时间:</div>
+    <div class="fr txt">{$company_user.last_login_time|date="Y-m-d H:i",###}</div>
+    <div class="fl">最后登录IP:</div>
+    <div class="fr txt"><if condition="$company_user['last_login_ip']">{$company_user.last_login_ip}<else />- - - -</if></div>
+    <div class="fl">添加方式:</div>
+    <div class="fr txt">
+        <if condition="$company_user['robot'] eq '0'">人工注册</if>
+        <if condition="$company_user['robot'] eq '1'">采集</if>
+    </div>
+    <div class="clear"></div>
+</div>
+
+<div class="toptit link_blue">基本信息</div>
+<form action="{:U('edit_member')}" method="post" name="FormData" id="FormData" >
+    <div class="form_main width120">
+        <div class="fl">用户名:</div>
+        <div class="fr">
+            <input name="username" type="text" class="input_text_default middle" maxlength="16" value="{$company_user.username}"/>
+        </div>
+        <div class="fl">手机:</div>
+        <div class="fr">
+            <input name="mobile" type="text" class="input_text_default middle" maxlength="11" value="{$company_user.mobile}" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+        </div>
+        <div class="fl">邮箱:</div>
+        <div class="fr">
+            <input name="email" type="text" class="input_text_default middle" maxlength="50" value="{$company_user.email}"/>
+        </div>
+        <div class="fl">QQ绑定:</div>
+        <div class="fr txt">
+            <if condition="$company_user['qq_openid'] eq 1">
+            <input name="qq_openid" type="hidden" value="{$company_user['qq_openid']}">
+                已绑定QQ账号<label><input type="checkbox" name="qq_openid" value="2"/>取消绑定</label>
+            <else />
+                未绑定QQ帐号
+            </if>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="uid"  value="{$company_user.uid}" />
+            <input type="hidden" name="_k_v" value="{$Think.get._k_v}">
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">修改密码</div>
+<form action="{:U('edit_member')}" method="post">
+    <div class="form_main width120">
+        <div class="fl">新密码:</div>
+        <div class="fr">
+            <input name="password" type="password" class="input_text_default middle" maxlength="50" value=""/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="uid"  value="{$company_user.uid}" />
+            <input type="hidden" name="_k_v" value="{$Think.get._k_v}">
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+<div class="toptit">用户状态</div>
+<form action="{:U('edit_member')}" method="post">
+    <div class="form_main width120">
+        <div class="fl">帐号状态:</div>
+        <div class="fr">
+            <div data-code="2,1" class="imgchecked_small <eq name='company_user.status' value='1'>select</eq>"><input name="status" type="hidden" value="{$company_user['status']}" /></div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="uid"  value="{$company_user.uid}" />
+            <input type="hidden" name="_k_v" value="{$Think.get._k_v}">
+            <input type="submit" class="admin_submit" value="保存"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+<if condition="$info neq ''">
+<form id="form_com">
+    <div class="toptit link_blue">
+        企业资料
+    </div>
+    <div class="form_main width120">
+        <div class="fl">营业执照:</div>
+        <div class="fr txt link_blue">
+            <if condition="$info['certificate_img']">
+                <a href="{:attach($info['certificate_img'],'certificate_img')}" target="_blank" title="点击查看"> 已上传</a>
+            <else />
+                未上传
+            </if>
+        </div>
+		
+		<style>
+			
+		</style>
+		 <div class="fl">企业logo:</div>
+		 <div class="fr" style="position:relative;height:120px">
+			<div class="logo_wrap pos_rel">
+				<div class="logo">
+					<if condition="$info['logo']">
+						<img id="logo_res" width="120" height="120" src="{:attach($info['logo'],'company_logo')}?{:time()}">
+					<else />
+					<img id="logo_res" width="120" height="120" src="{:attach('no_logo.png','resource')}">
+					</if>
+				</div>
+				<div class="logo_upload" id="hidden_file" name="company_logo">
+					<div class="upimg"><div class="up">上传logo</div><div class="uptip">要求：请用JPG,GIF 尺寸：120*120</div></div>
+				</div>
+			</div>
+		</div>
+		 <div class="clear"></div>
+        <div class="fl">认证状态:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="audit" type="hidden" value="{$info['audit']}">
+                <div class="radio <eq name='info.audit' value='1'>select</eq>" data="1">认证通过</div>
+                <div class="radio <eq name='info.audit' value='2'>select</eq>" data="2">等待认证</div>
+                <div class="radio <eq name='info.audit' value='3'>select</eq>" data="3">认证未通过</div>
+                <div class="radio <eq name='info.audit' value='0'>select</eq>" data="0">未认证</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 公司名称:</div>
+        <div class="fr">
+            <input name="companyname" type="text" class="input_text_default" maxlength="30" value="{$info.companyname}"/>
+        </div>
+        <div class="fl">公司简称:</div>
+        <div class="fr">
+            <input name="short_name" type="text" class="input_text_default" maxlength="30" value="{$info.short_name}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 企业性质:</div>
+        <div class="fr">
+            <div class="imgradio J_company_nature">
+                <input name="nature" type="hidden" value="{$info['nature']}">
+                <input name="nature_cn" type="hidden" value="{$info.nature_cn}" id="nature_cn"/>
+                <volist name="category['QS_company_type']" id="nature">
+                    <div class="radio <eq name='info.nature' value='$key'>select</eq>" data="{$key}" title="{$nature}">{$nature}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 所属行业:</div>
+        <div class="fr">
+            <input name="trade_cn" id="trade_cn" type="text" class="input_text_default arrow J_resuletitle_trade" value="{$info['trade_cn']|default='请选择所属行业'}" readonly="readonly" data-title="请选择所属行业" data-multiple="false" data-maxnum="0" data-width="682"/>
+            <input class="J_resultcode_trade" name="trade" id="trade" type="hidden" value="{$info['trade']}" />
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 所在地区:</div>
+        <div class="fr">
+            <input name="category_cn" id="district_cn" type="text" class="input_text_default arrow J_resuletitle_city" value="{$info['district_cn']|default='请选择工作地区'}" readonly="readonly" data-toggle="funCityModal" data-title="请选择地区" data-multiple="false" data-maximum="0" data-width="760"/>
+            <input class="J_resultcode_city" name="district" id="district" type="hidden" value="{$info['district']}" keep="{$info['district']}" />
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 公司规模:</div>
+        <div class="fr">
+            <div class="imgradio J_company_scale">
+                <input name="scale" type="hidden" value="{$info['scale']}">
+                <input name="scale_cn" type="hidden" value="{$info.scale_cn}" id="scale_cn"/>
+                <volist name="category['QS_scale']" id="scale">
+                    <div class="radio <eq name='info.scale' value='$key'>select</eq>" data="{$key}" title="{$scale}">{$scale}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">注册资金:</div>
+        <div class="fr">
+            <div style="float: left;">
+                <input name="registered" type="text" class="input_text_default" maxlength="5" value="{$info['registered']}" style="width: 100px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 万
+            </div>
+            <div class="imgradio" style="float: left; margin-left: 20px;">
+                <input name="currency" type="hidden" value="{$info['currency']|default='万人民币'}">
+                <div class="radio <neq name='info.currency' value='万美元'>select</neq>" data="万人民币" title="万人民币">人民币</div>
+                <div class="radio <eq name='info.currency' value='万美元'>select</eq>" data="万美元" title="万美元">美元</div>
+                <div class="clear"></div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div class="fl">企业福利:</div>
+        <div class="fr">
+            <input name="tag_cn" id="tag_cn" type="text" class="input_text_default arrow J_resuletitle_jobtag" value="{$tagStr['cn']|default='请选择企业福利'}" readonly="readonly" data-title="请选择企业福利" data-multiple="true" data-maxnum="6" data-width="582"/>
+            <input class="J_resultcode_jobtag" name="tag" id="tag" type="hidden" value="{$tagStr['id']}" />
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 联 系 人:</div>
+        <div class="fr">
+            <input name="contact" type="text" class="input_text_default middle" maxlength="15" value="{$info.contact}"/>
+            <label><input name="contact_show" type="checkbox" value="1" <if condition="($info['contact_show'] eq 1) or ($info['contact_show'] eq '')">checked="checked"</if> />对外公开</label>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 联系电话:</div>
+        <div class="fr">
+            <input name="telephone" type="text" class="input_text_default middle" maxlength="11" value="{$info.telephone}" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            <label><input name="telephone_show" type="checkbox" value="1" <if condition="($info['telephone_show'] eq 1) or ($info['telephone_show'] eq '')">checked="checked"</if> />对外公开</label>
+        </div>
+        <div class="fl">&nbsp;</div>
+        <div class="fr">
+            <input name="landline_tel_first" type="text" class="input_text_default" maxlength="4" value="{$info['landline_tel_first']}" style="width: 70px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> -
+            <input name="landline_tel_next" type="text" class="input_text_default" maxlength="11" value="{$info['landline_tel_next']}" style="width: 207px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> -
+            <input name="landline_tel_last" type="text" class="input_text_default" maxlength="6" value="{$info['landline_tel_last']}" style="width: 70px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            <label><input name="landline_tel_show" type="checkbox" value="1" <if condition="($info['landline_tel_show'] eq 1) or ($info['landline_tel_show'] eq '')">checked="checked"</if> />对外公开</label>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 联系邮箱:</div>
+        <div class="fr">
+            <input name="email" type="text" class="input_text_default middle" maxlength="50" value="{$info.email}"/>
+            <label><input name="email_show" type="checkbox" value="1" <if condition="($info['email_show'] eq 1) or ($info['email_show'] eq '')">checked="checked"</if>/>对外公开</label>
+        </div>
+        <div class="fl">公司网址:</div>
+        <div class="fr">
+            <input name="website" type="text" class="input_text_default middle" maxlength="80" value="{$info.website}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 联系地址:</div>
+        <div class="fr">
+            <input name="address" type="text" class="input_text_default middle" maxlength="50" value="{$info.address}"/>
+        </div>
+        <div class="fl">公司简介:</div>
+        <div class="fr">
+            <input name="short_desc" type="text" class="input_text_default" maxlength="120" value="{$info.short_desc}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 公司介绍:</div>
+        <div class="fr">
+            <textarea id="contents" name="contents" class="input_text_default" style="line-height:200%; height:150px;" onpropertychange="if(this.value.length&gt;2000){this.value=this.value.slice(0,2000)}">{$info.contents}</textarea>
+            <div style="color: #999999; padding-top: 10px;">请将字数控制在2000字以内。</div>
+        </div>
+        <div class="fl">企业模版:</div>
+        <div class="fr">
+            <input name="tpl" type="text" class="input_text_default middle" maxlength="16" value="{$company_user.tpl}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="id"  value="{$info.id}" />
+            <input type="hidden" name="uid"  value="{$company_user.uid}" />
+            <input type="hidden" name="_k_v" value="{$Think.get._k_v}">
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit_com"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+</if>
+</div>
+<include file="public:footer"/>
+<qscms:load type="category" search="1"/>
+<script type="text/javascript">
+  var uploadUrl = "{:U('Upload/index')}";
+</script>
+<link href="__ADMINPUBLIC__/css/company_logo.css" rel="stylesheet" type="text/css" />
+<script src="__ADMINPUBLIC__/js/ajaxfileupload.js"></script>
+<script src="__ADMINPUBLIC__/js/fileupload.js"></script>
+<script type="text/javascript" src="../public/js/jquery.user.city.js"></script>
+<script type="text/javascript" src="../public/js/jquery.modal.userselectlayer.js"></script>
+</body>
+<script type="text/javascript">
+var comid = "{$info['id']}";
+		$.upload("#hidden_file",{company_id:comid,dir:'company_logo'},function(result){
+		
+			$("#logo_res").attr("src",result.url.path);
+			if(result.error==1){
+				disapperTooltip('success',result.message);
+			}else{
+				disapperTooltip('success',result.message);
+			}
+			//$('.clear_logo').show();
+		});
+    $(document).ready(function () {
+        $('#J_submit_com').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('Company/edit_company')}",$('#form_com').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存修改').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        // 公司性质cn
+        $(".J_company_nature .radio").live('click',function(){
+            $("#nature_cn").val($(this).attr("title"));
+        });
+        // 公司规模cn
+        $(".J_company_scale .radio").live('click',function(){
+            $("#scale_cn").val($(this).attr("title"));
+        });
+    });
+</script>
+</html>

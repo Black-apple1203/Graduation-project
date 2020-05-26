@@ -1,0 +1,144 @@
+<include file="public:header" />
+    <div class="toptip">
+        <div class="toptit">提示：</div>
+        <p>如果是本站的网址，可缩写为与根目录相对地址，如 index.php</p>
+        <p>其他情况都应该输入完整的网址，如：http://www.74cms.com/bbs</p>
+    </div>
+    <form action="{:U('navigation/add')}" method="post" enctype="multipart/form-data"  name="FormData" id="FormData" >
+        <div class="toptit">新增导航栏</div>
+        <div class="form_main width150">
+            <div class="fl">类型：</div>
+            <div class="fr">
+                <div class="imgradio">
+                    <input name="urltype" class="J_urltype_val" type="hidden" value="0">
+                    <div class="J_urltype radio select" data="0" title="系统内容">系统内容</div>
+                    <div class="J_urltype radio" data="1" title="其他链接">其他链接</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="fl">栏目名称(必填)：</div>
+            <div class="fr">
+                <input name="title" type="text" maxlength="30" class="input_text_default" value=""/>
+            </div>
+            <div class="http" style="display:none;">
+                <div class="fl">链接地址：</div>
+                <div class="fr">
+                    <input name="url" type="text" maxlength="200" class="input_text_default" value=""/>
+                </div>
+            </div>
+            <div class="sys">
+                <div class="fl">系统页面：</div>
+                <div class="fr">
+                    <div class="select_input_new J_hoverinput J_dropdown J_listitme_parent">
+                        <span class="J_listitme_text">选择页面</span>
+                        <div class="dropdowbox_sn J_dropdown_menu">
+                            <div class="dropdow_inner_sn">
+                                <ul class="nav_box">
+                                    <volist name="page_list" id="page">
+                                        <li><a class="J_listitme" href="javascript:;" data-code="{$key},{$page.tag}">{$page.pname}</a></li>
+                                    </volist>
+                                </ul>
+                            </div>
+                        </div>
+                        <input class="J_listitme_code" name="systemalias" id="systemalias" type="hidden" value="" />
+                    </div>
+                    <!-- <select name="systemalias" style="width:205px; font-size:12px;"  onchange="selChangesystemalias(this.value)">
+                        <volist name="page_list" id="page">
+                            <option value="{$key},{$page.tag}">{$page.pname}</option>
+                        </volist>
+                    </select> -->
+                </div>
+            </div>
+            <div class="sys">
+                <div class="fl">系统页面ID：</div>
+                <div class="fr">
+                    <input name="pagealias" type="text" class="input_text_default" value=""/>
+                </div>
+            </div>
+            <div class="sys">
+                <div class="fl">分类ID：</div>
+                <div class="fr">
+                    <input name="list_id" type="text" class="input_text_default middle" value=""/>
+                    <label class="no-fl-note">如该栏目为信息列表页则需要填写分类ID</label>
+                </div>
+            </div>
+            <div class="fl">类别：</div>
+            <div class="fr">
+                <div class="imgradio">
+                    <input name="alias" type="hidden" value="QS_top">
+                    <volist name="categroy" id="categroy">
+                        <div class="radio <if condition="$i eq 1">select</if>" data="{$key}" title="{$categroy}">{$categroy}</div>
+                    </volist>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="fl">打开方式：</div>
+            <div class="fr">
+                <div class="imgradio">
+                    <input name="target" type="hidden" value="">
+                    <div class="radio select" data="_blank" title="新窗口">新窗口</div>
+                    <div class="radio" data="_self" title="当前窗口">当前窗口</div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="fl">显示顺序：</div>
+            <div class="fr">
+                <input name="navigationorder" type="text" class="input_text_default middle" value="0"  maxlength="3"/>
+            </div>
+            <div class="fl">是否显示：</div>
+            <div class="fr">
+                <div data-code="0,1" class="imgchecked_small select"><input name="display" type="hidden" value="1" /></div>
+                <div class="clear"></div>
+            </div>
+            <div class="fl">显示颜色：</div>
+            <div class="fr" style="padding-top:12px;">
+                <div class="color_layer">   
+                    <input type="text" name="color" id="tit_color" style="display:none">
+                    <div id="color_box" onclick="color_box_display()" ></div>
+                    <include file="public:select_color" />
+                </div>
+            </div>
+            <div class="clear"></div>
+            <div class="fl">导航关联标记：</div>
+            <div class="fr">
+                <input name="tag" type="text" class="input_text_default middle" value=""  maxlength="30"/>
+            </div>
+            <div class="fl"></div>
+            <div class="fr">
+                <input type="submit" name="Submit3" value="确定提交" class="admin_submit"   />
+                <input name="submit222" type="button" class="admin_submit"    value="返 回" onclick="window.location='{:U('navigation/index')}'"/>
+            </div>
+            <div class="clear"></div>
+        </div>
+	</form>
+</div>
+<include file="public:footer" />
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.listitem.js"></script>
+<script type="text/javascript" src="__ADMINPUBLIC__/js/jquery.dropdown.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('.J_urltype').click(function(){
+	   if (eval($('.J_urltype_val').val())) {
+            $(".sys").show();
+            $(".http").hide();
+        } else {
+    		$(".sys").hide();
+    		$(".http").show();
+        }
+	})
+})
+</script>
+<script>
+$('.J_listitme').live('click', function(event) {
+    selChangesystemalias($(this).data('code'));
+});
+function selChangesystemalias(obj)
+{
+var str=obj.split(",");
+$('input[name="pagealias"]').val(str[0]);
+$('input[name="tag"]').val(str[1]);
+}
+selChangesystemalias($('.J_listitme').eq(0).data('code'));
+</script>
+</body>
+</html>

@@ -1,0 +1,229 @@
+<include file="public:header"/>
+
+<form id="form1" >
+    <div class="toptit link_blue">
+        修改职位 - <span style="color:#0066CC">{$info.jobs_name}</span>
+        (会员名：{$info.user.username}，企业名称：<a href="{:url_rewrite('QS_companyshow',array('id'=>$info['company_id']))}" target="_blank">{$info.companyname}</a>)
+    </div>
+    <div class="form_main width120">
+        <!--<div class="fl">所属会员:</div>
+        <div class="fr txt">{$info.user.username}</div>
+        <div class="fl">所属企业:</div>
+        <div class="fr txt link_blue">
+            <a href="{:url_rewrite('QS_companyshow',array('id'=>$info['company_id']))}" target="_blank">{$info.companyname}</a>
+        </div>-->
+        <div class="fl">发布期限:</div>
+        <div class="fr txt link_blue">
+            {:date('Y-m-d H:i',$info['addtime'])}&nbsp;&nbsp;-&nbsp;&nbsp;<eq name="info['deadline']" value="0">无限期<else />{:date('Y-m-d H:i',$info['deadline'])}</eq>
+            <input name="olddeadline" type="hidden" value="{$info['deadline']}" />
+        </div>
+        <div class="fl">刷新时间:</div>
+        <div class="fr txt link_blue">{:date('Y-m-d H:i:s',$info['refreshtime'])}</div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 职位名称:</div>
+        <div class="fr">
+            <input name="jobs_name" type="text" class="input_text_default" maxlength="50" value="{$info['jobs_name']}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 招聘状态:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="display" type="hidden" value="{$info['display']}">
+                <div class="radio <eq name='info.display' value='1'>select</eq>" data="1">在招</div>
+                <div class="radio <eq name='info.display' value='2'>select</eq>" data="2">关闭</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 审核状态:</div>
+        <div class="fr">
+            <div class="imgradio">
+                <input name="audit" type="hidden" value="{$info['audit']}">
+                <div class="radio <eq name='info.audit' value='1'>select</eq>" data="1">审核通过</div>
+                <div class="radio <eq name='info.audit' value='2'>select</eq>" data="2">审核中</div>
+                <div class="radio <eq name='info.audit' value='3'>select</eq>" data="3">审核未通过</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 职位性质:</div>
+        <div class="fr">
+            <div class="imgradio J_job_nature">
+                <input name="nature" type="hidden" value="{$info['nature']}">
+                <input name="nature_cn" type="hidden" value="{$info.nature_cn}" id="nature_cn"/>
+                <volist name="category['QS_jobs_nature']" id="nature">
+                    <div class="radio <eq name='info.nature' value='$key'>select</eq>" data="{$key}" title="{$nature}">{$nature}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 职位类别:</div>
+        <div class="fr">
+            <input name="category_cn" id="category_cn" type="text" class="input_text_default arrow J_resuletitle_jobs" value="{$info['category_cn']|default='请选择职位类别'}" readonly="readonly" data-title="请选择职位类别" data-multiple="false" data-addjob="true" data-maxnum="0" <if condition="C('qscms_category_jobs_level') gt 2">data-width="667"<else/>data-width="520"</if> data-category="{:C('qscms_category_jobs_level')}"/>
+            <input class="J_resultcode_jobs" name="jobcategory" id="jobcategory" type="hidden" value="{$info['topclass']}.{$info['category']}.{$info['subclass']}" />
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 工作地区:</div>
+        <div class="fr">
+            <input name="category_cn" id="district_cn" type="text" class="input_text_default arrow J_resuletitle_city" value="{$info['district_cn']|default='请选择工作地区'}" readonly="readonly" data-toggle="funCityModal" data-title="请选择地区" data-multiple="false" data-maximum="0" data-width="760"/>
+            <input class="J_resultcode_city" name="district" id="district" type="hidden" value="{$info['district']}" keep="{$info['district']}" />
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 薪资待遇:</div>
+        <div class="fr modVal">
+            <span class="input_wrap">
+                <input name="minwage" type="text" class="input_text_default input_val" maxlength="10" value="{$info['minwage']}" style="width: 100px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 元/月 -
+                <input name="maxwage" type="text" class="input_text_default input_val" maxlength="10" value="{$info['maxwage']}" style="width: 100px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 元/月
+            </span>
+            <label><input name="negotiable" type="checkbox" id="J_negotiable" value="1" <if condition="$info['negotiable'] eq 1">checked</if>/>面议</label>
+        </div>
+        <div class="fl">所属部门:</div>
+        <div class="fr">
+            <input name="department" type="text" class="input_text_default" maxlength="8" value="{$info.department}"/>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 学历要求:</div>
+        <div class="fr">
+            <div class="imgradio J_job_education">
+                <input name="education" type="hidden" value="{$info['education']|default='0'}">
+                <input name="education_cn" id="education_cn" type="hidden" value="{$info.education_cn|default='不限'}"/>
+                <div class="radio <empty name='info.education'>select</empty>" data="0" title="不限">不限</div>
+                <volist name="category['QS_education']" id="list">
+                    <div class="radio <eq name='info.education' value='$key'>select</eq>" data="{$key}" title="{$list}">{$list}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 工作经验:</div>
+        <div class="fr">
+            <div class="imgradio J_job_experience">
+                <input name="experience" type="hidden" value="{$info['experience']|default='0'}">
+                <input name="experience_cn" id="experience_cn" type="hidden" value="{$info.experience_cn|default='不限'}"/>
+                <div class="radio <empty name='info.experience'>select</empty>" data="0" title="不限">不限</div>
+                <volist name="category['QS_experience']" id="list">
+                    <div class="radio <eq name='info.experience' value='$key'>select</eq>" data="{$key}" title="{$list}">{$list}</div>
+                </volist>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div class="fl">年龄要求:</div>
+        <div class="fr">
+            <input name="minage" type="text" class="input_text_default" maxlength="3" value="{$info['minage']}" style="width: 50px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 岁 -
+            <input name="maxage" type="text" class="input_text_default" maxlength="3" value="{$info['maxage']}" style="width: 50px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 岁
+        </div>
+        <div class="fl">招聘人数:</div>
+        <div class="fr">
+            <input name="amount" type="text" class="input_text_default" maxlength="3" value="{$info['amount']|default='0'}" style="width: 50px;"
+                   onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> 人
+            &nbsp;&nbsp;<span style="color: #999999;">0表示若干</span>
+        </div>
+        <div class="fl">职位亮点:</div>
+        <div class="fr">
+            <input name="tag_cn" id="tag_cn" type="text" class="input_text_default arrow J_resuletitle_jobtag" value="{$info['tag_cn']|default='请选择职位亮点'}" readonly="readonly" data-title="请选择职位亮点" data-multiple="true" data-maxnum="6" data-width="582"/>
+            <input class="J_resultcode_jobtag" name="tag" id="tag" type="hidden" value="{$info.tag}" />
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 职位描述:</div>
+        <div class="fr">
+            <textarea id="contents" name="contents" class="input_text_default" style="line-height:200%; height:150px;">{$info.contents}</textarea>
+            <div style="color: #999999; padding-top: 10px;">说明：请详细描述该职位，内容可包括：职位要求，岗位职责等。</div>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="toptit link_blue">修改联系方式</div>
+    <div class="form_main width120">
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 联 系 人:</div>
+        <div class="fr">
+            <input name="contact" type="text" class="input_text_default middle" maxlength="15" value="{$info.contact.contact}"/>
+            <label><input name="contact_show" type="checkbox" value="1" <if condition="$info['contact']['contact_show'] eq 1">checked="checked"</if> />对外公开</label>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 联系电话:</div>
+        <div class="fr">
+            <input name="telephone" type="text" class="input_text_default middle" maxlength="11" value="{$info.contact.telephone}" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            <label><input name="telephone_show" type="checkbox" value="1" <if condition="$info['contact']['telephone_show'] eq 1">checked="checked"</if> />对外公开</label>
+        </div>
+        <div class="fl">&nbsp;</div>
+        <div class="fr">
+            <input name="landline_tel_first" type="text" class="input_text_default" maxlength="4" value="{$telarray[0]}" style="width: 70px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> -
+            <input name="landline_tel_next" type="text" class="input_text_default" maxlength="11" value="{$telarray[1]}" style="width: 207px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/> -
+            <input name="landline_tel_last" type="text" class="input_text_default" maxlength="6" value="{$telarray[2]}" style="width: 70px;" onKeyUp="if(event.keyCode !=37 && event.keyCode != 39) value=value.replace(/\D/g,'');"onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/\D/g,''))"/>
+            <label><input name="landline_tel_show" type="checkbox" value="1" <if condition="$info['contact']['landline_tel_show'] eq 1">checked="checked"</if> />对外公开</label>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 联系邮箱:</div>
+        <div class="fr">
+            <input name="email" type="text" class="input_text_default middle" maxlength="50" value="{$info.contact.email}"/>
+            <label><input name="notify" type="checkbox" value="1" <if condition="$info['contact']['notify'] eq 1">checked="checked"</if> />接收投递的简历</label>
+        </div>
+        <div class="fl"><span style="color:#FF3300; font-weight:bold">*</span> 联系地址:</div>
+        <div class="fr">
+            <input name="address" type="text" class="input_text_default middle" maxlength="50" value="{$info.contact.address}"/>
+        </div>
+        <div class="fl"></div>
+        <div class="fr">
+            <input type="hidden" name="sex" value="3" />
+            <input type="hidden" name="sex_cn" value="不限" />
+            <input type="hidden" name="id" value="{$info.id}" />
+            <input type="hidden" name="uid" value="{$info.uid}" />
+            <input type="hidden" name="company_id" value="{$info.company_id}" />
+            <input type="button" class="admin_submit" value="保存修改" id="J_submit"/>
+            <input type="button" class="admin_submit" value="返回" onClick="history.go(-1)"/>
+        </div>
+        <div class="clear"></div>
+    </div>
+</form>
+
+</div>
+<include file="public:footer"/>
+<qscms:load type="category" search="1"/>
+<script type="text/javascript" src="../public/js/jquery.user.city.js"></script>
+<script type="text/javascript" src="../public/js/jquery.modal.userselectlayer.js"></script>
+</body>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#J_submit').click(function(){
+            var that = $(this);
+            if(that.hasClass('disabled')){
+                return false;
+            }
+            that.val('正在保存...').addClass('disabled');
+            $.post("{:U('edit')}",$('#form1').serialize(),function(result){
+                if(result.status==1){
+                    disapperTooltip("success", result.msg,function(){
+                        location.reload();
+                    });
+                }else{
+                    disapperTooltip("remind", result.msg,function(){
+                        that.val('保存修改').removeClass('disabled');
+                    });
+                    return false;
+                }
+            },'json');
+        });
+        // 职位性质cn
+        $(".J_job_nature .radio").live('click',function(){
+            $("#nature_cn").val($(this).attr("title"));
+        });
+        // 学历要求cn
+        $(".J_job_education .radio").live('click',function(){
+            $("#education_cn").val($(this).attr("title"));
+        });
+        // 工作经验要求cn
+        $(".J_job_experience .radio").live('click',function(){
+            $("#experience_cn").val($(this).attr("title"));
+        });
+        // 薪资面议
+        var negotiable = $('#J_negotiable');
+        if (negotiable.is(':checked')) {
+            negotiable.closest('.modVal').addClass('txt');
+            negotiable.closest('.modVal').find('.input_val').val('').prop('disabled', !0);
+            negotiable.closest('.modVal').find('.input_wrap').hide();
+        }
+        // 面议选中后，最低和最高薪资不能编辑
+        negotiable.die().live('click', function(event) {
+            if ($(this).is(':checked')) {
+                $(this).closest('.modVal').addClass('txt');
+                $(this).closest('.modVal').find('.input_val').val('').prop('disabled', !0);
+                $(this).closest('.modVal').find('.input_wrap').hide();
+            } else {
+                $(this).closest('.modVal').removeClass('txt');
+                $(this).closest('.modVal').find('.input_val').each(function(index, el) {
+                    $(this).val($(this).data('title')).prop('disabled', 0);
+                });
+                $(this).closest('.modVal').find('.input_wrap').show();
+            }
+        });
+    });
+</script>
+</html>
